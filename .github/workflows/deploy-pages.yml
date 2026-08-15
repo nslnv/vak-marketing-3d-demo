@@ -1,0 +1,40 @@
+name: Deploy VAK Marketing demo
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Unpack static site
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$(find . -maxdepth 1 -type f -iname '*.zip' -print -quit)"
+          test -n "$archive"
+          rm -rf _site
+          mkdir _site
+          unzip -q "$archive" -d _site
+          test -f _site/site-3d/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site/site-3d
+      - id: deployment
+        uses: actions/deploy-pages@v4
