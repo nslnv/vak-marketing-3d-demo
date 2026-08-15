@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          archive="$(find . -maxdepth 1 -type f -name "VAK Marketing сайт 3D 2026-08-15-photos-v2.zip" -print -quit)"
+          archive="$(find . -maxdepth 1 -type f -iname "*photos-v2.zip" -print -quit)"
           if [ -z "$archive" ]; then
             archive="$(find . -maxdepth 1 -type f -iname "*.zip" -print -quit)"
           fi
