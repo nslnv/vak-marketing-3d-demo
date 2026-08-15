@@ -27,10 +27,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          archive="$(find . -maxdepth 1 -type f -iname "*photos-v2.zip" -print -quit)"
-          if [ -z "$archive" ]; then
-            archive="$(find . -maxdepth 1 -type f -iname "*.zip" -print -quit)"
-          fi
+          archive="$(find . -maxdepth 1 -type f -iname "*.zip" ! -iname "*photos-v2.zip" -print -quit)"
           test -n "$archive"
           rm -rf _site
           mkdir _site
