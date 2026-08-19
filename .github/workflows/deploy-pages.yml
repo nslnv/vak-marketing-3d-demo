@@ -74,7 +74,11 @@ jobs:
           if [ -n "$about_process_v15" ]; then
             unzip -oq "$about_process_v15" -d _site/site-3d
           fi
-          sed -i 's#href="assets/css/base.css"#href="assets/css/base.css?v=12"#; s#href="assets/css/sections.css"#href="assets/css/sections.css?v=15"#; s#src="assets/js/i18n.js"#src="assets/js/i18n.js?v=15"#; s#src="assets/js/main.js"#src="assets/js/main.js?v=14"#' _site/site-3d/index.html
+          about_process_v16="$(find . -maxdepth 1 -type f -iname "*about-process-v16.zip" -print -quit)"
+          if [ -n "$about_process_v16" ]; then
+            unzip -oq "$about_process_v16" -d _site/site-3d
+          fi
+          sed -i 's#href="assets/css/base.css"#href="assets/css/base.css?v=12"#; s#href="assets/css/sections.css"#href="assets/css/sections.css?v=16"#; s#src="assets/js/i18n.js"#src="assets/js/i18n.js?v=15"#; s#src="assets/js/main.js"#src="assets/js/main.js?v=14"#' _site/site-3d/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site/site-3d
