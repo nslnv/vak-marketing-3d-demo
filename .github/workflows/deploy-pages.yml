@@ -54,6 +54,10 @@ jobs:
           if [ -n "$hero" ]; then
             unzip -oq "$hero" -d _site/site-3d
           fi
+          services_pace="$(find . -maxdepth 1 -type f -iname "*services-pace-v10.zip" -print -quit)"
+          if [ -n "$services_pace" ]; then
+            unzip -oq "$services_pace" -d _site/site-3d
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site/site-3d
