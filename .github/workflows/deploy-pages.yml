@@ -26,7 +26,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          archive="$(find . -maxdepth 1 -type f -iname "*3d-upgrade-v4.zip" -print -quit)"
+          archive="$(find . -maxdepth 1 -type f -iname "*content-spacing-v5.zip" -print -quit)"
+          if [ -z "$archive" ]; then
+            archive="$(find . -maxdepth 1 -type f -iname "*3d-upgrade-v4.zip" -print -quit)"
+          fi
           if [ -z "$archive" ]; then
             archive="$(find . -maxdepth 1 -type f -iname "*revisions-v3.zip" -print -quit)"
           fi
