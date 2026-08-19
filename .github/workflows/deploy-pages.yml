@@ -66,7 +66,11 @@ jobs:
           if [ -n "$audience_photos" ]; then
             unzip -oq "$audience_photos" -d _site/site-3d
           fi
-          sed -i 's#href="assets/css/base.css"#href="assets/css/base.css?v=12"#; s#href="assets/css/sections.css"#href="assets/css/sections.css?v=13"#' _site/site-3d/index.html
+          services_pace_v14="$(find . -maxdepth 1 -type f -iname "*services-pace-v14.zip" -print -quit)"
+          if [ -n "$services_pace_v14" ]; then
+            unzip -oq "$services_pace_v14" -d _site/site-3d
+          fi
+          sed -i 's#href="assets/css/base.css"#href="assets/css/base.css?v=12"#; s#href="assets/css/sections.css"#href="assets/css/sections.css?v=13"#; s#src="assets/js/main.js"#src="assets/js/main.js?v=14"#' _site/site-3d/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site/site-3d
