@@ -50,6 +50,10 @@ jobs:
           if [ -n "$performance" ]; then
             unzip -oq "$performance" -d _site/site-3d
           fi
+          hero="$(find . -maxdepth 1 -type f -iname "*hero-redesign-v9.zip" -print -quit)"
+          if [ -n "$hero" ]; then
+            unzip -oq "$hero" -d _site/site-3d
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site/site-3d
