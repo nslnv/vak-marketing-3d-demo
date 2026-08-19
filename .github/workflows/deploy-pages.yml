@@ -58,6 +58,10 @@ jobs:
           if [ -n "$services_pace" ]; then
             unzip -oq "$services_pace" -d _site/site-3d
           fi
+          hero_restore="$(find . -maxdepth 1 -type f -iname "*hero-restore-v11.zip" -print -quit)"
+          if [ -n "$hero_restore" ]; then
+            unzip -oq "$hero_restore" -d _site/site-3d
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site/site-3d
