@@ -41,6 +41,11 @@ jobs:
           mkdir _site
           unzip -q "$archive" -d _site
           test -f _site/site-3d/index.html
+          addon="$(find . -maxdepth 1 -type f -iname "*service-photo-assets-v7.zip" -print -quit)"
+          if [ -n "$addon" ]; then
+            unzip -q "$addon" -d _site/site-3d
+            sed -i 's#</head>#  <link rel="stylesheet" href="assets/css/service-photo-backgrounds.css">\n</head>#' _site/site-3d/index.html
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site/site-3d
