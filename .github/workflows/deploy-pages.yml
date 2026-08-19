@@ -1,5 +1,4 @@
 name: Deploy VAK Marketing demo
-
 on:
   push:
     branches: ["main"]
@@ -27,7 +26,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          archive="$(find . -maxdepth 1 -type f -iname "*.zip" ! -iname "*photos-v2.zip" -print -quit)"
+          archive="$(find . -maxdepth 1 -type f -iname "*revisions-v3.zip" -print -quit)"
+          if [ -z "$archive" ]; then
+            archive="$(find . -maxdepth 1 -type f -iname "*.zip" ! -iname "*photos-v2.zip" -print -quit)"
+          fi
           test -n "$archive"
           rm -rf _site
           mkdir _site
