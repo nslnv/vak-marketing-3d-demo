@@ -1012,7 +1012,7 @@ function boot(canvas) {
     /* About — одна длинная диагональная сцена: объект приходит сверху-слева
        к центру, там раскрывается, а затем тем же экземпляром уходит вправо
        и вниз к следующему разделу. */
-    { t: 0.106, sec: 'about', aboutSlot: 0, p: 0.1200, cz: 7.5, cy:  0.08, x: -3.15, y:  0.35, z:  0.10, rx: -0.07, ry:  0.76, s: 0.38, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
+    { t: 0.106, sec: 'about', aboutSlot: 0, p: 0.1200, cz: 7.5, cy:  0.08, x: -3.55, y: -0.42, z:  0.10, rx: -0.07, ry:  0.76, s: 0.34, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
     /* x слегка смещён влево: при 3/4-ракурсе передняя корона оптически
        тяжелее хвоста, и так весь раскрытый силуэт оказывается ровно в центре
        экрана, а не у правого края. */
@@ -1024,23 +1024,23 @@ function boot(canvas) {
     /* Пока пять узлов садятся обратно, сам прибор почти неподвижен: это
        даёт глазу время увидеть именно механическую сборку, без одновременного
        зума и резкого уноса вправо. */
-    { t: 0.127, sec: 'about', aboutSlot: 2, p: 0.8200, cz: 7.5, cy: 0.08, x: -0.92, y:  0.02, z: -0.05, rx:-0.07, ry: 0.76, s: 0.58, sp: 0.84, br: 0.52, op: 0.76, ro: -0.010 },
+    { t: 0.127, sec: 'about', aboutSlot: 2, p: 0.9000, cz: 7.5, cy: 0.07, x: -0.72, y:  0.00, z: -0.08, rx:-0.075, ry: 0.78, s: 0.56, sp: 0.86, br: 0.51, op: 0.72, ro: -0.009 },
     /* После точной сборки объект медленно сжимается и дрейфует по одной
        диагонали. К моменту Figures он уже достаточно мал и правее метрик —
        никакого броска за край и никакого прохода через текст. */
-    { t: 0.129, sec: 'about', p: 0.8500, cz: 7.50, cy:  0.08, x: -0.72, y:  0.02, z: -0.05, rx: -0.07, ry: 0.77, s: 0.575, sp: 0.85, br: 0.52, op: 0.74, ro: -0.010 },
-    { t: 0.130, sec: 'about', p: 0.8750, cz: 7.51, cy:  0.07, x: -0.48, y:  0.01, z: -0.08, rx: -0.075, ry: 0.79, s: 0.56, sp: 0.87, br: 0.51, op: 0.69, ro: -0.009 },
-    { t: 0.131, sec: 'about', p: 0.9000, cz: 7.52, cy:  0.06, x: -0.18, y: -0.01, z: -0.12, rx: -0.08, ry: 0.82, s: 0.54, sp: 0.89, br: 0.50, op: 0.64, ro: -0.008 },
-    { t: 0.132, sec: 'about', p: 0.9150, cz: 7.54, cy:  0.04, x:  0.18, y: -0.04, z: -0.17, rx: -0.09, ry: 0.85, s: 0.51, sp: 0.92, br: 0.49, op: 0.57, ro: -0.007 },
-    { t: 0.133, sec: 'about', p: 0.9400, cz: 7.57, cy:  0.02, x:  0.55, y: -0.09, z: -0.24, rx: -0.10, ry: 0.88, s: 0.45, sp: 0.95, br: 0.47, op: 0.47, ro: -0.006 },
-    { t: 0.134, sec: 'about', p: 0.9650, cz: 7.60, cy:  0.00, x:  1.90, y: -0.04, z: -0.34, rx: -0.12, ry: 0.92, s: 0.37, sp: 0.98, br: 0.45, op: 0.34, ro: -0.005 },
-    { t: 0.136, sec: 'about', aboutSlot: 3, p: 0.9900, cz: 7.63, cy: -0.03, x:  2.60, y: -0.18, z: -0.46, rx: -0.14, ry: 0.97, s: 0.30, sp: 1.01, br: 0.43, op: 0.22, ro: -0.004 },
+    { t: 0.129, sec: 'about', p: 0.9140, cz: 7.51, cy:  0.06, x: -0.50, y: -0.02, z: -0.11, rx: -0.08, ry: 0.80, s: 0.545, sp: 0.88, br: 0.50, op: 0.67, ro: -0.008 },
+    { t: 0.130, sec: 'about', p: 0.9320, cz: 7.53, cy:  0.04, x: -0.22, y: -0.05, z: -0.16, rx: -0.09, ry: 0.83, s: 0.515, sp: 0.91, br: 0.49, op: 0.60, ro: -0.007 },
+    { t: 0.131, sec: 'about', p: 0.9500, cz: 7.55, cy:  0.02, x:  0.12, y: -0.09, z: -0.22, rx: -0.10, ry: 0.86, s: 0.475, sp: 0.94, br: 0.47, op: 0.51, ro: -0.006 },
+    { t: 0.132, sec: 'about', p: 0.9680, cz: 7.58, cy:  0.00, x:  0.50, y: -0.14, z: -0.30, rx: -0.12, ry: 0.89, s: 0.425, sp: 0.97, br: 0.45, op: 0.41, ro: -0.005 },
+    { t: 0.133, sec: 'about', aboutSlot: 3, p: 0.9750, cz: 7.60, cy: -0.01, x:  0.85, y: -0.19, z: -0.37, rx: -0.13, ry: 0.92, s: 0.390, sp: 0.99, br: 0.44, op: 0.34, ro: -0.004 },
+    { t: 0.135, sec: 'about', p: 0.9870, cz: 7.62, cy: -0.03, x:  1.35, y: -0.26, z: -0.46, rx: -0.14, ry: 0.96, s: 0.345, sp: 1.02, br: 0.43, op: 0.25, ro: -0.003 },
+    { t: 0.136, sec: 'about', p: 0.9960, cz: 7.64, cy: -0.05, x:  1.95, y: -0.34, z: -0.56, rx: -0.16, ry: 1.00, s: 0.300, sp: 1.04, br: 0.42, op: 0.17, ro: -0.002 },
     /* В Figures прибор остаётся фоновым: плавно уменьшается и уходит
        вправо-вниз, тогда как сами метрики сохраняют полный приоритет. */
-    { t: 0.145, sec: 'figures', p: 0.0200, cz: 7.66, cy: -0.05, x:  3.00, y: -0.42, z: -0.60, rx: -0.15, ry: 1.03, s: 0.26, sp: 1.04, br: 0.42, op: 0.15, ro: -0.002 },
-    { t: 0.149, sec: 'figures', p: 0.1000, cz: 7.70, cy: -0.08, x:  3.38, y: -0.72, z: -0.76, rx: -0.17, ry: 1.09, s: 0.22, sp: 1.09, br: 0.40, op: 0.09, ro:  0.000 },
-    { t: 0.152, sec: 'figures', p: 0.1800, cz: 7.75, cy: -0.10, x:  3.72, y: -1.08, z: -0.98, rx: -0.19, ry: 1.16, s: 0.19, sp: 1.14, br: 0.39, op: 0.045, ro:  0.002 },
-    { t: 0.153, sec: 'figures', p: 0.2500, cz: 7.80, cy: -0.12, x:  4.00, y: -1.42, z: -1.18, rx: -0.21, ry: 1.23, s: 0.17, sp: 1.19, br: 0.38, op: 0.018, ro:  0.004 },
+    { t: 0.145, sec: 'figures', p: 0.0200, cz: 7.67, cy: -0.07, x:  2.55, y: -0.50, z: -0.68, rx: -0.17, ry: 1.05, s: 0.255, sp: 1.07, br: 0.41, op: 0.10, ro: -0.001 },
+    { t: 0.149, sec: 'figures', p: 0.1000, cz: 7.73, cy: -0.10, x:  3.10, y: -0.82, z: -0.90, rx: -0.19, ry: 1.12, s: 0.205, sp: 1.12, br: 0.40, op: 0.05, ro:  0.001 },
+    { t: 0.152, sec: 'figures', p: 0.1800, cz: 7.79, cy: -0.13, x:  3.60, y: -1.16, z: -1.12, rx: -0.21, ry: 1.19, s: 0.165, sp: 1.17, br: 0.39, op: 0.018, ro:  0.003 },
+    { t: 0.153, sec: 'figures', p: 0.2500, cz: 7.84, cy: -0.16, x:  4.02, y: -1.48, z: -1.32, rx: -0.23, ry: 1.25, s: 0.140, sp: 1.22, br: 0.38, op: 0.00, ro:  0.004 },
     /* цифры: продолжает диагональ вниз, а не возвращается наверх сразу
        после сборки. */
     { t: 0.165, sec: 'figures', p: 0.5287, cz: 7.86, cy: -0.12, x:  4.20, y: -2.00, z: -1.52, rx: -0.22, ry:  1.40, s: 0.25, sp: 1.23, br: 0.40, op: 0.00, ro:  0.000 },
@@ -1079,16 +1079,16 @@ function boot(canvas) {
   /* resolveKeys восстанавливает значения при resize: после просмотра mobile
      desktop-координаты не должны оставаться сжатыми и наоборот. */
   const ABOUT_DESKTOP_POSES = [
-    { cz:7.5, cy: .08, x:-3.15, y:.35, z: .10, rx:-.07, ry:.76, s:.38, sp:.78, br:.52, op:.76, ro:-.010 },
+    { cz:7.5, cy: .08, x:-3.55, y:-.42, z: .10, rx:-.07, ry:.76, s:.34, sp:.78, br:.52, op:.76, ro:-.010 },
     { cz:7.5, cy: .08, x:-.92, y:  .02, z:-.05, rx:-.07, ry:.76, s:.58, sp:.84, br:.52, op:.76, ro:-.010 },
-    { cz:7.5, cy:.08, x:-.92, y:.02, z:-.05, rx:-.07, ry:.76, s:.58, sp:.84, br:.52, op:.76, ro:-.010 },
-    { cz:7.63, cy:-.03, x:2.60, y:-.18, z:-.46, rx:-.14, ry:.97, s:.30, sp:1.01, br:.43, op:.22, ro:-.004 }
+    { cz:7.5, cy:.07, x:-.72, y:.00, z:-.08, rx:-.075, ry:.78, s:.56, sp:.86, br:.51, op:.72, ro:-.009 },
+    { cz:7.60, cy:-.01, x:.85, y:-.19, z:-.37, rx:-.13, ry:.92, s:.39, sp:.99, br:.44, op:.34, ro:-.004 }
   ];
   const ABOUT_COMPACT_POSES = [
-    { cz:7.3, cy: .08, x:-2.45, y:2.25, z: .10, rx:-.07, ry:.76, s:.42, sp:.78, br:.52, op:.76, ro:-.010 },
-    { cz:7.4, cy: .08, x: 0.00, y:1.90, z:-.05, rx:-.07, ry:.76, s:.58, sp:.84, br:.52, op:.76, ro:-.010 },
-    { cz:7.6, cy: .02, x: 7.60, y:1.35, z:-.72, rx:-.18, ry:1.34, s:.34, sp:1.12, br:.43, op:.42, ro: .006 },
-    { cz:7.7, cy:-.06, x: 8.00, y: .80, z:-1.15, rx:-.20, ry:1.42, s:.28, sp:1.15, br:.42, op:.40, ro: .006 }
+    { cz:7.3, cy: .08, x:-2.35, y:2.62, z: .10, rx:-.07, ry:.76, s:.31, sp:.78, br:.52, op:.70, ro:-.010 },
+    { cz:7.4, cy: .08, x:-1.30, y:2.24, z:-.03, rx:-.07, ry:.77, s:.28, sp:.82, br:.50, op:.58, ro:-.009 },
+    { cz:7.6, cy: .02, x: 2.40, y:1.62, z:-.52, rx:-.14, ry:1.10, s:.20, sp:1.02, br:.42, op:.24, ro: .002 },
+    { cz:7.7, cy:-.06, x: 4.20, y:1.14, z:-.90, rx:-.18, ry:1.24, s:.15, sp:1.08, br:.38, op:.12, ro: .004 }
   ];
   const FIELDS = ['cz', 'cy', 'x', 'y', 'z', 'rx', 'ry', 's', 'sp', 'br', 'op', 'ro'];
 
@@ -1112,7 +1112,9 @@ function boot(canvas) {
        На desktop остаётся неспешная последовательность из согласованного
        сценария. */
     const compactAbout = innerWidth / Math.max(innerHeight, 1) < 0.85;
-    const aboutKeyP = compactAbout ? [0.14, 0.31, 0.42, 0.64] : [0.12, 0.42, 0.82, 0.99];
+    /* На desktop сборка получает отдельный длинный участок до начала ухода.
+       На compact-экранах остаётся лёгкий пролёт без «взрыва» деталей. */
+    const aboutKeyP = compactAbout ? [0.08, 0.26, 0.52, 0.80] : [0.12, 0.42, 0.90, 0.975];
     const aboutPoses = compactAbout ? ABOUT_COMPACT_POSES : ABOUT_DESKTOP_POSES;
     for (const k of KEYS) {
       if (k.aboutSlot == null) continue;
@@ -1306,8 +1308,11 @@ function boot(canvas) {
       /* На раскрытии имена появляются вслед за своими узлами. После того как
          вся система открылась, они уходят одним спокойным аккордом — передняя
          часть не исчезает раньше остальных и не ломает чтение сборки. */
-      const moduleReveal = easeRange(drives[aboutLabelDriveIndices[i]] || 0, 0.60, 0.93);
-      const reveal = Math.max(0, visibility) * (settled ? 1 : moduleReveal);
+      /* Подпись следует за своим узлом и на раскрытии, и на обратной сборке.
+         Раньше settled принудительно удерживал весь ряд видимым даже после
+         того, как соответствующая деталь уже вернулась в корпус. */
+      const moduleReveal = easeRange(drives[aboutLabelDriveIndices[i]] || 0, 0.38, 0.88);
+      const reveal = Math.max(0, visibility) * moduleReveal;
       const localX = Math.round((positions[i] - rect.width * 0.5) * 10) / 10;
       const opacity = Math.round(reveal * 1000) / 1000;
       const offset = Math.round((1 - reveal) * 60) / 10;
@@ -1333,8 +1338,10 @@ function boot(canvas) {
      На этот короткий отрезок 3D-сцена рисуется с чуть меньшей плотностью,
      а затем возвращается к автоматически подобранному качеству. */
   function syncDprCap() {
-    const next = aboutInMotion ? Math.min(dprAutoCap, DPR_INTERACTION)
-      : audienceInMotion ? Math.min(dprAutoCap, DPR_INTERACTION) : dprAutoCap;
+    /* Нельзя менять render buffer прямо в видимом полёте: даже один resize
+       воспринимается как подёргивание стекла. Автонастройка применится между
+       сценами, а не в момент раскрытия или интерактивной гармошки. */
+    const next = dprAutoCap;
     if (next === dprCap) return;
     dprCap = next;
     applyDpr();
@@ -1349,10 +1356,8 @@ function boot(canvas) {
     if (aboutInMotion === active) return;
     aboutInMotion = active;
     tuneAcc = 0; tuneN = 0;
-    /* Модель остаётся детальной, но избыточный поток не съедает кадры,
-       когда весь объектив крупно раскрыт на экране. */
-    stream.geometry.setDrawRange(0, active ? (coarse ? 950 : 2800) : P_COUNT);
-    syncDprCap();
+    /* Число частиц и DPR здесь намеренно не меняются: quality pop заметнее,
+       чем небольшая экономия GPU. Плотность задана один раз при запуске. */
   }
 
   function resize() {
@@ -1395,6 +1400,11 @@ function boot(canvas) {
   }, { passive: true });
 
   resize(); resolveKeys(); readScroll();
+  /* При открытии ссылки с якорем или после восстановления scroll-позиции
+     первое изображение должно соответствовать странице сразу, без длинного
+     пролёта от нулевой точки. */
+  scrollS = scrollT;
+  scrollPrev = scrollT;
 
   const clock = new THREE.Clock();
   let time = 0, paused = false;
@@ -1426,16 +1436,17 @@ function boot(canvas) {
       }
     }
 
-    /* В обычных секциях траектория мягко догоняет прокрутку. В About ей нельзя
-       «догонять» уже после остановки пальца: раскрытие и сборка напрямую
-       привязаны к реальному scroll-положению, поэтому нет резинового лага. */
+    /* Одна короткая кинематическая доводка на всём сайте. Раньше About
+       переключал модель на прямой scroll, а соседние секции — на пружину:
+       именно на границах появлялся заметный толчок. 110 мс достаточно, чтобы
+       сгладить дискретные wheel-шаги, но не создаёт «резинового хвоста». */
     const rawAboutProgress = (scrollT - aboutStart) / Math.max(1e-5, aboutEnd - aboutStart);
-    /* Держим прямую связь со скроллом на всей длинной посадке и на мягком
-       выходе в Figures. Так нет ни резинового отставания, ни смены режима
-       прямо в видимой части перехода. */
     const isInsideAbout = rawAboutProgress >= -0.08 && rawAboutProgress <= 1.12;
-    scrollS = reduced || isInsideAbout ? scrollT : damp(scrollS, scrollT, 'st', 0.26, dt);
-    sampleKeys(scrollS);
+    scrollS = reduced ? scrollT : damp(scrollS, scrollT, 'st', 0.11, dt);
+    /* Reduced motion — не пустой Hero, а спокойный статичный предметный
+       кадр. После Hero он просто не рисуется: никакого scroll-driven
+       перелёта, раскладки или резкой смены состояния. */
+    sampleKeys(reduced ? 0 : scrollS);
 
     /* Таймлайн About: прилёт сверху-слева → крупное раскрытие в центре →
        пауза → обратная сборка на месте → длинный плавный выход вправо-вниз.
@@ -1449,31 +1460,32 @@ function boot(canvas) {
     const aboutCenterHold = compactAbout ? aboutArrive + (aboutLeave - aboutArrive) * 0.56
       : Math.min(aboutLeave - 0.06, Math.max(aboutArrive + 0.10, aboutNamedBeats.centerHold || aboutArrive + 0.20));
     const aboutSpan = aboutLeave - aboutArrive;
-    /* Небольшая остановка в центре, затем спокойное каскадное раскрытие.
-       Конец разборки отодвинут от начала сборки: у зрителя есть заметная
-       пауза, чтобы рассмотреть все пять узлов и подписи, а не один кадр. */
+    /* Каскад читается как единая механическая операция: раскрытие занимает
+       длинный вход к центральной опоре, затем есть пауза, а обратная сборка
+       развёрнута почти на весь второй участок до K2. */
     const openSpan = Math.max(0.06, aboutCenterHold - aboutArrive);
-    const openStart = compactAbout ? aboutArrive + aboutSpan * 0.045 : aboutArrive + openSpan * 0.06;
-    const openDuration = compactAbout ? aboutSpan * 0.17 : openSpan * 0.35;
-    const openStep = compactAbout ? aboutSpan * 0.032 : openSpan * 0.07;
-    /* Сборка идёт плотной волной: все реальные подузлы уже начинают
-       возвращаться в свои посадочные места, пока предыдущий ещё мягко
-       тормозит. Так видно именно механику сборки, а не пять отдельных сцен. */
+    const openStart = compactAbout ? aboutArrive + aboutSpan * 0.08 : aboutArrive + openSpan * 0.05;
+    const openDuration = compactAbout ? aboutSpan * 0.26 : openSpan * 0.28;
+    const openStep = compactAbout ? aboutSpan * 0.045 : openSpan * 0.06;
+    /* Сборка идёт неспешной обратной волной. Между состояниями достаточно
+       scroll-длины, чтобы следующий узел не успевал «перепрыгнуть» в глазах. */
     const closeSpan = Math.max(0.06, aboutLeave - aboutCenterHold);
-    const closeStart = compactAbout ? aboutLeave - aboutSpan * (0.35 + 0.018 * 4)
+    const closeStart = compactAbout ? aboutArrive + aboutSpan * 0.42
       : aboutCenterHold;
-    const closeStep = compactAbout ? aboutSpan * 0.018 : closeSpan * 0.07;
-    const closeDuration = compactAbout ? aboutSpan * 0.35 : closeSpan * 0.60;
+    const closeStep = compactAbout ? aboutSpan * 0.05 : closeSpan * 0.06;
+    const closeDuration = compactAbout ? aboutSpan * 0.34 : closeSpan * 0.70;
     aboutAssemblyDrive.fill(0);
     let aboutOpen = 0;
     for (let i = 0; i < aboutAssemblyMotion.length; i++) {
-      const openFrom = compactAbout ? 0.12 + i * 0.02 : openStart + i * openStep;
-      const openTo = compactAbout ? 0.18 + i * 0.02 : openFrom + openDuration;
+      const openFrom = compactAbout ? openStart + i * openStep : openStart + i * openStep;
+      const openTo = openFrom + openDuration;
       /* Сборка идёт от передней короны к заднему замку и занимает длинный
          отрезок скролла, а не сжимается в один короткий рывок. */
-      const closeFrom = compactAbout ? 0.32 - i * 0.02 : closeStart + (4 - i) * closeStep;
-      const closeTo = compactAbout ? 0.38 - i * 0.02 : closeFrom + closeDuration;
-      const drive = easeAbout(aboutProgress, openFrom, openTo)
+      const closeFrom = closeStart + (4 - i) * closeStep;
+      const closeTo = closeFrom + closeDuration;
+      /* На телефоне не превращаем текстовый About в тяжёлую мини-сцену:
+         объект совершает один спокойный пролёт и исчезает до copy. */
+      const drive = compactAbout ? 0 : easeAbout(aboutProgress, openFrom, openTo)
         * (1 - easeAbout(aboutProgress, closeFrom, closeTo));
       aboutAssemblyDrive[i] = drive;
       aboutOpen = Math.max(aboutOpen, drive);
@@ -1481,7 +1493,7 @@ function boot(canvas) {
     /* Технический контроллер включается лишь тогда, когда обычный маршрут
        уже привёл цельный объект в центр. На выходе он совпадает с K2 до
        последней координаты — поэтому переход не смешивает две траектории. */
-    const aboutAfterBeat = compactAbout ? 0 : Math.min(0.99, Math.max(
+    const aboutAfterBeat = compactAbout ? 0 : Math.min(0.998, Math.max(
       aboutLeave + 0.02,
       aboutBeats[3] || aboutLeave + 0.045
     ));
@@ -1496,20 +1508,15 @@ function boot(canvas) {
     ) * (1 - easeAbout(rawAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
     const aboutScaleFit = THREE.MathUtils.lerp(1, aboutViewportFit, aboutFitPresence);
     const aboutTechnical = compactAbout
-      ? easeAbout(aboutProgress, 0.12, 0.18) * (1 - easeAbout(aboutProgress, 0.34, 0.42))
+      ? easeAbout(aboutProgress, 0.08, 0.18) * (1 - easeAbout(aboutProgress, 0.28, 0.40))
       : easeAbout(aboutProgress, aboutArrive - 0.085, aboutArrive + 0.045)
         * (1 - easeAbout(rawAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
     const aboutIris = compactAbout
-      ? easeAbout(aboutProgress, 0.14, 0.21) * (1 - easeAbout(aboutProgress, 0.28, 0.36))
+      ? 0
       : easeAbout(aboutProgress, openStart + openStep, openStart + openDuration)
         * (1 - easeAbout(aboutProgress, closeStart + closeStep, closeStart + closeStep + closeDuration));
     const aboutExitFlight = compactAbout ? 0 : easeRange(aboutProgress, closeStart, aboutLeave);
-    const aboutLabelVisibility = compactAbout ? 0 : (aboutOpen > 0.08 ? 1 : 0) *
-      (1 - easeAbout(
-        aboutProgress,
-        closeStart + closeDuration * 0.78,
-        aboutLeave - closeStep * 0.10
-      ));
+    const aboutLabelVisibility = compactAbout ? 0 : easeAbout(aboutOpen, 0.04, 0.18);
     const aboutLabelsSettled = !compactAbout && aboutProgress >= openStart + openDuration + openStep * 4;
     /* После раскрытия все шесть подписей спокойно приходят в единый ряд,
        а перед сборкой тем же scroll-driven профилем возвращаются к своим
@@ -1530,8 +1537,12 @@ function boot(canvas) {
     const compactLateReturn = compactAbout
       ? easeAbout(rawAboutProgress, 1.52, 1.70)
       : 1;
-    const aboutRigVisibility = compactAbout
-      ? 1 - easeAbout(aboutProgress, 0.25, 0.32) * (1 - compactLateReturn)
+    const reducedHeroVisibility = reduced && scrollT < aboutStart ? 1 : 0;
+    const aboutRigVisibility = reduced ? reducedHeroVisibility : compactAbout
+      /* На узком портрете ракета красиво завершает пролёт ещё до H2: дальше
+         начинается плотная текстовая композиция, которой не нужен стеклянный
+         слой поверх букв. Обратный scroll проходит тот же мягкий fade назад. */
+      ? 1 - easeAbout(aboutProgress, 0.05, 0.16) * (1 - compactLateReturn)
       : 1;
     if (aboutSection) {
       aboutSection.classList.toggle('about--labels', aboutLabelVisibility > 0.02);
@@ -1546,8 +1557,8 @@ function boot(canvas) {
        Работает одинаково вниз и вверх, только знак крена меняется. */
     const rawV = (scrollS - scrollPrev) / Math.max(dt, 1e-4);
     scrollPrev = scrollS;
-    scrollV += (rawV - scrollV) * Math.min(1, dt * 7);
-    const vv = Math.max(-1, Math.min(1, scrollV * 1.7));
+    scrollV += (rawV - scrollV) * Math.min(1, dt * 4.2);
+    const vv = Math.max(-1, Math.min(1, scrollV * 0.72));
     const va = Math.abs(vv);
     const mechanicalV = vv * (1 - aboutTechnical);
 
@@ -1561,10 +1572,11 @@ function boot(canvas) {
     cur.cz = K.cz;
     cur.cy = K.cy;
     cur.ro = K.ro;
-    // Внутри технической сцены ключевые кадры уже содержат точную позу:
-    // дополнительное догоняние поворота здесь воспринимается как лаг.
-    cur.rx = reduced || isInsideAbout ? K.rx : damp(cur.rx, K.rx, 'rx', 0.22, dt);
-    cur.ry = reduced || isInsideAbout ? K.ry : damp(cur.ry, K.ry, 'ry', 0.26, dt);
+    /* Углы следуют за тем же уже сглаженным scrollS. Отдельная пружина
+       включалась и выключалась на About, оставляя в ней старую скорость и
+       создавая лишний крен на границах. */
+    cur.rx = K.rx;
+    cur.ry = K.ry;
 
     const breathe = reduced ? 0 : Math.sin(time * 0.42) * 0.055 * (1 - aboutTechnical);
 
@@ -1573,7 +1585,7 @@ function boot(canvas) {
        разборки и спокойствием камеры — он больше не подменяет летящий rig
        второй кривой. Поэтому в K2 нет stop/go, а K3 не создаёт второй
        handoff. Компактный режим оставляет короткую отдельную позу. */
-    const landingLift = compactAbout ? aboutEnter * (1 - aboutLand) * 0.18 : 0;
+    const landingLift = compactAbout ? aboutEnter * (1 - aboutLand) * 0.08 : 0;
     const aboutCenterPose = compactAbout ? ABOUT_COMPACT_POSES[1] : ABOUT_DESKTOP_POSES[1];
     const aboutExitPose = compactAbout ? ABOUT_COMPACT_POSES[2] : ABOUT_DESKTOP_POSES[2];
     const aboutAfterPose = compactAbout ? ABOUT_COMPACT_POSES[3] : ABOUT_DESKTOP_POSES[3];
@@ -1599,7 +1611,7 @@ function boot(canvas) {
     const lockedAboutCz = THREE.MathUtils.lerp(transitionCz, aboutAfterPose.cz, aboutAfterFlight);
     const lockedAboutRo = THREE.MathUtils.lerp(transitionRo, aboutAfterPose.ro, aboutAfterFlight);
     const lockedAboutOpacity = THREE.MathUtils.lerp(transitionOpacity, aboutAfterPose.op, aboutAfterFlight);
-    const aboutPoseMix = compactAbout ? aboutTechnical : 0;
+    const aboutPoseMix = 0;
     const rigX = cur.x * (1 - aboutPoseMix) + lockedAboutX * aboutPoseMix;
     const rigY = cur.y * (1 - aboutPoseMix) + lockedAboutY * aboutPoseMix;
     const rigZ = cur.z * (1 - aboutPoseMix) + lockedAboutZ * aboutPoseMix;
@@ -1611,17 +1623,17 @@ function boot(canvas) {
        Поэтому вход, раскрытие и уход живут на одной непрерывной кривой. */
     rig.position.set(rigX, rigY + breathe + landingLift, rigZ);
     rig.rotation.set(
-      rigRx + pointer.y * 0.10 * (1 - aboutTechnical) - mechanicalV * 0.05,
-      rigRy + time * 0.012 * (1 - aboutTechnical) + pointer.x * 0.16 * (1 - aboutTechnical),
-      Math.sin(time * 0.24) * 0.03 * (1 - aboutTechnical) + mechanicalV * 0.06
+      rigRx + pointer.y * 0.045 * (1 - aboutTechnical) - mechanicalV * 0.022,
+      rigRy + time * 0.006 * (1 - aboutTechnical) + pointer.x * 0.070 * (1 - aboutTechnical),
+      Math.sin(time * 0.24) * 0.012 * (1 - aboutTechnical) + mechanicalV * 0.028
     );
     rig.scale.setScalar(rigScale);
 
     // диафрагма дышит и подбирается на быстрой прокрутке, как при съёмке в проводке
     const freeMechanics = 1 - aboutTechnical;
     const shut = (reduced ? 0.10
-      : ((Math.sin(time * 0.17) * 0.5 + 0.5) * 0.22 + va * 0.14) * freeMechanics) + aboutIris * 0.17;
-    const spin = reduced ? 0 : shut * 0.42;
+      : ((Math.sin(time * 0.17) * 0.5 + 0.5) * 0.13 + va * 0.055) * freeMechanics) + aboutIris * 0.13;
+    const spin = reduced ? 0 : shut * 0.24;
     for (let i = 0; i < blades.length; i++) {
       const b = blades[i], th = b.userData.th + spin;
       b.rotation.z = th;
@@ -1656,7 +1668,7 @@ function boot(canvas) {
       cameraCz
     );
     camera.lookAt(0, 0, 0);
-    camera.rotateZ(cameraRo - vv * 0.026 * cameraFree);
+    camera.rotateZ(cameraRo - vv * 0.010 * cameraFree);
     flare.quaternion.copy(camera.quaternion);   // блик всегда лицом к камере
     halo.quaternion.copy(camera.quaternion);
     if (aboutLabelVisibility > 0.002) {
@@ -1665,8 +1677,8 @@ function boot(canvas) {
 
     pUni.uT.value = time;
     stUni.uT.value = time;
-    pUni.uSpread.value = K.sp * (1 + va * 0.10);       // поток чуть шире на разгоне
-    pUni.uBright.value = K.br * ok * aboutRigVisibility * (1 + va * 0.30) * (1 - aboutOpen * 0.55);  // и заметно ярче
+    pUni.uSpread.value = K.sp * (1 + va * 0.035);      // едва заметный отклик, без вспышек
+    pUni.uBright.value = K.br * ok * aboutRigVisibility * (1 + va * 0.10) * (1 - aboutOpen * 0.55);
     pUni.uScale.value  = 0.85 + K.s * 0.45;
     stUni.uA.value = 0.35 + (1 - scrollS) * 0.65;
 
@@ -1678,15 +1690,15 @@ function boot(canvas) {
     for (const u of opticalUniforms) {
       u.uT.value = time;
       u.uA.value = op;
-      u.uEnergy.value = 0.76 + K.br * 0.44 + va * 0.16;
+      u.uEnergy.value = 0.76 + K.br * 0.44 + va * 0.055;
     }
     /* Малые движения отдельного узла создают жизнь внутри прибора, но не
        спорят с общей хореографией по прокрутке. Важный момент: скорость
        ниже, чем у частиц — это механика высокого класса, а не спиннер. */
-    calibration.rotation.z = (time * 0.105 + pointer.x * 0.075) * freeMechanics;
-    gimbal.rotation.z = (-time * 0.042 + pointer.x * 0.030) * freeMechanics;
-    frontInner.rotation.z = -time * 0.062 * freeMechanics;
-    const focusPulse = 1 + (reduced ? 0 : (Math.sin(time * 0.78) * 0.018 + va * 0.022) * freeMechanics);
+    calibration.rotation.z = (time * 0.045 + pointer.x * 0.030) * freeMechanics;
+    gimbal.rotation.z = (-time * 0.018 + pointer.x * 0.012) * freeMechanics;
+    frontInner.rotation.z = -time * 0.026 * freeMechanics;
+    const focusPulse = 1 + (reduced ? 0 : (Math.sin(time * 0.78) * 0.009 + va * 0.008) * freeMechanics);
     pupil.scale.setScalar(focusPulse);
     for (const d of detailMats) d.m.opacity = d.base * op * (0.82 + K.br * 0.22);
     if (markRef) markRef.material.opacity = op;
