@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#171029"/><stop offset=".55" stop-color="#0D0A18"/><stop offset="1" stop-color="#1A0E22"/>
+    </linearGradient>
+    <radialGradient id="gl" cx=".3" cy=".22" r=".75">
+      <stop offset="0" stop-color="#7C5CFF" stop-opacity=".42"/><stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gm" cx=".82" cy=".78" r=".6">
+      <stop offset="0" stop-color="#FF52B8" stop-opacity=".3"/><stop offset="1" stop-color="#FF52B8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="st" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B9A8FF"/><stop offset="1" stop-color="#62E4FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#gl)"/>
+  <rect width="800" height="1000" fill="url(#gm)"/>
+  <g transform="translate(400 470)" fill="none" stroke="url(#st)" opacity=".5">
+    <ellipse rx="230" ry="290" stroke-width="1.4"/>
+    <ellipse rx="164" ry="224" stroke-width="1.1"/>
+    <ellipse rx="98" ry="152" stroke-width=".9"/>
+    <path d="M-330 0 H330" stroke-width=".9" opacity=".5"/>
+  </g>
+  <text x="400" y="500" text-anchor="middle" font-family="Manrope, Helvetica, Arial, sans-serif"
+        font-size="150" font-weight="200" letter-spacing="6" fill="#EFEDF7" opacity=".92">VK</text>
+  <text x="400" y="880" text-anchor="middle" font-family="Manrope, Helvetica, Arial, sans-serif"
+        font-size="27" font-weight="400" fill="#A6A0C2">Vladimir Alex Kochenov</text>
+  <text x="400" y="920" text-anchor="middle" font-family="Manrope, Helvetica, Arial, sans-serif"
+        font-size="19" font-weight="300" fill="#6B6688">заглушка — заменить фотографией</text>
+</svg>

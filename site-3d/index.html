@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VAK Marketing — маркетинг, PR и B2B-продвижение для iGaming, FinTech, Crypto и Web3</title>
+<meta name="description" content="VAK Marketing выстраивает маркетинговую систему для iGaming, FinTech, Crypto и Web3: позиционирование, PR, LinkedIn, SEO, контент, лидогенерация, медиа и автоматизация.">
+<meta name="theme-color" content="#06050C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VAK Marketing — маркетинговая система для iGaming, FinTech, Crypto и Web3">
+<meta property="og:description" content="Позиционирование, доверие к бренду и системное продвижение: PR, LinkedIn, SEO, контент, медиа, автоматизация.">
+<meta property="og:image" content="assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/base.css?v=20260823-01">
+  <link rel="stylesheet" href="assets/css/sections.css?v=20260824-04">
+<script>
+  /* Сцена использует ES-модуль: Chrome блокирует его при двойном клике по
+     file://. Открываем тот же проект через локальный сервер, где остаётся
+     настоящая анимированная 3D-сцена, а не статичная заглушка. */
+  if (location.protocol === 'file:') location.replace('http://localhost:4322/');
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"VAK Marketing","description":"Маркетинговое агентство для iGaming, FinTech, Crypto, Web3 и B2B-проектов","founder":{"@type":"Person","name":"Vladimir Alex Kochenov"},"areaServed":"Worldwide"}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Перейти к содержимому</a>
+
+<!-- атмосфера: CSS-подложка, она же запасной фон, если WebGL недоступен -->
+<div class="atmo" aria-hidden="true"><i class="atmo__a"></i><i class="atmo__b"></i><i class="atmo__c"></i></div>
+<canvas id="stage" class="stage" aria-hidden="true"></canvas>
+
+<!-- ═══════════════ 1. HEADER ═══════════════ -->
+<header class="nav" id="nav">
+  <div class="nav__bar">
+    <a class="brand" href="#hero" aria-label="VAK Marketing">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="13.2" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/>
+        <path d="M4.6 21.2C9 15 23 15 27.4 21.2" fill="none" stroke="currentColor" stroke-width="1.1"/>
+        <path d="M4.6 10.8C9 17 23 17 27.4 10.8" fill="none" stroke="currentColor" stroke-width="1.1"/>
+        <circle cx="16" cy="16" r="2.1" fill="currentColor"/>
+      </svg>
+      <span class="brand__text">VAK <b>Marketing</b></span>
+    </a>
+
+    <nav class="nav__links" aria-label="Основная навигация">
+      <a href="#services" data-i18n="nav.services">Услуги</a>
+      <a href="#cases" data-i18n="nav.cases">Кейсы</a>
+      <a href="#clients" data-i18n="nav.clients">Клиенты</a>
+      <a href="#team" data-i18n="nav.team">Команда</a>
+      <a href="#about" data-i18n="nav.about">О нас</a>
+      <a href="#" data-soon data-i18n="nav.blog">Блог</a>
+      <a href="#contact" data-i18n="nav.contacts">Контакты</a>
+    </nav>
+
+    <div class="nav__side">
+      <div class="lang" role="group" aria-label="Язык / Language">
+        <button type="button" class="lang__b" data-lang="ru" aria-pressed="true">RU</button>
+        <span class="lang__sep" aria-hidden="true"></span>
+        <button type="button" class="lang__b" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn--primary nav__cta" href="#contact" data-i18n="nav.cta">Получить консультацию</a>
+      <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Меню">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="menu" id="menu" hidden>
+    <nav class="menu__links" aria-label="Мобильная навигация">
+      <a href="#services" data-i18n="nav.services">Услуги</a>
+      <a href="#cases" data-i18n="nav.cases">Кейсы</a>
+      <a href="#clients" data-i18n="nav.clients">Клиенты</a>
+      <a href="#team" data-i18n="nav.team">Команда</a>
+      <a href="#about" data-i18n="nav.about">О нас</a>
+      <a href="#" data-soon data-i18n="nav.blog">Блог</a>
+      <a href="#contact" data-i18n="nav.contacts">Контакты</a>
+    </nav>
+    <a class="btn btn--primary" href="#contact" data-i18n="nav.cta">Получить консультацию</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═══════════════ 2. HERO ═══════════════ -->
+<section class="hero" id="hero">
+  <div class="wrap hero__in">
+    <h1 class="hero__h1" data-i18n="hero.h1">
+      Комплексный маркетинг, PR<br>и B2B-продвижение для
+      <span class="hero__accent">iGaming, FinTech,<br>Crypto</span> и <span class="hero__accent">Web3</span>-проектов
+    </h1>
+
+    <p class="hero__sub" data-i18n="hero.sub">
+      Выстраиваем позиционирование, усиливаем доверие к бренду и запускаем системное
+      продвижение: PR, LinkedIn, SEO, контент, медиа и автоматизация.
+    </p>
+
+    <div class="hero__act">
+      <a class="btn btn--primary" href="#contact" data-i18n="hero.cta1">Обсудить проект</a>
+      <a class="btn btn--ghost" href="#services" data-i18n="hero.cta2">Посмотреть услуги</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 3. ABOUT ═══════════════ -->
+<section class="sec about" id="about">
+  <div class="wrap about__grid">
+    <div class="about__side" data-reveal>
+      <h2 class="h2" data-i18n="about.h2">О VAK Marketing</h2>
+      <!-- Прозрачная зона одного WebGL-слоя: фирменный объект из Hero
+           приземляется здесь, раскрывается и теми же деталями собирается обратно. -->
+      <div class="about__stage" id="aboutStage" aria-label="Этапы маркетинговой системы">
+        <div class="about__module-labels" aria-label="Этапы маркетинговой системы">
+          <div class="about__module-label" data-about-module="inlet">
+            <span data-i18n="about.module.short1">Рынок</span>
+            <small data-i18n="about.module.d1">сегменты · конкуренты</small>
+          </div>
+          <div class="about__module-label" data-about-module="position">
+            <span data-i18n="about.module.short2">Позиция</span>
+            <small data-i18n="about.module.d2">оффер · аргументы</small>
+          </div>
+          <div class="about__module-label" data-about-module="comms">
+            <span data-i18n="about.module.short3">Каналы</span>
+            <small data-i18n="about.module.d3">PR · LinkedIn</small>
+          </div>
+          <div class="about__module-label" data-about-module="content">
+            <span data-i18n="about.module.short4">Контент</span>
+            <small data-i18n="about.module.d4">темы · SEO</small>
+          </div>
+          <div class="about__module-label" data-about-module="output">
+            <span data-i18n="about.module.short5">Лиды</span>
+            <small data-i18n="about.module.d5">квалификация · воронка</small>
+          </div>
+          <div class="about__module-label about__module-label--result" data-about-module="result">
+            <span data-i18n="about.module.short6">Результат</span>
+            <small data-i18n="about.module.d6">партнёры · сделки</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about__body" data-reveal style="--d:.08s">
+      <p class="lead" data-i18n="about.p1">
+        Мы работаем там, где тесно и сложно: iGaming, FinTech, Crypto, Web3, Payments, SaaS и B2B.
+      </p>
+      <p data-i18n="about.p2">
+        Задача агентства — собрать для проекта полноценную маркетинговую систему. Стратегия,
+        позиционирование и упаковка бренда, затем PR, LinkedIn, SEO, контент, лидогенерация,
+        медийные размещения и автоматизация процессов.
+      </p>
+      <p data-i18n="about.p3">
+        Так компания получает репутацию и доступ к тем, кто принимает решения: партнёрам,
+        инвесторам, клиентам и релевантным B2B-возможностям.
+      </p>
+      <a class="link-arrow" href="#contact" data-i18n="about.cta">Узнать больше о нас<i></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 4. ЦИФРЫ ═══════════════ -->
+<section class="sec figures" id="figures" aria-label="VAK Marketing в цифрах">
+  <div class="wrap">
+    <ul class="fig">
+      <li data-reveal>
+        <b class="fig__n" data-count="8" data-suffix="+">8+</b>
+        <span class="fig__l" data-i18n="fig.l1">лет опыта</span>
+        <span class="fig__d" data-i18n="fig.d1">в crypto, fintech, iGaming и B2B-маркетинге</span>
+      </li>
+      <li data-reveal style="--d:.06s">
+        <b class="fig__n" data-count="280" data-suffix="+">280+</b>
+        <span class="fig__l" data-i18n="fig.l2">публикаций</span>
+        <span class="fig__d" data-i18n="fig.d2">для клиентов в международных финансовых и iGaming-медиа</span>
+      </li>
+      <li data-reveal style="--d:.12s">
+        <b class="fig__n" data-count="700" data-suffix="+">700+</b>
+        <span class="fig__l" data-i18n="fig.l3">СМИ</span>
+        <span class="fig__d" data-i18n="fig.d3">в базе партнёрских и медийных размещений</span>
+      </li>
+      <li data-reveal style="--d:.18s">
+        <b class="fig__n" data-count="250" data-suffix="+">250+</b>
+        <span class="fig__l" data-i18n="fig.l4">проектов</span>
+        <span class="fig__d" data-i18n="fig.d4">получили поддержку в PR, маркетинге, контенте и продвижении</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════ 5. С КЕМ МЫ РАБОТАЕМ ═══════════════ -->
+<section class="sec aud" id="audience">
+  <div class="wrap">
+    <div class="head head--split" data-reveal>
+      <h2 class="h2" data-i18n="aud.h2">С кем мы работаем</h2>
+      <p class="head__note" data-i18n="aud.sub">
+        Мы понимаем рынки, где решают доверие, репутация, точное позиционирование и доступ
+        к decision-makers.
+      </p>
+    </div>
+
+    <div class="slats" data-reveal style="--d:.1s">
+      <article class="slat is-open" tabindex="0">
+        <img class="slat__photo" src="assets/img/audience/igaming-editorial-v1.jpg" alt="" loading="lazy" decoding="async">
+        <h3 class="slat__t" data-i18n="aud.t1">iGaming-проекты</h3>
+        <p class="slat__d" data-i18n="aud.d1">Операторы, платформы, PSP, affiliate-команды и B2B-сервисы, которым нужно усилить бренд, доверие и поток партнёрских запросов.</p>
+      </article>
+      <article class="slat" tabindex="0">
+        <img class="slat__photo" src="assets/img/audience/fintech-editorial-v1.jpg" alt="" loading="lazy" decoding="async">
+        <h3 class="slat__t" data-i18n="aud.t2">FinTech и payment-компании</h3>
+        <p class="slat__d" data-i18n="aud.d2">Платёжные провайдеры, карточные программы, banking-as-a-service, финансовые сервисы и инфраструктурные продукты.</p>
+      </article>
+      <article class="slat" tabindex="0">
+        <img class="slat__photo" src="assets/img/audience/crypto-web3-editorial-v1.jpg" alt="" loading="lazy" decoding="async">
+        <h3 class="slat__t" data-i18n="aud.t3">Crypto и Web3</h3>
+        <p class="slat__d" data-i18n="aud.d3">Биржи, кошельки, DeFi, токены, инфраструктурные проекты, блокчейн-сервисы и Web3-стартапы.</p>
+      </article>
+      <article class="slat" tabindex="0">
+        <img class="slat__photo" src="assets/img/audience/founders-editorial-v1.jpg" alt="" loading="lazy" decoding="async">
+        <h3 class="slat__t" data-i18n="aud.t4">Фаундеры и эксперты</h3>
+        <p class="slat__d" data-i18n="aud.d4">Предприниматели, которым нужно развивать личный бренд, усиливать экспертность и выстраивать доверие аудитории.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 6. УСЛУГИ ═══════════════ -->
+<section class="sec srv" id="services">
+ <!-- Прокручиваемая длина секции: её задаёт main.js под число карточек.
+      Внутри липкая сцена — пока идёт эта длина, колода стоит на экране
+      и листается по одной карточке. -->
+ <div class="srv__pin" id="srvPin">
+  <div class="srv__stage">
+  <div class="wrap">
+    <div class="head" data-reveal>
+      <h2 class="h2" data-i18n="srv.h2">Наши услуги</h2>
+    </div>
+
+    <div class="srv__grid">
+      <!-- Колода слева. Шесть карточек строит main.js из массива SRV, потому что
+           их содержимое уже лежит там (и переводы берутся оттуда же). Без JS
+           и при prefers-reduced-motion колода остаётся простым списком карточек. -->
+      <div class="srv__deck" id="srvDeck" data-reveal></div>
+
+      <!-- список справа -->
+      <ol class="srv__list" id="srvList" data-reveal style="--d:.08s">
+        <li><button type="button" class="srv__row is-on" data-srv="0" data-href="/strategy"><span class="srv__rt" data-i18n="srv.t1">Стратегия и комплексное ведение проекта</span><span class="srv__short" data-i18n="srv.s1">Стратегия</span></button></li>
+        <li><button type="button" class="srv__row" data-srv="1" data-href="/linkedin"><span class="srv__rt" data-i18n="srv.t2">B2B-маркетинг и продвижение в LinkedIn</span><span class="srv__short" data-i18n="srv.s2">LinkedIn</span></button></li>
+        <li><button type="button" class="srv__row" data-srv="2" data-href="/pr"><span class="srv__rt" data-i18n="srv.t3">PR, СМИ и SERP</span><span class="srv__short" data-i18n="srv.s3">PR и СМИ</span></button></li>
+        <li><button type="button" class="srv__row" data-srv="3" data-href="/seo"><span class="srv__rt" data-i18n="srv.t4">AI SEO и автоматизация маркетинга</span><span class="srv__short" data-i18n="srv.s4">AI SEO</span></button></li>
+        <li><button type="button" class="srv__row" data-srv="4" data-href="/course"><span class="srv__rt" data-i18n="srv.t5">B2B и B2C курс по LinkedIn</span><span class="srv__short" data-i18n="srv.s5">Курс</span></button></li>
+        <li><button type="button" class="srv__row" data-srv="5" data-href="/localization"><span class="srv__rt" data-i18n="srv.t6">Translation &amp; Localization Services</span><span class="srv__short" data-i18n="srv.s6">Локализация</span></button></li>
+      </ol>
+    </div>
+  </div>
+  </div>
+ </div>
+</section>
+
+<!-- ═══════════════ 7. КЛИЕНТЫ ═══════════════ -->
+<section class="sec cli" id="clients">
+  <div class="wrap">
+    <div class="head head--split" data-reveal>
+      <h2 class="h2" data-i18n="cli.h2">Нам доверяют проекты из&nbsp;Crypto, FinTech, iGaming и&nbsp;Web3</h2>
+      <p class="head__note" data-i18n="cli.sub">
+        Международные блокчейн-компании, криптоэкосистемы, платёжные сервисы, биржи,
+        iGaming-проекты и фаундеры.
+      </p>
+    </div>
+
+    <!-- Кольцо шкалы объектива. Имена проворачиваются мимо зрителя и попадают
+         в резкость только когда проходят фокальную плоскость в центре полосы;
+         к краям уходят в расфокус. При наведении фокальная плоскость идёт за
+         курсором, лента почти останавливается — это наводка на резкость руками.
+         Без JS и при prefers-reduced-motion остаётся обычной стеной имён. -->
+    <div class="ring" id="ring" data-reveal style="--d:.1s">
+      <ul class="ring__set" id="ringSet">
+        <li class="ring__i ring__i--logo" style="--k:1.52;--g:1.16;--lw:50px" aria-label="Ethereum Foundation" title="Ethereum Foundation"><svg class="ring__logo" viewBox="0 0 64 64" aria-hidden="true"><path d="m32 4 17 28-17 10L15 32 32 4Zm0 42 17-10-17 24-17-24 17 10Z"/></svg><span class="ring__name">Ethereum Foundation</span></li>
+        <li class="ring__i ring__i--brand" style="--k:1.22;--g:.84" aria-label="HTX, formerly Huobi Global" title="HTX, formerly Huobi Global"><img class="ring__brand" src="assets/img/brands/cases/huobi-global.png" alt=""><span class="ring__name">HTX <small>formerly Huobi Global</small></span></li>
+        <li class="ring__i ring__i--brand" style="--k:1.08;--g:1.32" aria-label="Tornado Cash" title="Tornado Cash"><img class="ring__brand" src="assets/img/brands/clients/tornado-cash.png" alt=""><span class="ring__name">Tornado Cash</span></li>
+        <li class="ring__i ring__i--brand" style="--k:1.06;--g:1.08" aria-label="Zenex" title="Zenex"><img class="ring__brand" src="assets/img/brands/clients/zenex.png" alt=""><span class="ring__name">Zenex</span></li>
+        <li class="ring__i ring__i--brand" style="--k:.90;--g:1.36" aria-label="Next-On" title="Next-On"><img class="ring__brand" src="assets/img/brands/clients/next-on.png" alt=""><span class="ring__name">Next-On</span></li>
+        <li class="ring__i ring__i--brand" style="--k:1.30;--g:.88" aria-label="1GHS" title="1GHS"><img class="ring__brand" src="assets/img/brands/cases/1ghs.png" alt=""><span class="ring__name">1GHS</span></li>
+        <li class="ring__i ring__i--brand" style="--k:.96;--g:1.20" aria-label="New Level Agency" title="New Level Agency"><img class="ring__brand ring__brand--small" src="assets/img/brands/clients/new-level-agency.png" alt=""><span class="ring__name">New Level Agency</span></li>
+        <li class="ring__i ring__i--logo" style="--k:.88;--g:1.02;--lw:50px" aria-label="NDA iGaming brands" title="NDA iGaming brands"><svg class="ring__logo ring__logo--stroke" viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="28" width="32" height="23" rx="4"/><path d="M23 28v-5a9 9 0 0 1 18 0v5M32 37v7"/></svg><span class="ring__name" data-i18n="cli.nda">NDA iGaming brands</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 8. КЕЙСЫ ═══════════════ -->
+<section class="sec cs" id="cases">
+  <div class="wrap">
+    <div class="head head--split head--veil" data-reveal>
+      <h2 class="h2" data-i18n="cs.h2">Кейсы и результаты</h2>
+      <p class="head__note" data-i18n="cs.sub">
+        Выход на новые рынки, PR и медиа, упаковка, LinkedIn, B2B-продвижение, контент
+        и комплексный маркетинг.
+      </p>
+    </div>
+  </div>
+
+  <div class="rail" id="rail" tabindex="0" aria-label="Кейсы, прокрутка по горизонтали">
+    <div class="rail__track">
+
+      <article class="case">
+        <header class="case__h">
+          <img class="case__logo" src="assets/img/brands/cases/huobi-global.png" alt="Huobi Global">
+          <div><h3 class="case__t">Huobi&nbsp;Global</h3>
+          <span class="case__meta" data-i18n="cs.m1">Криптобиржа · выход на рынок · 1 год</span>
+          </div>
+        </header>
+        <div class="case__b">
+          <p class="case__task"><b data-i18n="cs.task">Задача.</b> <span data-i18n="cs.q1">Усилить присутствие одной из ведущих мировых криптобирж на российском рынке и поддержать выход бренда в новый регион.</span></p>
+          <p class="case__do"><b data-i18n="cs.did">Что сделали.</b> <span data-i18n="cs.w1">Масштабная кампания: таргетированная и контекстная реклама, PR-инструменты, трафик-арбитраж, медийные активности и работа с инфлюенсерами.</span></p>
+        </div>
+        <ul class="res">
+          <li><b data-i18n="cs.n1">14 000+</b><span data-i18n="cs.r1a">новых клиентов</span></li>
+          <li><b data-i18n="cs.n2">14 <i>млн</i></b><span data-i18n="cs.r1b">потенциальная аудитория рынка</span></li>
+          <li><b>10+</b><span data-i18n="cs.r1c">индустриальных мероприятий</span></li>
+          <li><b>20+</b><span data-i18n="cs.r1d">коллабораций с медиа и инфлюенсерами</span></li>
+        </ul>
+      </article>
+
+      <article class="case">
+        <header class="case__h">
+          <img class="case__logo" src="assets/img/brands/cases/zenex.png" alt="Zenex Token">
+          <div><h3 class="case__t">Zenex&nbsp;Token</h3>
+          <span class="case__meta" data-i18n="cs.m2">Токен · PR и доверие · 6 месяцев</span>
+          </div>
+        </header>
+        <div class="case__b">
+          <p class="case__task"><b data-i18n="cs.task">Задача.</b> <span data-i18n="cs.q2">Усилить доверие к токену, повысить узнаваемость проекта, привлечь внимание инвесторов и обеспечить трафик на официальные ресурсы.</span></p>
+          <p class="case__do"><b data-i18n="cs.did">Что сделали.</b> <span data-i18n="cs.w2">PR и медийные публикации, работа с социальными сетями, присутствие в индустриальном поле и выстраивание доверия вокруг токена.</span></p>
+        </div>
+        <ul class="res">
+          <li><b>10+</b><span data-i18n="cs.r2a">публикаций в ведущих медиа</span></li>
+          <li><b data-i18n="cs.n3">20 000+</b><span data-i18n="cs.r2b">подписчиков в социальных сетях</span></li>
+          <li><b data-i18n="cs.n4">3 <i>млн</i></b><span data-i18n="cs.r2c">рекламный охват</span></li>
+          <li><b data-i18n="cs.n5">$1,5 <i>млн</i></b><span data-i18n="cs.r2d">привлечено на pre-sale токена</span></li>
+        </ul>
+      </article>
+
+      <article class="case">
+        <header class="case__h">
+          <img class="case__logo" src="assets/img/brands/cases/1ghs.png" alt="1GHS">
+          <div><h3 class="case__t">1GHS</h3>
+          <span class="case__meta" data-i18n="cs.m3">Упаковка бренда · digital и медиа</span>
+          </div>
+        </header>
+        <div class="case__b">
+          <p class="case__task"><b data-i18n="cs.task">Задача.</b> <span data-i18n="cs.q3">Повысить узнаваемость проекта и доверие к бренду, создать основу для системного продвижения в digital и медиа.</span></p>
+          <p class="case__do"><b data-i18n="cs.did">Что сделали.</b> <span data-i18n="cs.w3">Упаковка коммуникации, контент, PR-активности, работа с аудиторией и усиление присутствия бренда в релевантных каналах.</span></p>
+        </div>
+        <ul class="res" data-placeholder="true">
+          <li><b>15+</b><span data-i18n="cs.r3a">публикаций и упоминаний</span></li>
+          <li><b data-i18n="cs.n6">1,2 <i>млн</i></b><span data-i18n="cs.r3b">суммарный охват</span></li>
+          <li><b data-i18n="cs.n7">8 000+</b><span data-i18n="cs.r3c">прирост аудитории</span></li>
+          <li><b>4</b><span data-i18n="cs.r3d">отраслевых события</span></li>
+        </ul>
+      </article>
+
+      <article class="case">
+        <header class="case__h">
+          <h3 class="case__t">NDA · iGaming Payments</h3>
+          <span class="case__meta" data-i18n="cs.m4">LinkedIn Marketing</span>
+        </header>
+        <div class="case__b">
+          <p class="case__task"><b data-i18n="cs.task">Задача.</b> <span data-i18n="cs.q4">Запустить LinkedIn как B2B-канал для payment-проекта в iGaming: упаковать бренд, найти decision-makers и начать квалифицированные диалоги.</span></p>
+          <p class="case__do"><b data-i18n="cs.did">Что сделали.</b> <span data-i18n="cs.w4">Оформили страницу компании и профили менеджеров, собрали контентные рубрики, описали ICP, запустили Sales Navigator, скрипты и передачу лидов в sales.</span></p>
+        </div>
+        <ul class="res" data-placeholder="true">
+          <li><b data-i18n="cs.n8">2 400+</b><span data-i18n="cs.r4a">целевых контактов</span></li>
+          <li><b>38%</b><span data-i18n="cs.r4b">accept rate</span></li>
+          <li><b>120+</b><span data-i18n="cs.r4c">диалогов с decision-makers</span></li>
+          <li><b>27</b><span data-i18n="cs.r4d">warm leads в sales</span></li>
+        </ul>
+      </article>
+
+      <article class="case">
+        <header class="case__h">
+          <h3 class="case__t">NDA · iGaming Payments</h3>
+          <span class="case__meta" data-i18n="cs.m5">B2B Lead Generation</span>
+        </header>
+        <div class="case__b">
+          <p class="case__task"><b data-i18n="cs.task">Задача.</b> <span data-i18n="cs.q5">Выйти на релевантных B2B-клиентов и партнёров через LinkedIn без спама и хаотичного outreach.</span></p>
+          <p class="case__do"><b data-i18n="cs.did">Что сделали.</b> <span data-i18n="cs.w5">Собрали ICP по рынкам и ролям, выделили приоритетные аудитории, подготовили персонализированные скрипты, прогрев профилей, ежедневные KPI и отчётность.</span></p>
+        </div>
+        <ul class="res" data-placeholder="true">
+          <li><b>4</b><span data-i18n="cs.r5a">сегмента ICP</span></li>
+          <li><b>60</b><span data-i18n="cs.r5b">касаний в день</span></li>
+          <li><b>19%</b><span data-i18n="cs.r5c">response rate</span></li>
+          <li><b>45+</b><span data-i18n="cs.r5d">warm leads за квартал</span></li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+
+  <div class="wrap rail__foot">
+    <div class="rail__bar" aria-hidden="true"><i id="railBar"></i></div>
+    <div class="rail__nav">
+      <button type="button" class="rnd" id="railPrev" aria-label="Предыдущий кейс">‹</button>
+      <button type="button" class="rnd" id="railNext" aria-label="Следующий кейс">›</button>
+      <a class="link-arrow" href="#contact" data-soon data-i18n="cs.all">Смотреть все кейсы<i></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 9. ОСНОВАТЕЛЬ ═══════════════ -->
+<section class="sec fnd" id="founder">
+  <div class="wrap fnd__grid">
+    <div class="fnd__pic" data-reveal>
+      <img src="assets/img/founder/vladimir-alex-kochenov-v1.jpg" width="640" height="640" alt="Vladimir Alex Kochenov" loading="lazy" decoding="async">
+    </div>
+    <div class="fnd__body" data-reveal style="--d:.08s">
+      <p class="eyebrow" data-i18n="fnd.eyebrow">Founder of VAK Marketing</p>
+      <h2 class="h2 fnd__name">Vladimir Alex Kochenov</h2>
+      <p class="fnd__role" data-i18n="fnd.role">Основатель VAK Marketing. Crypto, fintech, iGaming, PR и B2B-маркетинг.</p>
+
+      <p data-i18n="fnd.p1">
+        Работал с Ethereum Foundation, Huobi Global, Tornado Cash и другими международными
+        проектами. 80+ персональных публикаций и экспертных упоминаний в профильных и деловых
+        медиа, включая Crypto.ru, ForkLog, Bits.media и Yahoo Finance.
+      </p>
+      <p data-i18n="fnd.p2">
+        Сегодня фокус агентства — помогать iGaming, FinTech, Crypto, Web3 и B2B-компаниям
+        строить системный маркетинг и получать качественные возможности для роста.
+      </p>
+
+      <div class="fnd__links">
+        <a class="btn btn--ghost" href="#" data-soon>LinkedIn</a>
+        <a class="btn btn--ghost" href="#" data-soon>Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 10. КОМАНДА ═══════════════ -->
+<section class="sec team" id="team">
+  <div class="wrap">
+    <div class="head head--split" data-reveal>
+      <h2 class="h2" data-i18n="team.h2">Наша команда</h2>
+      <p class="head__note" data-i18n="team.sub">Над проектами работают специалисты по стратегии, AI, контенту, локализации, SEO и B2B-маркетингу.</p>
+    </div>
+
+    <ul class="team__grid">
+      <li class="team__card" data-reveal>
+        <div class="team__portrait" style="--portrait-position:50% 35%"><img src="assets/img/team/georgii-tinikashvili-v1.jpg" width="1080" height="1456" alt="Georgii Tinikashvili" loading="lazy" decoding="async"></div>
+        <div class="team__copy"><p class="team__role" data-i18n="team.r1">Strategy Lead</p><h3>Georgii Tinikashvili</h3><p data-i18n="team.d1">Позиционирование, структура маркетинга и приоритеты запуска.</p></div>
+      </li>
+      <li class="team__card" data-reveal style="--d:.05s">
+        <div class="team__portrait" style="--portrait-position:50% 30%"><img src="assets/img/team/solenov-nikita-v1.jpg" width="759" height="729" alt="Solenov Nikita" loading="lazy" decoding="async"></div>
+        <div class="team__copy"><p class="team__role" data-i18n="team.r2">Chief AI Officer (CAIO)</p><h3>Solenov Nikita</h3><p data-i18n="team.d2">AI-инструменты для исследования, контента и маркетинговых процессов.</p></div>
+      </li>
+      <li class="team__card" data-reveal style="--d:.1s">
+        <div class="team__portrait" style="--portrait-position:50% 27%"><img src="assets/img/team/olga-kozlova-v1.jpg" width="1005" height="1280" alt="Olga Kozlova" loading="lazy" decoding="async"></div>
+        <div class="team__copy"><p class="team__role" data-i18n="team.r3">Head of Content and Communications</p><h3>Olga Kozlova</h3><p data-i18n="team.d3">Редакционная стратегия, экспертный контент и коммуникация бренда.</p></div>
+      </li>
+      <li class="team__card" data-reveal style="--d:.04s">
+        <div class="team__portrait team__portrait--absent" data-mark="DC" aria-hidden="true"></div>
+        <div class="team__copy"><p class="team__role" data-i18n="team.r4">VP of Localization</p><h3>Daniel Chivchyan</h3><p data-i18n="team.d4">Адаптация продуктов и коммуникаций для локальных рынков.</p></div>
+      </li>
+      <li class="team__card" data-reveal style="--d:.08s">
+        <div class="team__portrait team__portrait--absent" data-mark="EL" aria-hidden="true"></div>
+        <div class="team__copy"><p class="team__role" data-i18n="team.r5">Head of SEO</p><h3>Evgeny Lomako</h3><p data-i18n="team.d5">Поисковая стратегия, архитектура сайта и органический трафик.</p></div>
+      </li>
+      <li class="team__card" data-reveal style="--d:.12s">
+        <div class="team__portrait" style="--portrait-position:50% 30%"><img src="assets/img/team/maxim-lopukhov-v1.jpg" width="1280" height="1046" alt="Maxim Lopukhov" loading="lazy" decoding="async"></div>
+        <div class="team__copy"><p class="team__role" data-i18n="team.r6">LinkedIn/B2B Marketing</p><h3>Maxim Lopukhov</h3><p data-i18n="team.d6">Профили, outreach и диалог с целевыми B2B-компаниями.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════ 11. ПАРТНЁРЫ ═══════════════ -->
+<section class="sec ptn" id="partners">
+  <div class="wrap">
+    <div class="head head--split" data-reveal>
+      <h2 class="h2" data-i18n="ptn.h2">Наши партнёры и медиасеть</h2>
+      <p class="head__note" data-i18n="ptn.sub">
+        Широкая сеть медиа, платформ, маркетинговых, технологических и crypto/fintech-партнёров.
+      </p>
+    </div>
+    <!-- Фирменные цвета сохраняются: каждый логотип нормализован только по
+         визуальному размеру, а не превращён в серую декоративную надпись. -->
+    <ul class="logos" data-reveal style="--d:.08s">
+      <li class="logos__brand logos__cointelegraph"><img src="assets/img/logos/cointelegraph.svg" alt="Cointelegraph" loading="lazy" decoding="async" style="--h:30px"></li>
+      <li class="logos__brand logos__light"><img src="assets/img/logos/coindesk.svg" alt="CoinDesk" loading="lazy" decoding="async" style="--h:22px"></li>
+      <li class="logos__brand logos__asset"><img src="assets/img/brands/media/the-block.png" alt="The Block" loading="lazy" decoding="async"></li>
+      <li class="logos__brand logos__light"><img src="assets/img/logos/beincrypto.svg" alt="BeInCrypto" loading="lazy" decoding="async" style="--h:17px"></li>
+      <li class="logos__brand logos__light"><img src="assets/img/logos/forklog.svg" alt="ForkLog" loading="lazy" decoding="async" style="--h:25px"></li>
+      <li class="logos__brand"><img src="assets/img/logos/bitsmedia.png" alt="Bits.media" loading="lazy" decoding="async" style="--h:24px"></li>
+      <li class="logos__brand logos__asset"><img src="assets/img/brands/media/crypto-ru.png" alt="Crypto.ru" loading="lazy" decoding="async"></li>
+      <li class="logos__brand logos__asset"><img src="assets/img/brands/media/coinstore.png" alt="Coinstore" loading="lazy" decoding="async"></li>
+      <li class="logos__brand logos__asset"><img src="assets/img/brands/media/rbc-crypto.png" alt="РБК Крипто" loading="lazy" decoding="async"></li>
+      <li class="logos__brand"><img src="assets/img/logos/yahoo-finance.svg" alt="Yahoo Finance" loading="lazy" decoding="async" style="--h:24px"></li>
+      <li class="logos__brand logos__asset logos__benzinga"><img src="assets/img/brands/media/benzinga.png" alt="Benzinga" loading="lazy" decoding="async"></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════ 12. ФОРМА ═══════════════ -->
+<section class="sec cta" id="contact">
+  <div class="wrap cta__grid">
+    <div class="cta__side" data-reveal>
+      <h2 class="h2" data-i18n="cta.h2">Получите бесплатную консультацию</h2>
+      <p class="cta__sub" data-i18n="cta.sub">
+        Расскажите о проекте — подскажем, какие каналы подойдут именно вам и с чего начать.
+      </p>
+      <ul class="contacts">
+        <li><a href="#" data-soon>Telegram<i></i></a></li>
+        <li><a href="#" data-soon>WhatsApp<i></i></a></li>
+        <li><a href="mailto:hello@vakmarketing.com">hello@vakmarketing.com<i></i></a></li>
+        <li><a href="#" data-soon>LinkedIn<i></i></a></li>
+      </ul>
+    </div>
+
+    <form class="form card" id="lead" novalidate data-reveal style="--d:.08s">
+      <div class="f-row">
+        <label class="f" for="f-name"><span data-i18n="form.name">Имя</span>
+          <input id="f-name" name="name" type="text" autocomplete="name" required></label>
+        <label class="f" for="f-comp"><span data-i18n="form.company">Компания</span>
+          <input id="f-comp" name="company" type="text" autocomplete="organization"></label>
+      </div>
+      <div class="f-row">
+        <label class="f" for="f-site"><span data-i18n="form.site">Сайт</span>
+          <input id="f-site" name="site" type="text" inputmode="url" placeholder="example.com"></label>
+        <label class="f" for="f-cont"><span data-i18n="form.contact">Telegram / Email</span>
+          <input id="f-cont" name="contact" type="text" required placeholder="@username"></label>
+      </div>
+      <label class="f" for="f-srv"><span data-i18n="form.service">Какая услуга интересует?</span>
+        <select id="f-srv" name="service">
+          <option data-i18n="form.o1">Комплексная маркетинговая стратегия</option>
+          <option data-i18n="form.o2">B2B-маркетинг и LinkedIn</option>
+          <option data-i18n="form.o3">PR и размещения в СМИ</option>
+          <option data-i18n="form.o4">SEO и SERP</option>
+          <option data-i18n="form.o5">Автоматизация маркетинга</option>
+          <option data-i18n="form.o6">Образовательные продукты / курс</option>
+          <option data-i18n="form.o7">Translation &amp; Localization</option>
+          <option data-i18n="form.o8" selected>Не знаю, нужна консультация</option>
+        </select></label>
+
+      <label class="hp" aria-hidden="true">Не заполняйте это поле
+        <input type="text" name="website_url" tabindex="-1" autocomplete="off"></label>
+
+      <button class="btn btn--primary btn--wide" type="submit" data-i18n="form.send">Отправить заявку</button>
+      <p class="form__note" id="formNote" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════ 13. ПОДВАЛ ═══════════════ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top">
+      <div class="foot__brand">
+        <a class="brand" href="#hero" aria-label="VAK Marketing">
+          <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="13.2" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/>
+            <path d="M4.6 21.2C9 15 23 15 27.4 21.2" fill="none" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M4.6 10.8C9 17 23 17 27.4 10.8" fill="none" stroke="currentColor" stroke-width="1.1"/>
+            <circle cx="16" cy="16" r="2.1" fill="currentColor"/>
+          </svg>
+          <span class="brand__text">VAK <b>Marketing</b></span>
+        </a>
+        <p data-i18n="foot.desc">
+          Комплексное маркетинговое агентство для iGaming, FinTech, Crypto, Web3 и B2B.
+          Стратегия, бренд, медиа, LinkedIn, B2B-лиды и масштабирование маркетинга.
+        </p>
+      </div>
+
+      <nav class="foot__col" aria-label="Компания">
+        <h4 data-i18n="foot.c1">Компания</h4>
+        <a href="#about" data-i18n="foot.about">О нас</a>
+        <a href="#team" data-i18n="foot.team">Команда</a>
+        <a href="#founder">Founder</a>
+        <a href="#cases" data-i18n="nav.cases">Кейсы</a>
+        <a href="#contact" data-i18n="nav.contacts">Контакты</a>
+      </nav>
+
+      <nav class="foot__col" aria-label="Услуги">
+        <h4 data-i18n="foot.c2">Услуги</h4>
+        <a href="#services" data-i18n="foot.s1">Стратегия и комплексное ведение</a>
+        <a href="#services" data-i18n="foot.s2">B2B-маркетинг и LinkedIn</a>
+        <a href="#services" data-i18n="foot.s3">PR и СМИ</a>
+        <a href="#services" data-i18n="foot.s4">SEO и SERP</a>
+        <a href="#services" data-i18n="foot.s5">Автоматизация маркетинга</a>
+        <a href="#services" data-i18n="foot.s6">Образовательные продукты</a>
+        <a href="#services">Translation &amp; Localization</a>
+      </nav>
+
+      <nav class="foot__col" aria-label="Материалы и контакты">
+        <h4 data-i18n="foot.c3">Материалы</h4>
+        <a href="#" data-soon data-i18n="nav.blog">Блог</a>
+        <a href="#cases" data-i18n="nav.cases">Кейсы</a>
+        <a href="#partners" data-i18n="foot.media">Медиа</a>
+        <a href="#" data-soon>FAQ</a>
+        <h4 class="foot__h2" data-i18n="nav.contacts">Контакты</h4>
+        <a href="#" data-soon>Telegram</a>
+        <a href="#" data-soon>WhatsApp</a>
+        <a href="mailto:hello@vakmarketing.com">hello@vakmarketing.com</a>
+        <a href="#" data-soon>LinkedIn</a>
+      </nav>
+    </div>
+
+    <div class="foot__bot">
+      <span>© <span id="yr">2026</span> VAK Marketing</span>
+      <span data-i18n="foot.rights">Все права защищены</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/i18n.js?v=20260824-08" defer></script>
+<script src="assets/js/main.js?v=20260824-04" defer></script>
+  <script type="module" src="assets/js/scene.js?v=20260824-15"></script>
+</body>
+</html>

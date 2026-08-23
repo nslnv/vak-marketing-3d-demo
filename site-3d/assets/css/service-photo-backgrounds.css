@@ -1,0 +1,15 @@
+/* Фотосерия для шести карточек услуг. Каждый кадр остаётся приглушённым,
+   чтобы заголовки и описание сохраняли высокий контраст. */
+.srv__card{overflow:hidden;isolation:isolate}
+.srv__card::before{z-index:0;
+  background:
+    linear-gradient(90deg,rgba(10,8,21,.94) 0%,rgba(11,8,23,.74) 45%,rgba(11,8,23,.28) 100%),
+    linear-gradient(180deg,rgba(24,18,45,.12),rgba(8,6,18,.34)),
+    var(--service-photo) 72% 50%/cover no-repeat}
+.srv__card:nth-child(1){--service-photo:url('../img/services/web/strategy-photo-v1.jpg')}
+.srv__card:nth-child(2){--service-photo:url('../img/services/web/linkedin-photo-v1.jpg')}
+.srv__card:nth-child(3){--service-photo:url('../img/services/web/pr-media-photo-v1.jpg')}
+.srv__card:nth-child(4){--service-photo:url('../img/services/web/ai-seo-photo-v1.jpg')}
+.srv__card:nth-child(5){--service-photo:url('../img/services/web/course-photo-v1.jpg')}
+.srv__card:nth-child(6){--service-photo:url('../img/services/web/localization-photo-v1.jpg')}
+.srv__body{position:relative;z-index:1}
