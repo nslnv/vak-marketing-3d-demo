@@ -551,26 +551,24 @@ if (rail) {
   syncRail();
 }
 
-/* ── клиенты: кольцо шкалы ──────────────────────────────────────────────
-   Лента не «бежит» с постоянной скоростью, а проворачивается: скорость
-   складывается из медленного дрейфа в покое и прокрутки страницы — вниз
-   вперёд, вверх назад, как реагирует и сам прибор. Резкость имени считается
-   от расстояния до фокальной плоскости, поэтому края полосы гасит расфокус,
-   а не градиент. При наведении плоскость переезжает под курсор и лента почти
-   замирает: наводку на резкость делает сам посетитель. */
+/* ── клиенты: спокойная лента оригинальных логотипов ────────────────────
+   Скорость очень низкая, а прокрутка лишь деликатно задаёт направление.
+   Никакого blur/focus-эффекта: каждая марка остаётся читаемой по всей ленте.
+   При наведении движение почти останавливается, чтобы спокойно рассмотреть
+   конкретный логотип. */
 var ringEl = $('#ring'), ringSet = $('#ringSet');
 if (ringEl && ringSet && !reduced) (function () {
-  var PAD = 64;          // запас за краями, чтобы имя уезжало целиком
-  var DRIFT = 25;        // px/с в покое
-  var GAIN = 0.40;       // вклад скорости прокрутки
-  var VMAX = 620;        // потолок, выше лента мажет
-  var SLOW = 0.13;       // во сколько раз лента медленнее под курсором
+  var PAD = 28;          // знак целиком уезжает за край до повтора
+  var DRIFT = 7;         // px/с в покое — медленный, спокойный ритм
+  var GAIN = 0.05;       // у прокрутки только небольшой вклад
+  var VMAX = 80;         // без разгона при резком wheel / trackpad
+  var SLOW = 0.12;       // под курсором почти останавливается
 
   var src = $$('.ring__i', ringSet);
   if (!src.length) return;
 
-  var items = [], W = 0, setW = 0, L = 0, maxW = 0, half0 = 0, blurMax = 4.6;
-  var offset = 0, v = DRIFT, hov = 0, hovT = 0, foc = .5, focT = .5;
+  var items = [], W = 0, setW = 0, L = 0, maxW = 0;
+  var offset = 0, v = DRIFT, hov = 0, hovT = 0;
   var lastY = scrollY, sv = 0, prevT = 0, onScreen = true, built = false;
 
   function build() {
@@ -585,7 +583,7 @@ if (ringEl && ringSet && !reduced) (function () {
     W = ringEl.clientWidth;
     if (!W) return;
 
-    var g = Math.max(26, Math.min(72, W * 0.042));
+    var g = Math.max(32, Math.min(64, W * 0.036));
     var gaps = [], h = 0;
     setW = 0; maxW = 0;
 
@@ -605,13 +603,6 @@ if (ringEl && ringSet && !reduced) (function () {
     var N = Math.max(1, Math.min(8, Math.ceil((W + maxW + 2 * PAD) / setW)));
     L = setW * N;
 
-    /* Зона резкости не может быть уже самого длинного имени: на узкой полосе
-       W*0.30 меньше, чем «Ethereum Foundation», и тогда ни одно имя не успевает
-       стать чётким целиком — лента читается размытым обрезком. Там же приглушено
-       и само размытие: при мелком кегле 4.6 px съедают букву целиком. */
-    half0 = Math.max(W * 0.30, maxW * 0.62);
-    blurMax = W < 620 ? 2.6 : 4.6;
-
     for (var c = 0; c < N; c++) {
       var at = c * setW;
       for (var i = 0; i < src.length; i++) {
@@ -622,8 +613,9 @@ if (ringEl && ringSet && !reduced) (function () {
           el.removeAttribute('data-i18n');
           ringSet.appendChild(el);
         }
-        el.style.setProperty('--gh', (gaps[i] / 2) + 'px');
-        items.push({ el: el, w: src[i].offsetWidth, base: at, clone: c > 0, b: -1, s: -1, vis: -1 });
+        el.style.filter = 'none';
+        el.style.textShadow = 'none';
+        items.push({ el: el, w: src[i].offsetWidth, base: at, clone: c > 0, vis: -1 });
         at += src[i].offsetWidth + gaps[i];
       }
     }
@@ -645,12 +637,8 @@ if (ringEl && ringSet && !reduced) (function () {
     var vT = Math.max(-VMAX, Math.min(VMAX, DRIFT + sv * GAIN));
     v   += (vT   - v)   * (1 - Math.pow(1 - .11, dt * 60));
     hov += (hovT - hov) * (1 - Math.pow(1 - .12, dt * 60));
-    foc += (focT - foc) * (1 - Math.pow(1 - .14, dt * 60));
 
     offset += v * (1 - hov * (1 - SLOW)) * dt;
-
-    var fx = W * (.5 + (foc - .5) * hov);      // фокальная плоскость
-    var half = half0 * (1 - .30 * hov);        // под курсором зона резкости уже
 
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
@@ -663,30 +651,9 @@ if (ringEl && ringSet && !reduced) (function () {
         continue;
       }
 
-      var d = (x + it.w / 2 - fx) / half;
-      var f = Math.exp(-d * d * 1.35);
-
-      /* Переданные логотипы клиентов остаются различимыми по всей ленте.
-         В расфокус уходит только типографика и служебные NDA-знаки: иначе
-         реальные цветные марки с краёв снова выглядели бы как заглушки. */
-      var isBrand = it.el.classList.contains('ring__i--brand');
-      it.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,-50%,0) translateY('
-        + (isBrand ? 0 : ((1 - f) * 3.2)).toFixed(2) + 'px) scale('
-        + (isBrand ? 1 : (.972 + .028 * f)).toFixed(3) + ')';
-      it.el.style.opacity = (isBrand ? .96 : (.20 + .80 * f)).toFixed(3);
-      it.el.style.color = 'rgb(' + (166 + 89 * f | 0) + ',' + (160 + 95 * f | 0)
-        + ',' + (194 + 61 * f | 0) + ')';
+      it.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,-50%,0)';
+      it.el.style.opacity = '1';
       it.vis = 1;
-
-      /* Размытие и свечение переписываются только при заметном изменении:
-         это самые дорогие свойства, и гнать их каждый кадр незачем. */
-      var b = isBrand ? 0 : Math.round((1 - f) * blurMax / .3) * .3;
-      if (b !== it.b) { it.el.style.filter = b > .05 ? 'blur(' + b.toFixed(1) + 'px)' : 'none'; it.b = b; }
-      var s = f > .45 ? Math.round(f * 10) / 10 : 0;
-      if (s !== it.s) {
-        it.el.style.textShadow = s ? '0 0 42px rgba(180,150,255,' + (.5 * s * s).toFixed(2) + ')' : 'none';
-        it.s = s;
-      }
     }
   }
 
@@ -698,12 +665,7 @@ if (ringEl && ringSet && !reduced) (function () {
     draw(dt);
   }
 
-  ringEl.addEventListener('pointermove', function (e) {
-    if (e.pointerType !== 'mouse') return;
-    var r = ringEl.getBoundingClientRect();
-    focT = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
-    hovT = 1;
-  });
+  ringEl.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hovT = 1; });
   ringEl.addEventListener('pointerleave', function () { hovT = 0; });
 
   if ('IntersectionObserver' in window) {

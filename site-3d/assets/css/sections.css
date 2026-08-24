@@ -334,63 +334,47 @@
 }
 
 /* ═══ 7. КЛИЕНТЫ ════════════════════════════════════════════════════════ */
-/* Кольцо шкалы объектива, а не бегущая строка. Имена едут мимо неподвижной
-   фокальной плоскости и резкие только в ней; края полосы гасит расфокус, а не
-   градиентная маска (маска здесь лишь снимает жёсткий срез размытия). Размеры
-   имён и промежутки заданы поимённо, поэтому лента читается композицией.
-   Позиции, резкость и цвет считает main.js — CSS задаёт только исходное
-   состояние и запасной вариант.
-
-   Базовый вид (без JS, при prefers-reduced-motion и до инициализации) —
-   прежняя стена имён с наводкой на резкость по наведению. */
-.ring__set{display:flex;flex-wrap:wrap;align-items:baseline;
-  gap:clamp(10px,1.4vw,22px) clamp(20px,2.8vw,46px);
-  margin:0;padding:clamp(6px,1vw,18px) 0;list-style:none}
-.ring__i{font-size:calc(clamp(19px, 2.05vw, 34px) * var(--k, 1));
-  font-weight:200;letter-spacing:-.032em;line-height:1.24;color:var(--ink-2);
-  white-space:nowrap}
+/* Спокойная движущаяся лента с исходными логотипами. Марки остаются крупными
+   и полностью резкими по всей ширине; движение служит только живым ритмом,
+   а не эффектом «скрыть-показать». Без JS видна такая же чистая сетка. */
+.ring__set{display:flex;flex-wrap:wrap;align-items:center;
+  gap:clamp(20px,2vw,32px) clamp(26px,3.2vw,52px);
+  margin:0;padding:clamp(8px,1.2vw,18px) 0;list-style:none}
+.ring__i{color:var(--ink);white-space:nowrap}
 .ring__i span{display:inline-block}
-.ring__i--logo{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:5px;height:78px;width:max-content;min-width:calc(var(--lw,56px) + 22px)}
-.ring__logo{width:var(--lw,56px);height:43px;fill:currentColor}
-.ring__logo--stroke{fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.ring__name{display:block;font-family:var(--f);font-size:10px;font-weight:500;
-  letter-spacing:.015em;line-height:1.1;color:currentColor;white-space:nowrap}
+.ring__name{display:block;font-family:var(--f);font-size:clamp(11px,.82vw,13px);
+  font-weight:500;letter-spacing:.005em;line-height:1.16;color:var(--ink-2);white-space:nowrap}
 .ring__i--brand{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:5px;height:78px;min-width:82px}
-.ring__brand{display:block;width:54px;height:42px;object-fit:contain;filter:none;opacity:1}
-.ring__brand--small{width:32px;height:32px;image-rendering:auto}
-.ring__name small{display:block;margin-top:2px;font-size:8px;font-weight:400;opacity:.68;white-space:nowrap}
-@media (hover:hover){
-  .ring:not(.is-live) .ring__i{
-    transition:color .45s var(--e),opacity .45s var(--e),filter .45s var(--e)}
-  .ring:not(.is-live):hover .ring__i{opacity:.34;filter:blur(3.5px)}
-  .ring:not(.is-live) .ring__i:hover{opacity:1;filter:none;color:#fff;
-    text-shadow:0 0 42px rgba(180,150,255,.55)}
-}
+  gap:10px;height:clamp(102px,9vw,128px);width:clamp(142px,11.6vw,172px);min-width:0;
+  box-sizing:border-box;padding:12px 16px}
+.ring__brand{display:block;width:74px;height:62px;max-width:100%;object-fit:contain;filter:none;opacity:1}
+.ring__brand--symbol{width:72px;height:64px}
+.ring__brand--wordmark{width:min(100%,154px);height:54px}
+.ring__brand--ethereum{padding:5px;box-sizing:border-box;border-radius:12px;background:#f7f6fb}
+.ring__brand--huobi{width:70px;height:64px}
+.ring__brand--next-on{width:112px;height:54px}
+.ring__brand--1ghs{width:146px;height:46px;border-radius:6px}
+.ring__brand--new-level{width:146px;height:52px;box-sizing:border-box;padding:7px 10px;border-radius:7px;background:#f6f5f2}
+.ring__i--nda{gap:7px}
+.ring__nda{font-family:var(--f);font-size:clamp(36px,3.2vw,48px);font-weight:200;line-height:.9;
+  letter-spacing:-.055em;color:#F1EDFF}
 @media (max-width:640px){
-  .ring__set{gap:clamp(8px,2vw,16px) clamp(16px,4vw,28px)}
+  .ring__set{gap:16px 24px}
+  .ring__i--brand{height:92px;width:128px;min-width:0;padding:10px 12px;gap:7px}
+  .ring__brand--symbol{width:58px;height:50px}
+  .ring__brand--wordmark{width:min(100%,118px);height:42px}
+  .ring__brand--1ghs{width:116px;height:38px}
+  .ring__brand--new-level{width:118px;height:42px;padding:6px 8px}
+  .ring__nda{font-size:34px}
 }
 
-/* Рабочее состояние: полоса с обрезкой, имена расставлены абсолютно. */
-.ring.is-live{position:relative;overflow:hidden;height:var(--ring-h,116px);
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 clamp(20px,4vw,54px),
-    #000 calc(100% - clamp(20px,4vw,54px)),transparent);
-          mask-image:linear-gradient(90deg,transparent,#000 clamp(20px,4vw,54px),
-    #000 calc(100% - clamp(20px,4vw,54px)),transparent)}
+/* Рабочее состояние: бесшовная спокойная лента без маски, размытия и
+   декоративных разделителей — движутся только реальные логотипы. */
+.ring.is-live{position:relative;overflow:hidden;height:var(--ring-h,156px)}
 .ring.is-live .ring__set{display:block;padding:0;gap:0;height:100%}
 .ring.is-live .ring__i{position:absolute;top:50%;left:0;
   transform-origin:50% 50%;transition:none;will-change:transform;
   backface-visibility:hidden}
-
-/* Гравированные штрихи в промежутках — шкала на кольце, а не точки-разделители.
-   Ритм 4n+1 не кратен девяти именам, поэтому между копиями набора он смещается
-   и рисунок штрихов не повторяется. Штрих лежит внутри имени, значит уходит
-   в расфокус вместе с ним. */
-.ring.is-live .ring__i::after{content:'';position:absolute;left:100%;top:50%;
-  width:1px;height:9px;margin:-4.5px 0 0 var(--gh,26px);
-  background:currentColor;opacity:.26}
-.ring.is-live .ring__i:nth-child(4n+1)::after{height:17px;margin-top:-8.5px;opacity:.4}
 
 /* Между гармошкой направлений и закреплённой колодой услуг раньше складывались
    два полных вертикальных отступа секций. Эта пара блоков читается как единый
@@ -407,29 +391,21 @@
   margin:0;padding:0;list-style:none;
   border-top:1px solid var(--line);border-left:1px solid var(--line)}
 .logos li{position:relative;display:flex;align-items:center;justify-content:center;
-  min-height:clamp(88px,9vw,124px);padding:18px 20px;
+  min-height:clamp(112px,10.5vw,148px);padding:20px 24px;
   border-right:1px solid var(--line);border-bottom:1px solid var(--line);
   color:rgba(255,255,255,.46);
   transition:color .45s var(--e),background .45s var(--e)}
-.logos img{height:var(--h,26px);width:auto;max-width:82%;object-fit:contain;opacity:.46;
-  filter:brightness(0) invert(1);
+.logos img{height:var(--h,38px);width:auto;max-width:84%;object-fit:contain;opacity:1;filter:none;
   transition:opacity .45s var(--e),filter .45s var(--e),transform .5s var(--e-out)}
 .logos li.logos__brand{background:rgba(255,255,255,.018)}
-.logos li.logos__brand img{height:var(--h,26px);max-width:72%;opacity:1;filter:none;position:relative;z-index:1}
-.logos li.logos__asset img{height:clamp(34px,4.3vw,58px)}
+.logos li.logos__brand img{height:var(--h,38px);max-width:84%;opacity:1;filter:none;position:relative;z-index:1}
+.logos li.logos__asset img{height:clamp(48px,5.4vw,74px)}
 /* У официальных файлов CoinDesk / BeInCrypto / ForkLog тёмный леттеринг.
    Светлая компактная плашка сохраняет исходные цвета и даёт им контраст, не
    превращая всю ячейку в белую карточку. */
-.logos li.logos__light::before{content:'';position:absolute;width:min(78%,230px);height:46px;
+.logos li.logos__light::before{content:'';position:absolute;width:min(84%,248px);height:58px;
   border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 8px 22px rgba(0,0,0,.16)}
 .logos li.logos__light img{opacity:1;filter:none}
-/* Cointelegraph передан в светлой выворотке: сохраняем оригинальную марку,
-   но задаём ей фирменный янтарный цвет вместо нейтрального серого. */
-.logos li.logos__cointelegraph img{opacity:1;
-  filter:brightness(0) saturate(100%) invert(72%) sepia(83%) saturate(775%) hue-rotate(1deg) brightness(104%) contrast(103%)}
-/* Benzinga — белая аббревиатура на фирменном синем поле из присланного знака. */
-.logos li.logos__benzinga::before{content:'';position:absolute;width:80px;height:48px;border-radius:8px;background:#102A50}
-.logos li.logos__benzinga img{max-width:56px}
 /* пока официального файла нет — имя набрано нашим шрифтом в той же краске */
 .logos li[data-logo-todo] span{font-size:clamp(15px,1.35vw,19px);font-weight:500;
   letter-spacing:-.012em;white-space:nowrap;
@@ -437,12 +413,8 @@
 
 @media (hover:hover){
   .logos li:hover{color:#fff;background:rgba(124,92,255,.055)}
-  .logos li:hover img{opacity:1;transform:translateY(-2px);
-    filter:brightness(0) invert(1)
-           drop-shadow(-1.5px 0 rgba(124,92,255,.60))
-           drop-shadow(1.5px 0 rgba(98,228,255,.55))}
+  .logos li:hover img{opacity:1;transform:translateY(-2px);filter:none}
   .logos li.logos__brand:hover img{filter:none;transform:translateY(-2px) scale(1.025)}
-  .logos li.logos__cointelegraph:hover img{filter:brightness(0) saturate(100%) invert(72%) sepia(83%) saturate(775%) hue-rotate(1deg) brightness(104%) contrast(103%)}
   .logos li[data-logo-todo]:hover span{transform:translateY(-2px)}
 }
 /* тонкая подсветка кромки ячейки под курсором */
@@ -483,8 +455,9 @@
     linear-gradient(180deg,rgba(11,8,22,.80),rgba(8,6,17,.86));
   transition:border-color .45s var(--e),transform .5s var(--e)}
 .case:hover{border-color:rgba(255,255,255,.2);transform:translateY(-4px)}
-.case__h{display:flex;align-items:center;gap:14px;min-height:58px}
-.case__logo{width:52px;height:52px;flex:0 0 52px;object-fit:contain;border-radius:11px}
+.case__h{display:flex;align-items:center;gap:14px;min-height:68px}
+.case__logo{width:64px;height:64px;flex:0 0 64px;object-fit:contain;border-radius:11px}
+.case__logo--wordmark{width:96px;height:46px;flex-basis:96px;border-radius:7px}
 .case__t{font-size:clamp(22px,2vw,30px);font-weight:300;letter-spacing:-.03em}
 .case__meta{display:block;margin-top:8px;font-size:13px;color:#A794FF}
 .case__b{margin-top:20px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}

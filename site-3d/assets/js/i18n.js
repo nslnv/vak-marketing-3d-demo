@@ -80,7 +80,7 @@ var EN = {
   /* клиенты */
   'cli.h2':'Trusted by projects in Crypto, FinTech, iGaming and Web3',
   'cli.sub':'International blockchain companies, crypto ecosystems, payment services, exchanges, iGaming projects and founders.',
-  'cli.nda':'<span>NDA iGaming brands</span>',
+  'cli.nda':'<span>NDA iGaming projects</span>',
 
   /* кейсы */
   'cs.h2':'Cases and results',
