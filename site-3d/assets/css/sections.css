@@ -36,6 +36,15 @@
   .hero__act{flex-direction:column;align-items:stretch}
   .hero__act .btn{width:100%}
 }
+/* В коротком landscape-окне герой остаётся обычным читаемым блоком, а не
+   пытается втиснуть текст, кнопки и фиксированную сцену в одну высоту. */
+@media (max-width:900px) and (max-height:560px) and (orientation:landscape){
+  .hero{min-height:auto;align-items:flex-start;padding-top:calc(var(--nav-h) + 24px);padding-bottom:52px}
+  .hero__h1{max-width:17.5em;margin-bottom:14px;font-size:clamp(28px,4vw,36px)}
+  .hero__sub{max-width:58ch;margin-bottom:18px;font-size:15px;line-height:1.5}
+  .hero__act{gap:10px}
+  .hero__act .btn{height:46px}
+}
 
 /* ═══ 3. О НАС ══════════════════════════════════════════════════════════ */
 .about__grid{display:grid;gap:clamp(26px,3vw,56px);
@@ -85,7 +94,7 @@
   background:linear-gradient(101deg,#7958F8,#B849FF 53%,#F85BB8);
   box-shadow:0 13px 34px -18px rgba(181,85,255,.95)}
 .about__body .link-arrow:hover{color:#fff;transform:translateY(-2px);box-shadow:0 18px 42px -17px rgba(181,85,255,1)}
-@media (max-width:900px){.about__grid{grid-template-columns:minmax(0,1fr)}.about__body{min-width:0}.about__stage{min-height:clamp(310px,72vw,390px);width:min(100%,520px)}.about__module-labels{display:none}
+@media (max-width:900px){.about__grid{grid-template-columns:minmax(0,1fr)}.about__body{min-width:0}.about__stage{min-height:clamp(310px,72vw,390px);width:min(100%,520px);margin-inline:auto}.about__module-labels{display:none}
   .about__module-label{bottom:-52px;width:70px}.about__module-label span{font-size:8.5px;line-height:1.1}.about__module-label small{display:none}}
 
 /* ═══ 4. ЦИФРЫ ══════════════════════════════════════════════════════════ */
@@ -153,12 +162,13 @@
   transition:opacity .34s ease .10s,transform .40s var(--e-out) .10s}
 @media (max-width:900px){
   .slats{display:block;min-height:0;border-bottom:0}
-  .slat{min-height:220px;padding-inline:clamp(18px,4vw,30px);padding-block:22px;border-bottom:1px solid var(--line)}
+  .slat{min-height:clamp(230px,58vw,276px);padding:26px clamp(20px,5vw,30px) 24px;
+    border-bottom:1px solid var(--line);cursor:default}
   .slat+.slat{border-left:0}
-  .slat__photo{opacity:.54}
-  .slat.is-open .slat__photo{opacity:.65}
-  .slat__t{min-height:0}
-  .slat__d{opacity:1;transform:none;max-width:100%}
+  .slat__photo{opacity:.58;filter:saturate(.78) brightness(.84) contrast(1.04)}
+  .slat.is-open .slat__photo{opacity:.68}
+  .slat__t{min-height:0;font-size:clamp(19px,5.4vw,24px);line-height:1.18}
+  .slat__d{opacity:1;transform:none;max-width:37ch;font-size:14.5px;line-height:1.58}
   .slat.is-open{flex-grow:1}
   .slat::after{display:none}
 }
@@ -257,6 +267,15 @@
   .srv__grid{grid-template-columns:1fr}
   .srv__panel{position:static}
   .srv__panel .card{min-height:0}
+  .srv__grid{gap:20px}
+  .srv__deck{gap:14px}
+  .srv__card{min-height:clamp(276px,70vw,340px);padding:clamp(22px,5.5vw,32px);border-radius:20px}
+  .srv__t{margin-bottom:11px;font-size:clamp(23px,6.2vw,29px);line-height:1.14}
+  .srv__d{margin-bottom:0;max-width:36ch;font-size:15px;line-height:1.58}
+  .srv__body .link-arrow{min-height:44px;margin-top:auto;padding-top:14px}
+  /* На телефоне карточки уже содержат полный текст и действие. Дублирующая
+     шкала добавляла шесть одинаковых строк без нового сценария. */
+  .srv__list{display:none}
 }
 
 /* ─── десктоп: колода по центру ──────────────────────────────────────────
@@ -366,10 +385,15 @@
   .ring__brand--1ghs{width:116px;height:38px}
   .ring__brand--new-level{width:118px;height:42px;padding:6px 8px}
   .ring__nda{font-size:34px}
+  /* Логотип входит и выходит через мягкую кромку: обрезанная половина
+     подписи не цепляет взгляд, а спокойный ритм ленты сохраняется. */
+  .ring.is-live{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%)}
 }
 
-/* Рабочее состояние: бесшовная спокойная лента без маски, размытия и
-   декоративных разделителей — движутся только реальные логотипы. */
+/* Рабочее состояние: бесшовная спокойная лента без размытия и декоративных
+   разделителей — движутся только реальные логотипы. На телефоне выше есть
+   лишь мягкая кромка, чтобы не обрывать подпись по букве. */
 .ring.is-live{position:relative;overflow:hidden;height:var(--ring-h,156px)}
 .ring.is-live .ring__set{display:block;padding:0;gap:0;height:100%}
 .ring.is-live .ring__i{position:absolute;top:50%;left:0;

@@ -741,11 +741,19 @@ function boot(canvas) {
   /* На desktop зазор чуть шире: каждая часть читается отдельно, но вся
      раскладка всё ещё остаётся единым прибором в пределах сцены About. */
   const desktopAssemblyTravel = layoutAlongOpticalAxis(0.84);
-  const compactAssemblyTravel = layoutAlongOpticalAxis(0.22);
+  /* Телефон не получает «игрушечную» версию прибора. Детали раскрываются
+     заметно, но остаются в спокойном осевом коридоре самой сцены About. */
+  const mobileAssemblyTravel = layoutAlongOpticalAxis(0.30);
+  const tabletAssemblyTravel = layoutAlongOpticalAxis(0.52);
+  /* Короткий landscape даёт достаточно ширины, но мало высоты: ход шире,
+     чем на телефоне, и всё ещё спокойнее tablet-варианта. */
+  const landscapeAssemblyTravel = layoutAlongOpticalAxis(0.42);
   const aboutAssemblyMotion = aboutAssemblyBounds.map((item, i) => ({
     node: item.node,
     travel: desktopAssemblyTravel[i],
-    compactTravel: compactAssemblyTravel[i],
+    mobileTravel: mobileAssemblyTravel[i],
+    tabletTravel: tabletAssemblyTravel[i],
+    landscapeTravel: landscapeAssemblyTravel[i],
     /* Лёгкий поворот ловит свет на кромках, но не нарушает ровную ось. */
     turn: [-0.018, -0.010, 0, 0.010, 0.018][i],
     pitch: 0,
@@ -1084,13 +1092,24 @@ function boot(canvas) {
     { cz:7.5, cy:.07, x:-.72, y:.00, z:-.08, rx:-.075, ry:.78, s:.56, sp:.86, br:.51, op:.72, ro:-.009 },
     { cz:7.60, cy:-.01, x:.85, y:-.19, z:-.37, rx:-.13, ry:.92, s:.39, sp:.99, br:.44, op:.34, ro:-.004 }
   ];
+  /* Отдельная мобильная постановка. Координаты ведут модель ровно через
+     прямоугольник #aboutStage: она приходит снизу-слева, раскрывается по
+     центру, собирается и спокойно уходит до начала основного текста. */
   const ABOUT_COMPACT_POSES = [
-    { cz:7.3, cy: .08, x:-2.35, y:2.62, z: .10, rx:-.07, ry:.76, s:.31, sp:.78, br:.52, op:.70, ro:-.010 },
-    { cz:7.4, cy: .08, x:-1.30, y:2.24, z:-.03, rx:-.07, ry:.77, s:.28, sp:.82, br:.50, op:.58, ro:-.009 },
-    { cz:7.6, cy: .02, x: 2.40, y:1.62, z:-.52, rx:-.14, ry:1.10, s:.20, sp:1.02, br:.42, op:.24, ro: .002 },
-    { cz:7.7, cy:-.06, x: 4.20, y:1.14, z:-.90, rx:-.18, ry:1.24, s:.15, sp:1.08, br:.38, op:.12, ro: .004 }
+    { cz:7.3, cy: .08, x:-2.10, y: .12, z: .10, rx:-.07, ry:.76, s:.36, sp:.78, br:.52, op:.76, ro:-.010 },
+    { cz:7.4, cy: .08, x:-0.20, y:2.10, z:-.03, rx:-.07, ry:.77, s:.52, sp:.82, br:.52, op:.76, ro:-.009 },
+    { cz:7.5, cy: .06, x:-0.08, y:2.80, z:-.08, rx:-.075,ry:.79, s:.46, sp:.86, br:.50, op:.70, ro:-.008 },
+    { cz:7.6, cy: .02, x: 1.10, y:3.20, z:-.32, rx:-.12, ry:.90, s:.28, sp:.98, br:.42, op:.22, ro:-.004 }
   ];
   const FIELDS = ['cz', 'cy', 'x', 'y', 'z', 'rx', 'ry', 's', 'sp', 'br', 'op', 'ro'];
+  /* ResolveKeys меняет p/pose мобильных ключей на лету. Храним неизменную
+     desktop-копию, чтобы поворот устройства или resize возвращал точную
+     исходную траекторию, а не оставлял в PCHIP сжатые phone-координаты. */
+  const ABOUT_KEY_BLUEPRINT = KEYS.filter(k => k.sec === 'about').map(k => {
+    const blueprint = { p: k.p };
+    for (const field of FIELDS) blueprint[field] = k[field];
+    return blueprint;
+  });
 
   /* Монотонный кубический сплайн (PCHIP) вместо покадрового сглаживания.
      Кусочные кривые давали разрыв скорости на стыках: отрезок заканчивался
@@ -1107,19 +1126,49 @@ function boot(canvas) {
   function resolveKeys() {
     const max = document.documentElement.scrollHeight - innerHeight;
     if (max <= 0) return;
-    /* На узком портрете сцена короче: финал должен случиться, пока сама
-       зона ещё видна, а не после того, как пользователь уже читает текст.
-       На desktop остаётся неспешная последовательность из согласованного
-       сценария. */
-    const compactAbout = innerWidth / Math.max(innerHeight, 1) < 0.85;
-    /* На desktop сборка получает отдельный длинный участок до начала ухода.
-       На compact-экранах остаётся лёгкий пролёт без «взрыва» деталей. */
-    const aboutKeyP = compactAbout ? [0.08, 0.26, 0.52, 0.80] : [0.12, 0.42, 0.90, 0.975];
+    /* Порог совпадает с CSS-разметкой. Иначе телефон в landscape случайно
+       попадал в desktop-сцену: 3D шёл через текст, а подписи уже были скрыты. */
+    const compactAbout = innerWidth <= 900;
+    /* На mobile всё действие происходит в экранной зоне сцены до начала
+       copy; на desktop остаётся длинная режиссура с отдельной паузой. */
+    const aboutKeyP = compactAbout ? [0.07, 0.22, 0.40, 0.54] : [0.12, 0.42, 0.90, 0.975];
     const aboutPoses = compactAbout ? ABOUT_COMPACT_POSES : ABOUT_DESKTOP_POSES;
+    /* Сначала всегда возвращаем полный desktop-маршрут: этот вызов идёт и
+       при смене ориентации, когда прежняя compact-версия уже успела
+       переписать промежуточные exit-ключи. */
+    KEYS.filter(k => k.sec === 'about').forEach((k, index) => {
+      const blueprint = ABOUT_KEY_BLUEPRINT[index];
+      if (!blueprint) return;
+      k.p = blueprint.p;
+      for (const field of FIELDS) k[field] = blueprint[field];
+    });
     for (const k of KEYS) {
       if (k.aboutSlot == null) continue;
       k.p = aboutKeyP[k.aboutSlot];
       Object.assign(k, aboutPoses[k.aboutSlot]);
+    }
+    if (compactAbout) {
+      /* Между основными ключами desktop есть несколько очень плотных
+         выходных кадров. На телефоне они раньше оставались с desktop p,
+         ломали порядок PCHIP и тянули модель через copy. Собираем их в одну
+         короткую, строго возрастающую траекторию внутри #aboutStage. */
+      const compactKeys = KEYS.filter(k => k.sec === 'about');
+      const compactP = [0.07, 0.22, 0.30, 0.40, 0.43, 0.46, 0.49, 0.52, 0.54, 0.56, 0.58];
+      const lerpPose = (a, b, t) => {
+        const pose = {};
+        for (const field of FIELDS) pose[field] = THREE.MathUtils.lerp(a[field], b[field], t);
+        return pose;
+      };
+      compactKeys.forEach((k, index) => {
+        const pose = index === 0 ? ABOUT_COMPACT_POSES[0]
+          : index === 1 || index === 2 ? ABOUT_COMPACT_POSES[1]
+          : index === 3 ? ABOUT_COMPACT_POSES[2]
+          : index >= 4 && index <= 7
+            ? lerpPose(ABOUT_COMPACT_POSES[2], ABOUT_COMPACT_POSES[3], (index - 3) / 5)
+            : ABOUT_COMPACT_POSES[3];
+        k.p = compactP[index] || compactP[compactP.length - 1];
+        for (const field of FIELDS) k[field] = pose[field];
+      });
     }
     /* На портретных блоках в вертикальном режиме нет свободного поля рядом
        с copy, поэтому прибор не уменьшается до полупрозрачного шума, а
@@ -1454,26 +1503,31 @@ function boot(canvas) {
     const aboutProgress = Math.min(1, Math.max(0, (scrollS - aboutStart) / Math.max(1e-5, aboutEnd - aboutStart)));
     const aboutEnter = easeRange(aboutProgress, 0.00, 0.08);
     const aboutLand = easeRange(aboutProgress, 0.03, 0.27);
-    const compactAbout = W / Math.max(H, 1) < 0.85;
+    /* Весь mobile-layout (включая короткий landscape) использует отдельную
+       сцену About. Это тот же breakpoint, что у CSS, поэтому модель никогда
+       не попадает в desktop-хореографию поверх одноколоночного copy. */
+    const compactAbout = W <= 900;
+    const portraitLayout = W / Math.max(H, 1) < 0.85;
+    const compactTablet = compactAbout && W > 600 && H > 560;
     const aboutArrive = Math.min(0.72, Math.max(0.22, aboutBeats[1] || 0.37));
     const aboutLeave = Math.min(0.94, Math.max(aboutArrive + 0.24, aboutBeats[2] || 0.73));
-    const aboutCenterHold = compactAbout ? aboutArrive + (aboutLeave - aboutArrive) * 0.56
+    const aboutCenterHold = compactAbout ? 0.39
       : Math.min(aboutLeave - 0.06, Math.max(aboutArrive + 0.10, aboutNamedBeats.centerHold || aboutArrive + 0.20));
     const aboutSpan = aboutLeave - aboutArrive;
     /* Каскад читается как единая механическая операция: раскрытие занимает
        длинный вход к центральной опоре, затем есть пауза, а обратная сборка
        развёрнута почти на весь второй участок до K2. */
     const openSpan = Math.max(0.06, aboutCenterHold - aboutArrive);
-    const openStart = compactAbout ? aboutArrive + aboutSpan * 0.08 : aboutArrive + openSpan * 0.05;
-    const openDuration = compactAbout ? aboutSpan * 0.26 : openSpan * 0.28;
-    const openStep = compactAbout ? aboutSpan * 0.045 : openSpan * 0.06;
+    const openStart = compactAbout ? 0.09 : aboutArrive + openSpan * 0.05;
+    const openDuration = compactAbout ? 0.12 : openSpan * 0.28;
+    const openStep = compactAbout ? 0.024 : openSpan * 0.06;
     /* Сборка идёт неспешной обратной волной. Между состояниями достаточно
        scroll-длины, чтобы следующий узел не успевал «перепрыгнуть» в глазах. */
     const closeSpan = Math.max(0.06, aboutLeave - aboutCenterHold);
-    const closeStart = compactAbout ? aboutArrive + aboutSpan * 0.42
+    const closeStart = compactAbout ? 0.33
       : aboutCenterHold;
-    const closeStep = compactAbout ? aboutSpan * 0.05 : closeSpan * 0.06;
-    const closeDuration = compactAbout ? aboutSpan * 0.34 : closeSpan * 0.70;
+    const closeStep = compactAbout ? 0.020 : closeSpan * 0.06;
+    const closeDuration = compactAbout ? 0.12 : closeSpan * 0.70;
     aboutAssemblyDrive.fill(0);
     let aboutOpen = 0;
     for (let i = 0; i < aboutAssemblyMotion.length; i++) {
@@ -1483,9 +1537,9 @@ function boot(canvas) {
          отрезок скролла, а не сжимается в один короткий рывок. */
       const closeFrom = closeStart + (4 - i) * closeStep;
       const closeTo = closeFrom + closeDuration;
-      /* На телефоне не превращаем текстовый About в тяжёлую мини-сцену:
-         объект совершает один спокойный пролёт и исчезает до copy. */
-      const drive = compactAbout ? 0 : easeAbout(aboutProgress, openFrom, openTo)
+      /* На телефоне та же реальная механика, только с более плотным,
+         осевым ходом: она остаётся читабельной и не спорит с текстом. */
+      const drive = easeAbout(aboutProgress, openFrom, openTo)
         * (1 - easeAbout(aboutProgress, closeFrom, closeTo));
       aboutAssemblyDrive[i] = drive;
       aboutOpen = Math.max(aboutOpen, drive);
@@ -1500,19 +1554,22 @@ function boot(canvas) {
     /* На узком desktop сохраняем всю крупную сцену целиком в кадре: не
        обрезаем переднюю корону ради масштаба. Подстройка входит и выходит
        вместе с маршрутом, поэтому не создаёт скачок на входе или выходе. */
-    const aboutViewportFit = compactAbout ? 1 : Math.min(1, Math.max(0.86,
+    const mobileStageScale = compactAbout
+      ? 0.90 + Math.min(1, Math.max(0, (W - 390) / 510)) * 0.28 : 1;
+    const aboutViewportFit = compactAbout ? mobileStageScale : Math.min(1, Math.max(0.86,
       0.86 + Math.max(0, W - 900) * 0.14 / 340
     ));
-    const aboutFitPresence = compactAbout ? 0 : easeAbout(
+    const aboutFitPresence = compactAbout ? easeAbout(aboutProgress, 0.06, 0.17)
+      * (1 - easeAbout(aboutProgress, 0.44, 0.58)) : easeAbout(
       aboutProgress, aboutArrive - 0.10, aboutArrive + 0.02
     ) * (1 - easeAbout(rawAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
     const aboutScaleFit = THREE.MathUtils.lerp(1, aboutViewportFit, aboutFitPresence);
     const aboutTechnical = compactAbout
-      ? easeAbout(aboutProgress, 0.08, 0.18) * (1 - easeAbout(aboutProgress, 0.28, 0.40))
+      ? easeAbout(aboutProgress, 0.07, 0.16) * (1 - easeAbout(aboutProgress, 0.56, 0.66))
       : easeAbout(aboutProgress, aboutArrive - 0.085, aboutArrive + 0.045)
         * (1 - easeAbout(rawAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
     const aboutIris = compactAbout
-      ? 0
+      ? easeAbout(aboutProgress, 0.16, 0.29) * (1 - easeAbout(aboutProgress, 0.42, 0.54))
       : easeAbout(aboutProgress, openStart + openStep, openStart + openDuration)
         * (1 - easeAbout(aboutProgress, closeStart + closeStep, closeStart + closeStep + closeDuration));
     const aboutExitFlight = compactAbout ? 0 : easeRange(aboutProgress, closeStart, aboutLeave);
@@ -1542,7 +1599,7 @@ function boot(canvas) {
       /* На узком портрете ракета красиво завершает пролёт ещё до H2: дальше
          начинается плотная текстовая композиция, которой не нужен стеклянный
          слой поверх букв. Обратный scroll проходит тот же мягкий fade назад. */
-      ? 1 - easeAbout(aboutProgress, 0.05, 0.16) * (1 - compactLateReturn)
+      ? 1 - easeAbout(aboutProgress, 0.43, 0.55) * (1 - compactLateReturn)
       : 1;
     if (aboutSection) {
       aboutSection.classList.toggle('about--labels', aboutLabelVisibility > 0.02);
@@ -1589,7 +1646,7 @@ function boot(canvas) {
     const aboutCenterPose = compactAbout ? ABOUT_COMPACT_POSES[1] : ABOUT_DESKTOP_POSES[1];
     const aboutExitPose = compactAbout ? ABOUT_COMPACT_POSES[2] : ABOUT_DESKTOP_POSES[2];
     const aboutAfterPose = compactAbout ? ABOUT_COMPACT_POSES[3] : ABOUT_DESKTOP_POSES[3];
-    const aboutFlight = compactAbout ? easeRange(aboutProgress, 0.30, 0.42) : aboutExitFlight;
+    const aboutFlight = compactAbout ? easeRange(aboutProgress, 0.43, 0.58) : aboutExitFlight;
     const aboutAfterFlight = compactAbout ? 0 : easeRange(aboutProgress, aboutLeave, aboutAfterBeat);
     const transitionX = THREE.MathUtils.lerp(aboutCenterPose.x, aboutExitPose.x, aboutFlight);
     const transitionY = THREE.MathUtils.lerp(aboutCenterPose.y, aboutExitPose.y, aboutFlight);
@@ -1617,11 +1674,19 @@ function boot(canvas) {
     const rigZ = cur.z * (1 - aboutPoseMix) + lockedAboutZ * aboutPoseMix;
     const rigRx = cur.rx * (1 - aboutPoseMix) + lockedAboutRx * aboutPoseMix;
     const rigRy = cur.ry * (1 - aboutPoseMix) + lockedAboutRy * aboutPoseMix;
-    const rigScale = cur.s * (1 - aboutPoseMix) + lockedAboutScale * aboutPoseMix;
+    /* В landscape у Hero сохраняется просторный кадр, а внутри About модель
+       мягко входит в тот же компактный масштаб, что и на телефоне. */
+    const compactStagePresence = compactAbout
+      ? easeAbout(aboutProgress, 0.05, 0.16) * (1 - easeAbout(aboutProgress, 0.48, 0.62))
+      : 0;
+    const compactLandscapeY = compactAbout && !portraitLayout ? -1.78 * compactStagePresence : 0;
+    const compactLandscapeScale = compactAbout && !portraitLayout
+      ? THREE.MathUtils.lerp(1, 0.78, compactStagePresence) : 1;
+    const rigScale = (cur.s * (1 - aboutPoseMix) + lockedAboutScale * aboutPoseMix) * compactLandscapeScale;
     /* Вся desktop-траектория уже заложена в PCHIP-ключи: отдельный боковой
        корректирующий манёвр здесь создавал S-образную дугу перед центром.
        Поэтому вход, раскрытие и уход живут на одной непрерывной кривой. */
-    rig.position.set(rigX, rigY + breathe + landingLift, rigZ);
+    rig.position.set(rigX, rigY + compactLandscapeY + breathe + landingLift, rigZ);
     rig.rotation.set(
       rigRx + pointer.y * 0.045 * (1 - aboutTechnical) - mechanicalV * 0.022,
       rigRy + time * 0.006 * (1 - aboutTechnical) + pointer.x * 0.070 * (1 - aboutTechnical),
@@ -1645,7 +1710,9 @@ function boot(canvas) {
       const motion = aboutAssemblyMotion[i];
       const base = motion.node.userData.aboutBase;
       const drive = aboutAssemblyDrive[i];
-      const travel = compactAbout ? motion.compactTravel : motion.travel;
+      const travel = compactAbout
+        ? (!portraitLayout ? motion.landscapeTravel : (compactTablet ? motion.tabletTravel : motion.mobileTravel))
+        : motion.travel;
       motion.node.position.copy(base.position).addScaledVector(travel, drive);
       motion.node.rotation.copy(base.rotation);
       motion.node.rotation.x += (motion.pitch || 0) * drive;

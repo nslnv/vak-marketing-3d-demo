@@ -42,22 +42,52 @@ function onScroll() { nav.classList.toggle('is-stuck', scrollY > 18); }
 addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-function closeMenu() {
+function menuFocusable() {
+  if (!menu) return [];
+  return $$('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])', menu);
+}
+function openMenu() {
+  if (!menu || !menu.hidden) return;
+  menu.hidden = false;
+  menu.scrollTop = 0;
+  burger.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('is-locked');
+  nav.classList.add('is-open');
+  requestAnimationFrame(function () {
+    var first = menuFocusable()[0];
+    if (first) first.focus();
+  });
+}
+function closeMenu(restoreFocus) {
   if (!menu || menu.hidden) return;
   menu.hidden = true;
   burger.setAttribute('aria-expanded', 'false');
   document.body.classList.remove('is-locked');
   nav.classList.remove('is-open');
+  if (restoreFocus !== false && burger) requestAnimationFrame(function () { burger.focus(); });
 }
 if (burger) burger.addEventListener('click', function () {
-  var open = menu.hidden;
-  menu.hidden = !open;
-  burger.setAttribute('aria-expanded', String(open));
-  document.body.classList.toggle('is-locked', open);
-  nav.classList.toggle('is-open', open);
+  if (menu.hidden) openMenu();
+  else closeMenu();
 });
-if (menu) menu.addEventListener('click', function (e) { if (e.target.closest('a')) closeMenu(); });
+if (menu) {
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) closeMenu(false); });
+  menu.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || menu.hidden) return;
+    var items = menuFocusable();
+    if (!items.length) return;
+    var first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+}
+var navBrand = nav && $('.brand', nav);
+if (navBrand) navBrand.addEventListener('click', function () { closeMenu(false); });
 addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+var mobileNav = matchMedia('(max-width:1080px)');
+function syncMobileNav(e) { if (!e.matches) closeMenu(false); }
+if (mobileNav.addEventListener) mobileNav.addEventListener('change', syncMobileNav);
+else mobileNav.addListener(syncMobileNav);
 
 /* ── появление блоков ───────────────────────────────────────────────── */
 var reveal = $$('[data-reveal]');
