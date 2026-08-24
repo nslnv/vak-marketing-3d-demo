@@ -725,7 +725,15 @@ function boot(canvas) {
       name,
       node: aboutAssemblies[name],
       centerZ: (minZ + maxZ) * 0.5,
-      spanZ: Math.max(0.001, maxZ - minZ)
+      minZ,
+      maxZ,
+      spanZ: Math.max(0.001, maxZ - minZ),
+      /* Радиус снимаем с фактической геометрии модуля, а не задаём «на
+         глаз». Он нужен только для редкой контактной пыли у стыков. */
+      radius: Math.max(
+        Math.abs(bounds.min.x), Math.abs(bounds.max.x),
+        Math.abs(bounds.min.y), Math.abs(bounds.max.y)
+      )
     };
   });
   function layoutAlongOpticalAxis(gap) {
@@ -759,6 +767,105 @@ function boot(canvas) {
     pitch: 0,
     yaw: 0
   }));
+
+  /* Редкая контактная пыль не является вторым эффектом поверх страницы.
+     Каждое облако — ребёнок настоящего механического модуля, поэтому оно
+     наследует его реальную осевую раскладку и тем же scroll-driven путём
+     возвращается назад. Это создаёт воздух у стыков, а не «магические» лучи. */
+  const ABOUT_DUST_COUNT = coarse ? 24 : 104;
+  const aboutDust = aboutAssemblyBounds.map((item, index) => {
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(ABOUT_DUST_COUNT * 3);
+    const seeds = new Float32Array(ABOUT_DUST_COUNT);
+    const sides = new Float32Array(ABOUT_DUST_COUNT);
+    const sizes = new Float32Array(ABOUT_DUST_COUNT);
+    const tints = new Float32Array(ABOUT_DUST_COUNT);
+    const edgeDepth = Math.min(0.24, item.spanZ * 0.22);
+
+    for (let p = 0; p < ABOUT_DUST_COUNT; p++) {
+      const seed = Math.random();
+      const side = Math.random() < 0.5 ? -1 : 1;
+      const atJoint = Math.random() < 0.72;
+      const z = atJoint
+        ? (side < 0
+          ? item.minZ + Math.random() * edgeDepth
+          : item.maxZ - Math.random() * edgeDepth)
+        : THREE.MathUtils.lerp(item.minZ + edgeDepth, item.maxZ - edgeDepth, Math.random());
+      const angle = Math.random() * Math.PI * 2;
+      const radius = item.radius * (1.015 + Math.pow(Math.random(), 1.8) * 0.13);
+      positions[p * 3] = Math.cos(angle) * radius;
+      positions[p * 3 + 1] = Math.sin(angle) * radius * 0.88;
+      positions[p * 3 + 2] = z;
+      seeds[p] = seed;
+      sides[p] = side;
+      sizes[p] = 0.56 + Math.pow(Math.random(), 2.1) * 1.18;
+      tints[p] = Math.random();
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1));
+    geometry.setAttribute('aSide', new THREE.BufferAttribute(sides, 1));
+    geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+    geometry.setAttribute('aTint', new THREE.BufferAttribute(tints, 1));
+    geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 12);
+
+    const uniforms = {
+      uDrive: { value: 0 },
+      uPresence: { value: 0 },
+      uPx: { value: 1 }
+    };
+    const points = new THREE.Points(geometry, new THREE.ShaderMaterial({
+      uniforms,
+      transparent: true,
+      depthWrite: false,
+      depthTest: true,
+      blending: THREE.NormalBlending,
+      vertexShader: `
+        attribute float aSeed, aSide, aSize, aTint;
+        uniform float uDrive, uPresence, uPx;
+        varying float vAlpha; varying vec3 vColor;
+        void main(){
+          float d = smoothstep(0.035, 0.94, uDrive);
+          float motion = 4.0 * d * (1.0 - d);
+          vec3 pos = position;
+          vec2 outward = normalize(pos.xy + vec2(0.0001));
+          /* Облако раскрывается наружу только вместе со своим модулем.
+             На пике пыль оседает тонким следом у кромки, а не продолжает
+             бесконтрольно лететь по экрану. */
+          pos.xy += outward * (0.045 + 0.240 * aSeed) * d;
+          pos.z += aSide * (0.030 + 0.180 * aSeed) * d;
+
+          vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+          float settle = smoothstep(0.05, 0.20, uDrive);
+          vAlpha = uPresence * settle * (0.130 + 0.200 * aSeed)
+            * (0.60 + 0.40 * motion);
+          vAlpha *= mix(0.45, 1.0, clamp((13.0 + mv.z) / 11.0, 0.0, 1.0));
+          vec3 neutral = vec3(0.84, 0.83, 0.93);
+          vec3 cool = vec3(0.60, 0.78, 0.88);
+          vec3 warm = vec3(0.82, 0.64, 0.80);
+          vColor = mix(neutral, cool, smoothstep(0.48, 0.86, aTint));
+          vColor = mix(vColor, warm, smoothstep(0.86, 1.0, aTint));
+          float size = aSize * uPx * (19.0 / max(1.2, -mv.z));
+          gl_PointSize = min(size * (1.0 + 0.68 * d), 6.0 * uPx);
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: `
+        varying float vAlpha; varying vec3 vColor;
+        void main(){
+          float d = length(gl_PointCoord - 0.5) * 2.0;
+          float a = pow(max(0.0, 1.0 - d), 2.5);
+          gl_FragColor = vec4(vColor, a * vAlpha);
+          #include <colorspace_fragment>
+        }`
+    }));
+    /* Металл пишет глубину, поэтому пыль рисуется сразу после корпуса:
+       точки с дальней стороны честно отсеиваются, а через стекло остаётся
+       только лёгкий физический след, а не наложение поверх детали. */
+    points.renderOrder = 1;
+    points.frustumCulled = false;
+    item.node.add(points);
+    return { points, uniforms, index };
+  });
   /* Первые пять подписей получают положение от центров настоящих подузлов.
      Шестая привязана к лицу передней короны, но всё ещё использует drive
      output — это не шестая движущаяся сборка. При реверсе она возвращается
@@ -1380,6 +1487,7 @@ function boot(canvas) {
     renderer.setPixelRatio(dpr);
     renderer.setSize(W, H, false);
     pUni.uPx.value = dpr * (coarse ? 0.85 : 1);
+    for (const dust of aboutDust) dust.uniforms.uPx.value = dpr * (coarse ? 0.80 : 1);
     stUni.uPx.value = dpr;
   }
 
@@ -1719,6 +1827,14 @@ function boot(canvas) {
       motion.node.rotation.y += (motion.yaw || 0) * drive;
       motion.node.rotation.z += motion.turn * drive;
     }
+    /* Контактная пыль читает тот же drive, что и механика. В ней нет
+       raw wheel velocity или таймера: на одном scroll-кадре рисунок всегда
+       одинаков, а движение вверх становится точным обратным следом. */
+    const aboutDustPresence = aboutTechnical * aboutRigVisibility * (coarse ? 0.62 : 1);
+    for (const dust of aboutDust) {
+      dust.uniforms.uDrive.value = aboutAssemblyDrive[dust.index];
+      dust.uniforms.uPresence.value = aboutDustPresence;
+    }
     gimbal.position.copy(gimbal.userData.aboutBase.position);
     gimbal.rotation.copy(gimbal.userData.aboutBase.rotation);
 
@@ -1744,8 +1860,12 @@ function boot(canvas) {
 
     pUni.uT.value = time;
     stUni.uT.value = time;
-    pUni.uSpread.value = K.sp * (1 + va * 0.035);      // едва заметный отклик, без вспышек
-    pUni.uBright.value = K.br * ok * aboutRigVisibility * (1 + va * 0.10) * (1 - aboutOpen * 0.55);
+    /* Большой осевой поток остаётся атмосферой Hero. Пока механика
+       раскрыта, он спокойно оседает, освобождая место физической пыли у
+       самих стыков — без двух конкурирующих particle-историй. */
+    const aboutDustGate = aboutTechnical * aboutRigVisibility;
+    pUni.uSpread.value = K.sp * (1 + va * 0.035) * THREE.MathUtils.lerp(1, 0.76, aboutDustGate);
+    pUni.uBright.value = K.br * ok * aboutRigVisibility * (1 + va * 0.10) * (1 - aboutOpen * 0.82);
     pUni.uScale.value  = 0.85 + K.s * 0.45;
     stUni.uA.value = 0.35 + (1 - scrollS) * 0.65;
 
