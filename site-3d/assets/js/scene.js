@@ -1621,30 +1621,33 @@ function boot(canvas) {
     const aboutLeave = Math.min(0.94, Math.max(aboutArrive + 0.24, aboutBeats[2] || 0.73));
     const aboutCenterHold = compactAbout ? 0.39
       : Math.min(aboutLeave - 0.06, Math.max(aboutArrive + 0.10, aboutNamedBeats.centerHold || aboutArrive + 0.20));
-    const aboutSpan = aboutLeave - aboutArrive;
-    /* Каскад читается как единая механическая операция: раскрытие занимает
-       длинный вход к центральной опоре, затем есть пауза, а обратная сборка
-       развёрнута почти на весь второй участок до K2. */
+    /* Раскрытие и сборка — одна механическая фраза, прочитанная в обе
+       стороны. Поэтому у них одно и то же окно scroll-длины, одинаковые
+       каскад и quintic-профиль: обратный проход не «догоняет» раскрытие и
+       не превращает центральную паузу в ожидание. */
     const openSpan = Math.max(0.06, aboutCenterHold - aboutArrive);
-    const openStart = compactAbout ? 0.09 : aboutArrive + openSpan * 0.05;
-    const openDuration = compactAbout ? 0.12 : openSpan * 0.28;
-    const openStep = compactAbout ? 0.024 : openSpan * 0.06;
-    /* Сборка идёт неспешной обратной волной. Между состояниями достаточно
-       scroll-длины, чтобы следующий узел не успевал «перепрыгнуть» в глазах. */
     const closeSpan = Math.max(0.06, aboutLeave - aboutCenterHold);
+    const moduleGaps = Math.max(1, aboutAssemblyMotion.length - 1);
+    /* На desktop окно занимает большую, но не всю свободную дугу: у модели
+       остаются мягкие подлёт, пауза в центре и собранный выход. На mobile
+       сохранён безопасный короткий диапазон до fade сцены. */
+    const cascadeWindow = compactAbout ? 0.208
+      : Math.max(0.06, Math.min(openSpan, closeSpan) * 0.80);
+    const cascadeDuration = compactAbout ? 0.120 : cascadeWindow * 0.60;
+    const cascadeStep = (cascadeWindow - cascadeDuration) / moduleGaps;
+    const openStart = compactAbout ? 0.09
+      : aboutArrive + (openSpan - cascadeWindow) * 0.50;
     const closeStart = compactAbout ? 0.33
-      : aboutCenterHold;
-    const closeStep = compactAbout ? 0.020 : closeSpan * 0.06;
-    const closeDuration = compactAbout ? 0.12 : closeSpan * 0.70;
+      : aboutCenterHold + (closeSpan - cascadeWindow) * 0.50;
     aboutAssemblyDrive.fill(0);
     let aboutOpen = 0;
     for (let i = 0; i < aboutAssemblyMotion.length; i++) {
-      const openFrom = compactAbout ? openStart + i * openStep : openStart + i * openStep;
-      const openTo = openFrom + openDuration;
-      /* Сборка идёт от передней короны к заднему замку и занимает длинный
-         отрезок скролла, а не сжимается в один короткий рывок. */
-      const closeFrom = closeStart + (4 - i) * closeStep;
-      const closeTo = closeFrom + closeDuration;
+      const openFrom = openStart + i * cascadeStep;
+      const openTo = openFrom + cascadeDuration;
+      /* Обратная волна повторяет тот же темп и расстояние, но в зеркальном
+         порядке: от передней короны к заднему замку. */
+      const closeFrom = closeStart + (moduleGaps - i) * cascadeStep;
+      const closeTo = closeFrom + cascadeDuration;
       /* На телефоне та же реальная механика, только с более плотным,
          осевым ходом: она остаётся читабельной и не спорит с текстом. */
       const drive = easeAbout(aboutProgress, openFrom, openTo)
@@ -1678,17 +1681,22 @@ function boot(canvas) {
         * (1 - easeAbout(rawAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
     const aboutIris = compactAbout
       ? easeAbout(aboutProgress, 0.16, 0.29) * (1 - easeAbout(aboutProgress, 0.42, 0.54))
-      : easeAbout(aboutProgress, openStart + openStep, openStart + openDuration)
-        * (1 - easeAbout(aboutProgress, closeStart + closeStep, closeStart + closeStep + closeDuration));
+      : easeAbout(aboutProgress, openStart + cascadeStep, openStart + cascadeDuration)
+        * (1 - easeAbout(aboutProgress, closeStart + cascadeStep, closeStart + cascadeStep + cascadeDuration));
     const aboutExitFlight = compactAbout ? 0 : easeRange(aboutProgress, closeStart, aboutLeave);
     const aboutLabelVisibility = compactAbout ? 0 : easeAbout(aboutOpen, 0.04, 0.18);
-    const aboutLabelsSettled = !compactAbout && aboutProgress >= openStart + openDuration + openStep * 4;
+    const aboutLabelsSettled = !compactAbout && aboutProgress >= openStart + cascadeDuration + cascadeStep * moduleGaps;
     /* После раскрытия все шесть подписей спокойно приходят в единый ряд,
        а перед сборкой тем же scroll-driven профилем возвращаются к своим
        геометрическим якорям. */
     const aboutLabelRail = compactAbout ? 0
-      : easeAbout(aboutProgress, openStart + openDuration + openStep * 2.7, openStart + openDuration + openStep * 4.3)
-        * (1 - easeAbout(aboutProgress, closeStart + closeDuration * 0.38, closeStart + closeDuration * 0.72));
+      : easeAbout(aboutProgress,
+        openStart + cascadeDuration + cascadeStep * moduleGaps * 0.675,
+        openStart + cascadeDuration + cascadeStep * moduleGaps * 1.075
+      ) * (1 - easeAbout(aboutProgress,
+        closeStart + cascadeDuration * 0.38,
+        closeStart + cascadeDuration * 0.72
+      ));
     /* В About всегда один и тот же оригинальный rig: после последней детали
        он остаётся собранным, а затем просто продолжает общую траекторию.
        На узком экране между коротким прилётом и Figures лежит живая колонка
