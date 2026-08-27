@@ -310,6 +310,17 @@ if (srvSec && srvPin && srvDeck && srvCards.length && !reduced && srvDeckMode.ma
        видна. Порог зависит от направления, поэтому при движении назад copy
        возвращается так же мягко и без мерцания около одной точки. */
     var p = pos(), whole = Math.floor(p), fraction = p - whole;
+    /* Шкала под колодой не перескакивает между ячейками: один спокойный
+       маркер проходит по общей оси в том же ритме, что и сама карточка.
+       Пишем значение только при изменении, чтобы не раздувать style invalidation
+       на каждом кадре hover-наклона колоды. */
+    if (srvList) {
+      var navX = (((p + 0.5) / N) * 100).toFixed(3) + '%';
+      if (srvList.__navX !== navX) {
+        srvList.__navX = navX;
+        srvList.style.setProperty('--srv-nav-x', navX);
+      }
+    }
     var activeIndex = Math.round(p);
     if (scrollDir > 0 && fraction >= SNAP_FORWARD) activeIndex = whole + 1;
     else if (scrollDir < 0 && fraction <= SNAP_BACKWARD) activeIndex = whole;

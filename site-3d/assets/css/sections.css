@@ -319,34 +319,41 @@
       rgba(190,165,255,.20),transparent 70%)}
   .srv.is-deck .srv__deck:hover .srv__card.is-on::after{opacity:1}
 
-  /* шкала услуг под колодой вместо стеклянной панели */
-  .srv.is-deck .srv__list{display:flex;flex-wrap:wrap;justify-content:center;
-    align-items:stretch;gap:0;width:min(1010px,74vw);
-    padding:0;border:0;border-radius:0;background:none;background-color:transparent;
-    backdrop-filter:none;-webkit-backdrop-filter:none;
-    border-top:1px solid var(--line)}
-  .srv.is-deck .srv__list li{flex:1 1 0;min-width:0}
+  /* Шкала услуг под колодой — одна спокойная ось, а не progress bar.
+     Единый маркер идёт за реальной прокруткой колоды: названия остаются
+     лёгкими, а смена услуги не создаёт двух встречных ярких полос. */
+  .srv.is-deck .srv__list{--srv-nav-x:8.333%;position:relative;isolation:isolate;
+    display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;
+    gap:0;width:min(1010px,74vw);padding:0;border:0;border-radius:0;
+    background:none;background-color:transparent;backdrop-filter:none;
+    -webkit-backdrop-filter:none;border-top:1px solid rgba(226,220,249,.14)}
+  .srv.is-deck .srv__list::before{content:'';position:absolute;z-index:3;
+    top:0;left:var(--srv-nav-x);width:7px;height:7px;border-radius:50%;
+    pointer-events:none;transform:translate(-50%,-50%);
+    background:radial-gradient(circle at 35% 30%,#fff 0 12%,#DED7FF 36%,#9F8CF3 100%);
+    box-shadow:0 0 0 4px rgba(174,157,255,.055),0 0 18px rgba(177,159,255,.30);
+    will-change:left}
+  .srv.is-deck .srv__list::after{content:'';position:absolute;z-index:2;
+    top:-1px;left:var(--srv-nav-x);width:clamp(34px,3.4vw,50px);height:1px;
+    pointer-events:none;transform:translateX(-50%);
+    background:linear-gradient(90deg,transparent,rgba(169,181,255,.30) 23%,rgba(222,216,255,.78) 50%,rgba(169,181,255,.30) 77%,transparent);
+    will-change:left}
+  .srv.is-deck .srv__list li{position:relative;z-index:1;flex:1 1 0;min-width:0}
   .srv.is-deck .srv__row{display:flex;justify-content:center;align-items:center;
-    padding:16px 10px 14px;border-bottom:0;transition:none}
+    min-height:55px;padding:17px 10px 15px;border-bottom:0;transition:none}
   .srv.is-deck .srv__rt{display:none}
   .srv.is-deck .srv__short{display:block;font-size:13.5px;font-weight:400;
-    letter-spacing:-.004em;color:var(--ink-3);white-space:nowrap;
+    letter-spacing:-.004em;color:rgba(166,160,194,.66);white-space:nowrap;
     overflow:hidden;text-overflow:ellipsis;
-    transition:color .35s ease,transform .45s var(--e-slat)}
-  .srv.is-deck .srv__row:hover .srv__short{color:var(--ink-2);transform:translateY(-2px)}
-  .srv.is-deck .srv__row.is-on .srv__short{color:var(--ink);transform:translateY(-2px)}
-  /* деление шкалы: тонкая риска, у активной услуги она горит и удлиняется */
-  .srv.is-deck .srv__row::before{content:'';position:absolute;left:50%;top:-1px;
-    width:0;height:2px;transform:translateX(-50%);border-radius:2px;
-    background:linear-gradient(90deg,var(--vio-2),var(--mag));
-    transition:width .5s var(--e-slat)}
-  .srv.is-deck .srv__row.is-on::before{width:100%}
-  .srv.is-deck .srv__row::after{content:'';position:absolute;left:50%;top:-1px;
-    width:1px;height:7px;transform:translateX(-50%);border-radius:0;
-    background:var(--line-2);transition:height .4s var(--e-slat),background .4s ease}
-  .srv.is-deck .srv__row:hover::after{height:11px;background:var(--ink-3)}
-  .srv.is-deck .srv__row.is-on::after{height:0}
-  .srv.is-deck .srv__row:active .srv__short{transform:translateY(0)}
+    transition:color .42s var(--e),text-shadow .42s var(--e)}
+  .srv.is-deck .srv__row:hover .srv__short{color:rgba(222,216,246,.86);transform:none}
+  .srv.is-deck .srv__row.is-on .srv__short{color:rgba(245,242,255,.98);transform:none;
+    text-shadow:0 0 16px rgba(180,164,255,.16)}
+  .srv.is-deck .srv__row::before,.srv.is-deck .srv__row::after{display:none}
+  .srv.is-deck .srv__row:active .srv__short{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .srv.is-deck .srv__short{transition:none}
 }
 @media (max-width:900px){
   .srv__short{display:none}
