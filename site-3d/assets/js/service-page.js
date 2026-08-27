@@ -433,9 +433,6 @@ function photoAlt() {
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual' + (isStrategy ? ' sp-hero__visual--strategy' : '');
-  var depthOpen = isStrategy ? '<div class="sp-hero__depth-stage" data-strategy-depth>' : '';
-  var depthClose = isStrategy ? '</div>' : '';
-  var planes = isStrategy ? '<i class="sp-hero__plane sp-hero__plane--back" aria-hidden="true"></i><i class="sp-hero__plane sp-hero__plane--mid" aria-hidden="true"></i><i class="sp-hero__plane sp-hero__plane--front" aria-hidden="true"></i><i class="sp-hero__markers" aria-hidden="true"></i>' : '';
   var strategyCred = language === 'en'
     ? 'More than eight years working with complex iGaming, FinTech, Crypto and B2B markets.'
     : 'Более восьми лет работаем со сложными рынками iGaming, FinTech, Crypto и B2B.';
@@ -445,6 +442,7 @@ function renderHero(d) {
         return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
       }).join('') + '</div>';
   var index = isStrategy ? '' : '<div class="sp-hero__index"><b>' + esc(service.index) + '</b><span>VAK Marketing</span></div>';
+  var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace"></div>' + index;
   return '<section class="sp-hero"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + '<p class="sp-kicker">' + (isStrategy ? esc(d.crumb) : esc(service.index) + ' / ' + esc(d.crumb)) + '</p>'
@@ -453,8 +451,7 @@ function renderHero(d) {
     + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a>'
     + linkArrow(language === 'en' ? 'Back to services' : 'Все услуги', '/#services') + '</div>'
     + facts + '</div>'
-    + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s">' + depthOpen + planes + '<div class="sp-hero__photo"><img src="' + service.photo + '" alt="' + photoAlt() + '" fetchpriority="high"></div>'
-    + '<div class="sp-hero__trace"></div>' + index + depthClose + '</div>'
+    + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s"><div class="sp-hero__photo"><img src="' + service.photo + '" alt="' + photoAlt() + '" fetchpriority="high"></div>' + visualDetails + '</div>'
     + '</div></section>';
 }
 function renderStrategyProof(section) {
@@ -480,7 +477,7 @@ function renderStrategySystem(section) {
   var sub = language === 'en' ? 'aligns the work' : 'собирает работу';
   return '<section class="sp-section sp-section--tight sp-section--rule sp-strategy-system-section"><div class="wrap">'
     + '<div class="sp-strategy-system__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
-    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><div class="sp-strategy-system__field" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
+    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
       return '<li class="sp-strategy-system__node" style="--sp-item-delay:' + (i * .07) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
@@ -651,7 +648,6 @@ function bindReveal() {
   nodes.forEach(function (node) { currentRevealObserver.observe(node); });
 }
 function bindStrategyExperience() {
-  document.body.classList.remove('sp--strategy-ready');
   if (currentStrategyResizeHandler) { window.removeEventListener('resize', currentStrategyResizeHandler); currentStrategyResizeHandler = null; }
   if (!isStrategy) return;
 
@@ -698,40 +694,6 @@ function bindStrategyExperience() {
   currentStrategyResizeHandler = syncScopeAccessibility;
   window.addEventListener('resize', currentStrategyResizeHandler, { passive:true });
 
-  var depth = $('[data-strategy-depth]');
-  var visual = depth && depth.closest('.sp-hero__visual');
-  var canTilt = !reduced && depth && visual && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  if (canTilt) {
-    var pending = null, raf = 0;
-    function paintTilt() {
-      raf = 0;
-      if (!pending) return;
-      var rect = visual.getBoundingClientRect();
-      var dx = ((pending.clientX - rect.left) / rect.width - .5) * 2;
-      var dy = ((pending.clientY - rect.top) / rect.height - .5) * 2;
-      depth.style.setProperty('--sp-depth-rx', (dy * -2.15).toFixed(2) + 'deg');
-      depth.style.setProperty('--sp-depth-ry', (dx * 2.15).toFixed(2) + 'deg');
-      depth.style.setProperty('--sp-depth-x', (dx * 7).toFixed(1) + 'px');
-      depth.style.setProperty('--sp-depth-y', (dy * 6).toFixed(1) + 'px');
-      visual.classList.add('is-tilting');
-    }
-    visual.addEventListener('pointermove', function (event) {
-      if (event.pointerType !== 'mouse') return;
-      pending = event;
-      if (!raf) raf = requestAnimationFrame(paintTilt);
-    });
-    visual.addEventListener('pointerleave', function () {
-      pending = null;
-      if (raf) { cancelAnimationFrame(raf); raf = 0; }
-      visual.classList.remove('is-tilting');
-      depth.style.setProperty('--sp-depth-rx', '0deg');
-      depth.style.setProperty('--sp-depth-ry', '0deg');
-      depth.style.setProperty('--sp-depth-x', '0px');
-      depth.style.setProperty('--sp-depth-y', '0px');
-    });
-  }
-  if (!reduced) requestAnimationFrame(function () { document.body.classList.add('sp--strategy-ready'); });
-  else document.body.classList.add('sp--strategy-ready');
 }
 
 render(copy());
