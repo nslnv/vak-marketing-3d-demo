@@ -10,10 +10,16 @@
    Пока строка пустая, форма работает в демо-режиме. */
 var FORM_ENDPOINT = '';
 
-/* Когда появятся отдельные страницы услуг (/strategy, /linkedin и т.д.),
-   переключить на true: кнопка «Подробнее» начнёт вести на них.
-   Пока false, чтобы не отправлять посетителя на несуществующий адрес. */
-var SERVICE_PAGES = false;
+/* У пяти услуг уже есть подробные самостоятельные страницы. Курс оставляем
+   внутри общей страницы, пока для него не появится согласованная программа,
+   а не выдуманная посадочная. */
+var SERVICE_PAGES = {
+  '/strategy/': true,
+  '/linkedin/': true,
+  '/pr/': true,
+  '/seo/': true,
+  '/localization/': true
+};
 
 var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 var $  = function (s, c) { return (c || document).querySelector(s); };
@@ -157,30 +163,30 @@ slats.forEach(function (s) {
 
 /* ── услуги ─────────────────────────────────────────────────────────── */
 var SRV = [
-  { i: '01', href: '/strategy',
+  { i: '01', href: '/strategy/',
     t: 'Стратегия и комплексное ведение проекта',
     d: 'Разрабатываем маркетинговую стратегию и берём на себя сопровождение проекта: позиционирование, PR, контент, LinkedIn, SEO, лидогенерацию, аналитику и отчётность.',
-    photo: '../img/services/web/strategy-photo-v1.jpg' },
-  { i: '02', href: '/linkedin',
+    photo: '/assets/img/services/web/strategy-photo-v1.jpg' },
+  { i: '02', href: '/linkedin/',
     t: 'B2B-маркетинг и продвижение в LinkedIn',
     d: 'Помогаем компаниям, фаундерам и sales-командам превращать LinkedIn в канал доверия, экспертности, B2B-диалогов и лидогенерации.',
-    photo: '../img/services/web/linkedin-photo-v1.jpg' },
-  { i: '03', href: '/pr',
+    photo: '/assets/img/services/web/linkedin-photo-v1.jpg' },
+  { i: '03', href: '/pr/',
     t: 'PR, СМИ и SERP',
     d: 'Размещаем статьи, пресс-релизы, интервью и экспертные материалы в Tier-1 и Tier-2-3 медиа, усиливаем репутацию бренда в поисковой выдаче.',
-    photo: '../img/services/web/pr-media-photo-v1.jpg' },
-  { i: '04', href: '/seo',
+    photo: '/assets/img/services/web/pr-media-photo-v1.jpg' },
+  { i: '04', href: '/seo/',
     t: 'AI SEO и автоматизация маркетинга',
     d: 'Работаем с SEO-структурой, ключевыми запросами, контентом, аналитикой и автоматизацией маркетинговых процессов.',
-    photo: '../img/services/web/ai-seo-photo-v1.jpg' },
-  { i: '05', href: '/course',
+    photo: '/assets/img/services/web/ai-seo-photo-v1.jpg' },
+  { i: '05', href: '/course/',
     t: 'B2B и B2C курс по LinkedIn',
     d: 'Создаём образовательные продукты для компаний, sales-команд, фаундеров, экспертов и предпринимателей, включая курс по LinkedIn-продвижению.',
-    photo: '../img/services/web/course-photo-v1.jpg' },
-  { i: '06', href: '/localization',
+    photo: '/assets/img/services/web/course-photo-v1.jpg' },
+  { i: '06', href: '/localization/',
     t: 'Translation & Localization Services',
     d: 'Адаптируем сайты, презентации, статьи, пресс-релизы, whitepapers, pitch decks и любые документы под международные рынки.',
-    photo: '../img/services/web/localization-photo-v1.jpg' }
+    photo: '/assets/img/services/web/localization-photo-v1.jpg' }
 ];
 
 var srvSec = $('#services'), srvPin = $('#srvPin'), srvDeck = $('#srvDeck'), srvList = $('#srvList');
@@ -212,7 +218,7 @@ function fillSrvCard(el, n) {
   var a = el.querySelector('.link-arrow');
   // в словаре значение уже со стрелкой: 'Read more<i></i>'
   a.innerHTML = (d && d['srv.more']) || 'Подробнее<i></i>';
-  if (SERVICE_PAGES) { a.setAttribute('href', s.href); a.removeAttribute('data-soon'); }
+  if (SERVICE_PAGES[s.href]) { a.setAttribute('href', s.href); a.removeAttribute('data-soon'); }
   else {
     a.setAttribute('href', '#contact');
     a.setAttribute('data-soon', window.__lang === 'en'
