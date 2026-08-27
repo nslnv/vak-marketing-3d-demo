@@ -485,7 +485,10 @@ if (srvSec && srvPin && srvDeck && srvCards.length && !reduced && srvDeckMode.ma
      по вертикали, как привычнее. */
   var drag = null, DRAG_STEP = 240, DRAG_INTENT = 24;
   srvDeck.addEventListener('pointerdown', function (e) {
-    if (e.button) return;
+    /* Ссылка на подробную страницу должна оставаться обычной ссылкой.
+       Раньше pointer capture включался и на «Подробнее», из-за чего клик
+       мышью превращался в начало перетаскивания и переход не происходил. */
+    if (e.button || e.target.closest('a, button, input, textarea, select, [data-no-drag]')) return;
     interruptSettle();
     drag = { x: e.clientX, y: e.clientY, top: scrollY, touch: e.pointerType !== 'mouse', moved: false, intent: false };
     srvDeck.setPointerCapture(e.pointerId);
