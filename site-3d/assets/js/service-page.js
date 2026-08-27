@@ -46,7 +46,7 @@ var SERVICES = {
     ru:{
       meta:{ title:'Стратегия и комплексное ведение — VAK Marketing', desc:'Индивидуальная маркетинговая стратегия и комплексное ведение для проектов из iGaming, FinTech, Crypto, Web3 и B2B.' },
       crumb:'Маркетинговая система',
-      hero:{ title:'Индивидуальная маркетинговая стратегия и реализация для вашего бизнеса', lead:'Собираем рабочую систему под задачу: исследование, позиционирование, каналы, запуск и аналитика находятся в одном контуре — без разрыва между планом и исполнением.', cta:'Получить консультацию', facts:[{value:'01',label:'центр ответственности вместо разрозненных подрядчиков'},{value:'8+',label:'лет работы со сложными рынками'}] },
+      hero:{ title:'Индивидуальная маркетинговая стратегия и реализация для вашего бизнеса', lead:'Собираем рабочую систему под задачу: исследование, позиционирование, каналы, запуск и аналитика находятся в одном контуре — без разрыва между планом и исполнением.', cta:'Получить консультацию' },
       proof:{ label:'Почему это работает', title:'Не набор услуг, а последовательность решений', note:'Сначала фиксируем, что действительно влияет на задачу бизнеса. Затем подключаем только те направления, у которых есть понятная роль.', items:[
         ['Контекст до каналов','Разбираем нишу, цели, конкурентов и ограничения, чтобы не начинать с случайного набора активностей.'],
         ['Инструменты по задаче','PR, LinkedIn, SEO, контент и реклама подключаются тогда, когда решают конкретную часть воронки.'],
@@ -86,7 +86,7 @@ var SERVICES = {
     en:{
       meta:{ title:'Strategy and full project management — VAK Marketing', desc:'A tailored marketing strategy and integrated delivery for iGaming, FinTech, Crypto, Web3 and B2B businesses.' },
       crumb:'Marketing system',
-      hero:{ title:'A tailored marketing strategy and delivery model for your business', lead:'We assemble a working system around the task: research, positioning, channels, launch and analytics sit in one operating loop, without a gap between the plan and its delivery.', cta:'Book a consultation', facts:[{value:'01',label:'centre of responsibility instead of disconnected contractors'},{value:'8+',label:'years in complex markets'}] },
+      hero:{ title:'A tailored marketing strategy and delivery model for your business', lead:'We assemble a working system around the task: research, positioning, channels, launch and analytics sit in one operating loop, without a gap between the plan and its delivery.', cta:'Book a consultation' },
       proof:{ label:'Why it works', title:'Not a menu of services, but a sequence of decisions', note:'We first establish what actually affects the business goal, then bring in only the disciplines with a clear role.', items:[
         ['Context before channels','We examine the market, goals, competitors and constraints before choosing activities.'],
         ['Tools for the task','PR, LinkedIn, SEO, content and advertising are used when they solve a defined part of the funnel.'],
@@ -444,6 +444,7 @@ function renderHero(d) {
     : '<div class="sp-hero__facts">' + d.hero.facts.map(function (fact) {
         return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
       }).join('') + '</div>';
+  var index = isStrategy ? '' : '<div class="sp-hero__index"><b>' + esc(service.index) + '</b><span>VAK Marketing</span></div>';
   return '<section class="sp-hero"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + '<p class="sp-kicker">' + (isStrategy ? esc(d.crumb) : esc(service.index) + ' / ' + esc(d.crumb)) + '</p>'
@@ -453,15 +454,14 @@ function renderHero(d) {
     + linkArrow(language === 'en' ? 'Back to services' : 'Все услуги', '/#services') + '</div>'
     + facts + '</div>'
     + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s">' + depthOpen + planes + '<div class="sp-hero__photo"><img src="' + service.photo + '" alt="' + photoAlt() + '" fetchpriority="high"></div>'
-    + '<div class="sp-hero__trace"></div><div class="sp-hero__index"><b>' + esc(service.index) + '</b><span>VAK Marketing</span></div>' + depthClose + '</div>'
+    + '<div class="sp-hero__trace"></div>' + index + depthClose + '</div>'
     + '</div></section>';
 }
 function renderStrategyProof(section) {
   return '<section class="sp-section sp-section--rule sp-decision-section"><div class="wrap">'
     + '<div class="sp-decision-frame" data-sp-reveal><div class="sp-decision-frame__intro"><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
-    + '<div class="sp-decision-frame__route" aria-hidden="true"><i></i><i></i><i></i><i></i></div>'
     + '<ol class="sp-decision-frame__items">' + section.items.map(function (item, i) {
-      return '<li class="sp-decision-frame__item" style="--sp-item-delay:' + (i * .08) + 's"><span>' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+      return '<li class="sp-decision-frame__item" style="--sp-item-delay:' + (i * .08) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
 function renderStrategyScope(section) {
@@ -472,7 +472,7 @@ function renderStrategyScope(section) {
     + '<div class="sp-strategy-scope__intro" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
     + '<div class="sp-strategy-scope__body" data-sp-reveal style="--sp-delay:.05s"><ol class="sp-strategy-scope__list">' + section.items.map(function (item, i) {
       var active = i === 0;
-      return '<li class="sp-strategy-scope__item' + (active ? ' is-active' : '') + '" style="--sp-item-delay:' + (i * .055) + 's"><button type="button" class="sp-strategy-scope__button" data-strategy-scope-step data-question="' + esc(item.question) + '" data-output="' + esc(item.output) + '" aria-pressed="' + active + '"><span class="sp-strategy-scope__num">' + number(i) + '</span><span class="sp-strategy-scope__title">' + esc(item.title) + '</span><i aria-hidden="true"></i></button><p class="sp-strategy-scope__mobile-output" aria-hidden="' + (!active) + '">' + esc(item.output) + '</p></li>';
+      return '<li class="sp-strategy-scope__item' + (active ? ' is-active' : '') + '" style="--sp-item-delay:' + (i * .055) + 's"><button type="button" class="sp-strategy-scope__button" data-strategy-scope-step data-question="' + esc(item.question) + '" data-output="' + esc(item.output) + '" aria-pressed="' + active + '"><span class="sp-strategy-scope__title">' + esc(item.title) + '</span></button><p class="sp-strategy-scope__mobile-output" aria-hidden="' + (!active) + '">' + esc(item.output) + '</p></li>';
     }).join('') + '</ol><aside class="sp-strategy-scope__detail" id="strategyScopeDetail" aria-live="polite"><span>' + esc(question) + '</span><h3>' + esc(first.question) + '</h3><span>' + esc(output) + '</span><p>' + esc(first.output) + '</p></aside></div></div></div></section>';
 }
 function renderStrategySystem(section) {
@@ -480,8 +480,8 @@ function renderStrategySystem(section) {
   var sub = language === 'en' ? 'aligns the work' : 'собирает работу';
   return '<section class="sp-section sp-section--tight sp-section--rule sp-strategy-system-section"><div class="wrap">'
     + '<div class="sp-strategy-system__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
-    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><div class="sp-strategy-system__field" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
-      return '<li class="sp-strategy-system__node" style="--sp-item-delay:' + (i * .07) + 's"><span>' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><div class="sp-strategy-system__field" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
+      return '<li class="sp-strategy-system__node" style="--sp-item-delay:' + (i * .07) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
 function renderStrategyProcess(section) {
@@ -491,7 +491,7 @@ function renderStrategyProcess(section) {
   return '<section class="sp-section sp-section--rule sp-strategy-cycle-section"><div class="wrap"><div class="sp-strategy-cycle__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2></div>'
     + '<ol class="sp-strategy-cycle" data-sp-reveal style="--sp-delay:.05s">' + phases.map(function (phase, i) {
       var steps = section.items.slice(i * 2, i * 2 + 2);
-      return '<li class="sp-strategy-cycle__phase' + (i === 0 ? ' is-open' : '') + '" style="--sp-item-delay:' + (i * .11) + 's"><button type="button" class="sp-strategy-cycle__trigger" data-strategy-cycle-trigger aria-expanded="' + (i === 0) + '" aria-controls="strategyCycle' + i + '"><span>' + number(i) + '</span><strong>' + esc(phase[0]) + '</strong><i aria-hidden="true"></i></button><div class="sp-strategy-cycle__panel" id="strategyCycle' + i + '" aria-hidden="' + (i !== 0) + '"><div class="sp-strategy-cycle__panel-inner"><p>' + esc(phase[1]) + '</p><ol>' + steps.map(function (item, n) { return '<li><span>' + number(i * 2 + n) + '</span><div><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></div></li>'; }).join('') + '</ol></div></div></li>';
+      return '<li class="sp-strategy-cycle__phase" style="--sp-item-delay:' + (i * .11) + 's"><div class="sp-strategy-cycle__phase-head"><h3>' + esc(phase[0]) + '</h3><p>' + esc(phase[1]) + '</p></div><ol class="sp-strategy-cycle__steps">' + steps.map(function (item) { return '<li><div><h4>' + esc(item[0]) + '</h4><p>' + esc(item[1]) + '</p></div></li>'; }).join('') + '</ol></li>';
     }).join('') + '</ol></div></section>';
 }
 function renderStrategyGate(section) {
@@ -499,7 +499,7 @@ function renderStrategyGate(section) {
     ? 'This format does not replace a product, sales discipline or management decisions. It creates a practical marketing frame around them.'
     : 'Этот формат не подменяет продукт, продажи или управленческие решения. Он создаёт вокруг них рабочую маркетинговую рамку.';
   return '<section class="sp-section sp-strategy-gate-section"><div class="wrap"><div class="sp-strategy-gate" data-sp-reveal><div class="sp-strategy-gate__intro"><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span><aside>' + esc(caveat) + '</aside></div><ol class="sp-strategy-gate__items">' + section.items.map(function (item, i) {
-      return '<li style="--sp-item-delay:' + (i * .075) + 's"><span>' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+      return '<li style="--sp-item-delay:' + (i * .075) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
 function renderHead(section) {
@@ -697,22 +697,6 @@ function bindStrategyExperience() {
   syncScopeAccessibility();
   currentStrategyResizeHandler = syncScopeAccessibility;
   window.addEventListener('resize', currentStrategyResizeHandler, { passive:true });
-
-  var cycleTriggers = $$('[data-strategy-cycle-trigger]');
-  cycleTriggers.forEach(function (trigger) {
-    trigger.addEventListener('click', function () {
-      var phase = trigger.closest('.sp-strategy-cycle__phase');
-      var opening = !phase.classList.contains('is-open');
-      cycleTriggers.forEach(function (item) {
-        var itemPhase = item.closest('.sp-strategy-cycle__phase');
-        var isOpen = item === trigger && opening;
-        itemPhase.classList.toggle('is-open', isOpen);
-        item.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        var panel = $('#' + item.getAttribute('aria-controls'));
-        if (panel) panel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-      });
-    });
-  });
 
   var depth = $('[data-strategy-depth]');
   var visual = depth && depth.closest('.sp-hero__visual');
