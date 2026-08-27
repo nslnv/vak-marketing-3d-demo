@@ -416,7 +416,7 @@
   .sp-strategy-scope__body{grid-template-columns:1fr;gap:24px}
   .sp-strategy-scope__detail{display:none}
   .sp-strategy-scope__mobile-output{max-height:0;display:block;overflow:hidden;margin:0;color:var(--ink-2);font-size:13.5px;line-height:1.57;opacity:0;transition:max-height .58s cubic-bezier(.16,.74,.25,1),opacity .36s ease,margin .58s cubic-bezier(.16,.74,.25,1)}
-  .sp-strategy-scope__item.is-active .sp-strategy-scope__mobile-output{max-height:94px;margin:0 10px 17px 51px;opacity:1}
+  .sp-strategy-scope__item.is-active .sp-strategy-scope__mobile-output{max-height:128px;margin:0 10px 17px 14px;opacity:1}
   .sp-strategy-cycle{grid-template-columns:1fr;gap:16px}
   .sp-strategy-cycle__phase{padding-top:19px}
   .sp-strategy-cycle__phase-head h3{font-size:26px}
