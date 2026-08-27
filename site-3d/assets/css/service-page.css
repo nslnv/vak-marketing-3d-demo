@@ -138,6 +138,9 @@
 .sp[data-service="strategy"] .sp-kicker{margin-bottom:18px;color:rgba(232,225,255,.68);font-size:14px;font-weight:390;letter-spacing:-.012em;text-transform:none}
 .sp[data-service="strategy"] .sp-kicker::before{display:none}
 .sp[data-service="strategy"] .sp-hero__cred{max-width:43ch;margin:24px 0 0;color:var(--ink-3);font-size:14px;line-height:1.58}
+/* Strategy is read as one continuous field: its section rhythm comes from
+   spacing and atmosphere, not full-bleed divider rules between chapters. */
+.sp[data-service="strategy"] .sp-section--rule{border-top:0}
 .sp-hero__visual--strategy{overflow:visible;isolation:isolate}
 .sp-hero__visual--strategy::before,.sp-hero__visual--strategy::after{display:none}
 .sp-hero__visual--strategy .sp-hero__photo{inset:-2% -7% -2% -2%;z-index:0;overflow:hidden;border:0;clip-path:none;background:transparent;box-shadow:none;transform:none;-webkit-mask-image:radial-gradient(ellipse 87% 88% at 52% 50%,#000 0%,#000 48%,rgba(0,0,0,.88) 65%,rgba(0,0,0,.38) 82%,transparent 100%);mask-image:radial-gradient(ellipse 87% 88% at 52% 50%,#000 0%,#000 48%,rgba(0,0,0,.88) 65%,rgba(0,0,0,.38) 82%,transparent 100%)}
