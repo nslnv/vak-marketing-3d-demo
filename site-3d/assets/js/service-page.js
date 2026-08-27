@@ -54,12 +54,19 @@ var SERVICES = {
         ['Один рабочий контур','Координируем внешние направления и работаем вместе с in-house-командой, если она есть.']
       ]},
       scope:{ label:'Рабочая карта', title:'Как собираем результат', note:'Стратегия не лежит в презентации: каждое решение переводится в конкретную задачу, владельца и ритм проверки.', items:[
-        'Анализ бизнеса, ниши и конкурентного поля','Цели, гипотезы и ключевые метрики','Каналы и маркетинговые инструменты под задачу','Позиционирование и упаковка бренда','Запуск приоритетных направлений','Тестирование гипотез и каналов','Оптимизация по данным','Регулярная отчётность и корректировка плана'
+        {title:'Рынок и исходная позиция', question:'Где лежит реальный спрос и какие ограничения нельзя игнорировать?', output:'Карта сегментов, конкурентов и факторов, которые влияют на решение клиента.'},
+        {title:'Цель и критерии', question:'Какой бизнес-результат должен подтвердить, что движение идёт в нужную сторону?', output:'Цели, рабочие гипотезы, ключевые метрики и ритм сверки.'},
+        {title:'Позиционирование', question:'Что именно бренд должен доказать рынку — и чем это будет подкреплено?', output:'Опорные сообщения, аргументы и логика коммуникации.'},
+        {title:'Каналы', question:'Где у проекта есть право на внимание, а где не стоит тратить ресурс?', output:'Приоритет каналов и понятная роль каждого направления.'},
+        {title:'Первая волна работы', question:'Что запускать сначала, чтобы быстрее получить сигнал, а не распылить команду?', output:'Последовательность задач, владельцы и точки запуска.'},
+        {title:'Проверка гипотез', question:'Какие сообщения, форматы и каналы стоит проверить в реальном контексте?', output:'Матрица проверок и критерии, по которым решения остаются или снимаются.'},
+        {title:'Корректировка', question:'Что усиливать, менять или останавливать после первых данных?', output:'Обновлённый приоритет задач и распределение ресурса.'},
+        {title:'Рабочий ритм', question:'Как команде видеть картину целиком, а не отдельные отчёты?', output:'Короткая регулярная сводка, решения и следующий шаг.'}
       ]},
-      diagram:{ label:'Внутри стратегии', title:'Инструменты в единой системе', note:'Формат определяется не модой и не чек-листом, а стадией проекта и его задачей.', items:[
+      diagram:{ label:'Связи внутри работы', title:'Одна задача связывает все направления', note:'PR, контент, LinkedIn, SEO и привлечение работают в общем контексте — иначе системность остаётся только в презентации.', items:[
         ['Репутация','PR и профильные медиа'],['Диалоги','B2B-маркетинг и LinkedIn'],['Спрос','SEO и поисковая выдача'],['Содержание','Контент и SMM'],['Привлечение','Таргетированная и контекстная реклама'],['Скорость','Автоматизация маркетинговых процессов'],['Контроль','Аналитика и регулярная отчётность']
       ]},
-      process:{ label:'Как проходит работа', title:'От погружения к следующему циклу роста', items:[
+      process:{ label:'Рабочий цикл', title:'Понять, запустить, скорректировать', items:[
         ['Погружение','Разбираем бизнес, аудиторию, цели и текущее состояние маркетинга.'],
         ['Стратегия','Формируем последовательность каналов, задач и метрик.'],
         ['Запуск','Собираем нужные направления в единый рабочий ритм.'],
@@ -87,12 +94,19 @@ var SERVICES = {
         ['One operating loop','We coordinate external disciplines and work alongside an in-house team when one is in place.']
       ]},
       scope:{ label:'Operating map', title:'How we build a result', note:'The strategy is not left in a deck: each decision becomes a concrete task, owner and review rhythm.', items:[
-        'Business, market and competitor analysis','Goals, hypotheses and key metrics','Channels and marketing tools for the task','Positioning and brand packaging','Launch of priority workstreams','Testing of hypotheses and channels','Data-led optimisation','Regular reporting and plan adjustment'
+        {title:'Market and starting point', question:'Where is the real demand, and which constraints cannot be ignored?', output:'A map of segments, competitors and factors that influence the buyer’s decision.'},
+        {title:'Objective and criteria', question:'Which business outcome will show that the work is moving in the right direction?', output:'Objectives, working hypotheses, key metrics and a review rhythm.'},
+        {title:'Positioning', question:'What exactly must the brand prove to the market — and what will substantiate it?', output:'Core messages, evidence and a communication logic.'},
+        {title:'Channels', question:'Where does the project have a right to attention, and where should resource not be spent?', output:'Channel priorities and a clear role for each workstream.'},
+        {title:'First wave of work', question:'What should launch first to produce a signal rather than spread the team thin?', output:'Task sequence, owners and launch points.'},
+        {title:'Hypothesis review', question:'Which messages, formats and channels should be checked in their real context?', output:'A validation matrix and criteria for keeping or stopping work.'},
+        {title:'Adjustment', question:'What should be strengthened, changed or stopped after the first data?', output:'Updated priorities and resource allocation.'},
+        {title:'Operating rhythm', question:'How does the team see one picture instead of isolated reports?', output:'A concise regular readout, decisions and the next move.'}
       ]},
-      diagram:{ label:'Inside the strategy', title:'Tools in one system', note:'The format follows the project stage and its objective, never a fashionable checklist.', items:[
+      diagram:{ label:'Connections in the work', title:'One objective connects every discipline', note:'PR, content, LinkedIn, SEO and acquisition work in one context — otherwise a “system” remains only a presentation claim.', items:[
         ['Reputation','PR and specialist media'],['Conversations','B2B marketing and LinkedIn'],['Demand','SEO and search visibility'],['Substance','Content and social'],['Acquisition','Targeted and search advertising'],['Velocity','Marketing process automation'],['Control','Analytics and regular reporting']
       ]},
-      process:{ label:'How we work', title:'From immersion to the next growth cycle', items:[
+      process:{ label:'Operating cycle', title:'Understand, launch, adjust', items:[
         ['Immersion','We examine the business, audience, goal and current marketing state.'],
         ['Strategy','We set the sequence of channels, tasks and metrics.'],
         ['Launch','We put the required workstreams into one operating rhythm.'],
@@ -400,12 +414,16 @@ var SERVICES = {
 var service = SERVICES[key];
 if (!service) return;
 
+var isStrategy = key === 'strategy';
 var language = 'ru';
 try { language = localStorage.getItem('vak-lang') === 'en' ? 'en' : 'ru'; } catch (e) {}
 var copy = function () { return service[language]; };
 var number = function (n) { return String(n + 1).padStart(2, '0'); };
 var currentNavScrollHandler = null;
 var currentNavKeyHandler = null;
+var currentRevealObserver = null;
+var currentStrategyObserver = null;
+var currentStrategyResizeHandler = null;
 
 function linkArrow(label, href, extra) {
   return '<a class="' + (extra || 'link-arrow') + '" href="' + esc(href) + '">' + esc(label) + '<i></i></a>';
@@ -414,49 +432,110 @@ function photoAlt() {
   return language === 'en' ? 'VAK Marketing service visual' : 'Визуальный материал VAK Marketing';
 }
 function renderHero(d) {
+  var visualClass = 'sp-hero__visual' + (isStrategy ? ' sp-hero__visual--strategy' : '');
+  var depthOpen = isStrategy ? '<div class="sp-hero__depth-stage" data-strategy-depth>' : '';
+  var depthClose = isStrategy ? '</div>' : '';
+  var planes = isStrategy ? '<i class="sp-hero__plane sp-hero__plane--back" aria-hidden="true"></i><i class="sp-hero__plane sp-hero__plane--mid" aria-hidden="true"></i><i class="sp-hero__plane sp-hero__plane--front" aria-hidden="true"></i><i class="sp-hero__markers" aria-hidden="true"></i>' : '';
+  var strategyCred = language === 'en'
+    ? 'More than eight years working with complex iGaming, FinTech, Crypto and B2B markets.'
+    : 'Более восьми лет работаем со сложными рынками iGaming, FinTech, Crypto и B2B.';
+  var facts = isStrategy
+    ? '<p class="sp-hero__cred">' + esc(strategyCred) + '</p>'
+    : '<div class="sp-hero__facts">' + d.hero.facts.map(function (fact) {
+        return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
+      }).join('') + '</div>';
   return '<section class="sp-hero"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
-    + '<p class="sp-kicker">' + esc(service.index) + ' / ' + esc(d.crumb) + '</p>'
+    + '<p class="sp-kicker">' + (isStrategy ? esc(d.crumb) : esc(service.index) + ' / ' + esc(d.crumb)) + '</p>'
     + '<h1 class="sp-title">' + esc(d.hero.title) + '</h1>'
     + '<p class="sp-lead">' + esc(d.hero.lead) + '</p>'
     + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a>'
     + linkArrow(language === 'en' ? 'Back to services' : 'Все услуги', '/#services') + '</div>'
-    + '<div class="sp-hero__facts">' + d.hero.facts.map(function (fact) {
-        return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
-      }).join('') + '</div></div>'
-    + '<div class="sp-hero__visual" data-sp-reveal style="--sp-delay:.10s"><div class="sp-hero__photo"><img src="' + service.photo + '" alt="' + photoAlt() + '" fetchpriority="high"></div>'
-    + '<div class="sp-hero__trace"></div><div class="sp-hero__index"><b>' + esc(service.index) + '</b><span>VAK Marketing</span></div></div>'
+    + facts + '</div>'
+    + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s">' + depthOpen + planes + '<div class="sp-hero__photo"><img src="' + service.photo + '" alt="' + photoAlt() + '" fetchpriority="high"></div>'
+    + '<div class="sp-hero__trace"></div><div class="sp-hero__index"><b>' + esc(service.index) + '</b><span>VAK Marketing</span></div>' + depthClose + '</div>'
     + '</div></section>';
+}
+function renderStrategyProof(section) {
+  return '<section class="sp-section sp-section--rule sp-decision-section"><div class="wrap">'
+    + '<div class="sp-decision-frame" data-sp-reveal><div class="sp-decision-frame__intro"><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
+    + '<div class="sp-decision-frame__route" aria-hidden="true"><i></i><i></i><i></i><i></i></div>'
+    + '<ol class="sp-decision-frame__items">' + section.items.map(function (item, i) {
+      return '<li class="sp-decision-frame__item" style="--sp-item-delay:' + (i * .08) + 's"><span>' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    }).join('') + '</ol></div></div></section>';
+}
+function renderStrategyScope(section) {
+  var first = section.items[0];
+  var question = language === 'en' ? 'Question we answer' : 'Вопрос, на который отвечаем';
+  var output = language === 'en' ? 'What remains in the work' : 'Что остаётся в работе';
+  return '<section class="sp-section sp-strategy-scope-section"><div class="wrap"><div class="sp-strategy-scope">'
+    + '<div class="sp-strategy-scope__intro" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
+    + '<div class="sp-strategy-scope__body" data-sp-reveal style="--sp-delay:.05s"><ol class="sp-strategy-scope__list">' + section.items.map(function (item, i) {
+      var active = i === 0;
+      return '<li class="sp-strategy-scope__item' + (active ? ' is-active' : '') + '" style="--sp-item-delay:' + (i * .055) + 's"><button type="button" class="sp-strategy-scope__button" data-strategy-scope-step data-question="' + esc(item.question) + '" data-output="' + esc(item.output) + '" aria-pressed="' + active + '"><span class="sp-strategy-scope__num">' + number(i) + '</span><span class="sp-strategy-scope__title">' + esc(item.title) + '</span><i aria-hidden="true"></i></button><p class="sp-strategy-scope__mobile-output" aria-hidden="' + (!active) + '">' + esc(item.output) + '</p></li>';
+    }).join('') + '</ol><aside class="sp-strategy-scope__detail" id="strategyScopeDetail" aria-live="polite"><span>' + esc(question) + '</span><h3>' + esc(first.question) + '</h3><span>' + esc(output) + '</span><p>' + esc(first.output) + '</p></aside></div></div></div></section>';
+}
+function renderStrategySystem(section) {
+  var core = language === 'en' ? 'Business<br>objective' : 'Задача<br>бизнеса';
+  var sub = language === 'en' ? 'aligns the work' : 'собирает работу';
+  return '<section class="sp-section sp-section--tight sp-section--rule sp-strategy-system-section"><div class="wrap">'
+    + '<div class="sp-strategy-system__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
+    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><div class="sp-strategy-system__field" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
+      return '<li class="sp-strategy-system__node" style="--sp-item-delay:' + (i * .07) + 's"><span>' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    }).join('') + '</ol></div></div></section>';
+}
+function renderStrategyProcess(section) {
+  var phases = language === 'en'
+    ? [['Define', 'Immersion and the direction of work'], ['Operate', 'Launch and review in the real market'], ['Adapt', 'Optimisation and the next expansion']]
+    : [['Диагностика', 'Погружение и выбор направления'], ['Работа', 'Запуск и проверка на реальном рынке'], ['Корректировка', 'Оптимизация и следующее расширение']];
+  return '<section class="sp-section sp-section--rule sp-strategy-cycle-section"><div class="wrap"><div class="sp-strategy-cycle__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2></div>'
+    + '<ol class="sp-strategy-cycle" data-sp-reveal style="--sp-delay:.05s">' + phases.map(function (phase, i) {
+      var steps = section.items.slice(i * 2, i * 2 + 2);
+      return '<li class="sp-strategy-cycle__phase' + (i === 0 ? ' is-open' : '') + '" style="--sp-item-delay:' + (i * .11) + 's"><button type="button" class="sp-strategy-cycle__trigger" data-strategy-cycle-trigger aria-expanded="' + (i === 0) + '" aria-controls="strategyCycle' + i + '"><span>' + number(i) + '</span><strong>' + esc(phase[0]) + '</strong><i aria-hidden="true"></i></button><div class="sp-strategy-cycle__panel" id="strategyCycle' + i + '" aria-hidden="' + (i !== 0) + '"><div class="sp-strategy-cycle__panel-inner"><p>' + esc(phase[1]) + '</p><ol>' + steps.map(function (item, n) { return '<li><span>' + number(i * 2 + n) + '</span><div><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></div></li>'; }).join('') + '</ol></div></div></li>';
+    }).join('') + '</ol></div></section>';
+}
+function renderStrategyGate(section) {
+  var caveat = language === 'en'
+    ? 'This format does not replace a product, sales discipline or management decisions. It creates a practical marketing frame around them.'
+    : 'Этот формат не подменяет продукт, продажи или управленческие решения. Он создаёт вокруг них рабочую маркетинговую рамку.';
+  return '<section class="sp-section sp-strategy-gate-section"><div class="wrap"><div class="sp-strategy-gate" data-sp-reveal><div class="sp-strategy-gate__intro"><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span><aside>' + esc(caveat) + '</aside></div><ol class="sp-strategy-gate__items">' + section.items.map(function (item, i) {
+      return '<li style="--sp-item-delay:' + (i * .075) + 's"><span>' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    }).join('') + '</ol></div></div></section>';
 }
 function renderHead(section) {
   return '<div class="sp-head" data-sp-reveal><div><span class="sp-head__label">' + esc(section.label) + '</span><h2>' + esc(section.title) + '</h2></div>'
     + (section.note ? '<p class="sp-head__note">' + esc(section.note) + '</p>' : '') + '</div>';
 }
 function renderProof(section) {
+  if (isStrategy) return renderStrategyProof(section);
   return '<section class="sp-section sp-section--rule"><div class="wrap">' + renderHead(section)
     + '<div class="sp-proof" data-sp-reveal style="--sp-delay:.06s">' + section.items.map(function (item, i) {
       return '<article class="sp-proof__item"><span class="sp-proof__num">' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></article>';
     }).join('') + '</div></div></section>';
 }
 function renderScope(section) {
+  if (isStrategy) return renderStrategyScope(section);
   return '<section class="sp-section"><div class="wrap sp-scope"><div class="sp-scope__intro" data-sp-reveal><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2>'
     + (section.note ? '<p>' + esc(section.note) + '</p>' : '') + '</div><ol class="sp-index" data-sp-reveal style="--sp-delay:.06s">'
     + section.items.map(function (item) { return '<li class="sp-index__item"><span>' + esc(item) + '</span></li>'; }).join('')
     + '</ol></div></section>';
 }
 function renderDiagram(section) {
+  if (isStrategy) return renderStrategySystem(section);
   return '<section class="sp-section sp-section--tight sp-section--rule"><div class="wrap">' + renderHead(section)
     + '<div class="sp-diagram sp-diagram--items-' + section.items.length + '" data-sp-reveal style="--sp-delay:.04s"><div class="sp-diagram__items">'
     + section.items.map(function (item) { return '<article class="sp-diagram__item"><i class="sp-diagram__dot"></i><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></article>'; }).join('')
     + '</div></div></div></section>';
 }
 function renderProcess(section) {
+  if (isStrategy) return renderStrategyProcess(section);
   return '<section class="sp-section sp-section--rule"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-process" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
       return '<li class="sp-process__item"><span class="sp-process__num">' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></section>';
 }
 function renderSectors(section, modifier) {
+  if (isStrategy && !modifier) return renderStrategyGate(section);
   return '<section class="sp-section' + (modifier ? ' ' + modifier : '') + '"><div class="wrap">' + renderHead(section)
     + '<div class="sp-sectors" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
       return '<article class="sp-sector"><span class="sp-sector__tag">' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></article>';
@@ -479,11 +558,11 @@ function renderMedia(section) {
     + '<a class="sp-media-cta" href="#consultation">' + esc(section.action) + '</a></div></section>';
 }
 function renderTrust(section) {
-  return '<section class="sp-trust"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
-    + '<div class="sp-logo-grid" style="--logo-columns:' + Math.min(5, section.logos.length) + ';--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, false); }).join('') + '</div></div></section>';
+  return '<section class="sp-trust' + (isStrategy ? ' sp-trust--strategy' : '') + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
+    + '<div class="sp-logo-grid sp-logo-grid--free" style="--logo-columns:' + Math.min(5, section.logos.length) + ';--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, false); }).join('') + '</div></div></section>';
 }
 function renderCta(section) {
-  return '<section class="sp-cta" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'
+  return '<section class="sp-cta' + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'
     + '<form class="sp-form" id="spForm" data-sp-reveal style="--sp-delay:.08s" novalidate><div class="sp-form__row"><label class="sp-field"><span>' + (language === 'en' ? 'Name' : 'Имя') + '</span><input name="name" autocomplete="name" required></label><label class="sp-field"><span>' + (language === 'en' ? 'Email / Telegram' : 'Email / Telegram') + '</span><input name="contact" autocomplete="email" required></label></div><input type="hidden" name="service" value="' + esc(key) + '"><p class="sp-form__note" aria-live="polite"></p><button class="btn btn--primary" type="submit">' + esc(section.button) + '</button></form></div></section>';
 }
 function renderFooter() {
@@ -506,6 +585,7 @@ function render(d) {
   renderNav();
   bindForm(d.cta);
   bindReveal();
+  bindStrategyExperience();
 }
 
 /* ---------- Navigation and interactions -------------------------------- */
@@ -560,14 +640,114 @@ function bindForm(cta) {
   });
 }
 function bindReveal() {
+  if (currentRevealObserver) { currentRevealObserver.disconnect(); currentRevealObserver = null; }
   var nodes = $$('[data-sp-reveal]');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
     nodes.forEach(function (node) { node.classList.add('is-in'); }); return;
   }
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('is-in'); observer.unobserve(entry.target); } });
+  currentRevealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('is-in'); currentRevealObserver.unobserve(entry.target); } });
   }, { rootMargin:'0px 0px -8% 0px', threshold:.08 });
-  nodes.forEach(function (node) { observer.observe(node); });
+  nodes.forEach(function (node) { currentRevealObserver.observe(node); });
+}
+function bindStrategyExperience() {
+  document.body.classList.remove('sp--strategy-ready');
+  if (currentStrategyResizeHandler) { window.removeEventListener('resize', currentStrategyResizeHandler); currentStrategyResizeHandler = null; }
+  if (!isStrategy) return;
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var system = $('[data-sp-system]');
+  if (currentStrategyObserver) { currentStrategyObserver.disconnect(); currentStrategyObserver = null; }
+  if (system) {
+    if (reduced || !('IntersectionObserver' in window)) system.classList.add('is-assembled');
+    else {
+      currentStrategyObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-assembled');
+          currentStrategyObserver.unobserve(entry.target);
+        });
+      }, { rootMargin:'0px 0px -14% 0px', threshold:.14 });
+      currentStrategyObserver.observe(system);
+    }
+  }
+
+  var scopeButtons = $$('[data-strategy-scope-step]');
+  var scopeDetail = $('#strategyScopeDetail');
+  function syncScopeAccessibility() {
+    var useMobileOutput = window.matchMedia('(max-width: 760px)').matches;
+    scopeButtons.forEach(function (item) {
+      var mobileOutput = $('.sp-strategy-scope__mobile-output', item.parentElement);
+      if (mobileOutput) mobileOutput.setAttribute('aria-hidden', useMobileOutput && item.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    });
+  }
+  function activateScope(button) {
+    if (!button || !scopeDetail) return;
+    scopeButtons.forEach(function (item) {
+      var active = item === button;
+      item.setAttribute('aria-pressed', active ? 'true' : 'false');
+      item.parentElement.classList.toggle('is-active', active);
+    });
+    var question = $('h3', scopeDetail), output = $('p', scopeDetail);
+    if (question) question.textContent = button.getAttribute('data-question') || '';
+    if (output) output.textContent = button.getAttribute('data-output') || '';
+    syncScopeAccessibility();
+  }
+  scopeButtons.forEach(function (button) { button.addEventListener('click', function () { activateScope(button); }); });
+  syncScopeAccessibility();
+  currentStrategyResizeHandler = syncScopeAccessibility;
+  window.addEventListener('resize', currentStrategyResizeHandler, { passive:true });
+
+  var cycleTriggers = $$('[data-strategy-cycle-trigger]');
+  cycleTriggers.forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var phase = trigger.closest('.sp-strategy-cycle__phase');
+      var opening = !phase.classList.contains('is-open');
+      cycleTriggers.forEach(function (item) {
+        var itemPhase = item.closest('.sp-strategy-cycle__phase');
+        var isOpen = item === trigger && opening;
+        itemPhase.classList.toggle('is-open', isOpen);
+        item.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        var panel = $('#' + item.getAttribute('aria-controls'));
+        if (panel) panel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      });
+    });
+  });
+
+  var depth = $('[data-strategy-depth]');
+  var visual = depth && depth.closest('.sp-hero__visual');
+  var canTilt = !reduced && depth && visual && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  if (canTilt) {
+    var pending = null, raf = 0;
+    function paintTilt() {
+      raf = 0;
+      if (!pending) return;
+      var rect = visual.getBoundingClientRect();
+      var dx = ((pending.clientX - rect.left) / rect.width - .5) * 2;
+      var dy = ((pending.clientY - rect.top) / rect.height - .5) * 2;
+      depth.style.setProperty('--sp-depth-rx', (dy * -2.15).toFixed(2) + 'deg');
+      depth.style.setProperty('--sp-depth-ry', (dx * 2.15).toFixed(2) + 'deg');
+      depth.style.setProperty('--sp-depth-x', (dx * 7).toFixed(1) + 'px');
+      depth.style.setProperty('--sp-depth-y', (dy * 6).toFixed(1) + 'px');
+      visual.classList.add('is-tilting');
+    }
+    visual.addEventListener('pointermove', function (event) {
+      if (event.pointerType !== 'mouse') return;
+      pending = event;
+      if (!raf) raf = requestAnimationFrame(paintTilt);
+    });
+    visual.addEventListener('pointerleave', function () {
+      pending = null;
+      if (raf) { cancelAnimationFrame(raf); raf = 0; }
+      visual.classList.remove('is-tilting');
+      depth.style.setProperty('--sp-depth-rx', '0deg');
+      depth.style.setProperty('--sp-depth-ry', '0deg');
+      depth.style.setProperty('--sp-depth-x', '0px');
+      depth.style.setProperty('--sp-depth-y', '0px');
+    });
+  }
+  if (!reduced) requestAnimationFrame(function () { document.body.classList.add('sp--strategy-ready'); });
+  else document.body.classList.add('sp--strategy-ready');
 }
 
 render(copy());

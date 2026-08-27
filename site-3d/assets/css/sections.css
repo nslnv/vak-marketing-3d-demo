@@ -412,16 +412,14 @@
    перекрашиваются и сохраняют собственную палитру. Размеры нормализованы по
    оптическому, а не по пиксельному габариту. */
 .logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  margin:0;padding:0;list-style:none;
-  border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  gap:clamp(18px,2.4vw,34px);margin:0;padding:0;list-style:none}
 .logos li{position:relative;display:flex;align-items:center;justify-content:center;
   min-height:clamp(112px,10.5vw,148px);padding:20px 24px;
-  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
-  color:rgba(255,255,255,.46);
-  transition:color .45s var(--e),background .45s var(--e)}
+  color:rgba(255,255,255,.46);background:transparent;
+  transition:color .45s var(--e)}
 .logos img{height:var(--h,38px);width:auto;max-width:84%;object-fit:contain;opacity:1;filter:none;
   transition:opacity .45s var(--e),filter .45s var(--e),transform .5s var(--e-out)}
-.logos li.logos__brand{background:rgba(255,255,255,.018)}
+.logos li.logos__brand{background:transparent}
 .logos li.logos__brand img{height:var(--h,38px);max-width:84%;opacity:1;filter:none;position:relative;z-index:1}
 .logos li.logos__asset img{height:clamp(48px,5.4vw,74px)}
 /* У официальных файлов CoinDesk / BeInCrypto / ForkLog тёмный леттеринг.
@@ -436,16 +434,12 @@
   transition:transform .5s var(--e-out)}
 
 @media (hover:hover){
-  .logos li:hover{color:#fff;background:rgba(124,92,255,.055)}
+  .logos li:hover{color:#fff}
   .logos li:hover img{opacity:1;transform:translateY(-2px);filter:none}
   .logos li.logos__brand:hover img{filter:none;transform:translateY(-2px) scale(1.025)}
   .logos li[data-logo-todo]:hover span{transform:translateY(-2px)}
 }
-/* тонкая подсветка кромки ячейки под курсором */
-.logos li::after{content:'';position:absolute;left:0;right:0;top:-1px;height:1px;
-  background:linear-gradient(90deg,transparent,var(--vio-2),var(--mag),transparent);
-  opacity:0;transition:opacity .45s var(--e)}
-@media (hover:hover){.logos li:hover::after{opacity:.9}}
+/* Без стенок ячеек: логотипы остаются свободным рядом, а не таблицей. */
 
 @media (min-width:620px){.logos{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (min-width:900px){.logos{grid-template-columns:repeat(4,minmax(0,1fr))}}
