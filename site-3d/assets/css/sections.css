@@ -420,23 +420,28 @@
 .aud{padding-bottom:clamp(54px,5vw,76px)}
 .aud + .srv{padding-top:clamp(54px,5vw,76px)}
 
-/* ─── партнёры: свободный ряд логотипов ─────────────────────────────────
-   Белые подложки убраны: тёмные исходники переведены в светлую краску и
-   остаются частью общего поля. Подпись помогает опознать знак без названия. */
+/* ─── партнёры: стена логотипов ──────────────────────────────────────────
+   В сетке остаются официальные логотипы. Для исходников без цветной версии
+   используется читаемый светлый вариант; переданные брендовые файлы ниже не
+   перекрашиваются и сохраняют собственную палитру. Размеры нормализованы по
+   оптическому, а не по пиксельному габариту. */
 .logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:clamp(18px,2.4vw,34px);margin:0;padding:0;list-style:none}
-.logos li{--logo-filter:none;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;
-  min-height:clamp(126px,11vw,154px);padding:20px 24px;
+.logos li{position:relative;display:flex;align-items:center;justify-content:center;
+  min-height:clamp(112px,10.5vw,148px);padding:20px 24px;
   color:rgba(255,255,255,.46);background:transparent;
   transition:color .45s var(--e)}
-.logos img{height:var(--h,38px);width:auto;max-width:84%;object-fit:contain;opacity:1;filter:var(--logo-filter);
+.logos img{height:var(--h,38px);width:auto;max-width:84%;object-fit:contain;opacity:1;filter:none;
   transition:opacity .45s var(--e),filter .45s var(--e),transform .5s var(--e-out)}
 .logos li.logos__brand{background:transparent}
-.logos li.logos__brand img{height:var(--h,38px);max-width:84%;opacity:1;position:relative;z-index:1}
+.logos li.logos__brand img{height:var(--h,38px);max-width:84%;opacity:1;filter:none;position:relative;z-index:1}
 .logos li.logos__asset img{height:clamp(48px,5.4vw,74px)}
-.logos li.logos__light,.logos li.logos__asset{--logo-filter:brightness(0) invert(1)}
-.logos__name{position:relative;z-index:1;display:block;color:var(--ink-2);font-size:12px;font-weight:620;
-  letter-spacing:.018em;line-height:1.2;text-align:center}
+/* У официальных файлов CoinDesk / BeInCrypto / ForkLog тёмный леттеринг.
+   Светлая компактная плашка сохраняет исходные цвета и даёт им контраст, не
+   превращая всю ячейку в белую карточку. */
+.logos li.logos__light::before{content:'';position:absolute;width:min(84%,248px);height:58px;
+  border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.logos li.logos__light img{opacity:1;filter:none}
 /* пока официального файла нет — имя набрано нашим шрифтом в той же краске */
 .logos li[data-logo-todo] span{font-size:clamp(15px,1.35vw,19px);font-weight:500;
   letter-spacing:-.012em;white-space:nowrap;
@@ -444,9 +449,8 @@
 
 @media (hover:hover){
   .logos li:hover{color:#fff}
-  .logos li:hover img{opacity:1;transform:translateY(-2px)}
-  .logos li.logos__brand:hover img{transform:translateY(-2px) scale(1.025)}
-  .logos li:hover .logos__name{color:#fff}
+  .logos li:hover img{opacity:1;transform:translateY(-2px);filter:none}
+  .logos li.logos__brand:hover img{filter:none;transform:translateY(-2px) scale(1.025)}
   .logos li[data-logo-todo]:hover span{transform:translateY(-2px)}
 }
 /* Без стенок ячеек: логотипы остаются свободным рядом, а не таблицей. */

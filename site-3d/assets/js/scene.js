@@ -1131,25 +1131,25 @@ function boot(canvas) {
     /* x слегка смещён влево: при 3/4-ракурсе передняя корона оптически
        тяжелее хвоста, и так весь раскрытый силуэт оказывается ровно в центре
        экрана, а не у правого края. */
-    { t: 0.120, sec: 'about', aboutSlot: 1, p: 0.4200, cz: 7.5, cy:  0.08, x: -0.92, y:  0.02, z: -0.05, rx: -0.07, ry:  0.76, s: 0.58, sp: 0.84, br: 0.52, op: 0.76, ro: -0.010 },
+    { t: 0.120, sec: 'about', aboutSlot: 1, p: 0.3900, cz: 7.5, cy:  0.08, x: -0.92, y:  0.02, z: -0.05, rx: -0.07, ry:  0.76, s: 0.58, sp: 0.84, br: 0.52, op: 0.76, ro: -0.010 },
     /* Неподвижная центральная опора. Она даёт сцене время раскрыться и
        гарантирует мягкий старт ухода: PCHIP покидает эту точку с нулевой
        скоростью, но далее проходит K2 без искусственной остановки. */
-    { t: 0.124, sec: 'about', aboutBeat: 'centerHold', p: 0.6200, cz: 7.5, cy:  0.08, x: -0.92, y:  0.02, z: -0.05, rx: -0.07, ry:  0.76, s: 0.58, sp: 0.84, br: 0.52, op: 0.76, ro: -0.010 },
+    { t: 0.124, sec: 'about', aboutBeat: 'centerHold', p: 0.6500, cz: 7.5, cy:  0.08, x: -0.92, y:  0.02, z: -0.05, rx: -0.07, ry:  0.76, s: 0.58, sp: 0.84, br: 0.52, op: 0.76, ro: -0.010 },
     /* Пока пять узлов садятся обратно, сам прибор почти неподвижен: это
        даёт глазу время увидеть именно механическую сборку, без одновременного
        зума и резкого уноса вправо. */
-    { t: 0.127, sec: 'about', aboutSlot: 2, p: 0.9000, cz: 7.5, cy: 0.07, x: -0.72, y:  0.00, z: -0.08, rx:-0.075, ry: 0.78, s: 0.56, sp: 0.86, br: 0.51, op: 0.72, ro: -0.009 },
+    { t: 0.127, sec: 'about', aboutSlot: 2, p: 0.9100, cz: 7.5, cy: 0.07, x: -0.72, y:  0.00, z: -0.08, rx:-0.075, ry: 0.78, s: 0.56, sp: 0.86, br: 0.51, op: 0.72, ro: -0.009 },
     /* После точной сборки объект медленно сжимается и дрейфует по одной
        диагонали. К моменту Figures он уже достаточно мал и правее метрик —
        никакого броска за край и никакого прохода через текст. */
-    { t: 0.129, sec: 'about', p: 0.9140, cz: 7.51, cy:  0.06, x: -0.50, y: -0.02, z: -0.11, rx: -0.08, ry: 0.80, s: 0.545, sp: 0.88, br: 0.50, op: 0.67, ro: -0.008 },
-    { t: 0.130, sec: 'about', p: 0.9320, cz: 7.53, cy:  0.04, x: -0.22, y: -0.05, z: -0.16, rx: -0.09, ry: 0.83, s: 0.515, sp: 0.91, br: 0.49, op: 0.60, ro: -0.007 },
-    { t: 0.131, sec: 'about', p: 0.9500, cz: 7.55, cy:  0.02, x:  0.12, y: -0.09, z: -0.22, rx: -0.10, ry: 0.86, s: 0.475, sp: 0.94, br: 0.47, op: 0.51, ro: -0.006 },
-    { t: 0.132, sec: 'about', p: 0.9680, cz: 7.58, cy:  0.00, x:  0.50, y: -0.14, z: -0.30, rx: -0.12, ry: 0.89, s: 0.425, sp: 0.97, br: 0.45, op: 0.41, ro: -0.005 },
-    { t: 0.133, sec: 'about', aboutSlot: 3, p: 0.9750, cz: 7.60, cy: -0.01, x:  0.85, y: -0.19, z: -0.37, rx: -0.13, ry: 0.92, s: 0.390, sp: 0.99, br: 0.44, op: 0.34, ro: -0.004 },
-    { t: 0.135, sec: 'about', p: 0.9870, cz: 7.62, cy: -0.03, x:  1.35, y: -0.26, z: -0.46, rx: -0.14, ry: 0.96, s: 0.345, sp: 1.02, br: 0.43, op: 0.25, ro: -0.003 },
-    { t: 0.136, sec: 'about', p: 0.9960, cz: 7.64, cy: -0.05, x:  1.95, y: -0.34, z: -0.56, rx: -0.16, ry: 1.00, s: 0.300, sp: 1.04, br: 0.42, op: 0.17, ro: -0.002 },
+    { t: 0.129, sec: 'about', p: 0.9250, cz: 7.51, cy:  0.06, x: -0.56, y: -0.02, z: -0.11, rx: -0.08, ry: 0.80, s: 0.545, sp: 0.88, br: 0.50, op: 0.67, ro: -0.008 },
+    { t: 0.130, sec: 'about', p: 0.9400, cz: 7.53, cy:  0.04, x: -0.30, y: -0.05, z: -0.16, rx: -0.09, ry: 0.83, s: 0.515, sp: 0.91, br: 0.49, op: 0.60, ro: -0.007 },
+    { t: 0.131, sec: 'about', p: 0.9550, cz: 7.55, cy:  0.02, x:  0.00, y: -0.09, z: -0.22, rx: -0.10, ry: 0.86, s: 0.475, sp: 0.94, br: 0.47, op: 0.51, ro: -0.006 },
+    { t: 0.132, sec: 'about', p: 0.9700, cz: 7.58, cy:  0.00, x:  0.34, y: -0.14, z: -0.30, rx: -0.12, ry: 0.89, s: 0.425, sp: 0.97, br: 0.45, op: 0.41, ro: -0.005 },
+    { t: 0.133, sec: 'about', aboutSlot: 3, p: 0.9820, cz: 7.60, cy: -0.01, x:  0.85, y: -0.19, z: -0.37, rx: -0.13, ry: 0.92, s: 0.390, sp: 0.99, br: 0.44, op: 0.34, ro: -0.004 },
+    { t: 0.135, sec: 'about', p: 0.9910, cz: 7.62, cy: -0.03, x:  1.35, y: -0.26, z: -0.46, rx: -0.14, ry: 0.96, s: 0.345, sp: 1.02, br: 0.43, op: 0.25, ro: -0.003 },
+    { t: 0.136, sec: 'about', p: 0.9980, cz: 7.64, cy: -0.05, x:  1.95, y: -0.34, z: -0.56, rx: -0.16, ry: 1.00, s: 0.300, sp: 1.04, br: 0.42, op: 0.17, ro: -0.002 },
     /* В Figures прибор остаётся фоновым: плавно уменьшается и уходит
        вправо-вниз, тогда как сами метрики сохраняют полный приоритет. */
     { t: 0.145, sec: 'figures', p: 0.0200, cz: 7.67, cy: -0.07, x:  2.55, y: -0.50, z: -0.68, rx: -0.17, ry: 1.05, s: 0.255, sp: 1.07, br: 0.41, op: 0.10, ro: -0.001 },
@@ -1238,7 +1238,7 @@ function boot(canvas) {
     const compactAbout = innerWidth <= 900;
     /* На mobile всё действие происходит в экранной зоне сцены до начала
        copy; на desktop остаётся длинная режиссура с отдельной паузой. */
-    const aboutKeyP = compactAbout ? [0.07, 0.22, 0.40, 0.54] : [0.12, 0.42, 0.90, 0.975];
+    const aboutKeyP = compactAbout ? [0.07, 0.22, 0.40, 0.54] : [0.12, 0.39, 0.91, 0.982];
     const aboutPoses = compactAbout ? ABOUT_COMPACT_POSES : ABOUT_DESKTOP_POSES;
     /* Сначала всегда возвращаем полный desktop-маршрут: этот вызов идёт и
        при смене ориентации, когда прежняя compact-версия уже успела
@@ -1370,7 +1370,7 @@ function boot(canvas) {
   let aboutStart = 0, aboutEnd = 0;
   /* Значения заменяются resolveKeys после расчёта фактической высоты About. */
   let aboutBeats = [0.19, 0.75, 0.82, 0.84];
-  let aboutNamedBeats = { centerHold: 0.64 };
+  let aboutNamedBeats = { centerHold: 0.65 };
   let tuneAcc = 0, tuneN = 0;
 
   /* Критически задемпфированная пружина: доводит значение до цели без перелёта
@@ -1593,13 +1593,13 @@ function boot(canvas) {
       }
     }
 
-    /* Одна короткая кинематическая доводка на всём сайте. Раньше About
+    /* Одна спокойная кинематическая доводка на всём сайте. Раньше About
        переключал модель на прямой scroll, а соседние секции — на пружину:
-       именно на границах появлялся заметный толчок. 110 мс достаточно, чтобы
-       сгладить дискретные wheel-шаги, но не создаёт «резинового хвоста». */
+       именно на границах появлялся заметный толчок. 190 мс снимают резкость
+       wheel-шагов и одинаково отрабатывают ход вперёд и точный реверс. */
     const rawAboutProgress = (scrollT - aboutStart) / Math.max(1e-5, aboutEnd - aboutStart);
     const isInsideAbout = rawAboutProgress >= -0.08 && rawAboutProgress <= 1.12;
-    scrollS = reduced ? scrollT : damp(scrollS, scrollT, 'st', 0.11, dt);
+    scrollS = reduced ? scrollT : damp(scrollS, scrollT, 'st', 0.19, dt);
     /* Reduced motion — не пустой Hero, а спокойный статичный предметный
        кадр. После Hero он просто не рисуется: никакого scroll-driven
        перелёта, раскладки или резкой смены состояния. */
@@ -1632,8 +1632,8 @@ function boot(canvas) {
        остаются мягкие подлёт, пауза в центре и собранный выход. На mobile
        сохранён безопасный короткий диапазон до fade сцены. */
     const cascadeWindow = compactAbout ? 0.208
-      : Math.max(0.06, Math.min(openSpan, closeSpan) * 0.80);
-    const cascadeDuration = compactAbout ? 0.120 : cascadeWindow * 0.60;
+      : Math.max(0.06, Math.min(openSpan, closeSpan) * 0.84);
+    const cascadeDuration = compactAbout ? 0.120 : cascadeWindow * 0.64;
     const cascadeStep = (cascadeWindow - cascadeDuration) / moduleGaps;
     const openStart = compactAbout ? 0.09
       : aboutArrive + (openSpan - cascadeWindow) * 0.50;
@@ -1730,8 +1730,8 @@ function boot(canvas) {
        Работает одинаково вниз и вверх, только знак крена меняется. */
     const rawV = (scrollS - scrollPrev) / Math.max(dt, 1e-4);
     scrollPrev = scrollS;
-    scrollV += (rawV - scrollV) * Math.min(1, dt * 4.2);
-    const vv = Math.max(-1, Math.min(1, scrollV * 0.72));
+    scrollV += (rawV - scrollV) * Math.min(1, dt * 3.4);
+    const vv = Math.max(-1, Math.min(1, scrollV * 0.48));
     const va = Math.abs(vv);
     const mechanicalV = vv * (1 - aboutTechnical);
 
