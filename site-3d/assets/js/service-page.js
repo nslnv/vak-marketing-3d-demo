@@ -421,9 +421,26 @@ var copy = function () { return service[language]; };
 var currentNavScrollHandler = null;
 var currentNavKeyHandler = null;
 var currentNavPointerHandler = null;
+var currentNavResizeHandler = null;
 var currentRevealObserver = null;
 var currentStrategyObserver = null;
 var currentStrategyResizeHandler = null;
+var toastTimer = null;
+
+function toast(message) {
+  var el = $('#toast');
+  if (!el) return;
+  el.textContent = message;
+  el.classList.add('is-on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { el.classList.remove('is-on'); }, 2600);
+}
+document.addEventListener('click', function (event) {
+  var link = event.target.closest('[data-soon]');
+  if (!link) return;
+  event.preventDefault();
+  toast(language === 'en' ? 'This section is coming soon' : 'Раздел скоро появится');
+});
 
 function linkArrow(label, href, extra) {
   return '<a class="' + (extra || 'link-arrow') + '" href="' + esc(href) + '">' + esc(label) + '<i></i></a>';
@@ -456,8 +473,8 @@ function renderHero(d) {
         return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
       }).join('') + '</div>';
   var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
-  var kicker = isStrategy ? '' : '<p class="sp-kicker">' + esc(d.crumb) + '</p>';
-  var secondaryAction = isStrategy ? '' : linkArrow(language === 'en' ? 'Back to services' : 'Все услуги', '/#services');
+  var kicker = '<p class="sp-kicker">' + esc(d.crumb) + '</p>';
+  var secondaryAction = '<a class="btn btn--ghost" href="/#services">' + (language === 'en' ? 'View services' : 'Посмотреть услуги') + '</a>';
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + kicker
@@ -572,7 +589,7 @@ function renderLogo(keyName, media) {
 function renderMedia(section) {
   return '<section class="sp-trust sp-media-network sp-media-network--' + key + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
     + '<div class="sp-logo-grid" style="--logo-columns:5;--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, true); }).join('') + '</div>'
-    + '<a class="sp-media-cta" href="#consultation">' + esc(section.action) + '</a></div></section>';
+    + linkArrow(section.action, '#consultation') + '</div></section>';
 }
 function renderTrust(section) {
   return '<section class="sp-trust sp-trust--' + key + (isStrategy ? ' sp-trust--strategy' : '') + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
@@ -620,6 +637,7 @@ function navLinks(mobile) {
     ['/#clients', language === 'en' ? 'Clients' : 'Клиенты'],
     ['/#team', language === 'en' ? 'Team' : 'Команда'],
     ['/#about', language === 'en' ? 'About' : 'О нас'],
+    ['#', language === 'en' ? 'Blog' : 'Блог', true],
     ['/#contact', language === 'en' ? 'Contacts' : 'Контакты']
   ];
   var label = language === 'en' ? 'Services' : 'Услуги';
@@ -627,11 +645,11 @@ function navLinks(mobile) {
   var group = mobile
     ? '<details class="menu__services"><summary><span>' + label + '</span><i aria-hidden="true"></i></summary><div class="menu__services-links">' + serviceLinks + '</div></details>'
     : '<details class="nav__services"><summary><span>' + label + '</span><i aria-hidden="true"></i></summary><div class="nav__services-menu">' + serviceLinks + '</div></details>';
-  return group + items.map(function (item) { return '<a href="' + item[0] + '">' + item[1] + '</a>'; }).join('');
+  return group + items.map(function (item) { return '<a href="' + item[0] + '"' + (item[2] ? ' data-soon' : '') + '>' + item[1] + '</a>'; }).join('');
 }
 function renderNav() {
   var nav = $('#nav');
-  nav.innerHTML = '<div class="nav__bar"><a class="brand" href="/" aria-label="VAK Marketing"><svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13.2" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/><path d="M4.6 21.2C9 15 23 15 27.4 21.2" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M4.6 10.8C9 17 23 17 27.4 10.8" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="16" cy="16" r="2.1" fill="currentColor"/></svg><span class="brand__text">VAK <b>Marketing</b></span></a><nav class="nav__links" aria-label="' + (language === 'en' ? 'Primary navigation' : 'Основная навигация') + '">' + navLinks(false) + '</nav><div class="nav__side"><div class="lang" role="group" aria-label="Language"><button type="button" class="lang__b" data-lang="ru" aria-pressed="' + (language === 'ru') + '">RU</button><span class="lang__sep" aria-hidden="true"></span><button type="button" class="lang__b" data-lang="en" aria-pressed="' + (language === 'en') + '">EN</button></div><a class="btn btn--primary nav__cta" href="#consultation">' + (language === 'en' ? 'Book a consultation' : 'Получить консультацию') + '</a><button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="' + (language === 'en' ? 'Menu' : 'Меню') + '"><span></span><span></span></button></div></div><div class="menu" id="menu" hidden><nav class="menu__links" aria-label="' + (language === 'en' ? 'Mobile navigation' : 'Мобильная навигация') + '">' + navLinks(true) + '</nav><a class="btn btn--primary" href="#consultation">' + (language === 'en' ? 'Book a consultation' : 'Получить консультацию') + '</a></div>';
+  nav.innerHTML = '<div class="nav__bar"><a class="brand" href="/" aria-label="VAK Marketing"><svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13.2" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/><path d="M4.6 21.2C9 15 23 15 27.4 21.2" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M4.6 10.8C9 17 23 17 27.4 10.8" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="16" cy="16" r="2.1" fill="currentColor"/></svg><span class="brand__text">VAK <b>Marketing</b></span></a><nav class="nav__links" aria-label="' + (language === 'en' ? 'Primary navigation' : 'Основная навигация') + '">' + navLinks(false) + '</nav><div class="nav__side"><div class="lang" role="group" aria-label="' + (language === 'en' ? 'Language' : 'Язык / Language') + '"><button type="button" class="lang__b" data-lang="ru" aria-pressed="' + (language === 'ru') + '">RU</button><span class="lang__sep" aria-hidden="true"></span><button type="button" class="lang__b" data-lang="en" aria-pressed="' + (language === 'en') + '">EN</button></div><a class="btn btn--primary nav__cta" href="#consultation">' + (language === 'en' ? 'Book a consultation' : 'Получить консультацию') + '</a><button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="' + (language === 'en' ? 'Menu' : 'Меню') + '"><span></span><span></span></button></div></div><div class="menu" id="menu" hidden><nav class="menu__links" aria-label="' + (language === 'en' ? 'Mobile navigation' : 'Мобильная навигация') + '">' + navLinks(true) + '</nav><a class="btn btn--primary" href="#consultation">' + (language === 'en' ? 'Book a consultation' : 'Получить консультацию') + '</a></div>';
   bindNav();
 }
 function bindNav() {
@@ -643,6 +661,12 @@ function bindNav() {
   function closeServices() {
     if (!desktopServices) return;
     desktopServices.removeAttribute('open');
+  }
+  function menuFocusable() {
+    return $$('a[href],button:not([disabled]),summary,[tabindex]:not([tabindex="-1"])', menu).filter(function (el) {
+      var closed = el.closest('details:not([open])');
+      return !closed || el.tagName === 'SUMMARY';
+    });
   }
   if (desktopServices) {
     var servicesLeaveTimer;
@@ -687,6 +711,14 @@ function bindNav() {
     else close(false);
   });
   menu.addEventListener('click', function (event) { if (event.target.closest('a')) close(false); });
+  menu.addEventListener('keydown', function (event) {
+    if (event.key !== 'Tab' || menu.hidden) return;
+    var focusable = menuFocusable();
+    if (!focusable.length) return;
+    var first = focusable[0], last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
   if (currentNavKeyHandler) window.removeEventListener('keydown', currentNavKeyHandler);
   currentNavKeyHandler = function (event) {
     if (event.key !== 'Escape') return;
@@ -704,6 +736,11 @@ function bindNav() {
     if (desktopServices && desktopServices.open && !desktopServices.contains(event.target)) closeServices();
   };
   document.addEventListener('click', currentNavPointerHandler);
+  if (currentNavResizeHandler) window.removeEventListener('resize', currentNavResizeHandler);
+  currentNavResizeHandler = function () {
+    if (!window.matchMedia('(max-width:1080px)').matches) close(false);
+  };
+  window.addEventListener('resize', currentNavResizeHandler, { passive:true });
   $$('.lang__b', nav).forEach(function (button) { button.addEventListener('click', function () { language = button.getAttribute('data-lang'); try { localStorage.setItem('vak-lang', language); } catch (e) {} render(copy()); }); });
 }
 function bindForm(cta) {
