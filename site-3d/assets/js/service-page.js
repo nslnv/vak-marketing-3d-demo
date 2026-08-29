@@ -434,8 +434,8 @@ function photoAlt() {
 }
 function strategyProofTitle() {
   return language === 'en'
-    ? 'Not a menu of services, but a <span class="sp-decision-frame__accent">sequence of decisions</span>'
-    : 'Не набор услуг, а <span class="sp-decision-frame__accent">последовательность решений</span>';
+    ? '<span class="sp-decision-frame__line">Not a menu of services,</span><span class="sp-decision-frame__accent">but a sequence of decisions</span>'
+    : '<span class="sp-decision-frame__line">Не набор услуг, а</span><span class="sp-decision-frame__accent">последовательность решений</span>';
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual' + (isStrategy ? ' sp-hero__visual--strategy' : '');
