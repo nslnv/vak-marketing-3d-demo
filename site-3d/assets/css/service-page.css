@@ -151,10 +151,11 @@
 
 .sp-decision-frame{position:relative;display:block;padding-block:clamp(12px,2vw,28px);isolation:isolate}
 .sp-decision-frame::before{content:'';position:absolute;z-index:-1;inset:0 12%;background:radial-gradient(62% 66% at 50% 10%,rgba(174,149,255,.12),transparent 73%);pointer-events:none}
-.sp-decision-frame__head{max-width:min(100%,28ch);margin:0 auto clamp(38px,5vw,70px);text-align:center}
-.sp-decision-frame__head h2{max-width:100%;margin:0 auto;font-size:clamp(32px,3.45vw,53px);font-weight:360;line-height:1.07;letter-spacing:-.048em;text-align:center}
-.sp-decision-frame__line,.sp-decision-frame__accent{display:block;text-align:center;text-wrap:balance}
-.sp-decision-frame__accent{margin-top:.08em;color:#D8CEFF;font-weight:500;letter-spacing:-.055em}
+.sp-decision-frame__head{max-width:min(100%,780px);margin:0 auto clamp(38px,5vw,70px);text-align:center}
+.sp-decision-frame__head h2{max-width:100%;margin:0 auto;font-size:clamp(32px,3.45vw,53px);font-weight:360;line-height:1.07;letter-spacing:-.048em;text-align:center;text-wrap:balance}
+.sp-decision-frame__line{display:block;text-align:center;white-space:nowrap}
+.sp-decision-frame__line+.sp-decision-frame__line{margin-top:.08em}
+.sp-decision-frame__accent{color:#D8CEFF;font-weight:500;letter-spacing:-.055em}
 .sp-strategy-scope__intro>p,.sp-strategy-system__head>p,.sp-strategy-cycle__head>p,.sp-strategy-gate__intro>p{margin:0 0 15px;color:rgba(230,223,255,.69);font-size:15px;font-weight:390;letter-spacing:-.012em;text-transform:none}
 .sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{font-size:clamp(32px,3.45vw,53px);font-weight:340;line-height:1.07;letter-spacing:-.048em}
 .sp-strategy-scope__intro>span,.sp-strategy-system__head>span,.sp-strategy-gate__intro>span{display:block;max-width:34ch;margin-top:19px;color:var(--ink-2);font-size:15px;line-height:1.62}
@@ -426,6 +427,8 @@
   .sp[data-service="strategy"] .sp-hero__visual--strategy{min-height:76vw;max-height:330px}
   .sp-hero__visual--strategy .sp-hero__photo{inset:-6% -10% -6% -5%;transform:none}
   .sp-decision-frame,.sp-strategy-scope,.sp-strategy-gate{gap:28px}
+  .sp-decision-frame__head{max-width:100%}
+  .sp-decision-frame__line{white-space:normal}
   .sp-decision-frame__head h2,.sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{font-size:31px}
   .sp-strategy-scope__intro>p,.sp-strategy-system__head>p,.sp-strategy-cycle__head>p,.sp-strategy-gate__intro>p{margin-bottom:12px;font-size:14px}
   .sp-decision-frame__items,.sp-strategy-gate__items{grid-template-columns:1fr;gap:24px}
