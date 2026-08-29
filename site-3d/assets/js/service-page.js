@@ -448,6 +448,19 @@ function linkArrow(label, href, extra) {
 function photoAlt() {
   return language === 'en' ? 'VAK Marketing service visual' : 'Визуальный материал VAK Marketing';
 }
+function renderHeroTitle(title) {
+  var accents = {
+    strategy: language === 'en' ? 'A tailored marketing strategy' : 'Индивидуальная маркетинговая стратегия',
+    linkedin: language === 'en' ? 'LinkedIn as a lead channel' : 'LinkedIn как канал лидов',
+    pr: language === 'en' ? 'Media placements and rankings' : 'Публикации и позиции в медиа',
+    seo: language === 'en' ? 'SEO for competitive sectors' : 'SEO для конкурентных ниш',
+    localization: 'Crypto, FinTech, iGaming, Web3'
+  };
+  var accent = accents[key];
+  var start = accent ? title.indexOf(accent) : -1;
+  if (start === -1) return esc(title);
+  return esc(title.slice(0, start)) + '<span class="sp-title__accent">' + esc(accent) + '</span>' + esc(title.slice(start + accent.length));
+}
 function strategyProofTitle() {
   return language === 'en'
     ? '<span class="sp-decision-frame__line">Not a menu of services,</span><span class="sp-decision-frame__line">but a <span class="sp-decision-frame__accent">sequence of decisions</span></span>'
@@ -470,7 +483,7 @@ function renderHero(d) {
   var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
-    + '<h1 class="sp-title">' + esc(d.hero.title) + '</h1>'
+    + '<h1 class="sp-title">' + renderHeroTitle(d.hero.title) + '</h1>'
     + '<p class="sp-lead">' + esc(d.hero.lead) + '</p>'
     + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a></div>'
     + '</div>'
