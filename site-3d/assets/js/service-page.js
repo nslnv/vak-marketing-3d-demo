@@ -437,6 +437,18 @@ function strategyProofTitle() {
     ? '<span class="sp-decision-frame__line">Not a menu of services,</span><span class="sp-decision-frame__accent">but a sequence of decisions</span>'
     : '<span class="sp-decision-frame__line">Не набор услуг, а</span><span class="sp-decision-frame__accent">последовательность решений</span>';
 }
+function strategyFlow() {
+  return '<svg class="sp-strategy-system__links" viewBox="0 0 1200 540" preserveAspectRatio="none" aria-hidden="true" focusable="false">'
+    + '<defs><linearGradient id="sp-flow-lilac" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9B84FF" stop-opacity=".2"/><stop offset="58%" stop-color="#B8A8FF" stop-opacity=".76"/><stop offset="100%" stop-color="#E4B0DE" stop-opacity=".48"/></linearGradient><linearGradient id="sp-flow-cyan" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#69CFFF" stop-opacity=".18"/><stop offset="56%" stop-color="#87C8FF" stop-opacity=".72"/><stop offset="100%" stop-color="#C8B7FF" stop-opacity=".48"/></linearGradient><linearGradient id="sp-flow-rose" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#E3A5D6" stop-opacity=".18"/><stop offset="57%" stop-color="#D7A4E5" stop-opacity=".7"/><stop offset="100%" stop-color="#A998FF" stop-opacity=".46"/></linearGradient></defs>'
+    + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.1s" stroke="url(#sp-flow-cyan)" d="M514 226 C474 205 456 182 406 176 C356 170 350 116 300 110 C266 106 244 130 214 119"/>'
+    + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.15s" stroke="url(#sp-flow-lilac)" d="M600 218 C621 198 612 181 592 170 C572 159 594 143 600 115"/>'
+    + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.2s" stroke="url(#sp-flow-rose)" d="M686 226 C733 205 749 182 795 177 C842 172 850 120 899 114 C932 110 951 132 981 120"/>'
+    + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.25s" stroke="url(#sp-flow-lilac)" d="M514 315 C469 334 451 358 402 362 C352 366 358 403 304 405 C254 407 252 433 204 428 C171 424 160 424 130 430"/>'
+    + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.3s" stroke="url(#sp-flow-cyan)" d="M560 320 C536 342 552 359 526 371 C500 383 508 401 476 414 C457 421 448 429 435 435"/>'
+    + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.35s" stroke="url(#sp-flow-rose)" d="M640 320 C667 342 645 357 675 373 C705 389 689 405 724 417 C740 423 750 429 763 435"/>'
+    + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.4s" stroke="url(#sp-flow-lilac)" d="M686 315 C729 332 745 356 794 361 C843 366 842 402 895 406 C947 410 950 434 997 428 C1031 423 1046 424 1070 430"/>'
+    + '</svg>';
+}
 function renderHero(d) {
   var visualClass = 'sp-hero__visual' + (isStrategy ? ' sp-hero__visual--strategy' : '');
   var facts = isStrategy
@@ -482,7 +494,7 @@ function renderStrategySystem(section) {
   var sub = language === 'en' ? 'aligns the work' : 'собирает работу';
   return '<section class="sp-section sp-section--tight sp-section--rule sp-strategy-system-section"><div class="wrap">'
     + '<div class="sp-strategy-system__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
-    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><div class="sp-strategy-system__links" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
+    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s">' + strategyFlow() + '<div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
       return '<li class="sp-strategy-system__node" style="--sp-item-delay:' + (i * .07) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
