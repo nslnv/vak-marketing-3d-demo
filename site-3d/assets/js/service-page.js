@@ -432,6 +432,11 @@ function linkArrow(label, href, extra) {
 function photoAlt() {
   return language === 'en' ? 'VAK Marketing service visual' : 'Визуальный материал VAK Marketing';
 }
+function strategyProofTitle() {
+  return language === 'en'
+    ? 'Not a menu of services, but a <span class="sp-decision-frame__accent">sequence of decisions</span>'
+    : 'Не набор услуг, а <span class="sp-decision-frame__accent">последовательность решений</span>';
+}
 function renderHero(d) {
   var visualClass = 'sp-hero__visual' + (isStrategy ? ' sp-hero__visual--strategy' : '');
   var facts = isStrategy
@@ -456,7 +461,7 @@ function renderHero(d) {
 }
 function renderStrategyProof(section) {
   return '<section class="sp-section sp-section--rule sp-decision-section"><div class="wrap">'
-    + '<div class="sp-decision-frame" data-sp-reveal><div class="sp-decision-frame__head"><h2>' + esc(section.title) + '</h2></div>'
+    + '<div class="sp-decision-frame" data-sp-reveal><div class="sp-decision-frame__head"><h2>' + strategyProofTitle() + '</h2></div>'
     + '<ol class="sp-decision-frame__items">' + section.items.map(function (item, i) {
       return '<li class="sp-decision-frame__item" style="--sp-item-delay:' + (i * .08) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
@@ -477,7 +482,7 @@ function renderStrategySystem(section) {
   var sub = language === 'en' ? 'aligns the work' : 'собирает работу';
   return '<section class="sp-section sp-section--tight sp-section--rule sp-strategy-system-section"><div class="wrap">'
     + '<div class="sp-strategy-system__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
-    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
+    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><div class="sp-strategy-system__links" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
       return '<li class="sp-strategy-system__node" style="--sp-item-delay:' + (i * .07) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
