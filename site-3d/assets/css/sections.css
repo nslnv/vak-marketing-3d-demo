@@ -426,7 +426,17 @@
 .aud + .srv{padding-top:clamp(54px,5vw,76px)}
 
 /* ─── партнёры: стена логотипов ──────────────────────────────────────────
-   Логотипы остаются в исходных цветах и без отдельных подложек. */
+   Логотипы остаются в исходных цветах и без отдельных подложек. Их собирает
+   мягкая световая глубина секции: она помогает тёмному леттерингу читаться,
+   но не превращается в ровную серую плашку. */
+.ptn{position:relative;overflow:clip}
+.ptn::before{content:'';position:absolute;z-index:0;inset:0;pointer-events:none;
+  background:
+    radial-gradient(64% 86% at 10% 54%,rgba(124,92,255,.15),transparent 76%),
+    radial-gradient(72% 62% at 51% 58%,rgba(222,217,240,.16),transparent 78%),
+    radial-gradient(50% 76% at 101% 21%,rgba(255,82,184,.075),transparent 77%),
+    radial-gradient(46% 58% at 53% 102%,rgba(98,228,255,.045),transparent 78%)}
+.ptn>.wrap{position:relative;z-index:1}
 .logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:clamp(18px,2.4vw,34px);margin:0;padding:0;list-style:none}
 .logos li{position:relative;display:flex;align-items:center;justify-content:center;
