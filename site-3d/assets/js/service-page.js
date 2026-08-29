@@ -421,6 +421,7 @@ var copy = function () { return service[language]; };
 var number = function (n) { return String(n + 1).padStart(2, '0'); };
 var currentNavScrollHandler = null;
 var currentNavKeyHandler = null;
+var currentNavPointerHandler = null;
 var currentRevealObserver = null;
 var currentStrategyObserver = null;
 var currentStrategyResizeHandler = null;
@@ -433,30 +434,29 @@ function photoAlt() {
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual' + (isStrategy ? ' sp-hero__visual--strategy' : '');
-  var strategyCred = language === 'en'
-    ? 'More than eight years working with complex iGaming, FinTech, Crypto and B2B markets.'
-    : 'Более восьми лет работаем со сложными рынками iGaming, FinTech, Crypto и B2B.';
   var facts = isStrategy
-    ? '<p class="sp-hero__cred">' + esc(strategyCred) + '</p>'
+    ? ''
     : '<div class="sp-hero__facts">' + d.hero.facts.map(function (fact) {
         return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
       }).join('') + '</div>';
   var index = isStrategy ? '' : '<div class="sp-hero__index"><b>' + esc(service.index) + '</b><span>VAK Marketing</span></div>';
   var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace"></div>' + index;
+  var kicker = isStrategy ? '' : '<p class="sp-kicker">' + esc(service.index) + ' / ' + esc(d.crumb) + '</p>';
+  var secondaryAction = isStrategy ? '' : linkArrow(language === 'en' ? 'Back to services' : 'Все услуги', '/#services');
   return '<section class="sp-hero"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
-    + '<p class="sp-kicker">' + (isStrategy ? esc(d.crumb) : esc(service.index) + ' / ' + esc(d.crumb)) + '</p>'
+    + kicker
     + '<h1 class="sp-title">' + esc(d.hero.title) + '</h1>'
     + '<p class="sp-lead">' + esc(d.hero.lead) + '</p>'
     + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a>'
-    + linkArrow(language === 'en' ? 'Back to services' : 'Все услуги', '/#services') + '</div>'
+    + secondaryAction + '</div>'
     + facts + '</div>'
     + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s"><div class="sp-hero__photo"><img src="' + service.photo + '" alt="' + photoAlt() + '" fetchpriority="high"></div>' + visualDetails + '</div>'
     + '</div></section>';
 }
 function renderStrategyProof(section) {
   return '<section class="sp-section sp-section--rule sp-decision-section"><div class="wrap">'
-    + '<div class="sp-decision-frame" data-sp-reveal><div class="sp-decision-frame__intro"><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
+    + '<div class="sp-decision-frame" data-sp-reveal><div class="sp-decision-frame__head"><h2>' + esc(section.title) + '</h2></div>'
     + '<ol class="sp-decision-frame__items">' + section.items.map(function (item, i) {
       return '<li class="sp-decision-frame__item" style="--sp-item-delay:' + (i * .08) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
@@ -560,7 +560,7 @@ function renderTrust(section) {
 }
 function renderCta(section) {
   return '<section class="sp-cta' + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'
-    + '<form class="sp-form" id="spForm" data-sp-reveal style="--sp-delay:.08s" novalidate><div class="sp-form__row"><label class="sp-field"><span>' + (language === 'en' ? 'Name' : 'Имя') + '</span><input name="name" autocomplete="name" required></label><label class="sp-field"><span>' + (language === 'en' ? 'Email / Telegram' : 'Email / Telegram') + '</span><input name="contact" autocomplete="email" required></label></div><input type="hidden" name="service" value="' + esc(key) + '"><p class="sp-form__note" aria-live="polite"></p><button class="btn btn--primary" type="submit">' + esc(section.button) + '</button></form></div></section>';
+    + '<form class="sp-form" id="spForm" data-sp-reveal style="--sp-delay:.08s" novalidate><div class="sp-form__row"><label class="sp-field"><span>' + (language === 'en' ? 'Name' : 'Имя') + '</span><input name="name" autocomplete="name" required></label><label class="sp-field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label></div><label class="sp-field"><span>' + (language === 'en' ? 'Phone / messenger' : 'Телефон / мессенджер') + '</span><input name="contact" autocomplete="tel" required></label><input type="hidden" name="service" value="' + esc(key) + '"><p class="sp-form__note" aria-live="polite"></p><button class="btn btn--primary" type="submit">' + esc(section.button) + '</button></form></div></section>';
 }
 function renderFooter() {
   return '<div class="wrap"><div class="sp-foot__top"><a class="brand" href="/" aria-label="VAK Marketing"><svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13.2" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/><path d="M4.6 21.2C9 15 23 15 27.4 21.2" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M4.6 10.8C9 17 23 17 27.4 10.8" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="16" cy="16" r="2.1" fill="currentColor"/></svg><span class="brand__text">VAK <b>Marketing</b></span></a><p class="sp-foot__copy">' + esc(language === 'en' ? 'Marketing, PR and B2B communications for complex markets.' : 'Маркетинг, PR и B2B-коммуникации для сложных рынков.') + '</p><nav class="sp-foot__links" aria-label="' + (language === 'en' ? 'Footer navigation' : 'Навигация в подвале') + '"><a href="/#services">' + (language === 'en' ? 'Services' : 'Услуги') + '</a><a href="/#cases">' + (language === 'en' ? 'Cases' : 'Кейсы') + '</a><a href="/#team">' + (language === 'en' ? 'Team' : 'Команда') + '</a><a href="/#contact">' + (language === 'en' ? 'Contacts' : 'Контакты') + '</a></nav></div><div class="sp-foot__bottom"><span>© ' + new Date().getFullYear() + ' VAK Marketing</span><a href="/">' + (language === 'en' ? 'Back to the main page' : 'На главную') + '</a></div></div>';
@@ -587,15 +587,27 @@ function render(d) {
 
 /* ---------- Navigation and interactions -------------------------------- */
 function navLinks(mobile) {
+  var services = [
+    ['/#services', language === 'en' ? 'All services' : 'Все услуги'],
+    ['/strategy/', language === 'en' ? 'Strategy' : 'Стратегия'],
+    ['/linkedin/', 'LinkedIn'],
+    ['/pr/', language === 'en' ? 'PR, media and SERP' : 'PR, СМИ и SERP'],
+    ['/seo/', 'AI SEO'],
+    ['/localization/', language === 'en' ? 'Localization' : 'Локализация']
+  ];
   var items = [
-    ['/#services', language === 'en' ? 'Services' : 'Услуги'],
     ['/#cases', language === 'en' ? 'Cases' : 'Кейсы'],
     ['/#clients', language === 'en' ? 'Clients' : 'Клиенты'],
     ['/#team', language === 'en' ? 'Team' : 'Команда'],
     ['/#about', language === 'en' ? 'About' : 'О нас'],
     ['/#contact', language === 'en' ? 'Contacts' : 'Контакты']
   ];
-  return items.map(function (item) { return '<a href="' + item[0] + '">' + item[1] + '</a>'; }).join('');
+  var label = language === 'en' ? 'Services' : 'Услуги';
+  var serviceLinks = services.map(function (item) { return '<a href="' + item[0] + '">' + item[1] + '</a>'; }).join('');
+  var group = mobile
+    ? '<details class="menu__services"><summary><span>' + label + '</span><i aria-hidden="true"></i></summary><div class="menu__services-links">' + serviceLinks + '</div></details>'
+    : '<details class="nav__services"><summary><span>' + label + '</span><i aria-hidden="true"></i></summary><div class="nav__services-menu">' + serviceLinks + '</div></details>';
+  return group + items.map(function (item) { return '<a href="' + item[0] + '">' + item[1] + '</a>'; }).join('');
 }
 function renderNav() {
   var nav = $('#nav');
@@ -603,11 +615,12 @@ function renderNav() {
   bindNav();
 }
 function bindNav() {
-  var nav = $('#nav'), burger = $('#burger'), menu = $('#menu');
+  var nav = $('#nav'), burger = $('#burger'), menu = $('#menu'), desktopServices = $('.nav__services', nav);
   function syncScroll() { nav.classList.toggle('is-stuck', window.scrollY > 18); }
   if (currentNavScrollHandler) window.removeEventListener('scroll', currentNavScrollHandler);
   currentNavScrollHandler = syncScroll;
   syncScroll(); window.addEventListener('scroll', currentNavScrollHandler, { passive:true });
+  function closeServices() { if (desktopServices) desktopServices.removeAttribute('open'); }
   function close(restore) {
     if (menu.hidden) return;
     menu.hidden = true; burger.setAttribute('aria-expanded','false'); document.body.classList.remove('is-locked'); nav.classList.remove('is-open');
@@ -615,22 +628,38 @@ function bindNav() {
   }
   burger.addEventListener('click', function () {
     var willOpen = menu.hidden;
-    if (willOpen) { menu.hidden = false; burger.setAttribute('aria-expanded','true'); document.body.classList.add('is-locked'); nav.classList.add('is-open'); }
+    if (willOpen) { closeServices(); menu.hidden = false; burger.setAttribute('aria-expanded','true'); document.body.classList.add('is-locked'); nav.classList.add('is-open'); }
     else close(false);
   });
   menu.addEventListener('click', function (event) { if (event.target.closest('a')) close(false); });
   if (currentNavKeyHandler) window.removeEventListener('keydown', currentNavKeyHandler);
-  currentNavKeyHandler = function (event) { if (event.key === 'Escape') close(true); };
+  currentNavKeyHandler = function (event) {
+    if (event.key !== 'Escape') return;
+    var openServices = desktopServices && desktopServices.open;
+    closeServices();
+    close(true);
+    if (openServices && menu.hidden) {
+      var summary = desktopServices.querySelector('summary');
+      if (summary) summary.focus();
+    }
+  };
   window.addEventListener('keydown', currentNavKeyHandler);
+  if (currentNavPointerHandler) document.removeEventListener('click', currentNavPointerHandler);
+  currentNavPointerHandler = function (event) {
+    if (desktopServices && desktopServices.open && !desktopServices.contains(event.target)) closeServices();
+  };
+  document.addEventListener('click', currentNavPointerHandler);
   $$('.lang__b', nav).forEach(function (button) { button.addEventListener('click', function () { language = button.getAttribute('data-lang'); try { localStorage.setItem('vak-lang', language); } catch (e) {} render(copy()); }); });
 }
 function bindForm(cta) {
   var form = $('#spForm'); if (!form) return;
   form.addEventListener('submit', function (event) {
     event.preventDefault();
-    var name = $('[name="name"]', form), contact = $('[name="contact"]', form), note = $('.sp-form__note', form);
-    if (!name.value.trim() || !contact.value.trim()) {
-      note.textContent = language === 'en' ? 'Please enter your name and a contact method.' : 'Укажите имя и способ связи.';
+    var name = $('[name="name"]', form), email = $('[name="email"]', form), contact = $('[name="contact"]', form), note = $('.sp-form__note', form);
+    var valid = Boolean(name.value.trim() && email.value.trim() && email.validity.valid && contact.value.trim());
+    [name, email, contact].forEach(function (field) { field.setAttribute('aria-invalid', valid || (field.value.trim() && (field !== email || field.validity.valid)) ? 'false' : 'true'); });
+    if (!valid) {
+      note.textContent = language === 'en' ? 'Please enter your name, email and contact method.' : 'Укажите имя, email и способ связи.';
       return;
     }
     note.classList.add('is-ok'); note.textContent = cta.success; form.reset();

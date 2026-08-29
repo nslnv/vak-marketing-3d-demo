@@ -10,7 +10,9 @@ var EN = {
   'a11y.skip':'Skip to content',
 
   /* шапка */
-  'nav.services':'Services','nav.cases':'Cases','nav.clients':'Clients','nav.team':'Team',
+  'nav.services':'Services','nav.allServices':'All services','nav.strategy':'Strategy','nav.linkedin':'LinkedIn',
+  'nav.pr':'PR, media and SERP','nav.seo':'AI SEO','nav.localization':'Localization',
+  'nav.cases':'Cases','nav.clients':'Clients','nav.team':'Team',
   'nav.about':'About','nav.blog':'Blog','nav.contacts':'Contacts',
   'nav.cta':'Book a consultation',
 
@@ -35,6 +37,7 @@ var EN = {
   'about.module.short4':'Content','about.module.d4':'topics · SEO',
   'about.module.short5':'Leads','about.module.d5':'qualification · pipeline',
   'about.module.short6':'Result','about.module.d6':'partners · deals',
+  'about.flowline':'Strategy<i>—</i>Tactics<i>—</i>Optimisation<i>—</i>Result',
   'about.flow.kicker':'OPERATING SYSTEM',
   'about.flow.t1':'Diagnosis','about.flow.d1':'market, goals, growth points',
   'about.flow.t2':'Positioning','about.flow.d2':'brand role and trust',
@@ -142,8 +145,7 @@ var EN = {
   /* форма */
   'cta.h2':'Get a free consultation',
   'cta.sub':'Tell us about your project and we will suggest the channels that fit you and where to start.',
-  'form.name':'Name','form.company':'Company','form.site':'Website',
-  'form.contact':'Telegram / Email','form.service':'Which service are you interested in?',
+  'form.name':'Name','form.email':'Email','form.contact':'Phone / messenger',
   'form.o1':'Full marketing strategy','form.o2':'B2B marketing and LinkedIn',
   'form.o3':'PR and media placements','form.o4':'SEO and SERP',
   'form.o5':'Marketing automation','form.o6':'Educational products / course',

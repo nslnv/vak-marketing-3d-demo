@@ -18,8 +18,8 @@
 .sp-main,.sp-foot{position:relative;z-index:2}
 .sp-main{overflow:clip;padding-top:var(--nav-h)}
 .sp-nav .nav__links{gap:clamp(12px,1.35vw,22px)}
-.sp-nav .nav__links a:first-child{color:var(--ink)}
-.sp-nav .nav__links a:first-child::after{right:0;background:linear-gradient(90deg,var(--sp-accent),var(--sp-accent-2))}
+.sp-nav .nav__services>summary{color:#fff}
+.sp-nav .nav__services>summary::after{right:0;background:linear-gradient(90deg,var(--sp-accent),var(--sp-accent-2))}
 
 /* ---------- Hero ------------------------------------------------------- */
 .sp-hero{position:relative;min-height:min(800px,100svh);display:flex;align-items:center;
@@ -29,7 +29,7 @@
 .sp-kicker{display:flex;align-items:center;gap:12px;margin:0 0 24px;color:var(--sp-accent);
   font-size:12px;font-weight:650;letter-spacing:.11em;line-height:1.3;text-transform:uppercase}
 .sp-kicker::before{content:'';width:32px;height:1px;background:currentColor;opacity:.72}
-.sp-title{max-width:13.1ch;font-size:clamp(40px,4.45vw,68px);font-weight:220;line-height:1.04;
+.sp-title{max-width:13.1ch;font-size:clamp(40px,4.45vw,68px);font-weight:340;line-height:1.04;
   letter-spacing:-.051em;color:#F5F2FF}
 .sp-lead{max-width:52ch;margin:clamp(22px,2.7vw,34px) 0 0;color:var(--ink-2);
   font-size:clamp(17px,1.28vw,21px);font-weight:330;line-height:1.56;letter-spacing:-.02em}
@@ -70,7 +70,7 @@
 .sp-section--rule{border-top:1px solid var(--line)}
 .sp-head{display:grid;grid-template-columns:minmax(0,.92fr) minmax(240px,.68fr);gap:clamp(20px,5vw,86px);align-items:end;margin-bottom:clamp(34px,5vw,68px)}
 .sp-head__label{display:block;margin-bottom:14px;color:var(--sp-accent);font-size:12px;font-weight:650;letter-spacing:.105em;text-transform:uppercase}
-.sp-head h2{font-size:clamp(31px,3.35vw,52px);font-weight:220;line-height:1.08;letter-spacing:-.043em;max-width:15ch}
+.sp-head h2{font-size:clamp(31px,3.35vw,52px);font-weight:340;line-height:1.08;letter-spacing:-.043em;max-width:15ch}
 .sp-head__note{max-width:42ch;margin:0;color:var(--ink-2);font-size:15.5px;line-height:1.62}
 .sp-caption{margin:0 0 18px;color:var(--sp-accent);font-size:12px;font-weight:650;letter-spacing:.1em;text-transform:uppercase}
 
@@ -85,7 +85,7 @@
 /* Scope uses a dense, number-led index. It reads like real operations. */
 .sp-scope{display:grid;grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);gap:clamp(32px,7vw,118px);align-items:start}
 .sp-scope__intro{position:sticky;top:calc(var(--nav-h) + 34px)}
-.sp-scope__intro h2{font-size:clamp(31px,3.35vw,52px);font-weight:220;line-height:1.08;letter-spacing:-.043em;max-width:13ch}
+.sp-scope__intro h2{font-size:clamp(31px,3.35vw,52px);font-weight:340;line-height:1.08;letter-spacing:-.043em;max-width:13ch}
 .sp-scope__intro p:last-child{max-width:35ch;margin:18px 0 0;color:var(--ink-2);font-size:15.5px;line-height:1.62}
 .sp-index{counter-reset:scope;border-top:1px solid var(--line)}
 .sp-index__item{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;min-height:70px;padding:17px 0;border-bottom:1px solid var(--line)}
@@ -114,7 +114,7 @@
 
 /* ---------- Price table ------------------------------------------------ */
 .sp-pricing{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(28px,7vw,116px);align-items:start}
-.sp-pricing__copy h2{font-size:clamp(31px,3.35vw,52px);font-weight:220;line-height:1.08;letter-spacing:-.043em;max-width:12ch}
+.sp-pricing__copy h2{font-size:clamp(31px,3.35vw,52px);font-weight:340;line-height:1.08;letter-spacing:-.043em;max-width:12ch}
 .sp-pricing__copy p:last-child{margin:18px 0 0;color:var(--ink-2);max-width:34ch;font-size:15.5px;line-height:1.62}
 .sp-price-table{width:100%;border-collapse:collapse;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
 .sp-price-table th,.sp-price-table td{padding:18px 0;border-bottom:1px solid var(--line);text-align:left}
@@ -135,9 +135,10 @@
 /* ---------- Strategy: a specific operating composition ----------------
    Strategy is intentionally not built from the shared card / table patterns.
    It reads as a sequence of decisions around one business objective. */
-.sp[data-service="strategy"] .sp-kicker{margin-bottom:18px;color:rgba(232,225,255,.68);font-size:14px;font-weight:390;letter-spacing:-.012em;text-transform:none}
-.sp[data-service="strategy"] .sp-kicker::before{display:none}
-.sp[data-service="strategy"] .sp-hero__cred{max-width:43ch;margin:24px 0 0;color:var(--ink-3);font-size:14px;line-height:1.58}
+.sp[data-service="strategy"] .sp-hero__grid{grid-template-columns:minmax(0,1.24fr) minmax(270px,.76fr);gap:clamp(34px,5.8vw,96px)}
+.sp[data-service="strategy"] .sp-title{max-width:15.4ch;font-size:clamp(38px,3.9vw,58px);font-weight:360}
+.sp[data-service="strategy"] .sp-hero__visual--strategy{min-height:clamp(292px,31vw,430px);width:min(100%,480px);justify-self:end}
+.sp[data-service="strategy"] .sp-hero__visual--strategy .sp-hero__photo{inset:-1% -3% -1% 0}
 /* Strategy is read as one continuous field: its section rhythm comes from
    spacing and atmosphere, not full-bleed divider rules between chapters. */
 .sp[data-service="strategy"] .sp-section--rule{border-top:0}
@@ -148,14 +149,15 @@
 .sp-hero__visual--strategy .sp-hero__photo img{filter:saturate(.58) brightness(.68) contrast(.98);transform:scale(1.018);transition:transform 1.65s cubic-bezier(.16,.74,.25,1)}
 .sp-hero__visual--strategy:hover .sp-hero__photo img{transform:scale(1.042)}
 
-.sp-decision-frame{position:relative;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(38px,7vw,128px);padding-block:clamp(14px,2vw,28px);isolation:isolate}
-.sp-decision-frame::before{content:'';position:absolute;z-index:-1;right:0;top:0;width:min(59%,690px);height:100%;background:radial-gradient(85% 64% at 58% 38%,rgba(174,149,255,.12),transparent 73%);pointer-events:none}
-.sp-decision-frame__intro{padding-top:clamp(9px,1vw,18px)}
-.sp-decision-frame__intro>p,.sp-strategy-scope__intro>p,.sp-strategy-system__head>p,.sp-strategy-cycle__head>p,.sp-strategy-gate__intro>p{margin:0 0 15px;color:rgba(230,223,255,.69);font-size:15px;font-weight:390;letter-spacing:-.012em;text-transform:none}
-.sp-decision-frame__intro h2,.sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{font-size:clamp(32px,3.45vw,53px);font-weight:220;line-height:1.07;letter-spacing:-.048em}
-.sp-decision-frame__intro>span,.sp-strategy-scope__intro>span,.sp-strategy-system__head>span,.sp-strategy-gate__intro>span{display:block;max-width:34ch;margin-top:19px;color:var(--ink-2);font-size:15px;line-height:1.62}
-.sp-decision-frame__items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4.1vw,58px) clamp(28px,5vw,84px);margin:0;padding:0;list-style:none}
-.sp-decision-frame__item{min-height:142px;padding-top:0;opacity:0;transform:translateY(17px);transition:opacity .7s var(--e-out) calc(.16s + var(--sp-item-delay)),transform .7s var(--e-out) calc(.16s + var(--sp-item-delay))}
+.sp-decision-frame{position:relative;display:block;padding-block:clamp(12px,2vw,28px);isolation:isolate}
+.sp-decision-frame::before{content:'';position:absolute;z-index:-1;inset:0 12%;background:radial-gradient(62% 66% at 50% 10%,rgba(174,149,255,.12),transparent 73%);pointer-events:none}
+.sp-decision-frame__head{max-width:20ch;margin:0 auto clamp(38px,5vw,70px);text-align:center}
+.sp-decision-frame__head h2{font-size:clamp(32px,3.45vw,53px);font-weight:360;line-height:1.07;letter-spacing:-.048em}
+.sp-strategy-scope__intro>p,.sp-strategy-system__head>p,.sp-strategy-cycle__head>p,.sp-strategy-gate__intro>p{margin:0 0 15px;color:rgba(230,223,255,.69);font-size:15px;font-weight:390;letter-spacing:-.012em;text-transform:none}
+.sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{font-size:clamp(32px,3.45vw,53px);font-weight:340;line-height:1.07;letter-spacing:-.048em}
+.sp-strategy-scope__intro>span,.sp-strategy-system__head>span,.sp-strategy-gate__intro>span{display:block;max-width:34ch;margin-top:19px;color:var(--ink-2);font-size:15px;line-height:1.62}
+.sp-decision-frame__items{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,2.8vw,44px);margin:0;padding:0;list-style:none}
+.sp-decision-frame__item{min-height:0;padding-top:20px;border-top:1px solid rgba(217,208,255,.24);opacity:0;transform:translateY(17px);transition:opacity .7s var(--e-out) calc(.16s + var(--sp-item-delay)),transform .7s var(--e-out) calc(.16s + var(--sp-item-delay))}
 .sp-decision-frame.is-in .sp-decision-frame__item{opacity:1;transform:none}
 .sp-decision-frame__item h3{font-size:clamp(19px,1.65vw,25px);font-weight:390;letter-spacing:-.034em;line-height:1.2}
 .sp-decision-frame__item p{max-width:31ch;margin:10px 0 0;color:var(--ink-2);font-size:14px;line-height:1.57}
@@ -238,7 +240,7 @@
 .sp-trust{position:relative;padding-block:clamp(74px,8vw,122px);border:0;
   background:linear-gradient(90deg,rgba(255,255,255,.018),transparent 45%,rgba(var(--sp-accent-rgb),.055))}
 .sp-trust__head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:clamp(28px,4vw,52px)}
-.sp-trust h2{font-size:clamp(28px,3vw,46px);font-weight:230;letter-spacing:-.04em;line-height:1.08}
+.sp-trust h2{font-size:clamp(28px,3vw,46px);font-weight:340;letter-spacing:-.04em;line-height:1.08}
 .sp-trust p{max-width:43ch;margin:0;color:var(--ink-2);font-size:15px;line-height:1.6}
 .sp-logo-grid{display:grid;grid-template-columns:repeat(var(--logo-columns,5),minmax(0,1fr));gap:clamp(20px,2.6vw,42px);align-items:center}
 .sp-logo{min-height:112px;padding:14px;display:grid;place-items:center;background:transparent}
@@ -255,7 +257,7 @@
 /* ---------- Final CTA -------------------------------------------------- */
 .sp-cta{padding-block:clamp(82px,10vw,158px)}
 .sp-cta__grid{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:clamp(32px,6vw,110px);align-items:start}
-.sp-cta h2{font-size:clamp(34px,3.7vw,56px);font-weight:220;line-height:1.07;letter-spacing:-.047em;max-width:12ch}
+.sp-cta h2{font-size:clamp(34px,3.7vw,56px);font-weight:340;line-height:1.07;letter-spacing:-.047em;max-width:12ch}
 .sp-cta__copy p{max-width:39ch;margin:18px 0 0;color:var(--ink-2);font-size:16px;line-height:1.64}
 .sp-form{position:relative;display:grid;gap:22px;padding:clamp(24px,3vw,42px);border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012) 56%,rgba(var(--sp-accent-rgb),.08));}
 .sp-form::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,rgba(var(--sp-accent-rgb),.12),transparent 45%);opacity:.72}
@@ -265,6 +267,7 @@
 .sp-field span{font-size:12.5px;color:var(--ink-3)}
 .sp-field input{height:45px;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--line-2);font:inherit;font-size:16px;border-radius:0}
 .sp-field input:focus{outline:0;border-color:var(--sp-accent);box-shadow:0 1px 0 var(--sp-accent)}
+.sp-field input[aria-invalid="true"]{border-color:#FF8FA3;box-shadow:0 1px 0 #FF8FA3}
 .sp-form__note{min-height:1.2em;margin:0;color:var(--ink-2);font-size:13.5px}
 .sp-form__note.is-ok{color:var(--sp-accent)}
 .sp-form .btn--primary{background:linear-gradient(101deg,var(--sp-accent),#B34FFF 56%,var(--sp-accent-2));}
@@ -370,11 +373,11 @@
   .sp-strategy-gate{gap:clamp(34px,5vw,70px)}
 }
 @media (max-width:960px){
-  .sp[data-service="strategy"] .sp-kicker{font-size:13px}
-  .sp-hero__visual--strategy{min-height:min(64vw,510px)}
+  .sp[data-service="strategy"] .sp-hero__visual--strategy{min-height:min(64vw,510px);width:100%;justify-self:start}
   .sp-decision-frame,.sp-strategy-scope,.sp-strategy-gate{grid-template-columns:1fr;gap:34px}
-  .sp-decision-frame__intro,.sp-strategy-scope__intro,.sp-strategy-gate__intro{position:static;padding-top:0}
-  .sp-decision-frame__intro h2,.sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{max-width:15ch}
+  .sp-strategy-scope__intro,.sp-strategy-gate__intro{position:static;padding-top:0}
+  .sp-decision-frame__head h2,.sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{max-width:15ch}
+  .sp-decision-frame__items{grid-template-columns:repeat(2,minmax(0,1fr))}
   .sp-strategy-scope__body{grid-template-columns:minmax(0,1fr) minmax(230px,.72fr)}
   .sp-strategy-scope__detail{position:static;min-height:250px}
   .sp-strategy-system__head{grid-template-columns:1fr;gap:17px;margin-bottom:39px}
@@ -388,7 +391,7 @@
   .sp-strategy-cycle{gap:22px}
 }
 @media (max-width:760px){
-  .sp-hero__visual--strategy{min-height:min(72vw,470px)}
+  .sp[data-service="strategy"] .sp-hero__visual--strategy{min-height:min(72vw,470px)}
   .sp-decision-frame__items,.sp-strategy-gate__items{gap:30px 38px}
   .sp-decision-frame__item,.sp-strategy-gate__items>li{min-height:0}
   .sp-strategy-scope__body{grid-template-columns:1fr;gap:24px}
@@ -408,13 +411,11 @@
 }
 @media (max-width:560px){
   .sp[data-service="strategy"] .sp-hero{padding-bottom:78px}
-  .sp[data-service="strategy"] .sp-kicker{margin-bottom:14px;font-size:12px}
-  .sp[data-service="strategy"] .sp-hero__cred{margin-top:20px;font-size:13px}
-  .sp-hero__visual--strategy{min-height:76vw;max-height:330px}
+  .sp[data-service="strategy"] .sp-hero__visual--strategy{min-height:76vw;max-height:330px}
   .sp-hero__visual--strategy .sp-hero__photo{inset:-6% -10% -6% -5%;transform:none}
   .sp-decision-frame,.sp-strategy-scope,.sp-strategy-gate{gap:28px}
-  .sp-decision-frame__intro h2,.sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{font-size:31px}
-  .sp-decision-frame__intro>p,.sp-strategy-scope__intro>p,.sp-strategy-system__head>p,.sp-strategy-cycle__head>p,.sp-strategy-gate__intro>p{margin-bottom:12px;font-size:14px}
+  .sp-decision-frame__head h2,.sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{font-size:31px}
+  .sp-strategy-scope__intro>p,.sp-strategy-system__head>p,.sp-strategy-cycle__head>p,.sp-strategy-gate__intro>p{margin-bottom:12px;font-size:14px}
   .sp-decision-frame__items,.sp-strategy-gate__items{grid-template-columns:1fr;gap:24px}
   .sp-decision-frame__item{padding-top:0}
   .sp-decision-frame__item h3,.sp-strategy-gate__items h3{font-size:20px}

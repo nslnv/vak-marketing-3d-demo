@@ -43,17 +43,24 @@ document.addEventListener('click', function (e) {
 });
 
 /* ── шапка и мобильное меню ─────────────────────────────────────────── */
-var nav = $('#nav'), burger = $('#burger'), menu = $('#menu');
+var nav = $('#nav'), burger = $('#burger'), menu = $('#menu'), servicesDetails = nav && $('.nav__services', nav);
 function onScroll() { nav.classList.toggle('is-stuck', scrollY > 18); }
 addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
+function closeServices() {
+  if (servicesDetails) servicesDetails.removeAttribute('open');
+}
 function menuFocusable() {
   if (!menu) return [];
-  return $$('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])', menu);
+  return $$('a[href],button:not([disabled]),summary,[tabindex]:not([tabindex="-1"])', menu).filter(function (el) {
+    var closed = el.closest('details:not([open])');
+    return !closed || el.tagName === 'SUMMARY';
+  });
 }
 function openMenu() {
   if (!menu || !menu.hidden) return;
+  closeServices();
   menu.hidden = false;
   menu.scrollTop = 0;
   burger.setAttribute('aria-expanded', 'true');
@@ -89,7 +96,18 @@ if (menu) {
 }
 var navBrand = nav && $('.brand', nav);
 if (navBrand) navBrand.addEventListener('click', function () { closeMenu(false); });
-addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+if (servicesDetails) document.addEventListener('click', function (e) {
+  if (servicesDetails.open && !servicesDetails.contains(e.target)) closeServices();
+});
+addEventListener('keydown', function (e) {
+  if (e.key !== 'Escape') return;
+  if (servicesDetails && servicesDetails.open) {
+    closeServices();
+    var summary = servicesDetails.querySelector('summary');
+    if (summary) summary.focus();
+  }
+  closeMenu();
+});
 var mobileNav = matchMedia('(max-width:1080px)');
 function syncMobileNav(e) { if (!e.matches) closeMenu(false); }
 if (mobileNav.addEventListener) mobileNav.addEventListener('change', syncMobileNav);
@@ -609,7 +627,7 @@ if (rail) {
 var ringEl = $('#ring'), ringSet = $('#ringSet');
 if (ringEl && ringSet && !reduced) (function () {
   var PAD = 28;          // знак целиком уезжает за край до повтора
-  var DRIFT = 7;         // px/с в покое — медленный, спокойный ритм
+  var DRIFT = 12;        // px/с в покое — заметнее, но всё ещё спокойный ритм
   var GAIN = 0.05;       // у прокрутки только небольшой вклад
   var VMAX = 80;         // без разгона при резком wheel / trackpad
   var SLOW = 0.12;       // под курсором почти останавливается
@@ -744,21 +762,20 @@ if (form) form.addEventListener('submit', function (e) {
   if (d.get('website_url')) return;                       // ловушка для ботов
 
   var bad = null;
-  ['name', 'contact'].forEach(function (k) {
+  ['name', 'email', 'contact'].forEach(function (k) {
     var el = form.elements[k];
-    var ok = String(d.get(k) || '').trim().length > 1;
+    var ok = String(d.get(k) || '').trim().length > 1 && (k !== 'email' || el.validity.valid);
     el.setAttribute('aria-invalid', ok ? 'false' : 'true');
     if (!ok && !bad) bad = el;
   });
   if (bad) {
     bad.focus();
-    say('is-err', 'Заполните имя и контакт для связи.', 'Please add your name and a contact.');
+    say('is-err', 'Заполните имя, email и способ связи.', 'Please add your name, email and contact method.');
     return;
   }
 
   var payload = {
-    name: d.get('name'), company: d.get('company'), site: d.get('site'),
-    contact: d.get('contact'), service: d.get('service'),
+    name: d.get('name'), email: d.get('email'), contact: d.get('contact'),
     page: location.href, lang: window.__lang || 'ru'
   };
 
