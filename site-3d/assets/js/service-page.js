@@ -418,7 +418,6 @@ var isStrategy = key === 'strategy';
 var language = 'ru';
 try { language = localStorage.getItem('vak-lang') === 'en' ? 'en' : 'ru'; } catch (e) {}
 var copy = function () { return service[language]; };
-var number = function (n) { return String(n + 1).padStart(2, '0'); };
 var currentNavScrollHandler = null;
 var currentNavKeyHandler = null;
 var currentNavPointerHandler = null;
@@ -450,17 +449,16 @@ function strategyFlow() {
     + '</svg>';
 }
 function renderHero(d) {
-  var visualClass = 'sp-hero__visual' + (isStrategy ? ' sp-hero__visual--strategy' : '');
+  var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
   var facts = isStrategy
     ? ''
     : '<div class="sp-hero__facts">' + d.hero.facts.map(function (fact) {
         return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
       }).join('') + '</div>';
-  var index = isStrategy ? '' : '<div class="sp-hero__index"><b>' + esc(service.index) + '</b><span>VAK Marketing</span></div>';
-  var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace"></div>' + index;
-  var kicker = isStrategy ? '' : '<p class="sp-kicker">' + esc(service.index) + ' / ' + esc(d.crumb) + '</p>';
+  var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
+  var kicker = isStrategy ? '' : '<p class="sp-kicker">' + esc(d.crumb) + '</p>';
   var secondaryAction = isStrategy ? '' : linkArrow(language === 'en' ? 'Back to services' : 'Все услуги', '/#services');
-  return '<section class="sp-hero"><div class="wrap sp-hero__grid">'
+  return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + kicker
     + '<h1 class="sp-title">' + esc(d.hero.title) + '</h1>'
@@ -517,48 +515,53 @@ function renderStrategyGate(section) {
     }).join('') + '</ol></div></div></section>';
 }
 function renderHead(section) {
-  return '<div class="sp-head" data-sp-reveal><div><span class="sp-head__label">' + esc(section.label) + '</span><h2>' + esc(section.title) + '</h2></div>'
+  return '<div class="sp-head sp-head--' + key + '" data-sp-reveal><div><span class="sp-head__label">' + esc(section.label) + '</span><h2>' + esc(section.title) + '</h2></div>'
     + (section.note ? '<p class="sp-head__note">' + esc(section.note) + '</p>' : '') + '</div>';
 }
 function renderProof(section) {
   if (isStrategy) return renderStrategyProof(section);
-  return '<section class="sp-section sp-section--rule"><div class="wrap">' + renderHead(section)
-    + '<div class="sp-proof" data-sp-reveal style="--sp-delay:.06s">' + section.items.map(function (item, i) {
-      return '<article class="sp-proof__item"><span class="sp-proof__num">' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></article>';
+  return '<section class="sp-section sp-proof-section sp-proof-section--' + key + '"><div class="wrap">' + renderHead(section)
+    + '<div class="sp-proof sp-proof--' + key + '" data-sp-reveal style="--sp-delay:.06s">' + section.items.map(function (item, i) {
+      return '<article class="sp-proof__item" style="--sp-item-delay:' + (i * .075) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></article>';
     }).join('') + '</div></div></section>';
 }
 function renderScope(section) {
   if (isStrategy) return renderStrategyScope(section);
   return '<section class="sp-section"><div class="wrap sp-scope"><div class="sp-scope__intro" data-sp-reveal><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2>'
-    + (section.note ? '<p>' + esc(section.note) + '</p>' : '') + '</div><ol class="sp-index" data-sp-reveal style="--sp-delay:.06s">'
-    + section.items.map(function (item) { return '<li class="sp-index__item"><span>' + esc(item) + '</span></li>'; }).join('')
-    + '</ol></div></section>';
+    + (section.note ? '<p>' + esc(section.note) + '</p>' : '') + '</div><ul class="sp-index sp-index--' + key + '" data-sp-reveal style="--sp-delay:.06s">'
+    + section.items.map(function (item, i) { return '<li class="sp-index__item" style="--sp-item-delay:' + (i * .055) + 's"><span>' + esc(item) + '</span></li>'; }).join('')
+    + '</ul></div></section>';
+}
+function renderSignalPath(section) {
+  return '<section class="sp-section sp-section--tight sp-signal-section sp-signal-section--' + key + '"><div class="wrap">' + renderHead(section)
+    + '<div class="sp-signal-path sp-signal-path--' + key + '" data-sp-reveal style="--sp-delay:.04s"><ol class="sp-signal-path__stages">'
+    + section.items.map(function (item, i) {
+      return '<li class="sp-signal-path__stage" style="--sp-item-delay:' + (i * .09) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    }).join('') + '</ol></div></div></section>';
 }
 function renderDiagram(section) {
   if (isStrategy) return renderStrategySystem(section);
-  return '<section class="sp-section sp-section--tight sp-section--rule"><div class="wrap">' + renderHead(section)
-    + '<div class="sp-diagram sp-diagram--items-' + section.items.length + '" data-sp-reveal style="--sp-delay:.04s"><div class="sp-diagram__items">'
-    + section.items.map(function (item) { return '<article class="sp-diagram__item"><i class="sp-diagram__dot"></i><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></article>'; }).join('')
-    + '</div></div></div></section>';
+  return renderSignalPath(section);
 }
 function renderProcess(section) {
   if (isStrategy) return renderStrategyProcess(section);
-  return '<section class="sp-section sp-section--rule"><div class="wrap">' + renderHead(section)
+  return '<section class="sp-section sp-process-section sp-process-section--' + key + '"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-process" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
-      return '<li class="sp-process__item"><span class="sp-process__num">' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+      return '<li class="sp-process__item" style="--sp-item-delay:' + (i * .075) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></section>';
 }
-function renderSectors(section, modifier) {
-  if (isStrategy && !modifier) return renderStrategyGate(section);
-  return '<section class="sp-section' + (modifier ? ' ' + modifier : '') + '"><div class="wrap">' + renderHead(section)
-    + '<div class="sp-sectors" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
-      return '<article class="sp-sector"><span class="sp-sector__tag">' + number(i) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></article>';
+function renderSectors(section, variant) {
+  if (isStrategy && !variant) return renderStrategyGate(section);
+  var type = variant || 'fields';
+  return '<section class="sp-section sp-sector-section sp-sector-section--' + type + ' sp-sector-section--' + key + '"><div class="wrap">' + renderHead(section)
+    + '<div class="sp-sectors sp-sectors--' + type + ' sp-sectors--' + key + '" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
+      return '<article class="sp-sector" style="--sp-item-delay:' + (i * .075) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></article>';
     }).join('') + '</div></div></section>';
 }
 function renderPricing(section) {
-  return '<section class="sp-section sp-section--rule"><div class="wrap sp-pricing"><div class="sp-pricing__copy" data-sp-reveal><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.note) + '</p></div>'
-    + '<div data-sp-reveal style="--sp-delay:.06s"><table class="sp-price-table"><thead><tr><th>' + (language === 'en' ? 'Combination' : 'Комбинация') + '</th><th>' + (language === 'en' ? 'Price' : 'Цена') + '</th></tr></thead><tbody>'
-    + section.rows.map(function (row) { return '<tr><td>' + esc(row[0]) + '</td><td>' + esc(row[1]) + '</td></tr>'; }).join('') + '</tbody></table>'
+  return '<section class="sp-section sp-pricing-section sp-pricing-section--' + key + '"><div class="wrap sp-pricing"><div class="sp-pricing__copy" data-sp-reveal><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.note) + '</p></div>'
+    + '<div data-sp-reveal style="--sp-delay:.06s"><dl class="sp-rate-list sp-rate-list--' + key + '">'
+    + section.rows.map(function (row, i) { return '<div class="sp-rate-list__item" style="--sp-item-delay:' + (i * .075) + 's"><dt>' + esc(row[0]) + '</dt><dd>' + esc(row[1]) + '</dd></div>'; }).join('') + '</dl>'
     + '<ul class="sp-pricing__notes">' + section.notes.map(function (note) { return '<li class="sp-pricing__note">' + esc(note) + '</li>'; }).join('') + '</ul></div></div></section>';
 }
 function renderLogo(keyName, media) {
@@ -567,16 +570,16 @@ function renderLogo(keyName, media) {
   return '<div class="sp-logo' + (media ? ' sp-logo--media' : '') + (logo.wide ? ' sp-logo--wide' : '') + (logo.light ? ' sp-logo--light' : '') + '"><img src="' + esc(logo.src) + '" alt="' + esc(logo.alt) + '" loading="lazy" decoding="async"></div>';
 }
 function renderMedia(section) {
-  return '<section class="sp-trust"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
+  return '<section class="sp-trust sp-media-network sp-media-network--' + key + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
     + '<div class="sp-logo-grid" style="--logo-columns:5;--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, true); }).join('') + '</div>'
     + '<a class="sp-media-cta" href="#consultation">' + esc(section.action) + '</a></div></section>';
 }
 function renderTrust(section) {
-  return '<section class="sp-trust' + (isStrategy ? ' sp-trust--strategy' : '') + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
+  return '<section class="sp-trust sp-trust--' + key + (isStrategy ? ' sp-trust--strategy' : '') + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
     + '<div class="sp-logo-grid sp-logo-grid--free" style="--logo-columns:' + Math.min(5, section.logos.length) + ';--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, false); }).join('') + '</div></div></section>';
 }
 function renderCta(section) {
-  return '<section class="sp-cta' + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'
+  return '<section class="sp-cta sp-cta--' + key + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'
     + '<form class="sp-form" id="spForm" data-sp-reveal style="--sp-delay:.08s" novalidate><div class="sp-form__row"><label class="sp-field"><span>' + (language === 'en' ? 'Name' : 'Имя') + '</span><input name="name" autocomplete="name" required></label><label class="sp-field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label></div><label class="sp-field"><span>' + (language === 'en' ? 'Phone / messenger' : 'Телефон / мессенджер') + '</span><input name="contact" autocomplete="tel" required></label><input type="hidden" name="service" value="' + esc(key) + '"><p class="sp-form__note" aria-live="polite"></p><button class="btn btn--primary" type="submit">' + esc(section.button) + '</button></form></div></section>';
 }
 function renderFooter() {
@@ -593,7 +596,7 @@ function render(d) {
   $('#main').innerHTML = renderHero(d) + renderProof(d.proof) + renderScope(d.scope)
     + (d.diagram ? renderDiagram(d.diagram) : '') + (d.pricing ? renderPricing(d.pricing) : '')
     + (d.media ? renderMedia(d.media) : '') + renderProcess(d.process)
-    + (d.sectors ? renderSectors(d.sectors) : '') + (d.outcomes ? renderSectors(d.outcomes, 'sp-section--rule') : '')
+    + (d.sectors ? renderSectors(d.sectors) : '') + (d.outcomes ? renderSectors(d.outcomes, 'outcomes') : '')
     + (d.trust ? renderTrust(d.trust) : '') + renderCta(d.cta);
   $('#footer').innerHTML = renderFooter();
   renderNav();
