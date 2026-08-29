@@ -467,20 +467,13 @@ function strategyFlow() {
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
-  var facts = isStrategy
-    ? ''
-    : '<div class="sp-hero__facts">' + d.hero.facts.map(function (fact) {
-        return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
-      }).join('') + '</div>';
   var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
-  var secondaryAction = '<a class="btn btn--ghost" href="/#services">' + (language === 'en' ? 'View services' : 'Посмотреть услуги') + '</a>';
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + '<h1 class="sp-title">' + esc(d.hero.title) + '</h1>'
     + '<p class="sp-lead">' + esc(d.hero.lead) + '</p>'
-    + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a>'
-    + secondaryAction + '</div>'
-    + facts + '</div>'
+    + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a></div>'
+    + '</div>'
     + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s"><div class="sp-hero__photo"><img src="' + service.photo + '" alt="' + photoAlt() + '" fetchpriority="high"></div>' + visualDetails + '</div>'
     + '</div></section>';
 }
