@@ -124,6 +124,30 @@ h1,h2,h3,h4{margin:0;font-weight:340;line-height:1.1;letter-spacing:-.03em}
     radial-gradient(120% 80% at 50% 120%, rgba(124,92,255,.10), transparent 60%),
     #06050C;
 }
+.atmo>i{position:absolute;top:0;left:0;display:block;width:1px;height:1px;border-radius:50%;
+  background:currentColor;pointer-events:none;transition:opacity .6s var(--e);animation:atmo-twinkle 14s ease-in-out infinite}
+.atmo__a{--atmo-dim:.18;--atmo-bright:.54;color:rgba(245,243,251,.72);animation-delay:-4s;
+  box-shadow:
+    4vw 13vh, 8vw 74vh, 13vw 31vh, 17vw 90vh, 21vw 8vh, 26vw 55vh, 30vw 21vh, 34vw 82vh,
+    39vw 42vh, 43vw 6vh, 47vw 63vh, 52vw 27vh, 57vw 85vh, 61vw 17vh, 66vw 49vh, 70vw 94vh,
+    75vw 35vh, 79vw 69vh, 84vw 11vh, 88vw 53vh, 92vw 79vh, 96vw 24vh, 99vw 68vh,
+    11vw 47vh, 24vw 67vh, 36vw 13vh, 45vw 89vh, 54vw 46vh, 64vw 73vh, 72vw 5vh,
+    81vw 31vh, 90vw 39vh, 2vw 57vh, 58vw 4vh}
+.atmo__b{--atmo-dim:.12;--atmo-bright:.42;color:rgba(213,209,228,.7);animation-duration:18s;animation-delay:-11s;
+  box-shadow:
+    6vw 38vh, 10vw 6vh, 15vw 60vh, 19vw 18vh, 23vw 43vh, 28vw 92vh, 33vw 33vh, 37vw 58vh,
+    42vw 76vh, 48vw 16vh, 51vw 52vh, 56vw 10vh, 60vw 38vh, 65vw 66vh, 69vw 29vh, 74vw 81vh,
+    78vw 20vh, 82vw 47vh, 87vw 92vh, 91vw 14vh, 95vw 45vh, 98vw 86vh, 1vw 27vh,
+    18vw 79vh, 31vw 4vh, 46vw 37vh, 63vw 89vh, 76vw 59vh, 89vw 68vh}
+.atmo__c{--atmo-dim:.16;--atmo-bright:.48;width:2px;height:2px;color:rgba(155,132,255,.66);animation-duration:21s;animation-delay:-7s;
+  box-shadow:
+    7vw 62vh, 16vw 14vh, 25vw 38vh, 35vw 71vh, 44vw 24vh, 53vw 57vh, 62vw 8vh,
+    71vw 43vh, 80vw 17vh, 86vw 72vh, 94vw 34vh, 3vw 91vh, 58vw 78vh, 68vw 97vh}
+@keyframes atmo-twinkle{0%,100%{opacity:var(--atmo-dim)}50%{opacity:var(--atmo-bright)}}
+/* Главная получает собственное звёздное поле из прозрачной WebGL-сцены;
+   CSS-слой остаётся её запасным вариантом и фоном страниц услуг. */
+.has-webgl .atmo>i{opacity:0;animation:none}
+@media (prefers-reduced-motion:reduce){.atmo>i{animation:none;opacity:var(--atmo-bright)}}
 
 .stage{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;
   opacity:0;transition:opacity 1.2s ease .15s}
