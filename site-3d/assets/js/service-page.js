@@ -473,11 +473,9 @@ function renderHero(d) {
         return '<div class="sp-hero__fact"><b>' + esc(fact.value) + '</b><span>' + esc(fact.label) + '</span></div>';
       }).join('') + '</div>';
   var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
-  var kicker = '<p class="sp-kicker">' + esc(d.crumb) + '</p>';
   var secondaryAction = '<a class="btn btn--ghost" href="/#services">' + (language === 'en' ? 'View services' : 'Посмотреть услуги') + '</a>';
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
-    + kicker
     + '<h1 class="sp-title">' + esc(d.hero.title) + '</h1>'
     + '<p class="sp-lead">' + esc(d.hero.lead) + '</p>'
     + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a>'
