@@ -160,7 +160,12 @@
 .sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{font-size:clamp(32px,3.45vw,53px);font-weight:340;line-height:1.07;letter-spacing:-.048em}
 .sp-strategy-scope__intro>span,.sp-strategy-system__head>span,.sp-strategy-gate__intro>span{display:block;max-width:34ch;margin-top:19px;color:var(--ink-2);font-size:15px;line-height:1.62}
 .sp-decision-frame__items{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,2.8vw,44px);margin:0;padding:0;list-style:none}
-.sp-decision-frame__item{min-height:0;padding-top:20px;border-top:1px solid rgba(217,208,255,.24);opacity:0;transform:translateY(17px);transition:opacity .7s var(--e-out) calc(.16s + var(--sp-item-delay)),transform .7s var(--e-out) calc(.16s + var(--sp-item-delay))}
+.sp-decision-frame__item{--sp-decision-rgb:174,149,255;position:relative;min-height:0;padding-top:20px;border-top:1px solid rgba(217,208,255,.24);opacity:0;transform:translateY(17px);transition:opacity .7s var(--e-out) calc(.16s + var(--sp-item-delay)),transform .7s var(--e-out) calc(.16s + var(--sp-item-delay))}
+.sp-decision-frame__item::before{content:'';position:absolute;z-index:1;top:-4px;left:0;width:7px;height:7px;border:1px solid rgba(var(--sp-decision-rgb),.7);border-radius:50%;background:#090710;box-shadow:0 0 0 4px rgba(var(--sp-decision-rgb),.065),0 0 15px rgba(var(--sp-decision-rgb),.38)}
+.sp-decision-frame__item::after{content:'';position:absolute;top:-1px;left:13px;width:clamp(28px,3vw,46px);height:1px;background:linear-gradient(90deg,rgba(var(--sp-decision-rgb),.9),rgba(var(--sp-decision-rgb),0))}
+.sp-decision-frame__item:nth-child(2){--sp-decision-rgb:156,200,250}
+.sp-decision-frame__item:nth-child(3){--sp-decision-rgb:233,172,211}
+.sp-decision-frame__item:nth-child(4){--sp-decision-rgb:216,206,255}
 .sp-decision-frame.is-in .sp-decision-frame__item{opacity:1;transform:none}
 .sp-decision-frame__item h3{font-size:clamp(19px,1.65vw,25px);font-weight:390;letter-spacing:-.034em;line-height:1.2}
 .sp-decision-frame__item p{max-width:31ch;margin:10px 0 0;color:var(--ink-2);font-size:14px;line-height:1.57}
