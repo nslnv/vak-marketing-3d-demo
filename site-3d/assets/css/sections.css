@@ -426,14 +426,7 @@
 .aud + .srv{padding-top:clamp(54px,5vw,76px)}
 
 /* ─── партнёры: стена логотипов ──────────────────────────────────────────
-   Логотипы остаются в исходных цветах и без отдельных подложек. Контраст
-   держит единое спокойное серое поле всей секции, а не белые «наклейки». */
-.ptn{position:relative;overflow:clip}
-.ptn::before{content:'';position:absolute;z-index:0;inset:0;pointer-events:none;
-  background:
-    radial-gradient(78% 116% at 48% 52%,rgba(214,211,224,.20),transparent 76%),
-    linear-gradient(90deg,rgba(198,195,212,.095),rgba(174,169,192,.062) 54%,rgba(255,255,255,.03))}
-.ptn>.wrap{position:relative;z-index:1}
+   Логотипы остаются в исходных цветах и без отдельных подложек. */
 .logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:clamp(18px,2.4vw,34px);margin:0;padding:0;list-style:none}
 .logos li{position:relative;display:flex;align-items:center;justify-content:center;
