@@ -55,7 +55,6 @@
 .sp-section--tight{padding-block:clamp(54px,6.5vw,96px)}
 .sp-section--rule{border-top:1px solid var(--line)}
 .sp-head{display:grid;grid-template-columns:minmax(0,.92fr) minmax(240px,.68fr);gap:clamp(20px,5vw,86px);align-items:end;margin-bottom:clamp(34px,5vw,68px)}
-.sp-head__label{display:block;margin-bottom:14px;color:var(--vio-2);font-size:13.5px;font-weight:500;letter-spacing:.01em;text-transform:none}
 .sp-head h2{font-size:clamp(27px,3.1vw,47px);font-weight:340;line-height:1.08;letter-spacing:-.032em;max-width:15ch}
 .sp-head__note{max-width:44ch;margin:0;color:var(--ink-2);font-size:inherit;line-height:inherit}
 .sp-caption{margin:0 0 14px;color:var(--vio-2);font-size:13.5px;font-weight:500;letter-spacing:.01em;text-transform:none}
@@ -257,9 +256,6 @@
 .sp-hero--pr .sp-hero__trace::before{left:-3px;top:20%}.sp-hero--pr .sp-hero__trace::after{right:-3px;bottom:17%}
 .sp-hero--seo .sp-hero__trace{bottom:14%;transform:rotate(4deg)}
 .sp-hero--localization .sp-hero__trace{left:9%;right:8%;bottom:13%;transform:none;box-shadow:0 8px 0 rgba(var(--sp-accent-rgb),.22)}
-.sp:not([data-service="strategy"]) .sp-head__label{display:flex;align-items:center;gap:11px}
-.sp:not([data-service="strategy"]) .sp-head__label::before{content:'';width:28px;height:1px;background:linear-gradient(90deg,var(--sp-accent),rgba(var(--sp-accent-rgb),0))}
-
 /* A reason strip reads as four concise observations rather than a grid. */
 .sp-proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(22px,3vw,52px);border:0}
 .sp-proof__item{--sp-proof-rgb:var(--sp-accent-rgb);position:relative;min-height:0;padding:22px 0 0;border-top:1px solid rgba(var(--sp-proof-rgb),.27);opacity:0;transform:translateY(16px);transition:opacity .7s var(--e-out) calc(.12s + var(--sp-item-delay)),transform .7s var(--e-out) calc(.12s + var(--sp-item-delay))}

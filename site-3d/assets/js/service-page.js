@@ -523,7 +523,7 @@ function renderStrategyGate(section) {
     }).join('') + '</ol></div></div></section>';
 }
 function renderHead(section) {
-  return '<div class="sp-head sp-head--' + key + '" data-sp-reveal><div><span class="sp-head__label">' + esc(section.label) + '</span><h2>' + esc(section.title) + '</h2></div>'
+  return '<div class="sp-head sp-head--' + key + '" data-sp-reveal><div><h2>' + esc(section.title) + '</h2></div>'
     + (section.note ? '<p class="sp-head__note">' + esc(section.note) + '</p>' : '') + '</div>';
 }
 function renderProof(section) {
