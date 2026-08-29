@@ -49,8 +49,43 @@ addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
 function closeServices() {
-  if (servicesDetails) servicesDetails.removeAttribute('open');
+  if (!servicesDetails) return;
+  servicesDetails.removeAttribute('open');
 }
+function bindServicesHover(details) {
+  if (!details) return;
+  var leaveTimer;
+  var openedByHover = false;
+  var enterEvent = window.PointerEvent ? 'pointerenter' : 'mouseenter';
+  var leaveEvent = window.PointerEvent ? 'pointerleave' : 'mouseleave';
+  function canUsePointer(event) {
+    return matchMedia('(min-width:1081px)').matches && (!event.pointerType || event.pointerType === 'mouse');
+  }
+  details.addEventListener(enterEvent, function (event) {
+    if (!canUsePointer(event)) return;
+    clearTimeout(leaveTimer);
+    if (!details.open) {
+      details.open = true;
+      openedByHover = true;
+    }
+  });
+  details.addEventListener(leaveEvent, function (event) {
+    if (!canUsePointer(event) || !openedByHover) return;
+    clearTimeout(leaveTimer);
+    leaveTimer = setTimeout(function () {
+      if (!openedByHover) return;
+      details.open = false;
+      openedByHover = false;
+    }, 120);
+  });
+  var summary = details.querySelector('summary');
+  if (summary) summary.addEventListener('click', function (event) {
+    if (!canUsePointer(event) || !openedByHover || !details.open) return;
+    event.preventDefault();
+    openedByHover = false;
+  });
+}
+bindServicesHover(servicesDetails);
 function menuFocusable() {
   if (!menu) return [];
   return $$('a[href],button:not([disabled]),summary,[tabindex]:not([tabindex="-1"])', menu).filter(function (el) {

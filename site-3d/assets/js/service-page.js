@@ -637,7 +637,42 @@ function bindNav() {
   if (currentNavScrollHandler) window.removeEventListener('scroll', currentNavScrollHandler);
   currentNavScrollHandler = syncScroll;
   syncScroll(); window.addEventListener('scroll', currentNavScrollHandler, { passive:true });
-  function closeServices() { if (desktopServices) desktopServices.removeAttribute('open'); }
+  function closeServices() {
+    if (!desktopServices) return;
+    desktopServices.removeAttribute('open');
+  }
+  if (desktopServices) {
+    var servicesLeaveTimer;
+    var servicesOpenedByHover = false;
+    var servicesEnterEvent = window.PointerEvent ? 'pointerenter' : 'mouseenter';
+    var servicesLeaveEvent = window.PointerEvent ? 'pointerleave' : 'mouseleave';
+    function canUseServicesPointer(event) {
+      return window.matchMedia('(min-width:1081px)').matches && (!event.pointerType || event.pointerType === 'mouse');
+    }
+    desktopServices.addEventListener(servicesEnterEvent, function (event) {
+      if (!canUseServicesPointer(event)) return;
+      clearTimeout(servicesLeaveTimer);
+      if (!desktopServices.open) {
+        desktopServices.open = true;
+        servicesOpenedByHover = true;
+      }
+    });
+    desktopServices.addEventListener(servicesLeaveEvent, function (event) {
+      if (!canUseServicesPointer(event) || !servicesOpenedByHover) return;
+      clearTimeout(servicesLeaveTimer);
+      servicesLeaveTimer = setTimeout(function () {
+        if (!servicesOpenedByHover) return;
+        desktopServices.open = false;
+        servicesOpenedByHover = false;
+      }, 120);
+    });
+    var servicesSummary = desktopServices.querySelector('summary');
+    if (servicesSummary) servicesSummary.addEventListener('click', function (event) {
+      if (!canUseServicesPointer(event) || !servicesOpenedByHover || !desktopServices.open) return;
+      event.preventDefault();
+      servicesOpenedByHover = false;
+    });
+  }
   function close(restore) {
     if (menu.hidden) return;
     menu.hidden = true; burger.setAttribute('aria-expanded','false'); document.body.classList.remove('is-locked'); nav.classList.remove('is-open');
