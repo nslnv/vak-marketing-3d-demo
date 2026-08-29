@@ -426,28 +426,33 @@
 .aud + .srv{padding-top:clamp(54px,5vw,76px)}
 
 /* ─── партнёры: стена логотипов ──────────────────────────────────────────
-   Логотипы остаются в исходных цветах и без отдельных подложек. Их собирает
-   мягкая световая глубина секции: она помогает тёмному леттерингу читаться,
-   но не превращается в ровную серую плашку. */
-.ptn{position:relative;overflow:clip}
+   Логотипы остаются в исходных цветах и без отдельных карточек. Свет здесь
+   работает как мягкая оптическая подложка: тёмные фирменные знаки читаются,
+   а сама секция спокойно растворяется в следующей, без жёсткой границы. */
+.ptn{position:relative;isolation:isolate;overflow:clip}
 .ptn::before{content:'';position:absolute;z-index:0;inset:0;pointer-events:none;
   background:
-    radial-gradient(64% 86% at 10% 54%,rgba(124,92,255,.15),transparent 76%),
-    radial-gradient(72% 62% at 51% 58%,rgba(222,217,240,.16),transparent 78%),
-    radial-gradient(50% 76% at 101% 21%,rgba(255,82,184,.075),transparent 77%),
-    radial-gradient(46% 58% at 53% 102%,rgba(98,228,255,.045),transparent 78%)}
+    radial-gradient(64% 86% at 10% 48%,rgba(124,92,255,.13),transparent 76%),
+    radial-gradient(72% 62% at 51% 52%,rgba(222,217,240,.06),transparent 78%),
+    radial-gradient(50% 76% at 101% 21%,rgba(255,82,184,.065),transparent 77%),
+    radial-gradient(46% 58% at 53% 92%,rgba(98,228,255,.05),transparent 78%);
+  --ptn-fade:clamp(64px,9vw,132px);-webkit-mask-image:linear-gradient(180deg,#000 0,#000 calc(100% - var(--ptn-fade)),transparent 100%);
+  mask-image:linear-gradient(180deg,#000 0,#000 calc(100% - var(--ptn-fade)),transparent 100%)}
 .ptn>.wrap{position:relative;z-index:1}
 .logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(18px,2.4vw,34px);margin:0;padding:0;list-style:none}
-.logos li{position:relative;display:flex;align-items:center;justify-content:center;
-  min-height:clamp(112px,10.5vw,148px);padding:20px 24px;
+  gap:clamp(24px,2.7vw,40px);margin:0;padding:0;list-style:none}
+.logos li{--logo-shadow:drop-shadow(0 4px 12px rgba(4,3,12,.30));position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;
+  min-height:clamp(126px,10.8vw,156px);padding:18px 14px;
   color:rgba(255,255,255,.46);background:transparent;
   transition:color .45s var(--e)}
-.logos img{height:var(--h,38px);width:auto;max-width:84%;object-fit:contain;opacity:1;filter:none;
+.logos img{position:relative;z-index:1;height:clamp(48px,4.1vw,58px);width:auto;max-width:94%;object-fit:contain;opacity:1;filter:var(--logo-shadow);
   transition:opacity .45s var(--e),filter .45s var(--e),transform .5s var(--e-out)}
 .logos li.logos__brand{background:transparent}
-.logos li.logos__brand img{height:var(--h,38px);max-width:84%;opacity:1;filter:none;position:relative;z-index:1}
-.logos li.logos__asset img{height:clamp(48px,5.4vw,74px)}
+.logos li.logos__brand img{height:clamp(48px,4.1vw,58px);max-width:94%;opacity:1}
+.logos li.logos__asset img{height:clamp(64px,6.2vw,84px)}
+.logos li.logos__ink{--logo-shadow:drop-shadow(0 3px 10px rgba(4,3,12,.26)) drop-shadow(0 0 9px rgba(241,237,255,.28))}
+.logos li.logos__ink::before{content:'';position:absolute;z-index:0;width:min(96%,236px);height:clamp(46px,4.6vw,62px);border-radius:50%;
+  background:radial-gradient(ellipse,rgba(243,239,255,.19) 0%,rgba(202,188,255,.07) 47%,rgba(202,188,255,0) 76%);filter:blur(7px)}
 /* пока официального файла нет — имя набрано нашим шрифтом в той же краске */
 .logos li[data-logo-todo] span{font-size:clamp(15px,1.35vw,19px);font-weight:500;
   letter-spacing:-.012em;white-space:nowrap;
@@ -455,15 +460,16 @@
 
 @media (hover:hover){
   .logos li:hover{color:#fff}
-  .logos li:hover img{opacity:1;transform:translateY(-2px);filter:none}
-  .logos li.logos__brand:hover img{filter:none;transform:translateY(-2px) scale(1.025)}
+  .logos li:hover img{opacity:1;transform:translateY(-2px);filter:var(--logo-shadow)}
+  .logos li.logos__brand:hover img{transform:translateY(-2px)}
   .logos li[data-logo-todo]:hover span{transform:translateY(-2px)}
 }
 /* Без стенок ячеек: логотипы остаются свободным рядом, а не таблицей. */
 
 @media (min-width:620px){.logos{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (min-width:900px){.logos{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media (min-width:1180px){.logos{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media (min-width:1180px){.logos{grid-template-columns:repeat(12,minmax(0,1fr))}.logos li{grid-column:span 3}.logos li:nth-last-child(-n+3){grid-column:span 4}}
+@media (max-width:619px){.logos{gap:22px 14px}.logos li{min-height:112px;padding:14px 8px}.logos li.logos__brand img{height:clamp(40px,10vw,48px)}.logos li.logos__asset img{height:clamp(54px,14vw,68px)}}
 @media (prefers-reduced-motion:reduce){
   .logos li,.logos img,.logos li span{transition:none}
 }
