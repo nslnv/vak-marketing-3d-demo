@@ -627,7 +627,7 @@ if (rail) {
 var ringEl = $('#ring'), ringSet = $('#ringSet');
 if (ringEl && ringSet && !reduced) (function () {
   var PAD = 28;          // знак целиком уезжает за край до повтора
-  var DRIFT = 12;        // px/с в покое — заметнее, но всё ещё спокойный ритм
+  var DRIFT = 15;        // px/с в покое — +25%, остаётся ровный спокойный ритм
   var GAIN = 0.05;       // у прокрутки только небольшой вклад
   var VMAX = 80;         // без разгона при резком wheel / trackpad
   var SLOW = 0.12;       // под курсором почти останавливается
