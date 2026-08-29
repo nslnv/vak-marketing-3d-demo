@@ -30,12 +30,12 @@ var LOGOS = {
   coinstore:{ src:'/assets/img/brands/media/coinstore.png', alt:'Coinstore' },
   cointelegraph:{ src:'/assets/img/logos/cointelegraph.svg', alt:'Cointelegraph', wide:true },
   yahoo:    { src:'/assets/img/logos/yahoo-finance.svg', alt:'Yahoo Finance', wide:true },
-  forklog:  { src:'/assets/img/logos/forklog.svg', alt:'ForkLog', light:true },
+  forklog:  { src:'/assets/img/logos/forklog.svg', alt:'ForkLog', ink:true },
   bits:     { src:'/assets/img/logos/bitsmedia.png', alt:'Bits.media', wide:true },
-  beincrypto:{ src:'/assets/img/logos/beincrypto.svg', alt:'BeInCrypto', wide:true, light:true },
-  coindesk: { src:'/assets/img/logos/coindesk.svg', alt:'CoinDesk', wide:true },
+  beincrypto:{ src:'/assets/img/logos/beincrypto.svg', alt:'BeInCrypto', wide:true, ink:true },
+  coindesk: { src:'/assets/img/logos/coindesk.svg', alt:'CoinDesk', wide:true, ink:true },
   theblock: { src:'/assets/img/brands/media/the-block.png', alt:'The Block' },
-  benzinga: { src:'/assets/img/logos/benzinga.svg', alt:'Benzinga', wide:true },
+  benzinga: { src:'/assets/img/logos/benzinga.svg', alt:'Benzinga', wide:true, ink:true },
   rbc:      { src:'/assets/img/brands/media/rbc-crypto.png', alt:'РБК Крипто', wide:true },
   cryptoru: { src:'/assets/img/brands/media/crypto-ru.png', alt:'Crypto.ru', wide:true }
 };
@@ -630,7 +630,7 @@ function renderPricing(section) {
 function renderLogo(keyName, media) {
   var logo = LOGOS[keyName];
   if (!logo) return '';
-  return '<div class="sp-logo' + (media ? ' sp-logo--media' : '') + (logo.wide ? ' sp-logo--wide' : '') + (logo.light ? ' sp-logo--light' : '') + '"><img src="' + esc(logo.src) + '" alt="' + esc(logo.alt) + '" loading="lazy" decoding="async"></div>';
+  return '<div class="sp-logo' + (media ? ' sp-logo--media' : '') + (logo.wide ? ' sp-logo--wide' : '') + (logo.ink ? ' sp-logo--ink' : '') + '"><img src="' + esc(logo.src) + '" alt="' + esc(logo.alt) + '" loading="lazy" decoding="async"></div>';
 }
 function renderMedia(section) {
   return '<section class="sp-trust sp-media-network sp-media-network--' + key + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
