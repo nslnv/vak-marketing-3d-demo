@@ -26,6 +26,7 @@
 .sp-title{max-width:13.4em;margin:0 0 clamp(20px,2.2vw,30px);font-size:clamp(30px,3.85vw,55px);font-weight:360;line-height:1.09;
   letter-spacing:-.036em;color:var(--ink)}
 .sp-title__accent{color:var(--vio-2);font-weight:410}
+.sp-title__accent--full{font-weight:inherit}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
   .sp-title__accent{background:linear-gradient(103deg,#af98ff 4%,#f06bcc 49%,#b8a2ff 96%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 24px rgba(205,137,255,.16)}
 }

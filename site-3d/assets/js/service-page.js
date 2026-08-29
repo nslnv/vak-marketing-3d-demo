@@ -461,17 +461,7 @@ function photoAlt() {
   return language === 'en' ? 'VAK Marketing service visual' : 'Визуальный материал VAK Marketing';
 }
 function renderHeroTitle(title) {
-  var accents = {
-    strategy: language === 'en' ? 'A tailored marketing strategy' : 'Индивидуальная маркетинговая стратегия',
-    linkedin: language === 'en' ? 'LinkedIn as a lead channel' : 'LinkedIn как канал лидов',
-    pr: language === 'en' ? 'Media placements and rankings' : 'Публикации и позиции в медиа',
-    seo: language === 'en' ? 'SEO for competitive sectors' : 'SEO для конкурентных ниш',
-    localization: 'Crypto, FinTech, iGaming, Web3'
-  };
-  var accent = accents[key];
-  var start = accent ? title.indexOf(accent) : -1;
-  if (start === -1) return esc(title);
-  return esc(title.slice(0, start)) + '<span class="sp-title__accent">' + esc(accent) + '</span>' + esc(title.slice(start + accent.length));
+  return '<span class="sp-title__accent sp-title__accent--full">' + esc(title) + '</span>';
 }
 function strategyProofTitle() {
   return language === 'en'
