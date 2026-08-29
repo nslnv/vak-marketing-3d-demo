@@ -1371,6 +1371,9 @@ function boot(canvas) {
   /* Значения заменяются resolveKeys после расчёта фактической высоты About. */
   let aboutBeats = [0.19, 0.75, 0.82, 0.84];
   let aboutNamedBeats = { centerHold: 0.65 };
+  /* Вступительная строка принадлежит только первому подлёту. После начала
+     раскрытия она тихо уходит и не возвращается во время обратной сборки. */
+  let aboutFlowIntroConsumed = false;
   let tuneAcc = 0, tuneN = 0;
 
   /* Критически задемпфированная пружина: доводит значение до цели без перелёта
@@ -1655,6 +1658,7 @@ function boot(canvas) {
       aboutAssemblyDrive[i] = drive;
       aboutOpen = Math.max(aboutOpen, drive);
     }
+    if (aboutOpen > 0.018) aboutFlowIntroConsumed = true;
     /* Технический контроллер включается лишь тогда, когда обычный маршрут
        уже привёл цельный объект в центр. На выходе он совпадает с K2 до
        последней координаты — поэтому переход не смешивает две траектории. */
@@ -1719,6 +1723,7 @@ function boot(canvas) {
       : 1;
     if (aboutSection) {
       aboutSection.classList.toggle('about--labels', aboutLabelVisibility > 0.02);
+      aboutSection.classList.toggle('about--flow-intro', !aboutFlowIntroConsumed && aboutProgress > 0.01);
     }
     /* Качество WebGL фиксируется до входа в видимую сцену и держится до
        полного выхода. Это убирает даже разовый визуальный скачок DPR прямо

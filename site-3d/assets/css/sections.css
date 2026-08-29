@@ -85,14 +85,13 @@
   line-height:1.2;letter-spacing:.005em;overflow-wrap:anywhere}
 .about__module-label--result span{color:#D8EEFF}
 .about__flow-line{position:absolute;z-index:3;left:50%;bottom:-44px;display:flex;align-items:center;justify-content:center;
-  gap:clamp(9px,1.2vw,18px);width:max-content;max-width:calc(100% - 14px);margin:0;transform:translateX(-50%);
+  gap:clamp(9px,1.2vw,18px);width:max-content;max-width:calc(100% - 14px);margin:0;opacity:0;transform:translateX(-50%) translateY(8px);filter:blur(1.2px);
   color:#E5E0F4;font-size:clamp(11px,.9vw,14px);font-weight:620;letter-spacing:.045em;line-height:1.2;text-transform:uppercase;
   text-align:center;text-shadow:0 2px 14px rgba(5,3,16,.9);pointer-events:none;
   transition:opacity .58s var(--e),transform .72s var(--e-out),filter .58s var(--e)}
-/* Когда у деталей появляются собственные белые подписи, нижняя строка не
-   конкурирует с ними: спокойно растворяется и столь же мягко возвращается
-   при обратной прокрутке, когда конструкция снова собирается. */
-.about--labels .about__flow-line{opacity:0;transform:translateX(-50%) translateY(8px);filter:blur(1.2px)}
+/* Строка — только вступление к раскрытию. После первого движения деталей
+   она растворяется и больше не конкурирует со сценой на обратной сборке. */
+.about--flow-intro .about__flow-line{opacity:1;transform:translateX(-50%);filter:none}
 .about__flow-line i{font-style:normal;color:var(--vio-2);font-size:1.1em;font-weight:420;opacity:.86}
 .about__body{position:relative;isolation:isolate;max-width:46ch;color:var(--ink-2)}
 .about__body::before{content:'';position:absolute;z-index:-1;pointer-events:none;
