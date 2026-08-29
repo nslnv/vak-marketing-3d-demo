@@ -426,10 +426,14 @@
 .aud + .srv{padding-top:clamp(54px,5vw,76px)}
 
 /* ─── партнёры: стена логотипов ──────────────────────────────────────────
-   В сетке остаются официальные логотипы. Для исходников без цветной версии
-   используется читаемый светлый вариант; переданные брендовые файлы ниже не
-   перекрашиваются и сохраняют собственную палитру. Размеры нормализованы по
-   оптическому, а не по пиксельному габариту. */
+   Логотипы остаются в исходных цветах и без отдельных подложек. Контраст
+   держит единое спокойное серое поле всей секции, а не белые «наклейки». */
+.ptn{position:relative;overflow:clip}
+.ptn::before{content:'';position:absolute;z-index:0;inset:0;pointer-events:none;
+  background:
+    radial-gradient(78% 116% at 48% 52%,rgba(214,211,224,.20),transparent 76%),
+    linear-gradient(90deg,rgba(198,195,212,.095),rgba(174,169,192,.062) 54%,rgba(255,255,255,.03))}
+.ptn>.wrap{position:relative;z-index:1}
 .logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:clamp(18px,2.4vw,34px);margin:0;padding:0;list-style:none}
 .logos li{position:relative;display:flex;align-items:center;justify-content:center;
@@ -441,12 +445,6 @@
 .logos li.logos__brand{background:transparent}
 .logos li.logos__brand img{height:var(--h,38px);max-width:84%;opacity:1;filter:none;position:relative;z-index:1}
 .logos li.logos__asset img{height:clamp(48px,5.4vw,74px)}
-/* У официальных файлов CoinDesk / BeInCrypto / ForkLog тёмный леттеринг.
-   Светлая компактная плашка сохраняет исходные цвета и даёт им контраст, не
-   превращая всю ячейку в белую карточку. */
-.logos li.logos__light::before{content:'';position:absolute;width:min(84%,248px);height:58px;
-  border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 8px 22px rgba(0,0,0,.16)}
-.logos li.logos__light img{opacity:1;filter:none}
 /* пока официального файла нет — имя набрано нашим шрифтом в той же краске */
 .logos li[data-logo-todo] span{font-size:clamp(15px,1.35vw,19px);font-weight:500;
   letter-spacing:-.012em;white-space:nowrap;
