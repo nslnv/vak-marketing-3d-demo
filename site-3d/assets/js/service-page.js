@@ -616,13 +616,13 @@ function render(d) {
 /* ---------- Navigation and interactions -------------------------------- */
 function navLinks(mobile) {
   var services = [
-    ['/#services', language === 'en' ? 'All services' : 'Все услуги'],
     ['/strategy/', language === 'en' ? 'Strategy' : 'Стратегия'],
     ['/linkedin/', 'LinkedIn'],
     ['/pr/', language === 'en' ? 'PR, media and SERP' : 'PR, СМИ и SERP'],
     ['/seo/', 'AI SEO'],
     ['/localization/', language === 'en' ? 'Localization' : 'Локализация']
   ];
+  var allServices = ['/#services', language === 'en' ? 'View all services' : 'Посмотреть все услуги'];
   var items = [
     ['/#cases', language === 'en' ? 'Cases' : 'Кейсы'],
     ['/#clients', language === 'en' ? 'Clients' : 'Клиенты'],
@@ -632,7 +632,8 @@ function navLinks(mobile) {
     ['/#contact', language === 'en' ? 'Contacts' : 'Контакты']
   ];
   var label = language === 'en' ? 'Services' : 'Услуги';
-  var serviceLinks = services.map(function (item) { return '<a href="' + item[0] + '">' + item[1] + '</a>'; }).join('');
+  var serviceLinks = services.map(function (item) { return '<a href="' + item[0] + '">' + item[1] + '</a>'; }).join('')
+    + '<a class="' + (mobile ? 'menu__services-all' : 'nav__services-all') + '" href="' + allServices[0] + '">' + allServices[1] + '</a>';
   var group = mobile
     ? '<details class="menu__services"><summary><span>' + label + '</span><i aria-hidden="true"></i></summary><div class="menu__services-links">' + serviceLinks + '</div></details>'
     : '<details class="nav__services"><summary><span>' + label + '</span><i aria-hidden="true"></i></summary><div class="nav__services-menu">' + serviceLinks + '</div></details>';

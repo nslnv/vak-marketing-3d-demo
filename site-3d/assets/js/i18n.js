@@ -10,7 +10,7 @@ var EN = {
   'a11y.skip':'Skip to content',
 
   /* шапка */
-  'nav.services':'Services','nav.allServices':'All services','nav.strategy':'Strategy','nav.linkedin':'LinkedIn',
+  'nav.services':'Services','nav.allServices':'View all services','nav.strategy':'Strategy','nav.linkedin':'LinkedIn',
   'nav.pr':'PR, media and SERP','nav.seo':'AI SEO','nav.localization':'Localization',
   'nav.cases':'Cases','nav.clients':'Clients','nav.team':'Team',
   'nav.about':'About','nav.blog':'Blog','nav.contacts':'Contacts',
