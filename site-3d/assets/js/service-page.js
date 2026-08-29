@@ -139,7 +139,7 @@ var SERVICES = {
       scope:{ label:'Инструменты', title:'Из страницы — в рабочий канал', note:'Собираем не поток шаблонных сообщений, а систему, в которой у каждого касания есть контекст и задача.', items:[
         'Оформление и развитие страницы компании','Контент-стратегия и регулярный постинг','Упаковка профилей менеджеров и фаундеров','Создание и ведение рабочих аккаунтов с нуля','Настройка ICP и сегментации аудитории','Поиск лидов через органику и Sales Navigator','Персонализированные outreach-сценарии','Квалификация и передача лидов в продажи'
       ]},
-      diagram:{ label:'Рабочая связка', title:'От ICP до sales-команды', note:'Все четыре элемента должны быть согласованы; иначе даже хороший outreach выглядит как спам.', items:[
+      diagram:{ label:'Рабочая связка', title:'От ICP до sales-команды', note:'Все четыре элемента должны быть согласованы; иначе даже хороший outreach выглядит как спам.', variant:'bridge', core:['Квалифицированный\nдиалог','к разговору, где есть следующий шаг'], items:[
         ['ICP','Рынки, роли и сигналы готовности'],['Профиль','Страница и люди, которым доверяют'],['Диалог','Контент и персональное первое касание'],['Передача','Квалификация и следующий шаг в sales']
       ]},
       process:{ label:'Как проходит работа', title:'Понятный путь к квалифицированному диалогу', items:[
@@ -174,7 +174,7 @@ var SERVICES = {
       scope:{ label:'Tools', title:'From a page to a working channel', note:'We build a system in which every touchpoint has context and a purpose, not a stream of stock messages.', items:[
         'Company page setup and development','Content strategy and regular posting','Packaging of manager and founder profiles','Creation and management of working accounts','ICP and audience segmentation','Lead research through organic tools and Sales Navigator','Personalised outreach scenarios','Qualification and hand-off to sales'
       ]},
-      diagram:{ label:'Operating chain', title:'From ICP to sales', note:'All four elements must agree. Without that, even good outreach reads as spam.', items:[
+      diagram:{ label:'Operating chain', title:'From ICP to sales', note:'All four elements must agree. Without that, even good outreach reads as spam.', variant:'bridge', core:['Qualified\nconversation','a conversation with a clear next step'], items:[
         ['ICP','Markets, roles and readiness signals'],['Profile','A page and people worth trusting'],['Conversation','Content and a personal first touch'],['Handover','Qualification and the next step with sales']
       ]},
       process:{ label:'How we work', title:'A clear route to qualified conversations', items:[
@@ -212,6 +212,9 @@ var SERVICES = {
       scope:{ label:'Форматы', title:'Материал под конкретный повод', note:'Не ставим пресс-релиз туда, где нужна колонка, и не делаем рейтинг ради строчки в списке. Формат следует задаче и площадке.', items:[
         'Пресс-релизы','Интервью с фаундерами и топ-менеджерами','Экспертные статьи и авторские колонки','Обзорные и аналитические материалы о проекте','Комментарии для журналистов и упоминания в готовых материалах','Рейтинги и позиции в обзорных материалах ТОП-5 и ТОП-10'
       ]},
+      diagram:{ label:'Контур публикации', title:'Материал работает не сам по себе', note:'Повод, содержание, площадка и отклик должны усиливать одну позицию бренда.', variant:'orbit', core:['Доверие\nк бренду','материал работает после выхода'], items:[
+        ['Повод','Что именно бренд должен зафиксировать на рынке'],['Материал','Формат, аргументы и голос спикера'],['Издание','Среда, где сообщение получает вес'],['Отклик','Ссылка, видимость и повод для следующего разговора']
+      ]},
       media:{ label:'Наша медиасеть', title:'Профильные и деловые издания', note:'Работаем с Tier-1, Tier-2 и Tier-3 медиа в международном и СНГ-контуре, включая crypto, fintech и бизнес-издания.', logos:['cointelegraph','yahoo','forklog','bits','beincrypto','coindesk','theblock','benzinga','rbc','cryptoru'], action:'Получить полный список доступных СМИ' },
       process:{ label:'Как проходит работа', title:'От повода к опубликованному материалу', items:[
         ['Бриф','Фиксируем цель: репутация, SEO, событие, запуск или экспертная позиция.'],
@@ -242,6 +245,9 @@ var SERVICES = {
       ]},
       scope:{ label:'Formats', title:'Material for a specific occasion', note:'We do not put a press release where a column is needed or produce a ranking for a line in a list. Format follows the task and the outlet.', items:[
         'Press releases','Founder and executive interviews','Expert articles and authored columns','Project overview and analytical pieces','Comments for journalists and mentions in ready-made materials','TOP-5 and TOP-10 positions in review content'
+      ]},
+      diagram:{ label:'Publication system', title:'A piece does not work in isolation', note:'The occasion, content, outlet and response must support one clear brand position.', variant:'orbit', core:['Brand\ntrust','the piece works after it goes live'], items:[
+        ['Occasion','What the brand needs to establish in the market'],['Material','Format, evidence and the speaker’s voice'],['Outlet','A setting in which the message carries weight'],['Response','A live link, visibility and a reason for the next conversation']
       ]},
       media:{ label:'Our media network', title:'Specialist and business outlets', note:'We work with Tier-1, Tier-2 and Tier-3 outlets in international and CIS markets, including crypto, fintech and business media.', logos:['cointelegraph','yahoo','forklog','bits','beincrypto','coindesk','theblock','benzinga','rbc','cryptoru'], action:'Request the full list of available media' },
       process:{ label:'How we work', title:'From an occasion to a published piece', items:[
@@ -277,7 +283,7 @@ var SERVICES = {
       scope:{ label:'Что входит в работу', title:'SEO как последовательная инженерная работа', note:'Каждая часть влияет на следующую: невозможно оценивать контент отдельно от структуры или ссылки отдельно от целевой страницы.', items:[
         'Аудит текущих позиций и конкурентного поля','Сбор и кластеризация семантического ядра','Оптимизация структуры сайта под поисковые запросы','Технический SEO-аудит и исправления','Контент-стратегия под ключевые кластеры','Линкбилдинг и работа с внешними факторами','Мониторинг позиций и аналитика динамики','Репутация бренда в поисковой выдаче — SERP'
       ]},
-      diagram:{ label:'Контур работы', title:'Поиск видит не один элемент', note:'Структура, материал и внешние сигналы должны поддерживать одну коммерческую задачу.', items:[
+      diagram:{ label:'Контур работы', title:'Поиск видит не один элемент', note:'Структура, материал и внешние сигналы должны поддерживать одну коммерческую задачу.', variant:'loop', core:['Коммерческая\nвидимость','ответ на реальный спрос'], items:[
         ['Семантика','Что и как ищет рынок'],['Структура','Куда ведёт поисковой запрос'],['Контент','Чем страница отвечает на намерение'],['SERP','Как бренд выглядит среди результатов']
       ]},
       process:{ label:'Как проходит работа', title:'От исходной позиции к управляемой динамике', items:[
@@ -313,7 +319,7 @@ var SERVICES = {
       scope:{ label:'What is included', title:'SEO as sequential engineering work', note:'Each part affects the next: content cannot be assessed apart from structure, nor links apart from their target pages.', items:[
         'Audit of current positions and competitor landscape','Keyword research and semantic clustering','Site structure optimisation for search intent','Technical SEO audit and fixes','Content strategy for priority clusters','Link building and external factors','Position monitoring and trend analysis','Brand reputation in search results — SERP'
       ]},
-      diagram:{ label:'Working loop', title:'Search does not see one element', note:'Structure, material and external signals must support the same commercial task.', items:[
+      diagram:{ label:'Working loop', title:'Search does not see one element', note:'Structure, material and external signals must support the same commercial task.', variant:'loop', core:['Commercial\nvisibility','an answer to real demand'], items:[
         ['Semantics','What the market searches and how'],['Structure','Where the query is taken'],['Content','How the page answers intent'],['SERP','How the brand appears among results']
       ]},
       process:{ label:'How we work', title:'From starting position to manageable movement', items:[
@@ -352,6 +358,9 @@ var SERVICES = {
       scope:{ label:'Материалы и документы', title:'Что можно передать в работу', note:'Подготовим материал для международного рынка, внутреннего оборота или конкретного продукта — с нужным форматом на выходе.', items:[
         'Сайты и лендинги','Презентации, pitch decks и whitepapers','Статьи, пресс-релизы и PR-материалы','Юридические и нотариальные документы','Договоры и корпоративная документация','Дипломы, аттестаты, транскрипты и сертификаты','Приложения и продуктовые интерфейсы — UI/UX-локализация','Маркетинговые и рекламные материалы'
       ]},
+      diagram:{ label:'Контур локализации', title:'Смысл должен выдержать новый рынок', note:'Исходный текст, терминология, перевод и проверка работают как единая передача смысла.', variant:'relay', core:['Точный\nсмысл','в новом языке и контексте'], items:[
+        ['Исходник','Задача материала, аудитория и исходный формат'],['Контекст','Термины, бренд и особенности рынка'],['Перевод','Язык, который сохраняет смысл, а не кальку'],['Проверка','Вычитка, формат и готовность к использованию']
+      ]},
       sectors:{ label:'Экспертиза', title:'Ниши, где термин нельзя угадывать', note:'Перед началом работы сверяем задачу, исходный контекст и требования к стилю. Это важнее любого шаблонного глоссария.', items:[
         ['Blockchain и crypto','Токены, биржи, кошельки, инфраструктура и продукты Web3.'],
         ['FinTech и payments','Платёжные системы, финансовые продукты и документация.'],
@@ -385,6 +394,9 @@ var SERVICES = {
       ]},
       scope:{ label:'Materials and documents', title:'What you can send to us', note:'We prepare material for an international market, internal use or a specific product, in the format needed at handover.', items:[
         'Websites and landing pages','Presentations, pitch decks and white papers','Articles, press releases and PR material','Legal and notarial documents','Contracts and corporate documentation','Diplomas, transcripts, certificates and educational documents','Applications and product interfaces — UI/UX localisation','Marketing and advertising materials'
+      ]},
+      diagram:{ label:'Localisation system', title:'Meaning must survive a new market', note:'Source text, terminology, translation and review work as one transfer of meaning.', variant:'relay', core:['Accurate\nmeaning','in a new language and context'], items:[
+        ['Source','The material’s purpose, audience and source format'],['Context','Terms, brand voice and market specifics'],['Translation','Language that keeps the meaning, not a literal copy'],['Review','Editing, format and readiness for use']
       ]},
       sectors:{ label:'Subject expertise', title:'Fields where a term cannot be guessed', note:'Before work begins, we confirm the task, source context and style requirements. That matters more than a generic glossary.', items:[
         ['Blockchain and crypto','Tokens, exchanges, wallets, infrastructure and Web3 products.'],
@@ -423,7 +435,7 @@ var currentNavKeyHandler = null;
 var currentNavPointerHandler = null;
 var currentNavResizeHandler = null;
 var currentRevealObserver = null;
-var currentStrategyObserver = null;
+var currentDiagramObserver = null;
 var currentStrategyResizeHandler = null;
 var toastTimer = null;
 
@@ -477,6 +489,43 @@ function strategyFlow() {
     + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.35s" stroke="url(#sp-flow-rose)" d="M640 320 C667 342 645 357 675 373 C705 389 689 405 724 417 C740 423 750 429 763 435"/>'
     + '<path class="sp-flow" pathLength="100" style="--sp-link-delay:.4s" stroke="url(#sp-flow-lilac)" d="M686 315 C729 332 745 356 794 361 C843 366 842 402 895 406 C947 410 950 434 997 428 C1031 423 1046 424 1070 430"/>'
     + '</svg>';
+}
+function serviceFlow(variant) {
+  var variants = {
+    bridge:[
+      ['cyan','M523 219 C476 204 454 170 420 151 C367 120 328 130 282 103 C250 85 232 83 202 97'],
+      ['lilac','M677 219 C715 200 730 178 755 160 C798 132 832 142 866 116 C899 92 939 91 994 102'],
+      ['rose','M523 281 C480 296 456 328 417 343 C368 363 337 349 287 382 C258 402 229 401 202 414'],
+      ['lilac','M677 281 C719 300 740 323 774 344 C821 374 846 357 893 390 C926 411 956 402 996 412']
+    ],
+    orbit:[
+      ['lilac','M525 219 C477 190 467 126 408 128 C342 130 319 88 260 107 C235 115 218 105 202 96'],
+      ['rose','M675 219 C720 205 718 158 764 147 C819 134 839 87 901 108 C936 120 965 101 996 112'],
+      ['cyan','M525 281 C470 292 454 366 390 371 C322 376 304 425 239 401 C223 395 213 402 202 413'],
+      ['lilac','M675 281 C729 292 747 367 811 370 C879 374 896 425 959 402 C976 396 986 403 996 413']
+    ],
+    loop:[
+      ['cyan','M528 221 C485 177 455 160 404 164 C351 168 320 111 203 109'],
+      ['rose','M672 221 C715 179 745 161 797 164 C850 168 881 111 997 109'],
+      ['lilac','M528 279 C487 322 455 340 404 336 C350 333 319 391 203 390'],
+      ['cyan','M672 279 C713 321 746 340 797 336 C850 333 881 391 997 390']
+    ],
+    relay:[
+      ['cyan','M523 219 C479 206 457 185 416 164 C366 138 334 144 295 119 C263 99 232 99 202 108'],
+      ['lilac','M523 281 C480 296 453 319 418 345 C376 376 337 361 292 390 C258 412 230 408 202 400'],
+      ['rose','M677 219 C719 198 742 181 780 166 C827 147 858 142 899 119 C928 102 961 105 996 111'],
+      ['lilac','M677 281 C719 302 744 324 779 346 C824 374 854 363 900 391 C932 410 964 407 996 401']
+    ]
+  };
+  var paths = variants[variant] || variants.bridge;
+  var prefix = 'sp-service-' + (variant || 'bridge');
+  return '<svg class="sp-service-system__links" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs>'
+    + '<linearGradient id="' + prefix + '-lilac" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7C5CFF" stop-opacity=".14"/><stop offset="55%" stop-color="#A98CFF" stop-opacity=".78"/><stop offset="100%" stop-color="#FF52B8" stop-opacity=".42"/></linearGradient>'
+    + '<linearGradient id="' + prefix + '-cyan" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#62E4FF" stop-opacity=".12"/><stop offset="54%" stop-color="#62E4FF" stop-opacity=".74"/><stop offset="100%" stop-color="#9B84FF" stop-opacity=".48"/></linearGradient>'
+    + '<linearGradient id="' + prefix + '-rose" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF52B8" stop-opacity=".12"/><stop offset="54%" stop-color="#FF52B8" stop-opacity=".74"/><stop offset="100%" stop-color="#7C5CFF" stop-opacity=".45"/></linearGradient>'
+    + '</defs>' + paths.map(function (path, i) {
+      return '<path class="sp-service-flow" pathLength="100" style="--sp-link-delay:' + (.12 + i * .09) + 's" stroke="url(#' + prefix + '-' + path[0] + ')" d="' + path[1] + '"/>';
+    }).join('') + '</svg>';
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
@@ -553,16 +602,19 @@ function renderScope(section) {
     + section.items.map(function (item, i) { return '<li class="sp-index__item" style="--sp-item-delay:' + (i * .055) + 's"><span>' + esc(item) + '</span></li>'; }).join('')
     + '</ul></div></section>';
 }
-function renderSignalPath(section) {
-  return '<section class="sp-section sp-section--tight sp-signal-section sp-signal-section--' + key + '"><div class="wrap">' + renderHead(section)
-    + '<div class="sp-signal-path sp-signal-path--' + key + '" data-sp-reveal style="--sp-delay:.04s"><ol class="sp-signal-path__stages">'
-    + section.items.map(function (item, i) {
-      return '<li class="sp-signal-path__stage" style="--sp-item-delay:' + (i * .09) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+function renderServiceSystem(section) {
+  var core = section.core || [section.title, section.note || ''];
+  var variant = section.variant || 'bridge';
+  return '<section class="sp-section sp-section--tight sp-service-system-section sp-service-system-section--' + key + '"><div class="wrap">' + renderHead(section)
+    + '<div class="sp-service-system sp-service-system--' + variant + '" data-sp-service-system data-sp-reveal style="--sp-delay:.04s">' + serviceFlow(variant)
+    + '<div class="sp-service-system__core"><strong>' + esc(core[0]).replace(/\n/g, '<br>') + '</strong><span>' + esc(core[1]) + '</span></div>'
+    + '<ol class="sp-service-system__nodes">' + section.items.map(function (item, i) {
+      return '<li class="sp-service-system__node" style="--sp-item-delay:' + (i * .085) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
 function renderDiagram(section) {
   if (isStrategy) return renderStrategySystem(section);
-  return renderSignalPath(section);
+  return renderServiceSystem(section);
 }
 function renderProcess(section) {
   if (isStrategy) return renderStrategyProcess(section);
@@ -623,7 +675,7 @@ function render(d) {
   renderNav();
   bindForm(d.cta);
   bindReveal();
-  bindStrategyExperience();
+  bindDiagramExperience();
 }
 
 /* ---------- Navigation and interactions -------------------------------- */
@@ -773,26 +825,27 @@ function bindReveal() {
   }, { rootMargin:'0px 0px -8% 0px', threshold:.08 });
   nodes.forEach(function (node) { currentRevealObserver.observe(node); });
 }
-function bindStrategyExperience() {
+function bindDiagramExperience() {
   if (currentStrategyResizeHandler) { window.removeEventListener('resize', currentStrategyResizeHandler); currentStrategyResizeHandler = null; }
-  if (!isStrategy) return;
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var system = $('[data-sp-system]');
-  if (currentStrategyObserver) { currentStrategyObserver.disconnect(); currentStrategyObserver = null; }
-  if (system) {
-    if (reduced || !('IntersectionObserver' in window)) system.classList.add('is-assembled');
+  var systems = $$('[data-sp-system],[data-sp-service-system]');
+  if (currentDiagramObserver) { currentDiagramObserver.disconnect(); currentDiagramObserver = null; }
+  if (systems.length) {
+    if (reduced || !('IntersectionObserver' in window)) systems.forEach(function (system) { system.classList.add('is-assembled'); });
     else {
-      currentStrategyObserver = new IntersectionObserver(function (entries) {
+      var diagramObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
           entry.target.classList.add('is-assembled');
-          currentStrategyObserver.unobserve(entry.target);
+          diagramObserver.unobserve(entry.target);
         });
       }, { rootMargin:'0px 0px -14% 0px', threshold:.14 });
-      currentStrategyObserver.observe(system);
+      currentDiagramObserver = diagramObserver;
+      systems.forEach(function (system) { diagramObserver.observe(system); });
     }
   }
+  if (!isStrategy) return;
 
   var scopeButtons = $$('[data-strategy-scope-step]');
   var scopeDetail = $('#strategyScopeDetail');
