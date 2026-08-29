@@ -435,7 +435,7 @@ function photoAlt() {
 function strategyProofTitle() {
   return language === 'en'
     ? '<span class="sp-decision-frame__line">Not a menu of services,</span><span class="sp-decision-frame__line">but a <span class="sp-decision-frame__accent">sequence of decisions</span></span>'
-    : '<span class="sp-decision-frame__line">Не набор услуг,</span><span class="sp-decision-frame__line">а <span class="sp-decision-frame__accent">последовательность решений</span></span>';
+    : '<span class="sp-decision-frame__line">Не набор услуг, а</span><span class="sp-decision-frame__line"><span class="sp-decision-frame__accent">последовательность решений</span></span>';
 }
 function strategyFlow() {
   return '<svg class="sp-strategy-system__links" viewBox="0 0 1200 540" preserveAspectRatio="none" aria-hidden="true" focusable="false">'
