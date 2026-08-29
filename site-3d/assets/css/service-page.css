@@ -581,6 +581,20 @@
   .sp-sectors--outcomes{grid-template-columns:1fr;gap:23px}.sp-sector{padding-left:18px}.sp-sector h3{font-size:20px}.sp-sector p{font-size:13.5px}
   .sp-rate-list__item{grid-template-columns:1fr;gap:6px;padding:18px 0 18px 19px}.sp-rate-list dd{text-align:left;font-size:16px}.sp-rate-list__item::before{top:calc(18px + .54em)}
 }
+/* A line never runs through its marker: the point sits in a small, clean
+   pause before the rail.  This keeps every recurring marker crisp. */
+.sp-decision-frame__item,.sp-strategy-cycle__phase,.sp-proof__item{border-top:0}
+.sp-decision-frame__item::before{box-shadow:0 0 0 3px #090710,0 0 0 5px rgba(var(--sp-decision-rgb),.07),0 0 15px rgba(var(--sp-decision-rgb),.38)}
+.sp-decision-frame__item::after{top:0;left:14px;right:0;width:auto;background:linear-gradient(90deg,rgba(var(--sp-decision-rgb),.9),rgba(217,208,255,.24) 38%,rgba(217,208,255,.24))}
+.sp-strategy-cycle__phase::before{box-shadow:0 0 0 3px #090710,0 0 0 5px rgba(var(--sp-phase-rgb),.075),0 0 18px rgba(var(--sp-phase-rgb),.48)}
+.sp-strategy-cycle__phase::after{top:0;left:14px;right:0;width:auto;background:linear-gradient(90deg,rgba(var(--sp-phase-rgb),.9),rgba(220,211,255,.27) 38%,rgba(220,211,255,.27))}
+.sp-proof__item::before{box-shadow:0 0 0 3px #090710,0 0 0 5px rgba(var(--sp-proof-rgb),.07),0 0 15px rgba(var(--sp-proof-rgb),.32)}
+.sp-proof__item::after{top:0;left:14px;right:0;width:auto;background:linear-gradient(90deg,rgba(var(--sp-proof-rgb),.9),rgba(var(--sp-proof-rgb),.25) 40%,rgba(var(--sp-proof-rgb),.25))}
+.sp-signal-path__stage::before{box-shadow:0 0 0 4px #090710,0 0 0 6px rgba(var(--sp-path-rgb),.07),0 0 18px rgba(var(--sp-path-rgb),.35)}
+.sp-process__item::before{box-shadow:0 0 0 3px #090710,0 0 0 5px rgba(var(--sp-process-rgb),.07),0 0 15px rgba(var(--sp-process-rgb),.28)}
+.sp-index__item::before{box-shadow:0 0 0 3px #090710,0 0 0 5px rgba(var(--sp-index-rgb),.07),0 0 14px rgba(var(--sp-index-rgb),.25)}
+.sp-sector::before{box-shadow:0 0 0 3px #090710,0 0 0 5px rgba(var(--sp-sector-rgb),.075),0 0 15px rgba(var(--sp-sector-rgb),.35)}
+.sp-rate-list__item::before{box-shadow:0 0 0 3px #090710,0 0 0 5px rgba(var(--sp-rate-rgb),.07),0 0 14px rgba(var(--sp-rate-rgb),.27)}
 @media (prefers-reduced-motion:reduce){
   .sp-strategy-scope__button,.sp-strategy-scope__mobile-output,.sp-strategy-system__links .sp-flow,.sp-strategy-system__core,.sp-strategy-system__node,.sp-strategy-cycle__phase,.sp-decision-frame__item,.sp-strategy-gate__items>li,.sp-proof__item,.sp-index__item,.sp-signal-path__stage,.sp-process__item,.sp-sector,.sp-rate-list__item{transition:none!important}
   .sp-strategy-system__core,.sp-strategy-system__node,.sp-decision-frame__item,.sp-strategy-gate__items>li,.sp-proof__item,.sp-index__item,.sp-signal-path__stage,.sp-process__item,.sp-sector,.sp-rate-list__item{opacity:1!important;transform:none!important}
