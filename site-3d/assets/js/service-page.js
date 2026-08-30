@@ -437,6 +437,10 @@ var currentNavResizeHandler = null;
 var currentRevealObserver = null;
 var currentDiagramObserver = null;
 var currentStrategyResizeHandler = null;
+var currentServiceFlowObserver = null;
+var currentServiceFlowResizeHandler = null;
+var currentServiceFlowFrame = null;
+var currentServiceFlowTimers = [];
 var toastTimer = null;
 
 function toast(message) {
@@ -487,6 +491,37 @@ var SERVICE_DIAGRAM_FLOWS = {
   'localization-relay': true
 };
 var SERVICE_DIAGRAM_LAYOUTS = { linkedin:true, pr:true, seo:true, localization:true };
+var SERVICE_FLOW_GRAPHS = {
+  'linkedin-route': { edges:[
+    { from:'n0', to:'n1', out:'br', into:'bl', tone:'cyan', opacity:.52 },
+    { from:'n1', to:'n2', out:'bc', into:'tr', tone:'lilac', bend:'left', opacity:.58 },
+    { from:'n2', to:'n3', out:'rc', into:'lc', tone:'rose', opacity:.54 },
+    { from:'n3', to:'core', out:'tr', into:'bl', tone:'lilac', opacity:.74, primary:true }
+  ] },
+  'pr-orbit': { edges:[
+    { from:'n0', to:'n1', out:'rc', into:'lc', tone:'lilac', opacity:.5 },
+    { from:'n1', to:'n2', out:'bc', into:'tr', tone:'rose', bend:'left', opacity:.56 },
+    { from:'n2', to:'n3', out:'rc', into:'lc', tone:'cyan', opacity:.52 },
+    { from:'n3', to:'core', out:'tr', into:'bl', tone:'lilac', opacity:.72, primary:true }
+  ] },
+  'seo-loop': { edges:[
+    { from:'n0', to:'n1', out:'br', into:'bl', tone:'cyan', opacity:.5 },
+    { from:'n1', to:'n2', out:'rc', into:'lc', tone:'rose', opacity:.54 },
+    { from:'n2', to:'n3', out:'bl', into:'tl', tone:'lilac', opacity:.56 },
+    { from:'n3', to:'core', out:'bl', into:'tr', tone:'cyan', bend:'bottom', opacity:.76, primary:true }
+  ] },
+  'localization-relay': { edges:[
+    { from:'n0', to:'n1', out:'bc', into:'tc', tone:'cyan', opacity:.5 },
+    { from:'n1', to:'n2', out:'rc', into:'lc', tone:'lilac', opacity:.54 },
+    { from:'n2', to:'n3', out:'tr', into:'bl', tone:'rose', opacity:.58 },
+    { from:'n3', to:'core', out:'rc', into:'lc', tone:'lilac', opacity:.74, primary:true }
+  ] }
+};
+var SERVICE_FLOW_PORTS = {
+  tl:{ x:0, y:0, nx:-.707, ny:-.707 }, tc:{ x:.5, y:0, nx:0, ny:-1 }, tr:{ x:1, y:0, nx:.707, ny:-.707 },
+  lc:{ x:0, y:.5, nx:-1, ny:0 }, rc:{ x:1, y:.5, nx:1, ny:0 },
+  bl:{ x:0, y:1, nx:-.707, ny:.707 }, bc:{ x:.5, y:1, nx:0, ny:1 }, br:{ x:1, y:1, nx:.707, ny:.707 }
+};
 function supportedDiagram(value, allowed, fallback) {
   return allowed[value] ? value : fallback;
 }
@@ -529,6 +564,14 @@ function serviceFlow(flow) {
       var softOpacity = path[2] ? ';--sp-flow-opacity:' + path[2] : '';
       return '<path class="sp-service-flow" pathLength="100" style="--sp-link-delay:' + (.12 + i * .09) + 's' + softOpacity + '" stroke="url(#' + prefix + '-' + path[0] + ')" d="' + path[1] + '"/>';
     }).join('') + '</svg>';
+}
+function serviceFlowCanvas(flow) {
+  var prefix = 'sp-service-' + flow;
+  return '<svg class="sp-service-system__links" data-sp-flow-canvas preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs>'
+    + '<linearGradient id="' + prefix + '-lilac" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7C5CFF" stop-opacity=".14"/><stop offset="55%" stop-color="#A98CFF" stop-opacity=".78"/><stop offset="100%" stop-color="#FF52B8" stop-opacity=".42"/></linearGradient>'
+    + '<linearGradient id="' + prefix + '-cyan" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#62E4FF" stop-opacity=".12"/><stop offset="54%" stop-color="#62E4FF" stop-opacity=".74"/><stop offset="100%" stop-color="#9B84FF" stop-opacity=".48"/></linearGradient>'
+    + '<linearGradient id="' + prefix + '-rose" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF52B8" stop-opacity=".12"/><stop offset="54%" stop-color="#FF52B8" stop-opacity=".74"/><stop offset="100%" stop-color="#7C5CFF" stop-opacity=".45"/></linearGradient>'
+    + '</defs><g data-sp-flow-layer></g></svg>';
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
@@ -610,10 +653,10 @@ function renderServiceSystem(section) {
   var flow = supportedDiagram(section.flow, SERVICE_DIAGRAM_FLOWS, 'linkedin-route');
   var layout = supportedDiagram(section.layout, SERVICE_DIAGRAM_LAYOUTS, 'linkedin');
   return '<section class="sp-section sp-section--tight sp-service-system-section sp-service-system-section--' + key + '"><div class="wrap">' + renderHead(section)
-    + '<div class="sp-service-system sp-service-system--layout-' + layout + ' sp-service-system--flow-' + flow + '" data-sp-service-system data-sp-reveal style="--sp-delay:.04s">' + serviceFlow(flow)
-    + '<div class="sp-service-system__core"><strong>' + esc(core[0]).replace(/\n/g, '<br>') + '</strong><span>' + esc(core[1]) + '</span></div>'
+    + '<div class="sp-service-system sp-service-system--layout-' + layout + ' sp-service-system--flow-' + flow + '" data-sp-service-system data-sp-service-flow="' + flow + '" data-sp-reveal style="--sp-delay:.04s">' + serviceFlowCanvas(flow)
+    + '<div class="sp-service-system__core" data-sp-flow-anchor="core"><strong>' + esc(core[0]).replace(/\n/g, '<br>') + '</strong><span>' + esc(core[1]) + '</span></div>'
     + '<ol class="sp-service-system__nodes">' + section.items.map(function (item, i) {
-      return '<li class="sp-service-system__node" style="--sp-item-delay:' + (i * .085) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+      return '<li class="sp-service-system__node" data-sp-flow-anchor="n' + i + '" style="--sp-item-delay:' + (i * .085) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
 function renderDiagram(section) {
@@ -829,19 +872,124 @@ function bindReveal() {
   }, { rootMargin:'0px 0px -8% 0px', threshold:.08 });
   nodes.forEach(function (node) { currentRevealObserver.observe(node); });
 }
+function clearServiceFlowLayouts() {
+  if (currentServiceFlowObserver) { currentServiceFlowObserver.disconnect(); currentServiceFlowObserver = null; }
+  if (currentServiceFlowResizeHandler) { window.removeEventListener('resize', currentServiceFlowResizeHandler); currentServiceFlowResizeHandler = null; }
+  if (currentServiceFlowFrame) {
+    if (window.cancelAnimationFrame) window.cancelAnimationFrame(currentServiceFlowFrame);
+    else clearTimeout(currentServiceFlowFrame);
+    currentServiceFlowFrame = null;
+  }
+  currentServiceFlowTimers.forEach(function (timer) { clearTimeout(timer); });
+  currentServiceFlowTimers = [];
+}
+function serviceFlowPort(rect, boardRect, name) {
+  var port = SERVICE_FLOW_PORTS[name] || SERVICE_FLOW_PORTS.rc;
+  var size = Math.min(rect.width, rect.height);
+  var clearance = Math.max(12, Math.min(22, size * .16));
+  var x = rect.left - boardRect.left + rect.width * port.x;
+  var y = rect.top - boardRect.top + rect.height * port.y;
+  return { x:x + port.nx * clearance, y:y + port.ny * clearance, nx:port.nx, ny:port.ny };
+}
+function serviceFlowPath(start, end, edge) {
+  var distance = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2));
+  var reach = Math.min(172, Math.max(52, distance * .31));
+  var c1x = start.x + start.nx * reach;
+  var c1y = start.y + start.ny * reach;
+  var c2x = end.x - end.nx * reach;
+  var c2y = end.y - end.ny * reach;
+  var bend = reach * .42;
+  if (edge.bend === 'left') { c1x -= bend; c2x -= bend; }
+  if (edge.bend === 'right') { c1x += bend; c2x += bend; }
+  if (edge.bend === 'top') { c1y -= bend; c2y -= bend; }
+  if (edge.bend === 'bottom') { c1y += bend; c2y += bend; }
+  function round(value) { return Math.round(value * 10) / 10; }
+  return 'M' + round(start.x) + ' ' + round(start.y)
+    + ' C' + round(c1x) + ' ' + round(c1y)
+    + ' ' + round(c2x) + ' ' + round(c2y)
+    + ' ' + round(end.x) + ' ' + round(end.y);
+}
+function drawServiceFlow(system) {
+  var canvas = $('[data-sp-flow-canvas]', system);
+  var layer = canvas && $('[data-sp-flow-layer]', canvas);
+  var flow = system.getAttribute('data-sp-service-flow');
+  var graph = SERVICE_FLOW_GRAPHS[flow];
+  if (!canvas || !layer || !graph) return;
+  if (!window.matchMedia('(min-width:1121px)').matches) { layer.innerHTML = ''; return; }
+  var boardRect = system.getBoundingClientRect();
+  var width = Math.round(boardRect.width), height = Math.round(boardRect.height);
+  if (width < 2 || height < 2) { layer.innerHTML = ''; return; }
+  canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+  var prefix = 'sp-service-' + flow;
+  layer.innerHTML = graph.edges.map(function (edge, index) {
+    var source = $('[data-sp-flow-anchor="' + edge.from + '"]', system);
+    var target = $('[data-sp-flow-anchor="' + edge.to + '"]', system);
+    if (!source || !target) return '';
+    var start = serviceFlowPort(source.getBoundingClientRect(), boardRect, edge.out);
+    var end = serviceFlowPort(target.getBoundingClientRect(), boardRect, edge.into);
+    var classes = 'sp-service-flow' + (edge.primary ? ' sp-service-flow--primary' : '');
+    var style = '--sp-link-delay:' + (.12 + index * .1).toFixed(2) + 's;--sp-flow-opacity:' + edge.opacity;
+    return '<path class="' + classes + '" pathLength="100" style="' + style + '" stroke="url(#' + prefix + '-' + edge.tone + ')" d="' + serviceFlowPath(start, end, edge) + '"/>';
+  }).join('');
+}
+function scheduleServiceFlowLayout(systems) {
+  if (currentServiceFlowFrame) {
+    if (window.cancelAnimationFrame) window.cancelAnimationFrame(currentServiceFlowFrame);
+    else clearTimeout(currentServiceFlowFrame);
+  }
+  var schedule = window.requestAnimationFrame || function (callback) { return setTimeout(callback, 16); };
+  currentServiceFlowFrame = schedule(function () {
+    currentServiceFlowFrame = null;
+    systems.forEach(function (system) {
+      if (document.documentElement.contains(system)) drawServiceFlow(system);
+    });
+  });
+}
+function scheduleServiceFlowSettle(system) {
+  [120, 520, 1120].forEach(function (delay) {
+    var timer = setTimeout(function () {
+      if (document.documentElement.contains(system)) drawServiceFlow(system);
+    }, delay);
+    currentServiceFlowTimers.push(timer);
+  });
+}
+function bindServiceFlowLayouts() {
+  clearServiceFlowLayouts();
+  if (isStrategy) return;
+  var systems = $$('[data-sp-service-system]');
+  if (!systems.length) return;
+  var schedule = function () { scheduleServiceFlowLayout(systems); };
+  schedule();
+  if ('ResizeObserver' in window) {
+    currentServiceFlowObserver = new ResizeObserver(schedule);
+    systems.forEach(function (system) { currentServiceFlowObserver.observe(system); });
+  } else {
+    currentServiceFlowResizeHandler = schedule;
+    window.addEventListener('resize', currentServiceFlowResizeHandler, { passive:true });
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { schedule(); });
+  }
+}
 function bindDiagramExperience() {
   if (currentStrategyResizeHandler) { window.removeEventListener('resize', currentStrategyResizeHandler); currentStrategyResizeHandler = null; }
+
+  bindServiceFlowLayouts();
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var systems = $$('[data-sp-system],[data-sp-service-system]');
   if (currentDiagramObserver) { currentDiagramObserver.disconnect(); currentDiagramObserver = null; }
   if (systems.length) {
-    if (reduced || !('IntersectionObserver' in window)) systems.forEach(function (system) { system.classList.add('is-assembled'); });
+    if (reduced || !('IntersectionObserver' in window)) systems.forEach(function (system) {
+      system.classList.add('is-assembled');
+      if (system.hasAttribute('data-sp-service-system')) scheduleServiceFlowSettle(system);
+    });
     else {
       var diagramObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
           entry.target.classList.add('is-assembled');
+          if (entry.target.hasAttribute('data-sp-service-system')) scheduleServiceFlowSettle(entry.target);
           diagramObserver.unobserve(entry.target);
         });
       }, { rootMargin:'0px 0px -14% 0px', threshold:.14 });
