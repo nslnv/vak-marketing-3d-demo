@@ -1124,14 +1124,19 @@ function boot(canvas) {
   const KEYS = [
     /* первый экран: прибор целиком, три четверти спереди-справа */
     { t: 0.000, sec: 'hero', p: 0.5000, cz: 7.2, cy:  0.00, x:  2.02, y: -0.04, z: -0.2, rx: -0.20, ry:  0.88, s: 0.46, sp: 1.00, br: 1.00, op: 1.00, ro:  0.000 },
-    /* About — вход начинается до якоря секции: при прямом переходе #about
-       объектив уже собран под заголовком, а не вылетает из левого края. */
-    { t: 0.106, sec: 'about', aboutSlot: 0, p:-0.0800, cz: 7.5, cy:  0.08, x: -2.00, y: -1.04, z:  0.10, rx: -0.07, ry:  0.76, s: 0.31, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
+    /* About — вход не падает по вертикали. Объектив сначала проходит
+       над заголовком, закладывает широкую дугу слева и только затем мягко
+       заезжает в точку под «О VAK Marketing». Четыре опорных точки дают
+       PCHIP-сплайну два округлых поворота без ломаных или стоп-кадра. */
+    { t: 0.102, sec: 'about', aboutEntryArcStart: true, p:-0.1000, cz: 7.5, cy:  0.08, x: -1.35, y:  1.60, z:  0.10, rx: -0.07, ry:  0.76, s: 0.31, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
+    { t: 0.104, sec: 'about', aboutEntryArcTop: true,   p:-0.0400, cz: 7.5, cy:  0.08, x: -3.85, y:  1.60, z:  0.10, rx: -0.07, ry:  0.76, s: 0.31, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
+    { t: 0.106, sec: 'about', aboutEntryArcSide: true,  p: 0.0150, cz: 7.5, cy:  0.08, x: -3.85, y: -1.04, z:  0.10, rx: -0.07, ry:  0.76, s: 0.31, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
     /* Якорная посадка удерживает цельный прибор под H2. Поэтому прямой
        переход к #about не может попасть в фазу крупного раскрытия поверх
-       заголовка или текста справа. Нулевая производная в этой точке делает
-       последующий подъём к центру мягким в обоих направлениях scroll. */
-    { t: 0.112, sec: 'about', aboutEntryHold: true, p: 0.1900, cz: 7.5, cy:  0.08, x: -2.00, y: -1.04, z:  0.10, rx: -0.07, ry:  0.76, s: 0.31, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
+       заголовка или текста справа. Горизонтальный участок в конце дуги
+       даёт глазу прочитать именно посадку под заголовком. */
+    { t: 0.108, sec: 'about', aboutEntryLanding: true, p: 0.0700, cz: 7.5, cy:  0.08, x: -2.00, y: -1.04, z:  0.10, rx: -0.07, ry:  0.76, s: 0.31, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
+    { t: 0.112, sec: 'about', aboutSlot: 0, aboutEntrySettle: true, p: 0.1100, cz: 7.5, cy:  0.08, x: -2.00, y: -1.04, z:  0.10, rx: -0.07, ry:  0.76, s: 0.31, sp: 0.78, br: 0.52, op: 0.76, ro: -0.010 },
     /* Раскрытие начинается только после посадки: объект успевает пройти
        свободную нижнюю зону и затем оказывается на центральной оси сцены.
        Разлёт деталей остаётся симметричным относительно подписей. */
@@ -1244,7 +1249,7 @@ function boot(canvas) {
     const compactAbout = innerWidth <= 900;
     /* На mobile всё действие происходит в экранной зоне сцены до начала
        copy; на desktop остаётся длинная режиссура с отдельной паузой. */
-    const aboutKeyP = compactAbout ? [0.07, 0.22, 0.40, 0.54] : [-0.08, 0.39, 0.91, 0.982];
+    const aboutKeyP = compactAbout ? [0.07, 0.22, 0.40, 0.54] : [0.11, 0.39, 0.91, 0.982];
     const aboutPoses = compactAbout ? ABOUT_COMPACT_POSES : ABOUT_DESKTOP_POSES;
     /* Посадка ориентируется на фактический центр H2, а не на фиксированную
        координату canvas. Благодаря этому маленький собранный объект остаётся
@@ -1277,8 +1282,20 @@ function boot(canvas) {
       Object.assign(k, aboutPoses[k.aboutSlot]);
     }
     if (!compactAbout) {
-      const entryHold = KEYS.find(k => k.aboutEntryHold);
-      if (entryHold) entryHold.x = aboutEntryX;
+      /* Вся траектория привязана к фактическому центру H2. Так на широких
+         экранах и при изменении ширины она остаётся одинаковой: заходит
+         справа сверху, огибает слева и заканчивается прямо под названием. */
+      const entryArcStart = KEYS.find(k => k.aboutEntryArcStart);
+      const entryArcTop = KEYS.find(k => k.aboutEntryArcTop);
+      const entryArcSide = KEYS.find(k => k.aboutEntryArcSide);
+      const entryLanding = KEYS.find(k => k.aboutEntryLanding);
+      const entrySettle = KEYS.find(k => k.aboutEntrySettle);
+      const arcSideX = aboutEntryX - 1.85;
+      if (entryArcStart) entryArcStart.x = aboutEntryX + 0.65;
+      if (entryArcTop) entryArcTop.x = arcSideX;
+      if (entryArcSide) entryArcSide.x = arcSideX;
+      if (entryLanding) entryLanding.x = aboutEntryX;
+      if (entrySettle) entrySettle.x = aboutEntryX;
     }
     if (compactAbout) {
       /* Между основными ключами desktop есть несколько очень плотных
@@ -1286,18 +1303,18 @@ function boot(canvas) {
          ломали порядок PCHIP и тянули модель через copy. Собираем их в одну
          короткую, строго возрастающую траекторию внутри #aboutStage. */
       const compactKeys = KEYS.filter(k => k.sec === 'about');
-      const compactP = [0.07, 0.14, 0.22, 0.30, 0.40, 0.43, 0.46, 0.49, 0.52, 0.54, 0.56, 0.58];
+      const compactP = [0.05, 0.07, 0.09, 0.11, 0.14, 0.22, 0.30, 0.40, 0.43, 0.46, 0.49, 0.52, 0.54, 0.56, 0.58];
       const lerpPose = (a, b, t) => {
         const pose = {};
         for (const field of FIELDS) pose[field] = THREE.MathUtils.lerp(a[field], b[field], t);
         return pose;
       };
       compactKeys.forEach((k, index) => {
-        const pose = index <= 1 ? ABOUT_COMPACT_POSES[0]
-          : index === 2 || index === 3 ? ABOUT_COMPACT_POSES[1]
-          : index === 4 ? ABOUT_COMPACT_POSES[2]
-          : index >= 5 && index <= 8
-            ? lerpPose(ABOUT_COMPACT_POSES[2], ABOUT_COMPACT_POSES[3], (index - 4) / 5)
+        const pose = index <= 4 ? ABOUT_COMPACT_POSES[0]
+          : index === 5 || index === 6 ? ABOUT_COMPACT_POSES[1]
+          : index === 7 ? ABOUT_COMPACT_POSES[2]
+          : index >= 8 && index <= 11
+            ? lerpPose(ABOUT_COMPACT_POSES[2], ABOUT_COMPACT_POSES[3], (index - 7) / 5)
             : ABOUT_COMPACT_POSES[3];
         k.p = compactP[index] || compactP[compactP.length - 1];
         for (const field of FIELDS) k[field] = pose[field];
