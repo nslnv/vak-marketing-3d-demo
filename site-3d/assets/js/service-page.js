@@ -30,12 +30,12 @@ var LOGOS = {
   coinstore:{ src:'/assets/img/brands/media/coinstore.png', alt:'Coinstore' },
   cointelegraph:{ src:'/assets/img/logos/cointelegraph.svg', alt:'Cointelegraph', wide:true },
   yahoo:    { src:'/assets/img/logos/yahoo-finance.svg', alt:'Yahoo Finance', wide:true },
-  forklog:  { src:'/assets/img/logos/forklog.svg', alt:'ForkLog', ink:true },
+  forklog:  { src:'/assets/img/logos/forklog-light.png', alt:'ForkLog', ink:true },
   bits:     { src:'/assets/img/logos/bitsmedia.png', alt:'Bits.media', wide:true },
-  beincrypto:{ src:'/assets/img/logos/beincrypto.svg', alt:'BeInCrypto', wide:true, ink:true },
-  coindesk: { src:'/assets/img/logos/coindesk.svg', alt:'CoinDesk', wide:true, ink:true },
+  beincrypto:{ src:'/assets/img/logos/beincrypto-light.png', alt:'BeInCrypto', wide:true, ink:true },
+  coindesk: { src:'/assets/img/logos/coindesk-light.png', alt:'CoinDesk', wide:true, ink:true },
   theblock: { src:'/assets/img/brands/media/the-block.png', alt:'The Block' },
-  benzinga: { src:'/assets/img/logos/benzinga.svg', alt:'Benzinga', wide:true, ink:true },
+  benzinga: { src:'/assets/img/logos/benzinga-light.png', alt:'Benzinga', wide:true, ink:true },
   rbc:      { src:'/assets/img/brands/media/rbc-crypto.png', alt:'РБК Крипто', wide:true },
   cryptoru: { src:'/assets/img/brands/media/crypto-ru.png', alt:'Crypto.ru', wide:true }
 };
