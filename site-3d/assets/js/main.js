@@ -652,6 +652,28 @@ if (rail) {
   railPrev.addEventListener('click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
   railNext.addEventListener('click', function () { rail.scrollBy({ left:  step(), behavior: 'smooth' }); });
   syncRail();
+
+  /* Автопереход нужен только как спокойный способ показать, что дальше есть
+     ещё кейсы. Любое прямое взаимодействие сразу ставит его на паузу; у
+     пользователей с отключённым движением он вовсе не запускается. */
+  if (!reduced) {
+    var railVisible = false, railPaused = false;
+    var railTimer = setInterval(function () {
+      if (!railVisible || railPaused || document.hidden) return;
+      var max = rail.scrollWidth - rail.clientWidth;
+      if (max <= 0) return;
+      if (rail.scrollLeft >= max - 8) rail.scrollTo({ left: 0, behavior: 'smooth' });
+      else rail.scrollBy({ left: step(), behavior: 'smooth' });
+    }, 6200);
+    ['pointerenter', 'focusin', 'touchstart', 'wheel'].forEach(function (type) {
+      rail.addEventListener(type, function () { railPaused = true; }, { passive: true });
+    });
+    rail.addEventListener('pointerleave', function () { railPaused = false; }, { passive: true });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (entries) {
+      railVisible = entries[0] && entries[0].isIntersecting;
+    }, { threshold: .35 }).observe(rail);
+    else railVisible = true;
+  }
 }
 
 /* ── клиенты: спокойная лента оригинальных логотипов ────────────────────

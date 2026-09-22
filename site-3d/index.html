@@ -22,8 +22,8 @@
 <meta name="twitter:image" content="https://demo.vakmarketing.com/assets/img/og-v2.png">
 <meta name="twitter:image:alt" content="VAK Marketing — стратегия, PR и B2B для сложных рынков">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/base.css?v=20260830-08">
-  <link rel="stylesheet" href="assets/css/sections.css?v=20260830-08">
+<link rel="stylesheet" href="assets/css/base.css?v=20260922-02">
+  <link rel="stylesheet" href="assets/css/sections.css?v=20260922-02">
 <script>
   /* Сцена использует ES-модуль: Chrome блокирует его при двойном клике по
      file://. Открываем тот же проект через локальный сервер, где остаётся
@@ -64,7 +64,7 @@
           <a href="/pr/" data-i18n="nav.pr">PR, СМИ и SERP</a>
           <a href="/seo/" data-i18n="nav.seo">AI SEO</a>
           <a href="/localization/" data-i18n="nav.localization">Локализация</a>
-          <a class="nav__services-all" href="#services" data-i18n="nav.allServices">Посмотреть все услуги</a>
+          <span class="nav__services-course" data-i18n="nav.course">B2B и B2C курс по LinkedIn — скоро</span>
         </div>
       </details>
       <a href="#cases" data-i18n="nav.cases">Кейсы</a>
@@ -98,7 +98,7 @@
           <a href="/pr/" data-i18n="nav.pr">PR, СМИ и SERP</a>
           <a href="/seo/" data-i18n="nav.seo">AI SEO</a>
           <a href="/localization/" data-i18n="nav.localization">Локализация</a>
-          <a class="menu__services-all" href="#services" data-i18n="nav.allServices">Посмотреть все услуги</a>
+          <span class="menu__services-course" data-i18n="nav.course">B2B и B2C курс по LinkedIn — скоро</span>
         </div>
       </details>
       <a href="#cases" data-i18n="nav.cases">Кейсы</a>
@@ -278,7 +278,7 @@
         <li><button type="button" class="srv__row" data-srv="2" data-href="/pr/"><span class="srv__rt" data-i18n="srv.t3">PR, СМИ и SERP</span><span class="srv__short" data-i18n="srv.s3">PR и СМИ</span></button></li>
         <li><button type="button" class="srv__row" data-srv="3" data-href="/seo/"><span class="srv__rt" data-i18n="srv.t4">AI SEO и автоматизация маркетинга</span><span class="srv__short" data-i18n="srv.s4">AI SEO</span></button></li>
         <li><button type="button" class="srv__row" data-srv="4" data-href="/course/"><span class="srv__rt" data-i18n="srv.t5">B2B и B2C курс по LinkedIn</span><span class="srv__short" data-i18n="srv.s5">Курс</span></button></li>
-        <li><button type="button" class="srv__row" data-srv="5" data-href="/localization/"><span class="srv__rt" data-i18n="srv.t6">Translation &amp; Localization Services</span><span class="srv__short" data-i18n="srv.s6">Локализация</span></button></li>
+        <li><button type="button" class="srv__row" data-srv="5" data-href="/localization/"><span class="srv__rt" data-i18n="srv.t6">Перевод и локализация материалов</span><span class="srv__short" data-i18n="srv.s6">Локализация</span></button></li>
       </ol>
     </div>
   </div>
@@ -509,20 +509,25 @@
         Широкая сеть медиа, платформ, маркетинговых, технологических и crypto/fintech-партнёров.
       </p>
     </div>
-    <!-- Фирменные цвета сохраняются: каждый логотип нормализован только по
-         визуальному размеру, а не превращён в серую декоративную надпись. -->
     <ul class="logos" data-reveal style="--d:.08s">
-      <li class="logos__brand logos__cointelegraph"><img src="assets/img/logos/cointelegraph.svg" alt="Cointelegraph" loading="lazy" decoding="async" style="--h:42px"></li>
-      <li class="logos__brand logos__ink"><img src="assets/img/logos/coindesk-light.png" alt="CoinDesk" loading="lazy" decoding="async" style="--h:38px"></li>
-      <li class="logos__brand logos__asset"><img src="assets/img/brands/media/the-block.png" alt="The Block" loading="lazy" decoding="async"></li>
-      <li class="logos__brand logos__ink"><img src="assets/img/logos/beincrypto-light.png" alt="BeInCrypto" loading="lazy" decoding="async" style="--h:34px"></li>
-      <li class="logos__brand logos__ink"><img src="assets/img/logos/forklog-light.png" alt="ForkLog" loading="lazy" decoding="async" style="--h:38px"></li>
-      <li class="logos__brand"><img src="assets/img/logos/bitsmedia.png" alt="Bits.media" loading="lazy" decoding="async" style="--h:38px"></li>
-      <li class="logos__brand logos__asset"><img src="assets/img/brands/media/crypto-ru.png" alt="Crypto.ru" loading="lazy" decoding="async"></li>
-      <li class="logos__brand logos__asset"><img src="assets/img/brands/media/coinstore.png" alt="Coinstore" loading="lazy" decoding="async"></li>
-      <li class="logos__brand logos__asset"><img src="assets/img/brands/media/rbc-crypto.png" alt="РБК Крипто" loading="lazy" decoding="async"></li>
-      <li class="logos__brand logos__ink"><img src="assets/img/logos/yahoo-finance.svg" alt="Yahoo Finance" loading="lazy" decoding="async" style="--h:36px"></li>
-      <li class="logos__brand logos__ink"><img src="assets/img/logos/benzinga-light.png" alt="Benzinga" loading="lazy" decoding="async" style="--h:38px"></li>
+      <li><a href="https://cointelegraph.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/cointelegraph.svg" alt="Cointelegraph" loading="lazy" decoding="async"><span>Cointelegraph</span></a></li>
+      <li><a href="https://www.coindesk.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/coindesk-light.png" alt="CoinDesk" loading="lazy" decoding="async"><span>CoinDesk</span></a></li>
+      <li><a href="https://www.theblock.co/" target="_blank" rel="noopener noreferrer"><img src="assets/img/brands/media/the-block.png" alt="The Block" loading="lazy" decoding="async"><span>The Block</span></a></li>
+      <li><a href="https://beincrypto.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/beincrypto-light.png" alt="BeInCrypto" loading="lazy" decoding="async"><span>BeInCrypto</span></a></li>
+      <li><a href="https://forklog.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/forklog-light.png" alt="ForkLog" loading="lazy" decoding="async"><span>ForkLog</span></a></li>
+      <li><a href="https://bits.media/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/bitsmedia.png" alt="Bits.media" loading="lazy" decoding="async"><span>Bits.media</span></a></li>
+      <li><a href="https://crypto.ru/" target="_blank" rel="noopener noreferrer"><img src="assets/img/brands/media/crypto-ru.png" alt="Crypto.ru" loading="lazy" decoding="async"><span>Crypto.ru</span></a></li>
+      <li><a href="https://coinstore.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/brands/media/coinstore.png" alt="Coinstore" loading="lazy" decoding="async"><span>Coinstore</span></a></li>
+      <li><a href="https://www.rbc.ru/crypto/" target="_blank" rel="noopener noreferrer"><img src="assets/img/brands/media/rbc-crypto.png" alt="РБК Крипто" loading="lazy" decoding="async"><span>РБК Крипто</span></a></li>
+      <li><a href="https://finance.yahoo.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/yahoo-finance.png" alt="Yahoo Finance" loading="lazy" decoding="async"><span>Yahoo Finance</span></a></li>
+      <li><a href="https://www.benzinga.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/benzinga.png" alt="Benzinga" loading="lazy" decoding="async"><span>Benzinga</span></a></li>
+      <li><a href="https://www.entrepreneur.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/entrepreneur.png" alt="Entrepreneur" loading="lazy" decoding="async"><span>Entrepreneur</span></a></li>
+      <li><a href="https://www.investing.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/investing.png" alt="Investing.com" loading="lazy" decoding="async"><span>Investing.com</span></a></li>
+      <li><a href="https://www.ibtimes.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/ibt.png" alt="IBT" loading="lazy" decoding="async"><span>IBT</span></a></li>
+      <li><a href="https://cryptodaily.co.uk/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/cryptodaily.png" alt="CryptoDaily" loading="lazy" decoding="async"><span>CryptoDaily</span></a></li>
+      <li><a href="https://decrypt.co/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/decrypt.png" alt="Decrypt" loading="lazy" decoding="async"><span>Decrypt</span></a></li>
+      <li><a href="https://ambcrypto.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/amb-crypto.png" alt="AMBCrypto" loading="lazy" decoding="async"><span>AMBCrypto</span></a></li>
+      <li><a href="https://bitcoin.com/" target="_blank" rel="noopener noreferrer"><img src="assets/img/logos/partner/bitcoin-com.png" alt="Bitcoin.com" loading="lazy" decoding="async"><span>Bitcoin.com</span></a></li>
     </ul>
   </div>
 </section>
@@ -601,7 +606,7 @@
         <a href="/seo/" data-i18n="foot.s4">SEO и SERP</a>
         <a href="#services" data-i18n="foot.s5">Автоматизация маркетинга</a>
         <a href="#services" data-i18n="foot.s6">Образовательные продукты</a>
-        <a href="/localization/">Translation &amp; Localization</a>
+        <a href="/localization/">Перевод и локализация</a>
       </nav>
 
       <nav class="foot__col" aria-label="Материалы и контакты">
@@ -620,6 +625,7 @@
 
     <div class="foot__bot">
       <span>© <span id="yr">2026</span> VAK Marketing</span>
+      <a href="/privacy/" data-i18n="foot.privacy">Политика конфиденциальности</a>
       <span data-i18n="foot.rights">Все права защищены</span>
     </div>
   </div>
@@ -627,10 +633,10 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/i18n.js?v=20260830-02" defer></script>
+<script src="assets/js/i18n.js?v=20260922-02" defer></script>
 <!-- Отдельная версия обязательна: после появления подстраниц браузер не должен
      оставлять в кэше старую логику карточек, где «Подробнее» вело в форму. -->
-<script src="assets/js/main.js?v=20260830-04" defer></script>
-  <script type="module" src="assets/js/scene.js?v=20260830-09"></script>
+<script src="assets/js/main.js?v=20260922-02" defer></script>
+  <script type="module" src="assets/js/scene.js?v=20260922-02"></script>
 </body>
 </html>

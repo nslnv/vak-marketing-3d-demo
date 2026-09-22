@@ -57,7 +57,7 @@
 @media (min-width:901px){
   /* Дополнительная длина — не пустота: она даёт детали время спокойно
      собраться и увести цельный объект вправо-вниз одной непрерывной дугой. */
-  .about__grid{min-height:clamp(1500px,290svh,2700px)}
+  .about__grid{min-height:clamp(1120px,210svh,1680px)}
   /* Визуальная колонка не участвует своей полной высотой в расчёте sticky:
      тогда сама сцена остаётся в пределах About почти до его нижней границы,
      а не уезжает вверх сразу после текста справа. */
@@ -438,39 +438,27 @@
   --ptn-fade:clamp(64px,9vw,132px);-webkit-mask-image:linear-gradient(180deg,#000 0,#000 calc(100% - var(--ptn-fade)),transparent 100%);
   mask-image:linear-gradient(180deg,#000 0,#000 calc(100% - var(--ptn-fade)),transparent 100%)}
 .ptn>.wrap{position:relative;z-index:1}
-.logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(24px,2.7vw,40px);margin:0;padding:0;list-style:none}
-.logos li{--logo-shadow:drop-shadow(0 4px 12px rgba(4,3,12,.30));position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;
-  min-height:clamp(126px,10.8vw,156px);padding:18px 14px;
-  color:rgba(255,255,255,.46);background:transparent;
-  transition:color .45s var(--e)}
-.logos img{position:relative;z-index:1;height:clamp(48px,4.1vw,58px);width:auto;max-width:94%;object-fit:contain;opacity:1;filter:var(--logo-shadow);
-  transition:opacity .45s var(--e),filter .45s var(--e),transform .5s var(--e-out)}
-.logos li.logos__brand{background:transparent}
-.logos li.logos__brand img{height:clamp(48px,4.1vw,58px);max-width:94%;opacity:1}
-.logos li.logos__asset img{height:clamp(64px,6.2vw,84px)}
-.logos li.logos__ink{--logo-shadow:drop-shadow(0 3px 10px rgba(4,3,12,.26)) drop-shadow(0 0 9px rgba(241,237,255,.28))}
-.logos li.logos__ink::before{content:'';position:absolute;z-index:0;width:min(96%,236px);height:clamp(46px,4.6vw,62px);border-radius:50%;
-  background:radial-gradient(ellipse,rgba(243,239,255,.19) 0%,rgba(202,188,255,.07) 47%,rgba(202,188,255,0) 76%);filter:blur(7px)}
-/* пока официального файла нет — имя набрано нашим шрифтом в той же краске */
-.logos li[data-logo-todo] span{font-size:clamp(15px,1.35vw,19px);font-weight:500;
-  letter-spacing:-.012em;white-space:nowrap;
-  transition:transform .5s var(--e-out)}
+.logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,2.4vw,34px);margin:0;padding:0;list-style:none}
+.logos li{min-width:0}
+.logos a{--logo-shadow:drop-shadow(0 4px 12px rgba(4,3,12,.30));position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  min-height:126px;padding:18px 12px;border-top:1px solid rgba(255,255,255,.075);border-bottom:1px solid rgba(255,255,255,.075);
+  color:rgba(229,224,244,.68);transition:border-color .35s var(--e),color .35s var(--e),transform .45s var(--e-out)}
+.logos a::before{content:'';position:absolute;inset:0;background:linear-gradient(108deg,rgba(124,92,255,.055),transparent 48%,rgba(255,82,184,.035));opacity:0;transition:opacity .35s var(--e)}
+.logos img{position:relative;z-index:1;width:auto;height:clamp(30px,3vw,42px);max-width:94%;object-fit:contain;filter:var(--logo-shadow);
+  transition:filter .35s var(--e),transform .45s var(--e-out)}
+.logos span{position:relative;z-index:1;font-size:11px;font-weight:650;line-height:1.1;letter-spacing:.04em;text-align:center;text-transform:uppercase}
 
 @media (hover:hover){
-  .logos li:hover{color:#fff}
-  .logos li:hover img{opacity:1;transform:translateY(-2px);filter:var(--logo-shadow)}
-  .logos li.logos__brand:hover img{transform:translateY(-2px)}
-  .logos li[data-logo-todo]:hover span{transform:translateY(-2px)}
+  .logos a:hover{border-color:rgba(196,183,255,.42);color:#fff;transform:translateY(-3px)}
+  .logos a:hover::before{opacity:1}
+  .logos a:hover img{transform:translateY(-2px);filter:var(--logo-shadow) drop-shadow(0 0 10px rgba(184,167,255,.28))}
 }
-/* Без стенок ячеек: логотипы остаются свободным рядом, а не таблицей. */
-
 @media (min-width:620px){.logos{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (min-width:900px){.logos{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media (min-width:1180px){.logos{grid-template-columns:repeat(12,minmax(0,1fr))}.logos li{grid-column:span 3}.logos li:nth-last-child(-n+3){grid-column:span 4}}
-@media (max-width:619px){.logos{gap:22px 14px}.logos li{min-height:112px;padding:14px 8px}.logos li.logos__brand img{height:clamp(40px,10vw,48px)}.logos li.logos__asset img{height:clamp(54px,14vw,68px)}}
+@media (min-width:900px){.logos{grid-template-columns:repeat(5,minmax(0,1fr))}.logos a{min-height:132px}}
+@media (min-width:1180px){.logos{grid-template-columns:repeat(9,minmax(0,1fr));gap:22px 18px}.logos a{min-height:118px;padding:16px 8px}.logos img{height:clamp(22px,2.25vw,34px)}.logos span{font-size:9.5px}}
+@media (max-width:619px){.logos{gap:14px 12px}.logos a{min-height:108px;padding:14px 8px}.logos img{height:clamp(28px,8vw,36px)}.logos span{font-size:9.5px}}
 @media (prefers-reduced-motion:reduce){
-  .logos li,.logos img,.logos li span{transition:none}
+  .logos a,.logos img{transition:none}
 }
 
 /* ═══ 8. КЕЙСЫ ══════════════════════════════════════════════════════════ */
@@ -490,7 +478,7 @@
    Лечится двумя слоями: brightness() гасит пересвет ещё до стекла, собственная
    тёмная подложка задаёт нижний предел плотности. Прибор при этом остаётся виден
    и цветным — гасится только яркость, не сам силуэт. */
-.case{flex:0 0 auto;width:clamp(276px,74vw,470px);scroll-snap-align:start;
+.case{flex:0 0 auto;width:clamp(276px,25vw,380px);scroll-snap-align:start;
   display:flex;flex-direction:column;border-radius:22px;
   padding:clamp(22px,2.3vw,32px);border:1px solid var(--line);
   background:
@@ -564,11 +552,11 @@
   font-size:clamp(54px,6vw,82px);font-weight:250;letter-spacing:-.07em;line-height:1}
 .team__portrait--absent::after{inset:18px;border:1px solid rgba(216,202,255,.18);
   background:linear-gradient(135deg,rgba(255,255,255,.018),rgba(255,255,255,0))}
-.team__copy{padding:16px 2px 2px}
-.team__role{min-height:2.7em;margin:0 0 8px!important;font-size:12px!important;font-weight:600;color:var(--vio-2)!important;
+.team__copy{padding:14px 2px 2px}
+.team__role{min-height:2em;margin:0 0 6px!important;font-size:12px!important;font-weight:600;color:var(--vio-2)!important;
   letter-spacing:.005em;line-height:1.35}
-.team__grid h3{min-height:2.6em;font-size:clamp(18px,1.4vw,21px);font-weight:520;letter-spacing:-.024em;line-height:1.3}
-.team__copy > p:not(.team__role){margin:10px 0 0;min-height:4.65em;font-size:14px;line-height:1.55;color:var(--ink-2);max-width:34ch}
+.team__grid h3{min-height:0;font-size:clamp(18px,1.4vw,21px);font-weight:520;letter-spacing:-.024em;line-height:1.3}
+.team__copy > p:not(.team__role){margin:8px 0 0;min-height:2.4em;font-size:14px;line-height:1.55;color:var(--ink-2);max-width:34ch}
 @media (max-width:1100px){.team__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px clamp(20px,4vw,40px)}}
 @media (max-width:560px){.team__grid{grid-template-columns:1fr;gap:28px}.team__copy > p:not(.team__role){min-height:0}}
 
@@ -603,6 +591,7 @@
 .foot__bot{margin-top:clamp(40px,5vw,70px);padding-top:22px;border-top:1px solid var(--line);
   display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
   font-size:13px;color:var(--ink-3)}
+.foot__bot a{color:var(--ink-3);transition:color .3s}.foot__bot a:hover{color:var(--ink)}
 @media (max-width:900px){
   .foot__top{grid-template-columns:1fr 1fr}
   .foot__brand{grid-column:1/-1}
