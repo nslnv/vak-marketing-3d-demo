@@ -684,7 +684,7 @@ function renderLinkedinIcpLine(section) {
 function renderLinearSequence(section, modifier) {
   return '<section class="sp-section sp-linear-sequence-section sp-linear-sequence-section--' + modifier + '"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-linear-sequence sp-linear-sequence--' + modifier + '" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
-      return '<li style="--sp-item-delay:' + (i * .085) + 's"><span>' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+      return '<li style="--sp-item-delay:' + (i * .085) + 's">' + (modifier === 'seo' ? '<span aria-hidden="true"></span>' : '<span>' + String(i + 1).padStart(2, '0') + '</span>') + '<h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></section>';
 }
 function renderDiagram(section) {
