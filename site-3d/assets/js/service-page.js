@@ -42,7 +42,7 @@ var LOGOS = {
 
 var SERVICES = {
   strategy: {
-    index:'01', photo:'/assets/img/services/web/strategy-photo-v1.jpg', art:'/assets/img/services/3d/strategy-object.jpg',
+    index:'01', art:'/assets/img/services/3d/strategy-object.jpg',
     ru:{
       meta:{ title:'Стратегия и комплексное ведение — VAK Marketing', desc:'Индивидуальная маркетинговая стратегия и комплексное ведение для проектов из iGaming, FinTech, Crypto, Web3 и B2B.' },
       crumb:'Маркетинговая система',
@@ -143,7 +143,7 @@ var SERVICES = {
     }
   },
   linkedin: {
-    index:'02', photo:'/assets/img/services/web/linkedin-photo-v1.jpg', art:'/assets/img/services/3d/linkedin-object.jpg',
+    index:'02', art:'/assets/img/services/3d/linkedin-object.jpg',
     ru:{
       meta:{ title:'B2B-маркетинг и LinkedIn — VAK Marketing', desc:'LinkedIn как канал доверия, B2B-диалогов и квалифицированных лидов для сложных ниш.' },
       crumb:'B2B-маркетинг',
@@ -210,7 +210,7 @@ var SERVICES = {
     }
   },
   pr: {
-    index:'03', photo:'/assets/img/services/web/pr-media-photo-v1.jpg', art:'/assets/img/services/3d/pr-object.jpg',
+    index:'03', art:'/assets/img/services/3d/pr-object.jpg',
     ru:{
       meta:{ title:'PR, СМИ и медиа — VAK Marketing', desc:'Публикации, интервью и экспертные материалы в профильных международных и СНГ-медиа.' },
       crumb:'PR и медиасеть',
@@ -281,7 +281,7 @@ var SERVICES = {
     }
   },
   seo: {
-    index:'04', photo:'/assets/img/services/web/ai-seo-photo-v1.jpg', art:'/assets/img/services/3d/seo-object.jpg',
+    index:'04', art:'/assets/img/services/3d/seo-object.jpg',
     ru:{
       meta:{ title:'AI SEO и SERP — VAK Marketing', desc:'SEO-стратегия, техническая оптимизация, контент и аналитика для конкурентных ниш и разных гео.' },
       crumb:'AI SEO и SERP',
@@ -352,7 +352,7 @@ var SERVICES = {
     }
   },
   localization: {
-    index:'06', photo:'/assets/img/services/web/localization-photo-v1.jpg', art:'/assets/img/services/3d/localization-object.jpg',
+    index:'06', art:'/assets/img/services/3d/localization-object.jpg',
     ru:{
       meta:{ title:'Translation & Localization Services — VAK Marketing', desc:'Перевод и локализация материалов для Crypto, FinTech, iGaming, Web3 и образовательных проектов.' },
       crumb:'Translation & Localization',
@@ -460,9 +460,6 @@ document.addEventListener('click', function (event) {
 
 function linkArrow(label, href, extra) {
   return '<a class="' + (extra || 'link-arrow') + '" href="' + esc(href) + '">' + esc(label) + '<i></i></a>';
-}
-function photoAlt() {
-  return language === 'en' ? 'VAK Marketing service visual' : 'Визуальный материал VAK Marketing';
 }
 function renderHeroTitle(title) {
   return '<span class="sp-title__accent sp-title__accent--full">' + esc(title) + '</span>';
@@ -585,7 +582,7 @@ function renderHero(d) {
     + '<p class="sp-lead">' + esc(d.hero.lead) + '</p>'
     + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a></div>'
     + '</div>'
-    + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s"><div class="sp-hero__photo"><img src="' + service.photo + '" alt="' + photoAlt() + '" fetchpriority="high"></div><img class="sp-hero__object" src="' + service.art + '" alt="" aria-hidden="true" fetchpriority="high">' + visualDetails + '</div>'
+    + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s"><img class="sp-hero__object" src="' + service.art + '" alt="" aria-hidden="true" fetchpriority="high">' + visualDetails + '</div>'
     + '</div></section>';
 }
 function renderStrategyProof(section) {
