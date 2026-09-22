@@ -219,27 +219,33 @@ var SRV = [
   { i: '01', href: '/strategy/',
     t: 'Стратегия и комплексное ведение проекта',
     d: 'Разрабатываем маркетинговую стратегию и берём на себя сопровождение проекта: позиционирование, PR, контент, LinkedIn, SEO, лидогенерацию, аналитику и отчётность.',
-    photo: '/assets/img/services/web/strategy-photo-v1.jpg' },
+    photo: '/assets/img/services/web/strategy-photo-v1.jpg',
+    art: '/assets/img/services/3d/strategy-object.jpg', artAlt: 'Схема стратегии и последовательности работы' },
   { i: '02', href: '/linkedin/',
     t: 'B2B-маркетинг и продвижение в LinkedIn',
     d: 'Помогаем компаниям, фаундерам и sales-командам превращать LinkedIn в канал доверия, экспертности, B2B-диалогов и лидогенерации.',
-    photo: '/assets/img/services/web/linkedin-photo-v1.jpg' },
+    photo: '/assets/img/services/web/linkedin-photo-v1.jpg',
+    art: '/assets/img/services/3d/linkedin-object.jpg', artAlt: 'Связи и международная B2B-коммуникация' },
   { i: '03', href: '/pr/',
     t: 'PR, СМИ и SERP',
     d: 'Размещаем статьи, пресс-релизы, интервью и экспертные материалы в Tier-1 и Tier-2-3 медиа, усиливаем репутацию бренда в поисковой выдаче.',
-    photo: '/assets/img/services/web/pr-media-photo-v1.jpg' },
+    photo: '/assets/img/services/web/pr-media-photo-v1.jpg',
+    art: '/assets/img/services/3d/pr-object.jpg', artAlt: 'Медиа-система и публикации' },
   { i: '04', href: '/seo/',
     t: 'AI SEO и автоматизация маркетинга',
     d: 'Работаем с SEO-структурой, ключевыми запросами, контентом, аналитикой и автоматизацией маркетинговых процессов.',
-    photo: '/assets/img/services/web/ai-seo-photo-v1.jpg' },
+    photo: '/assets/img/services/web/ai-seo-photo-v1.jpg',
+    art: '/assets/img/services/3d/seo-object.jpg', artAlt: 'Структура данных и поисковая система' },
   { i: '05', href: '/course/',
     t: 'B2B и B2C курс по LinkedIn',
     d: 'Создаём образовательные продукты для компаний, sales-команд, фаундеров, экспертов и предпринимателей, включая курс по LinkedIn-продвижению.',
-    photo: '/assets/img/services/web/course-photo-v1.jpg' },
+    photo: '/assets/img/services/web/course-photo-v1.jpg',
+    art: '/assets/img/services/3d/course-object.jpg', artAlt: 'Последовательность обучения' },
   { i: '06', href: '/localization/',
-    t: 'Translation & Localization Services',
+    t: 'Перевод и локализация материалов',
     d: 'Адаптируем сайты, презентации, статьи, пресс-релизы, whitepapers, pitch decks и любые документы под международные рынки.',
-    photo: '/assets/img/services/web/localization-photo-v1.jpg' }
+    photo: '/assets/img/services/web/localization-photo-v1.jpg',
+    art: '/assets/img/services/3d/localization-object.jpg', artAlt: 'Адаптация материалов для разных рынков' }
 ];
 
 var srvSec = $('#services'), srvPin = $('#srvPin'), srvDeck = $('#srvDeck'), srvList = $('#srvList');
@@ -255,7 +261,8 @@ function buildSrvCards() {
     el.style.setProperty('--srv-photo', "url('" + s.photo + "')");
     /* Содержимое лежит в отдельной обёртке: в колоде у неё своя прозрачность,
        поэтому за активной карточкой видны сами карточки, а не их тексты. */
-    el.innerHTML = '<div class="srv__body">' +
+    el.innerHTML = '<img class="srv__art" src="' + s.art + '" alt="' + s.artAlt + '" loading="lazy" decoding="async">' +
+      '<div class="srv__body">' +
       '<h3 class="srv__t"></h3><p class="srv__d"></p>' +
       '<a class="link-arrow" href="#contact"></a></div>';
     srvDeck.appendChild(el);

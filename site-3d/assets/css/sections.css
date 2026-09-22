@@ -10,7 +10,9 @@
 .hero__in{max-width:min(var(--wrap),100%)}
 
 .hero__h1{font-size:clamp(30px,3.85vw,55px);font-weight:360;line-height:1.09;letter-spacing:-.036em;
-  max-width:13.4em;margin:0 0 clamp(20px,2.2vw,30px);
+  /* Две трети экрана занимает содержательный оффер; правое поле оставляем
+     оптическому объекту, чтобы заголовок не превращался в узкую колонку. */
+  max-width:15.8em;margin:0 0 clamp(20px,2.2vw,30px);
   opacity:0;transform:translateY(26px);
   animation:rise 1.15s var(--e-out) .12s forwards}
 .hero__accent{color:#fff;font-size:1.01em;line-height:inherit;font-family:var(--f);font-style:normal;font-weight:650;
@@ -57,7 +59,7 @@
 @media (min-width:901px){
   /* Дополнительная длина — не пустота: она даёт детали время спокойно
      собраться и увести цельный объект вправо-вниз одной непрерывной дугой. */
-  .about__grid{min-height:clamp(1120px,210svh,1680px)}
+  .about__grid{min-height:clamp(980px,154svh,1240px)}
   /* Визуальная колонка не участвует своей полной высотой в расчёте sticky:
      тогда сама сцена остаётся в пределах About почти до его нижней границы,
      а не уезжает вверх сразу после текста справа. */
@@ -202,6 +204,16 @@
     linear-gradient(180deg,rgba(24,18,45,.12),rgba(8,6,18,.34)),
     var(--srv-photo) 72% 50%/cover no-repeat}
 .srv__body{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;min-height:0}
+.srv__art{position:absolute;z-index:0;top:50%;right:clamp(-120px,-7vw,-46px);width:min(63%,720px);height:auto;
+  max-width:none;pointer-events:none;opacity:.60;mix-blend-mode:screen;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 34%,#000 90%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 34%,#000 90%,transparent 100%);
+  transform:translate3d(0,-50%,0) scale(1.02);transform-origin:74% 50%;
+  will-change:transform,opacity,filter;
+  transition:transform .82s var(--e-out),opacity .46s ease,filter .46s ease}
+.srv__card:hover .srv__art{opacity:.84;filter:saturate(1.08) brightness(1.12);
+  transform:translate3d(12px,-50%,0) scale(1.055) rotate(-.7deg)}
+.srv__card:hover::before{filter:brightness(1.08) saturate(1.05)}
 .srv__t{margin:0 0 12px;font-size:clamp(21px,1.9vw,28px);font-weight:360;
   letter-spacing:-.028em;line-height:1.16}
 .srv__d{margin:0 0 20px;color:var(--ink-2);font-size:15px;line-height:1.6;max-width:42ch}
@@ -281,6 +293,7 @@
   .srv__grid{gap:20px}
   .srv__deck{gap:14px}
   .srv__card{min-height:clamp(276px,70vw,340px);padding:clamp(22px,5.5vw,32px);border-radius:20px}
+  .srv__art{right:-22%;width:86%;opacity:.47}
   .srv__t{margin-bottom:11px;font-size:clamp(23px,6.2vw,29px);line-height:1.14}
   .srv__d{margin-bottom:0;max-width:36ch;font-size:15px;line-height:1.58}
   .srv__body .link-arrow{min-height:44px;margin-top:auto;padding-top:14px}
@@ -311,6 +324,9 @@
     background:
       linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.016) 46%,rgba(255,255,255,.038)),
       linear-gradient(180deg,rgba(21,16,41,.92),rgba(11,8,23,.95))}
+  .srv.is-deck .srv__card::before{transition:filter .46s ease}
+  .srv.is-deck .srv__art{right:clamp(-94px,-5vw,-40px);width:min(72%,760px);opacity:.52}
+  .srv.is-deck .srv__card.is-on{border-color:rgba(197,182,255,.30);box-shadow:inset 0 1px 0 rgba(218,207,255,.13),0 30px 68px -52px rgba(124,92,255,.50)}
 
   /* Крупная карточка: заголовок слева, описание и ссылка справа. */
   .srv.is-deck .srv__body{display:grid;align-content:center;
@@ -446,6 +462,7 @@
 .logos a::before{content:'';position:absolute;inset:0;background:linear-gradient(108deg,rgba(124,92,255,.055),transparent 48%,rgba(255,82,184,.035));opacity:0;transition:opacity .35s var(--e)}
 .logos img{position:relative;z-index:1;width:auto;height:clamp(30px,3vw,42px);max-width:94%;object-fit:contain;filter:var(--logo-shadow);
   transition:filter .35s var(--e),transform .45s var(--e-out)}
+.logos a[href*="finance.yahoo.com"] img,.logos a[href*="benzinga.com"] img{filter:grayscale(1) brightness(2.5) contrast(.94) var(--logo-shadow)}
 .logos span{position:relative;z-index:1;font-size:11px;font-weight:650;line-height:1.1;letter-spacing:.04em;text-align:center;text-transform:uppercase}
 
 @media (hover:hover){
