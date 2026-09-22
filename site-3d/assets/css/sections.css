@@ -194,15 +194,14 @@
    просто шесть карточек друг под другом: всё содержимое доступно, ничего
    не перекрывается, прокрутка обычная. */
 .srv__deck{display:flex;flex-direction:column;gap:16px}
-.srv__card{--srv-photo:none;min-height:clamp(320px,30vw,392px);display:flex;flex-direction:column;
+.srv__card{min-height:clamp(320px,30vw,392px);display:flex;flex-direction:column;
   overflow:hidden;isolation:isolate}
-/* У каждой услуги свой сдержанный фотофон. Плотное затемнение сохраняет
-   контраст и превращает шесть кадров в единую серию, а не в набор баннеров. */
+/* В карточке остаётся только один предметный слой — 3D-объект. Убираем
+   прежнюю фоновую фотографию: она спорила с объектом и дробила композицию. */
 .srv__card::before{z-index:0;
   background:
-    linear-gradient(90deg,rgba(10,8,21,.94) 0%,rgba(11,8,23,.74) 45%,rgba(11,8,23,.28) 100%),
-    linear-gradient(180deg,rgba(24,18,45,.12),rgba(8,6,18,.34)),
-    var(--srv-photo) 72% 50%/cover no-repeat}
+    radial-gradient(68% 110% at 94% 50%,rgba(115,91,218,.20),transparent 66%),
+    linear-gradient(115deg,rgba(18,14,36,.98),rgba(10,8,21,.95) 58%,rgba(18,12,34,.88))}
 .srv__body{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;min-height:0}
 .srv__art{position:absolute;z-index:0;top:50%;right:clamp(-120px,-7vw,-46px);width:min(63%,720px);height:auto;
   max-width:none;pointer-events:none;opacity:.60;mix-blend-mode:screen;
@@ -213,7 +212,7 @@
   transition:transform .82s var(--e-out),opacity .46s ease,filter .46s ease}
 .srv__card:hover .srv__art{opacity:.84;filter:saturate(1.08) brightness(1.12);
   transform:translate3d(12px,-50%,0) scale(1.055) rotate(-.7deg)}
-.srv__card:hover::before{filter:brightness(1.08) saturate(1.05)}
+.srv__card:hover::before{filter:brightness(1.06)}
 .srv__t{margin:0 0 12px;font-size:clamp(21px,1.9vw,28px);font-weight:360;
   letter-spacing:-.028em;line-height:1.16}
 .srv__d{margin:0 0 20px;color:var(--ink-2);font-size:15px;line-height:1.6;max-width:42ch}

@@ -258,7 +258,6 @@ function buildSrvCards() {
   srvCards = SRV.map(function (s, n) {
     var el = document.createElement('article');
     el.className = 'card srv__card';
-    el.style.setProperty('--srv-photo', "url('" + s.photo + "')");
     /* Содержимое лежит в отдельной обёртке: в колоде у неё своя прозрачность,
        поэтому за активной карточкой видны сами карточки, а не их тексты. */
     el.innerHTML = '<img class="srv__art" src="' + s.art + '" alt="' + s.artAlt + '" loading="lazy" decoding="async">' +
