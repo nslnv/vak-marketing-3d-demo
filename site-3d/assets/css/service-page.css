@@ -492,12 +492,18 @@
 
 /* ---------- Footer ----------------------------------------------------- */
 .sp-foot{position:relative;z-index:2;padding-block:clamp(56px,6vw,88px) 34px;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(9,7,18,.5),rgba(9,7,18,.9))}
-.sp-foot__top{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;flex-wrap:wrap}
-.sp-foot__copy{max-width:34ch;color:var(--ink-3);font-size:13.5px;line-height:1.56}
-.sp-foot__links{display:flex;gap:clamp(16px,2.3vw,34px);flex-wrap:wrap}
-.sp-foot__links a{color:var(--ink-3);font-size:14px;transition:color .3s}
-.sp-foot__links a:hover{color:var(--ink)}
-.sp-foot__bottom{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:var(--ink-3);font-size:12.5px}
+/* Подстраницы рендерят ту же содержательную структуру футера, что и главная.
+   Здесь стили намеренно привязаны к .sp-foot: раньше классы колонок были
+   только в CSS главной, поэтому на страницах услуг ссылки слипались. */
+.sp-foot .foot__top{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:clamp(28px,3vw,52px);align-items:start}
+.sp-foot .foot__brand p{max-width:36ch;margin:20px 0 0;color:var(--ink-3);font-size:14px;line-height:1.6}
+.sp-foot .foot__col{display:flex;flex-direction:column;align-items:flex-start;gap:11px;min-width:0}
+.sp-foot .foot__col h4{margin:0 0 5px;color:var(--ink);font-size:13px;font-weight:500;letter-spacing:-.008em}
+.sp-foot .foot__col .foot__h2{margin-top:24px}
+.sp-foot .foot__col a{display:block;color:var(--ink-3);font-size:14px;line-height:1.35;transition:color .3s}
+.sp-foot .foot__col a:hover{color:var(--ink)}
+.sp-foot .foot__bot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:clamp(40px,5vw,70px);padding-top:22px;border-top:1px solid var(--line);color:var(--ink-3);font-size:13px}
+.sp-foot .foot__bot a{color:var(--ink-3);transition:color .3s}.sp-foot .foot__bot a:hover{color:var(--ink)}
 
 /* ---------- Entrance --------------------------------------------------- */
 [data-sp-reveal]{opacity:0;transform:translateY(20px);transition:opacity .72s var(--e-out) var(--sp-delay,0s),transform .72s var(--e-out) var(--sp-delay,0s)}
@@ -514,6 +520,8 @@
   .sp-scope__intro{position:static}
   .sp-pricing{grid-template-columns:1fr;gap:34px}
   .sp-cta__grid{grid-template-columns:1fr;gap:36px}
+  .sp-foot .foot__top{grid-template-columns:1fr 1fr}
+  .sp-foot .foot__brand{grid-column:1/-1}
   .sp-diagram--items-7 .sp-diagram__items{grid-template-columns:repeat(2,minmax(0,1fr))}
   .sp-diagram--items-7 .sp-diagram__item:nth-child(odd){border-left:0}
   .sp-diagram--items-7 .sp-diagram__item:nth-child(n+3){padding-top:22px;border-top:1px solid var(--line)}
@@ -567,7 +575,7 @@
   .sp-process__item{grid-template-columns:34px 1fr;gap:10px 13px;padding:20px 0}.sp-process__num{font-size:20px}.sp-process h3{font-size:18px}.sp-process p{font-size:13.5px;line-height:1.55}
   .sp-trust{padding-block:var(--sec)}.sp-trust h2{font-size:clamp(27px,3.1vw,47px)}.sp-trust p{font-size:inherit}.sp-logo-grid{grid-template-columns:1fr 1fr!important}.sp-logo{min-height:92px;padding:13px}.sp-logo img{max-height:38px}.sp-logo--media img{max-height:30px}.sp-logo--assetless{font-size:12px}
   .sp-cta{padding-block:var(--sec)}.sp-cta h2{font-size:clamp(27px,3.1vw,47px)}.sp-cta__copy p{font-size:inherit}
-  .sp-foot{padding-block:42px 24px}.sp-foot__links{gap:12px 18px}.sp-foot__links a,.sp-foot__bottom a{display:inline-flex;align-items:center;min-height:44px}
+  .sp-foot{padding-block:42px 24px}.sp-foot .foot__top{grid-template-columns:1fr;gap:28px}.sp-foot .foot__brand{grid-column:auto}.sp-foot .foot__col{gap:0}.sp-foot .foot__col a{display:flex;align-items:center;min-height:38px}.sp-foot .foot__bot{margin-top:34px;gap:12px}
 }
 @media (max-width:900px) and (max-height:560px) and (orientation:landscape){
   .sp-hero{min-height:auto;align-items:flex-start;padding-top:calc(var(--nav-h) + 24px);padding-bottom:52px}.sp-hero__grid{grid-template-columns:minmax(0,1fr) minmax(280px,.8fr);gap:38px}.sp-hero__visual{min-height:300px}.sp-title{font-size:clamp(28px,4vw,36px)}.sp-lead{margin-bottom:18px;font-size:15px;line-height:1.5}.sp-hero__actions{gap:10px}
