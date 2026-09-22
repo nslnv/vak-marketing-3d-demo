@@ -46,9 +46,9 @@ var SERVICES = {
     ru:{
       meta:{ title:'Стратегия и комплексное ведение — VAK Marketing', desc:'Индивидуальная маркетинговая стратегия и комплексное ведение для проектов из iGaming, FinTech, Crypto, Web3 и B2B.' },
       crumb:'Маркетинговая система',
-      hero:{ title:'Полноценная система продвижения под задачи проекта', lead:'От позиционирования и выбора каналов до привлечения клиентов, аналитики и комплексного сопровождения — в одном контуре, без разрыва между планом и исполнением.', cta:'Получить консультацию' },
+      hero:{ title:'Выстраиваем полноценную систему продвижения под задачи проекта', lead:'От позиционирования и выбора каналов до привлечения клиентов, аналитики и комплексного сопровождения в одном контуре — без разрыва между планом и исполнением.', cta:'Получить консультацию' },
       proof:{ label:'Почему это работает', title:'Не набор услуг, а последовательность решений', note:'Сначала фиксируем, что действительно влияет на задачу бизнеса. Затем подключаем только те направления, у которых есть понятная роль.', items:[
-        ['Контекст до каналов','Разбираем нишу, цели, конкурентов и ограничения, чтобы не начинать с случайного набора активностей.'],
+        ['Контекст до каналов','Разбираем нишу, цели, конкурентов и ограничения, чтобы не начинать со случайного набора активностей.'],
         ['Инструменты по задаче','PR, LinkedIn, SEO, контент и реклама подключаются тогда, когда решают конкретную часть воронки.'],
         ['Проверка гипотез','Тестируем сообщения, форматы и каналы; оставляем в работе то, что даёт измеримый сигнал.'],
         ['Один рабочий контур','Координируем внешние направления и работаем вместе с in-house-командой, если она есть.']
@@ -95,7 +95,7 @@ var SERVICES = {
     en:{
       meta:{ title:'Strategy and full project management — VAK Marketing', desc:'A tailored marketing strategy and integrated delivery for iGaming, FinTech, Crypto, Web3 and B2B businesses.' },
       crumb:'Marketing system',
-      hero:{ title:'A complete growth system around the project’s actual task', lead:'From positioning and channel choice to client acquisition, analytics and integrated delivery — in one operating loop, without a gap between the plan and its execution.', cta:'Book a consultation' },
+      hero:{ title:'A complete marketing system for your project', lead:'From positioning and channel choice to client acquisition, analytics and integrated delivery — without a gap between the plan and its execution.', cta:'Book a consultation' },
       proof:{ label:'Why it works', title:'Not a menu of services, but a sequence of decisions', note:'We first establish what actually affects the business goal, then bring in only the disciplines with a clear role.', items:[
         ['Context before channels','We examine the market, goals, competitors and constraints before choosing activities.'],
         ['Tools for the task','PR, LinkedIn, SEO, content and advertising are used when they solve a defined part of the funnel.'],
@@ -438,6 +438,8 @@ var currentRevealObserver = null;
 var currentDiagramObserver = null;
 var currentStrategyResizeHandler = null;
 var currentServiceFlowObserver = null;
+var currentStrategyFlowObserver = null;
+var currentStrategyFlowFrame = null;
 var currentServiceFlowResizeHandler = null;
 var currentServiceFlowFrame = null;
 var currentServiceFlowTimers = [];
@@ -462,6 +464,10 @@ function linkArrow(label, href, extra) {
   return '<a class="' + (extra || 'link-arrow') + '" href="' + esc(href) + '">' + esc(label) + '<i></i></a>';
 }
 function renderHeroTitle(title) {
+  if (isStrategy) {
+    var accent = language === 'en' ? 'marketing system' : 'систему продвижения';
+    return esc(title).replace(accent, '<span class="sp-title__accent">' + accent + '</span>');
+  }
   return '<span class="sp-title__accent sp-title__accent--full">' + esc(title) + '</span>';
 }
 function strategyProofTitle() {
@@ -593,22 +599,23 @@ function renderStrategyProof(section) {
     }).join('') + '</ol></div></div></section>';
 }
 function renderStrategyScope(section) {
-  var first = section.items[0];
+  var deliverables = copy().outcomes;
   var question = language === 'en' ? 'Question we answer' : 'Вопрос, на который отвечаем';
-  var output = language === 'en' ? 'What remains in the work' : 'Что остаётся в работе';
+  var output = language === 'en' ? 'Result of this stage' : 'Результат этапа';
   return '<section class="sp-section sp-strategy-scope-section"><div class="wrap"><div class="sp-strategy-scope">'
-    + '<div class="sp-strategy-scope__intro" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
-    + '<div class="sp-strategy-scope__body" data-sp-reveal style="--sp-delay:.05s"><ol class="sp-strategy-scope__list">' + section.items.map(function (item, i) {
-      var active = i === 0;
-      return '<li class="sp-strategy-scope__item' + (active ? ' is-active' : '') + '" style="--sp-item-delay:' + (i * .055) + 's"><button type="button" class="sp-strategy-scope__button" data-strategy-scope-step data-question="' + esc(item.question) + '" data-output="' + esc(item.output) + '" aria-pressed="' + active + '"><span class="sp-strategy-scope__title">' + esc(item.title) + '</span></button><p class="sp-strategy-scope__mobile-output" aria-hidden="' + (!active) + '">' + esc(item.output) + '</p></li>';
-    }).join('') + '</ol><aside class="sp-strategy-scope__detail" id="strategyScopeDetail" aria-live="polite"><span>' + esc(question) + '</span><h3>' + esc(first.question) + '</h3><span>' + esc(output) + '</span><p>' + esc(first.output) + '</p></aside></div></div></div></section>';
+    + '<div class="sp-strategy-scope__intro" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + (language === 'en' ? 'You receive:' : 'На выходе вы получаете:') + '</span>'
+    + '<dl class="sp-strategy-deliverables">' + deliverables.items.map(function (item) { return '<div><dt>' + esc(item[0]) + '</dt><dd>' + esc(item[1]) + '</dd></div>'; }).join('') + '</dl></div>'
+    + '<div class="sp-strategy-workmap" data-sp-reveal style="--sp-delay:.05s"><p class="sp-caption">' + (language === 'en' ? 'Explore each stage' : 'Что делаем на каждом этапе') + '</p>'
+    + section.items.map(function (item, i) {
+      return '<details class="sp-strategy-step" name="strategy-workmap"' + (i === 0 ? ' open' : '') + '><summary><h3>' + esc(item.title) + '</h3></summary><div class="sp-strategy-step__detail"><span>' + esc(question) + '</span><p>' + esc(item.question) + '</p><span>' + esc(output) + '</span><p>' + esc(item.output) + '</p></div></details>';
+    }).join('') + '</div></div></div></section>';
 }
 function renderStrategySystem(section) {
-  var core = language === 'en' ? 'Business<br>objective' : 'Задача<br>бизнеса';
+  var core = language === 'en' ? 'Business <br>objective' : 'Задача <br>бизнеса';
   var sub = language === 'en' ? 'aligns the work' : 'собирает работу';
   return '<section class="sp-section sp-section--tight sp-section--rule sp-strategy-system-section"><div class="wrap">'
     + '<div class="sp-strategy-system__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
-    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s">' + strategyFlow() + '<div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
+    + '<div class="sp-strategy-system" data-sp-system data-sp-reveal style="--sp-delay:.04s"><svg class="sp-strategy-system__links" aria-hidden="true" focusable="false"><g data-strategy-links></g></svg><div class="sp-strategy-system__core"><strong>' + core + '</strong><span>' + esc(sub) + '</span></div><ol class="sp-strategy-system__nodes">' + section.items.map(function (item, i) {
       return '<li class="sp-strategy-system__node" style="--sp-item-delay:' + (i * .07) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
@@ -764,7 +771,7 @@ function render(d) {
     + (d.formats ? renderFormats(d.formats) : '')
     + (d.diagram ? renderDiagram(d.diagram) : '') + (d.pricing ? renderPricing(d.pricing) : '')
     + (d.media ? renderMedia(d.media) : '') + (key === 'pr' ? renderPrCasesWidget() : '') + renderProcess(d.process)
-    + (d.sectors ? renderSectors(d.sectors) : '') + (d.outcomes ? renderSectors(d.outcomes, 'outcomes') : '')
+    + (d.sectors ? renderSectors(d.sectors) : '') + (d.outcomes && !isStrategy ? renderSectors(d.outcomes, 'outcomes') : '')
     + (d.trust ? renderTrust(d.trust) : '') + renderCta(d.cta);
   $('#footer').innerHTML = renderFooter();
   renderNav();
@@ -1021,6 +1028,8 @@ function bindServiceFlowLayouts() {
 }
 function bindDiagramExperience() {
   if (currentStrategyResizeHandler) { window.removeEventListener('resize', currentStrategyResizeHandler); currentStrategyResizeHandler = null; }
+  if (currentStrategyFlowObserver) { currentStrategyFlowObserver.disconnect(); currentStrategyFlowObserver = null; }
+  if (currentStrategyFlowFrame) { cancelAnimationFrame(currentStrategyFlowFrame); currentStrategyFlowFrame = null; }
 
   bindServiceFlowLayouts();
 
@@ -1047,32 +1056,48 @@ function bindDiagramExperience() {
   }
   if (!isStrategy) return;
 
-  var scopeButtons = $$('[data-strategy-scope-step]');
-  var scopeDetail = $('#strategyScopeDetail');
-  function syncScopeAccessibility() {
-    var useMobileOutput = window.matchMedia('(max-width: 760px)').matches;
-    scopeButtons.forEach(function (item) {
-      var mobileOutput = $('.sp-strategy-scope__mobile-output', item.parentElement);
-      if (mobileOutput) mobileOutput.setAttribute('aria-hidden', useMobileOutput && item.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+  // Measure real text blocks: connectors must end beside their labels at
+  // every width and in both languages, not at fixed SVG coordinates.
+  var board = $('[data-sp-system]');
+  function drawStrategyLinks() {
+    currentStrategyFlowFrame = null;
+    if (!board || !document.documentElement.contains(board)) return;
+    var svg = $('.sp-strategy-system__links', board), layer = $('[data-strategy-links]', board);
+    if (!window.matchMedia('(min-width:901px)').matches) { layer.innerHTML = ''; return; }
+    var rect = board.getBoundingClientRect(), core = $('.sp-strategy-system__core', board).getBoundingClientRect();
+    svg.setAttribute('viewBox', '0 0 ' + rect.width + ' ' + rect.height);
+    var nodes = $$('.sp-strategy-system__node', board);
+    nodes.forEach(function (node, i) {
+      var box = node.getBoundingClientRect(), top = i < 3;
+      var sx = core.left - rect.left + core.width * (top ? [.12,.5,.88][i] : [.08,.36,.64,.92][i - 3]);
+      var sy = (top ? core.top : core.bottom) - rect.top + (top ? -8 : 8);
+      var ex = box.left - rect.left + box.width * .5;
+      var ey = (top ? box.bottom : box.top) - rect.top + (top ? 10 : -10);
+      var direction = top ? -1 : 1;
+      var reach = Math.max(28, Math.abs(ey - sy) * .65);
+      var path = layer.children[i];
+      if (!path) {
+        path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('class', 'sp-flow');
+        path.setAttribute('pathLength', '100');
+        path.style.setProperty('--sp-link-delay', (.1 + i * .07) + 's');
+        layer.appendChild(path);
+      }
+      path.setAttribute('d', 'M' + sx + ' ' + sy + ' C' + sx + ' ' + (sy + direction * reach) + ' ' + ex + ' ' + (ey - direction * reach) + ' ' + ex + ' ' + ey);
     });
   }
-  function activateScope(button) {
-    if (!button || !scopeDetail) return;
-    scopeButtons.forEach(function (item) {
-      var active = item === button;
-      item.setAttribute('aria-pressed', active ? 'true' : 'false');
-      item.parentElement.classList.toggle('is-active', active);
-    });
-    var question = $('h3', scopeDetail), output = $('p', scopeDetail);
-    if (question) question.textContent = button.getAttribute('data-question') || '';
-    if (output) output.textContent = button.getAttribute('data-output') || '';
-    syncScopeAccessibility();
+  function scheduleStrategyLinks() {
+    if (currentStrategyFlowFrame) cancelAnimationFrame(currentStrategyFlowFrame);
+    currentStrategyFlowFrame = requestAnimationFrame(drawStrategyLinks);
   }
-  scopeButtons.forEach(function (button) { button.addEventListener('click', function () { activateScope(button); }); });
-  syncScopeAccessibility();
-  currentStrategyResizeHandler = syncScopeAccessibility;
+  scheduleStrategyLinks();
+  currentStrategyResizeHandler = scheduleStrategyLinks;
   window.addEventListener('resize', currentStrategyResizeHandler, { passive:true });
-
+  if (board && 'ResizeObserver' in window) {
+    currentStrategyFlowObserver = new ResizeObserver(scheduleStrategyLinks);
+    currentStrategyFlowObserver.observe(board);
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleStrategyLinks);
 }
 
 render(copy());
