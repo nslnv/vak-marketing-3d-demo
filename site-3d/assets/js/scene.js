@@ -1514,7 +1514,8 @@ function boot(canvas) {
      Каналы + Контент, Оптимизация = Лиды, Результат = Результат. Луч идёт по
      отрезкам между словами; слово загорается целиком, когда луч до него
      дошёл, и вместе с ним загораются его модули. Всё от одного flow. */
-  const ABOUT_FLOW_BOUNDS = [0, 2 / 6, 4 / 6, 5 / 6, 1];
+  // Четыре равные доли пути: этап держится, затем луч быстро бежит к следующему.
+  const ABOUT_FLOW_BOUNDS = [0, 0.25, 0.5, 0.75, 1];
   const ABOUT_STAGE_OF_MODULE = [0, 0, 1, 1, 2, 3];
   function updateAboutFlowStages(flow) {
     const words = aboutFlowLine.querySelectorAll('span');
@@ -1528,13 +1529,15 @@ function boot(canvas) {
     });
     links.forEach((link, k) => {
       const a = ABOUT_FLOW_BOUNDS[k], b = ABOUT_FLOW_BOUNDS[k + 1];
-      const fill = Math.min(1, Math.max(0, (flow - a) / (b - a)));
+      // луч стоит у слова первые две трети отрезка и пробегает последнюю треть
+      const run = Math.min(1, Math.max(0, (flow - (a + (b - a) * 0.66)) / ((b - a) * 0.34)));
+      const fill = run * run * (3 - 2 * run);
       link.style.setProperty('--fill', fill.toFixed(3));
     });
+    // Верхняя строка показывает только модули текущего этапа.
     aboutModuleLabels.forEach((label, i) => {
       const stage = ABOUT_STAGE_OF_MODULE[i] ?? 3;
-      const lit = started && (stage < active || (stage === active));
-      label.classList.toggle('is-lit', lit);
+      label.classList.toggle('is-current', started && stage === active);
     });
   }
   let tuneAcc = 0, tuneN = 0;
@@ -1894,8 +1897,12 @@ function boot(canvas) {
          механика, поэтому реверс проигрывает его точно назад. */
       aboutSection.classList.toggle('about--flow-intro', aboutProgress > 0.01 && aboutProgress < aboutLeave + 0.02);
       if (aboutFlowLine) {
-        const flowSpan = Math.max(1e-4, closeStart + cascadeDuration - openStart);
-        const flow = reduced ? 1 : Math.min(1, Math.max(0, (aboutProgress - openStart) / flowSpan));
+        // Путь этапов лежит в окне, где подписи модулей видны: от почти
+        // раскрытого объектива до первой половины сборки.
+        const flowFrom = openStart + cascadeDuration * 0.62;
+        const flowTo = closeStart + cascadeDuration * 0.30;
+        const flowSpan = Math.max(1e-4, flowTo - flowFrom);
+        const flow = reduced ? 1 : Math.min(1, Math.max(0, (aboutProgress - flowFrom) / flowSpan));
         if (Math.abs(flow - aboutFlowValue) > 0.002 || !aboutFlowLine.querySelector('span[data-state]')) {
           aboutFlowValue = flow;
           aboutFlowLine.style.setProperty('--flow', flow.toFixed(3));
