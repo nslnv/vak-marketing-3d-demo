@@ -132,59 +132,39 @@
   .fig li:nth-child(3){padding-left:0}
 }
 
-/* ═══ 5. С КЕМ РАБОТАЕМ (горизонтальная гармошка) ═══════════════════════ */
-.slats{display:flex;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  min-height:clamp(300px,32vw,400px);contain:layout paint}
-.slat{flex:1 1 0;min-width:0;position:relative;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:clamp(22px,2.4vw,34px) clamp(18px,2vw,30px);
-  cursor:pointer;overflow:hidden;
-  /* flex-grow неизбежно меняет геометрию колонок. Изолируем этот расчёт
-     внутри каждой панели и не держим лишние слои на всех четырёх карточках. */
-  contain:layout paint;transition:flex-grow .46s var(--e-slat)}
-.slat+.slat{border-left:1px solid var(--line)}
-.slat__photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
-  pointer-events:none;opacity:.47;filter:saturate(.72) brightness(.88) contrast(1.03);
-  transform:scale(1.025);will-change:opacity,transform;
-  transition:opacity .34s ease,transform .52s var(--e-out)}
-.slat:nth-child(1) .slat__photo{object-position:74% center}
-.slat:nth-child(2) .slat__photo{object-position:70% center}
-.slat:nth-child(3) .slat__photo{object-position:78% center}
-.slat:nth-child(4) .slat__photo{object-position:74% center}
+/* ═══ 5. С КЕМ РАБОТАЕМ — четыре самостоятельные сцены ═══════════════ */
+.aud>.wrap{max-width:1440px}
+.slats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.slat{width:100%;min-width:0;position:relative;display:flex;flex-direction:column;
+  justify-content:flex-end;aspect-ratio:2.35;min-height:280px;
+  padding:clamp(24px,2.3vw,34px);overflow:hidden;isolation:isolate;
+  border:1px solid rgba(163,137,234,.22);border-radius:8px;background:#05050e;
+  contain:layout paint}
+.slat__photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:75% center;pointer-events:none;opacity:.94;
+  transform:scale(1.005);transition:transform .85s var(--e-out)}
 .slat::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(6,5,13,.16) 0%,rgba(6,5,13,.76) 82%,rgba(6,5,13,.92) 100%),
-    linear-gradient(90deg,rgba(6,5,13,.38),rgba(6,5,13,.08));}
-.slat::after{content:'';position:absolute;left:0;right:0;top:0;height:1px;
-  z-index:3;background:linear-gradient(90deg,var(--vio-2),var(--mag));
-  transform:scaleX(0);transform-origin:left;transition:transform .26s ease}
-.slat.is-open{flex-grow:2.2}
-.slat.is-open .slat__photo{opacity:.72;transform:scale(1.055);transition:opacity .42s ease .04s,transform .62s var(--e-out)}
-.slat.is-open::after{transform:scaleX(1);transition:transform .48s var(--e-slat) .02s}
-.slat__t,.slat__d{z-index:2}
-/* высота заголовка зарезервирована под три строки и текст прижат к низу:
-   при смене ширины он переносится, но ничего под ним не подпрыгивает.
-   balance красиво раскладывает строку, но пересчитывается на каждом кадре
-   изменения ширины — для интерактивной гармошки это лишняя работа. */
-.slat__t{display:flex;align-items:flex-end;min-height:3.7em;
-  font-size:clamp(16px,1.4vw,22px);font-weight:360;line-height:1.24;
-  letter-spacing:-.026em;position:relative}
-/* закрывается быстро, раскрывается неспешно — иначе уходящая панель «залипает» */
-.slat__d{position:relative;margin:12px 0 0;max-width:38ch;font-size:14.5px;line-height:1.6;
-  color:var(--ink-2);opacity:0;transform:translateY(10px);
-  transition:opacity .15s ease,transform .18s ease}
-.slat.is-open .slat__d{opacity:1;transform:none;
-  transition:opacity .34s ease .10s,transform .40s var(--e-out) .10s}
-@media (max-width:900px){
-  .slats{display:block;min-height:0;border-bottom:0}
-  .slat{min-height:clamp(230px,58vw,276px);padding:26px clamp(20px,5vw,30px) 24px;
-    border-bottom:1px solid var(--line);cursor:default}
-  .slat+.slat{border-left:0}
-  .slat__photo{opacity:.58;filter:saturate(.78) brightness(.84) contrast(1.04)}
-  .slat.is-open .slat__photo{opacity:.68}
-  .slat__t{min-height:0;font-size:clamp(19px,5.4vw,24px);line-height:1.18}
-  .slat__d{opacity:1;transform:none;max-width:37ch;font-size:14.5px;line-height:1.58}
-  .slat.is-open{flex-grow:1}
-  .slat::after{display:none}
+  background:linear-gradient(90deg,rgba(4,4,13,.75),rgba(4,4,13,.4) 46%,rgba(4,4,13,.04) 78%),
+    linear-gradient(0deg,rgba(4,4,13,.62),transparent 70%)}
+.slat__t,.slat__d{position:relative;z-index:2}
+.slat__t{margin:0;font-size:clamp(20px,1.65vw,24px);font-weight:400;line-height:1.24;
+  letter-spacing:-.026em;color:#f5f3fb;text-wrap:balance}
+.slat__d{margin:14px 0 0;width:68%;max-width:38ch;min-height:4.65em;font-size:14px;line-height:1.55;color:#d9d6e4}
+@media (hover:hover) and (pointer:fine){.slat:hover .slat__photo{transform:scale(1.03)}}
+@media (min-width:701px) and (max-width:1199px){.slat__d{min-height:6.2em}}
+@media (max-width:1000px) and (min-width:701px){
+  .slat{min-height:290px;padding:24px}
+  .slat__d{width:84%}
 }
+@media (max-width:700px){
+  .slats{grid-template-columns:1fr;gap:12px}
+  .slat{aspect-ratio:auto;min-height:280px;padding:24px 22px}
+  .slat__photo{object-position:65% center}
+  .slat::before{background:linear-gradient(90deg,rgba(4,4,13,.75),rgba(4,4,13,.14)),linear-gradient(0deg,rgba(4,4,13,.8),transparent 90%)}
+  .slat__t{font-size:22px}
+  .slat__d{width:92%;max-width:38ch;min-height:0}
+}
+@media (prefers-reduced-motion:reduce){.slat__photo{transition:none;transform:none!important}}
 
 /* ═══ 6. УСЛУГИ ═════════════════════════════════════════════════════════ */
 .srv__grid{display:grid;gap:clamp(24px,3.4vw,64px);

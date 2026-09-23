@@ -184,36 +184,6 @@ function countIn(root) {
 }
 function fmt(v) { return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
 
-/* ── гармошка «с кем работаем» ──────────────────────────────────────── */
-var slats = $$('.slat'), openSlatEl = document.querySelector('.slat.is-open');
-var pendingSlat = null, slatRaf = 0, slatMotionTimer = 0;
-function openSlat(el) {
-  if (!el || el === openSlatEl) return;
-  openSlatEl = el;
-  slats.forEach(function (s) { s.classList.toggle('is-open', s === el); });
-  /* Пока колонки меняют ширину, сцена чуть снижает внутреннее разрешение.
-     Это не меняет дизайн, но не позволяет WebGL соревноваться с layout на
-     основном потоке в самый чувствительный момент перехода. */
-  if (window.__vakAudienceMotion) window.__vakAudienceMotion(true);
-  clearTimeout(slatMotionTimer);
-  slatMotionTimer = setTimeout(function () {
-    if (window.__vakAudienceMotion) window.__vakAudienceMotion(false);
-  }, 540);
-}
-function queueSlat(el) {
-  pendingSlat = el;
-  if (slatRaf) return;
-  slatRaf = requestAnimationFrame(function () {
-    slatRaf = 0;
-    openSlat(pendingSlat);
-  });
-}
-slats.forEach(function (s) {
-  s.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') queueSlat(s); });
-  s.addEventListener('click', function () { openSlat(s); });
-  s.addEventListener('focus', function () { openSlat(s); });
-});
-
 /* ── услуги ─────────────────────────────────────────────────────────── */
 var SRV = [
   { i: '01', href: '/strategy/',
