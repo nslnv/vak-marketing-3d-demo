@@ -479,7 +479,7 @@
 /* Symbol-only marks carry the company name; a dark symbol sits on a light tile. */
 .sp-logo--mark{gap:10px;align-content:center}
 .sp-logo--mark img{max-height:46px}
-.sp-logo--tile img{width:46px;height:46px;border-radius:11px;object-fit:cover}
+.sp-logo.sp-logo--tile img{width:46px;height:46px;max-height:none;border-radius:11px;object-fit:cover}
 .sp-logo__name{position:relative;z-index:1;color:var(--ink-2);font-size:13px;font-weight:500;letter-spacing:-.005em;line-height:1.2;text-align:center}
 
 /* ---------- Final CTA -------------------------------------------------- */

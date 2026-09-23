@@ -348,26 +348,26 @@ var SERVICES = {
   localization: {
     index:'06', art:'/assets/img/services/3d/localization-object.jpg',
     ru:{
-      meta:{ title:'Translation & Localization Services — VAK Marketing', desc:'Перевод и локализация материалов для Crypto, FinTech, iGaming, Web3 и образовательных проектов.' },
+      meta:{ title:'Перевод и локализация — VAK Marketing', desc:'Перевод и локализация для международных проектов: контент, продукт, коммуникации и документы с сохранением смысла и тональности.' },
       crumb:'Translation & Localization',
-      hero:{ title:'Перевод и локализация для международных проектов', lead:'Переводим не слова, а смысл бизнеса. Адаптируем материалы под язык, рынок и ожидания аудитории, сохраняя точность, тональность и экспертность бренда. Работаем с образовательными и юридическими международными организациями, понимаем терминологию и контекст продукта с учётом особенностей вашей отрасли.', cta:'Заказать перевод', facts:[{value:'50 000+',label:'выполненных заказов'},{value:'10+',label:'языковых комбинаций'}] },
+      hero:{ title:'Переводим не слова, а смысл бизнеса', lead:'Адаптируем материалы под язык, рынок и ожидания аудитории, сохраняя точность, тональность и экспертность бренда. Работаем с образовательными и юридическими международными организациями, понимаем терминологию и контекст продукта с учётом особенностей вашей отрасли.', cta:'Заказать перевод', facts:[{value:'50 000+',label:'выполненных заказов'},{value:'10+',label:'языковых комбинаций'}] },
       proof:{ label:'Почему выбирают нас', title:'Точность там, где цена ошибки высока', note:'Смысл материала, тональность бренда и отраслевые термины должны оставаться целыми и в новом языке.', items:[
         ['Сложные отрасли','8+ лет работы с текстами, где стандартного языкового знания недостаточно для точного результата.'],
         ['Условия под задачу','Гибко согласуем формат, объём и условия сотрудничества; для постоянных клиентов предусмотрены специальные условия.'],
         ['Срочные задачи','Берём срочные заказы от двух часов, если объём и язык позволяют выдержать контроль качества.'],
-        ['Профильный контекст','Blockchain, финансы, право и IT переводятся с пониманием предмета, а не через буквальную подстановку.']
+        ['Профильный контекст','Право, образование, финансы и IT переводим с пониманием предмета, а не буквальной подстановкой.']
       ]},
       scope:{ label:'Материалы и документы', title:'Что можно передать в работу', note:'Подготовим материал для международного рынка, внутреннего оборота или конкретного продукта — с нужным форматом на выходе.', items:[
         'Сайты и лендинги','Презентации, pitch decks и whitepapers','Статьи, пресс-релизы и PR-материалы','Юридические и нотариальные документы','Договоры и корпоративная документация','Дипломы, аттестаты, транскрипты и сертификаты','Приложения и продуктовые интерфейсы — UI/UX-локализация','Маркетинговые и рекламные материалы'
       ]},
-      diagram:{ label:'Контур локализации', title:'Смысл должен выдержать новый рынок', note:'Материал проходит через перевод, адаптацию рынка и контроль тона — так он остаётся рабочим, а не просто понятным.', flow:'localization-relay', layout:'localization', core:['Точный\nсмысл','в новом языке и контексте'], items:[
-        ['Материал','Задача, аудитория и исходный формат'],['Перевод','Терминология и точная передача содержания'],['Адаптация рынка','Локальные реалии, сценарии использования и ожидания аудитории'],['Смысл и тон','Голос бренда, интонация и смысловые акценты'],['Готовый результат','Вычитка, формат и материал, готовый к работе']
+      diagram:{ label:'Контур локализации', title:'Смысл должен выдержать новый рынок', note:'Исходный текст, терминология, перевод и проверка работают как единая передача смысла.', items:[
+        ['Исходный материал','Задача материала, аудитория и исходный формат'],['Перевод','Язык, который сохраняет смысл, а не кальку'],['Адаптация под рынок','Подстройка под особенности целевого рынка'],['Сохранение смысла и тональности','Голос бренда, интонация и акценты'],['Готовый материал для аудитории','Понятный, точный и готовый к работе текст']
       ]},
-      sectors:{ label:'Ниши и направления', title:'Материалы, которые адаптируем под рынок', note:'До начала работы сверяем задачу, исходный контекст и требования к стилю. Это важнее любого шаблонного глоссария.', items:[
-        ['Контент','Статьи, лендинги, презентации, PR-материалы, медиа-тексты, пресс-релизы и интервью.'],
-        ['Продукт','Локализация интерфейса, FAQ, документация, инструкции и продуктовые материалы.'],
-        ['Коммуникации','Рекламные сообщения, материалы для партнёров, коммерческие предложения и презентационные материалы.'],
-        ['Документы для малого бизнеса и частных клиентов','Дипломы, аттестаты, медицинские справки, банковские выписки, инвойсы, согласия, договоры и юридические документы.']
+      sectors:{ label:'Ниши и направления', title:'Материалы, которые адаптируем под рынок', note:'До начала работы сверяем задачу, исходный контекст и требования к стилю. Это важнее любого шаблонного глоссария.', groups:[
+        ['Контент',['Статьи','Лендинги','Презентации','PR-материалы','Медиа-тексты','Пресс-релизы','Интервью']],
+        ['Продукт',['Локализация интерфейса','FAQ','Документация','Инструкции','Продуктовые материалы']],
+        ['Коммуникации',['Рекламные сообщения','Материалы для партнёров','Коммерческие предложения','Презентационные материалы']],
+        ['Документы для малого бизнеса и частных клиентов',['Дипломы','Аттестаты','Медицинские справки','Банковские выписки','Инвойсы','Согласия','Договоры','Юридические документы']]
       ]},
       pricing:{ label:'Условия сотрудничества', title:'Условия под задачу, а не прайс из шаблона', note:'Гибкие условия сотрудничества и специальные условия для постоянных клиентов. Перед стартом подтверждаем объём, формат, направление и срок.', rows:[['Языковая пара','Подбираем специалиста под язык и отрасль'],['Формат материала','Сохраняем нужную структуру, вёрстку и способ сдачи'],['Срок','Согласуем реальный срок с обязательной проверкой качества']], notes:['Срочные задачи обсуждаем отдельно — только если это не снижает качество.','Для регулярных объёмов формируем понятный рабочий процесс и единые условия.'] },
       process:{ label:'Как работаем', title:'От документа к готовому материалу', items:[
@@ -377,30 +377,30 @@ var SERVICES = {
         ['Проверка','Проводим вычитку и контроль терминологии.'],
         ['Сдача','Передаём готовый материал в нужном формате; срочные заказы обсуждаем отдельно.']
       ]},
-      trust:{ title:'Проекты и отрасли, с которыми работали', note:'Международные blockchain-компании, образовательные, gaming- и IT-проекты. Показываем только марки с доступными оригинальными активами.', logos:['ethereum','huobi','tornado','coinstore','zenex','ghs'] },
+      trust:{ title:'Проекты и отрасли, с которыми работали', note:'Международные технологические, образовательные, gaming- и IT-проекты.', logos:['ethereum','huobi','tornado','coinstore','zenex','ghs'] },
       cta:{ title:'Рассчитаем перевод под ваш материал', text:'Пришлите документ или опишите задачу. Подберём специалиста с нужной экспертизой и уточним срок, формат и стоимость.', button:'Отправить заявку', success:'Спасибо. Запрос принят — вернёмся с ответом.' }
     },
     en:{
-      meta:{ title:'Translation and Localization Services — VAK Marketing', desc:'Translation and localisation for Crypto, FinTech, iGaming, Web3 and education projects.' },
+      meta:{ title:'Translation and localisation — VAK Marketing', desc:'Translation and localisation for international projects: content, product, communications and documents, with meaning and tone preserved.' },
       crumb:'Translation and localisation',
-      hero:{ title:'Translation and localisation for Crypto, FinTech, iGaming, Web3 and education projects', lead:'We work with industry terminology and market context; we do not simply move words from one language to another.', cta:'Request a translation', facts:[{value:'50,000+',label:'completed orders'},{value:'10+',label:'language combinations'}] },
+      hero:{ title:'We translate business meaning, not just words', lead:'We adapt materials to the language, market and audience expectations while keeping the brand’s accuracy, tone and expertise. We work with international education and legal organisations and understand product terminology and context in your sector.', cta:'Request a translation', facts:[{value:'50,000+',label:'completed orders'},{value:'10+',label:'language combinations'}] },
       proof:{ label:'Why clients choose us', title:'Accuracy where the cost of error is high', note:'The material’s meaning, brand voice and specialist terms must remain intact in the new language.', items:[
         ['Complex sectors','8+ years working with texts where language knowledge alone is not enough for an accurate outcome.'],
         ['Terms around the task','We agree format, volume and working conditions around the material, with special terms for ongoing clients.'],
         ['Urgent tasks','We accept urgent orders from two hours when volume and language allow a quality-control pass.'],
-        ['Subject context','Blockchain, finance, law and IT are translated with subject knowledge, not literal substitution.']
+        ['Subject context','Law, education, finance and IT are translated with subject knowledge, not literal substitution.']
       ]},
       scope:{ label:'Materials and documents', title:'What you can send to us', note:'We prepare material for an international market, internal use or a specific product, in the format needed at handover.', items:[
         'Websites and landing pages','Presentations, pitch decks and white papers','Articles, press releases and PR material','Legal and notarial documents','Contracts and corporate documentation','Diplomas, transcripts, certificates and educational documents','Applications and product interfaces — UI/UX localisation','Marketing and advertising materials'
       ]},
-      diagram:{ label:'Localisation system', title:'Meaning must survive a new market', note:'The material moves through translation, market adaptation and a tone check, so it remains useful rather than merely understandable.', flow:'localization-relay', layout:'localization', core:['Accurate\nmeaning','in a new language and context'], items:[
-        ['Material','Its purpose, audience and source format'],['Translation','Terms and an accurate transfer of meaning'],['Market adaptation','Local realities, usage scenarios and audience expectations'],['Meaning and tone','Brand voice, tone and the intended emphasis'],['Ready result','Editing, format and a material ready for use']
+      diagram:{ label:'Localisation system', title:'Meaning must survive a new market', note:'Source text, terminology, translation and review work as one transfer of meaning.', items:[
+        ['Source material','Its purpose, audience and source format'],['Translation','Language that carries meaning, not a calque'],['Market adaptation','Fitted to the specifics of the target market'],['Meaning and tone preserved','Brand voice, tone and emphasis'],['Ready material for the audience','Clear, accurate text ready for use']
       ]},
-      sectors:{ label:'Materials and directions', title:'Materials we adapt for a market', note:'Before work begins, we confirm the task, source context and style requirements. That matters more than a generic glossary.', items:[
-        ['Content','Articles, landing pages, presentations, PR material, media copy, press releases and interviews.'],
-        ['Product','Interface localisation, FAQs, documentation, instructions and product materials.'],
-        ['Communications','Advertising messages, partner materials, commercial proposals and presentation materials.'],
-        ['Documents for SMBs and private clients','Diplomas, certificates, medical letters, bank statements, invoices, consents, contracts and legal documents.']
+      sectors:{ label:'Materials and directions', title:'Materials we adapt for a market', note:'Before work begins, we confirm the task, source context and style requirements. That matters more than a generic glossary.', groups:[
+        ['Content',['Articles','Landing pages','Presentations','PR material','Media copy','Press releases','Interviews']],
+        ['Product',['Interface localisation','FAQs','Documentation','Instructions','Product materials']],
+        ['Communications',['Advertising messages','Partner materials','Commercial proposals','Presentation materials']],
+        ['Documents for SMBs and private clients',['Diplomas','School certificates','Medical letters','Bank statements','Invoices','Consents','Contracts','Legal documents']]
       ]},
       pricing:{ label:'Working terms', title:'Terms around the task, not a stock price list', note:'Flexible working terms and special conditions for ongoing clients. Before starting, we confirm volume, format, direction and timing.', rows:[['Language pair','We select a specialist for the language and sector'],['Material format','We retain the required structure, layout and handover format'],['Timing','We agree a realistic timeframe with a quality-control pass']], notes:['Urgent work is scoped separately and only when it does not compromise quality.','For recurring volumes, we establish one clear delivery process and terms.'] },
       process:{ label:'How we work', title:'From document to a finished material', items:[
@@ -410,7 +410,7 @@ var SERVICES = {
         ['Review','We edit and check terminology.'],
         ['Handover','We deliver the finished material in the required format; urgent orders are scoped separately.']
       ]},
-      trust:{ title:'Projects and sectors we have worked with', note:'International blockchain companies, education, gaming and IT projects. We show only brands for which original assets are available.', logos:['ethereum','huobi','tornado','coinstore','zenex','ghs'] },
+      trust:{ title:'Projects and sectors we have worked with', note:'International technology, education, gaming and IT projects.', logos:['ethereum','huobi','tornado','coinstore','zenex','ghs'] },
       cta:{ title:'Let’s estimate the translation for your material', text:'Send the document or describe the task. We will match the right specialist and confirm timing, format and cost.', button:'Send request', success:'Thank you. Your request has been received.' }
     }
   }
@@ -545,14 +545,13 @@ function serviceFlowCanvas(flow) {
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
-  var visualDetails = isStrategy || key === 'linkedin' || key === 'pr' || key === 'seo' ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + '<h1 class="sp-title">' + renderHeroTitle(d.hero.title) + '</h1>'
     + '<p class="sp-lead">' + esc(d.hero.lead) + '</p>'
     + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a></div>'
     + '</div>'
-    + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s"><img class="sp-hero__object" src="' + service.art + '" alt="" aria-hidden="true" fetchpriority="high">' + visualDetails + '</div>'
+    + '<div class="' + visualClass + '" data-sp-reveal style="--sp-delay:.10s"><img class="sp-hero__object" src="' + service.art + '" alt="" aria-hidden="true" fetchpriority="high"></div>'
     + '</div></section>';
 }
 function renderStrategyProof(section) {
@@ -672,6 +671,28 @@ function renderSeoSteps(section) {
       return '<li style="--sp-item-delay:' + (i * .09) + 's"><span class="sp-seo-steps__ring" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></section>';
 }
+// 5.4: five points on one line, colours shifting along it, no indices.
+function renderLocalizationRelay(section) {
+  return '<section class="sp-section sp-loc-relay-section"><div class="wrap">' + renderHead(section)
+    + '<ol class="sp-loc-relay" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
+      return '<li style="--sp-item-delay:' + (i * .08) + 's;--relay-step:' + i + '"><i aria-hidden="true"></i><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    }).join('') + '</ol></div></section>';
+}
+// 5.3: four groups with the full lists from the brief; the group points move
+// through the page palette instead of repeating one colour.
+function renderLocalizationGroups(section) {
+  return '<section class="sp-section sp-loc-groups-section"><div class="wrap">' + renderHead(section)
+    + '<div class="sp-loc-groups" data-sp-reveal style="--sp-delay:.05s">' + section.groups.map(function (group, i) {
+      return '<article class="sp-loc-group" style="--sp-item-delay:' + (i * .075) + 's"><h3>' + esc(group[0]) + '</h3><ul>' + group[1].map(function (entry) { return '<li>' + esc(entry) + '</li>'; }).join('') + '</ul></article>';
+    }).join('') + '</div></div></section>';
+}
+// Five short working steps in one compact row.
+function renderLocalizationSteps(section) {
+  return '<section class="sp-section sp-loc-steps-section"><div class="wrap">' + renderHead(section)
+    + '<ol class="sp-loc-steps" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
+      return '<li style="--sp-item-delay:' + (i * .07) + 's"><span aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    }).join('') + '</ol></div></section>';
+}
 function renderLinearSequence(section, modifier) {
   return '<section class="sp-section sp-linear-sequence-section sp-linear-sequence-section--' + modifier + '"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-linear-sequence sp-linear-sequence--' + modifier + '" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
@@ -683,19 +704,21 @@ function renderDiagram(section) {
   if (key === 'linkedin') return renderLinkedinIcpLine(section);
   if (key === 'pr') return renderPrChain(section);
   if (key === 'seo') return renderSeoSteps(section);
-  if (key === 'localization') return renderLinearSequence(section, 'localization');
+  if (key === 'localization') return renderLocalizationRelay(section);
   return renderServiceSystem(section);
 }
 function renderProcess(section) {
   if (isStrategy) return renderStrategyProcess(section);
   if (key === 'linkedin') return renderLinkedinProcess(section);
   if (key === 'pr') return renderPrSteps(section);
+  if (key === 'localization') return renderLocalizationSteps(section);
   return '<section class="sp-section sp-process-section sp-process-section--' + key + '"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-process" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
       return '<li class="sp-process__item" style="--sp-item-delay:' + (i * .075) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></section>';
 }
 function renderSectors(section, variant) {
+  if (section.groups) return renderLocalizationGroups(section);
   if (isStrategy && !variant) return renderStrategyGate(section);
   var type = variant || 'fields';
   return '<section class="sp-section sp-sector-section sp-sector-section--' + type + ' sp-sector-section--' + key + '"><div class="wrap">' + renderHead(section)
@@ -761,7 +784,7 @@ function renderPrCasesWidget() {
 }
 function renderTrust(section) {
   return '<section class="sp-trust sp-trust--' + key + (isStrategy ? ' sp-trust--strategy' : '') + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
-    + '<div class="sp-logo-grid sp-logo-grid--free" style="--logo-columns:' + Math.min(5, section.logos.length) + ';--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, false); }).join('') + '</div></div></section>';
+    + '<div class="sp-logo-grid sp-logo-grid--free" style="--logo-columns:' + (section.logos.length <= 6 ? section.logos.length : 5) + ';--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, false); }).join('') + '</div></div></section>';
 }
 function renderCta(section) {
   return '<section class="sp-cta sp-cta--' + key + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'
