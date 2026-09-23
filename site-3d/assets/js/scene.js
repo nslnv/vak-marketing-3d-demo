@@ -299,27 +299,44 @@ function boot(canvas) {
     });
   }
 
-  /* металл: отражение окружения плюс насечка. Насечка честная — она
-     возмущает нормаль по касательной, поэтому блики по ней бегут. */
+  /* Металл как у дорогой оптики: тёмная анодированная основа, а цвет
+     бренда живёт в отражениях и бликах, не в заливке. Отражение студии
+     частично обесцвечено, поэтому корпус не превращается в розово-голубой
+     леденец. Точёные кольца дают анизотропный блик: полоса света тянется
+     вдоль оси и бежит по кругу при повороте. Накатка ромбовидная, как на
+     настоящем кольце фокуса, и гаснет к среднему тону, когда её шаг
+     становится мельче пикселя, — отсюда нет ряби «штрихкода». */
   const metalFrag = `
     uniform samplerCube uEnv;
     uniform vec3 uBase, uSpec;
     uniform float uAlpha, uKnurl, uRough, uTicks;
     varying vec3 vN; varying vec3 vW; varying vec3 vP; varying vec3 vT;
     void main(){
-      vec3 N = normalize(vN);
-      if (!gl_FrontFacing) N = -N;              // изнутри тубуса грани смотрят на нас
-      float groove = 1.0;
+      vec3 Ng = normalize(vN);
+      if (!gl_FrontFacing) Ng = -Ng;            // изнутри тубуса грани смотрят на нас
+      vec3 N = Ng;
+      vec3 T = normalize(vT);
+      vec3 A = normalize(cross(Ng, T));         // ось кольца в мировых координатах
       float ang = atan(vP.z, vP.x);
+      float rad = max(length(vP.xz), 1e-3);
+      // сколько радиан угла приходится на один пиксель: по нему гасим мелкий рисунок
+      float dAng = length(fwidth(vP.xz)) / rad;
+      float occl = 1.0;
       if (uKnurl > 0.5) {
-        float g = sin(ang * uKnurl);
-        N = normalize(N + vT * g * 1.25);
-        groove = 0.38 + 0.62 * abs(g);
+        float ka = uKnurl / rad;                // тот же шаг вдоль оси, что и по кругу
+        float p1 = ang * uKnurl + vP.y * ka;
+        float p2 = ang * uKnurl - vP.y * ka;
+        float aa = 1.0 - smoothstep(0.55, 1.35, dAng * uKnurl);
+        float c1 = cos(p1), c2 = cos(p2);
+        N = normalize(Ng + (T * (c1 + c2) + A * (c1 - c2)) * 0.55 * aa);
+        float pyramid = abs(sin(p1 * 0.5) * sin(p2 * 0.5));
+        occl = mix(0.62, 0.40 + 0.60 * sqrt(pyramid), aa);
       } else {
-        // микрошлифовка по окружности: даёт точёному металлу живой отблеск
+        // микрошлифовка по окружности, с тем же затуханием на расстоянии
         float br = sin(ang * 84.0) * 0.6 + sin(ang * 137.0) * 0.4;
-        N = normalize(N + vT * br * 0.035);
-        groove = 0.94 + 0.06 * br;
+        float aa = 1.0 - smoothstep(0.5, 1.2, dAng * 137.0);
+        N = normalize(Ng + T * br * 0.03 * aa);
+        occl = 0.95 + 0.05 * br * aa;
       }
       // гравированная шкала: узкие штрихи, каждый пятый ярче
       float tick = 0.0;
@@ -327,20 +344,34 @@ function boot(canvas) {
         float idx = ang / 6.2831853 * uTicks;
         float f = abs(fract(idx) - 0.5) * 2.0;
         float major = smoothstep(0.72, 0.88, abs(fract(idx / 5.0) - 0.5) * 2.0);
-        tick = smoothstep(0.84, 0.97, f) * (0.55 + 0.85 * major);
+        float taa = 1.0 - smoothstep(0.35, 0.9, dAng * uTicks);
+        tick = smoothstep(0.84, 0.97, f) * (0.55 + 0.85 * major) * taa;
       }
 
       vec3 V = normalize(vW - cameraPosition);
       float ndv = clamp(dot(N, -V), 0.0, 1.0);
       vec3 R = reflect(V, N);
-      vec3 refl = textureCube(uEnv, R).rgb;
+      vec3 env = textureCube(uEnv, R).rgb;
+      float lum = dot(env, vec3(0.299, 0.587, 0.114));
+      env = mix(vec3(lum), env, 0.5);           // студия отражается, но не красит корпус целиком
+      float fres = pow(1.0 - ndv, 5.0);
+      float gloss = 1.0 - uRough * 0.55;
+      vec3 col = uBase * 0.85 + env * mix(0.15, 1.0, fres) * gloss;
 
-      vec3 col = mix(uBase, refl * 1.25, (0.42 + 0.5 * pow(1.0 - ndv, 2.2)) * (1.0 - uRough * 0.45));
-      col += uSpec * pow(max(dot(R, normalize(vec3(-0.25, 0.78, 0.60))), 0.0), 60.0) * 2.4;
-      col += uSpec * pow(max(dot(R, normalize(vec3(0.70, 0.30, -0.62))), 0.0), 22.0) * 0.9;
-      col += uSpec * pow(1.0 - ndv, 3.2) * 0.5;
-      col *= groove;
-      col += uSpec * tick * 1.25;
+      // анизотропный блик точёного металла (Kajiya-Kay по касательной кольца)
+      vec3 Lk = normalize(vec3(-0.25, 0.78, 0.60));
+      vec3 Lr = normalize(vec3(0.70, 0.30, -0.62));
+      vec3 Hk = normalize(Lk - V), Hr = normalize(Lr - V);
+      float tk = dot(T, Hk), tr = dot(T, Hr);
+      float sk = sqrt(max(0.0, 1.0 - tk * tk)), sr = sqrt(max(0.0, 1.0 - tr * tr));
+      float lit = smoothstep(-0.05, 0.35, dot(N, Lk));
+      col += uSpec * (pow(sk, 140.0) * 2.6 + pow(sk, 18.0) * 0.22) * lit * gloss;
+      col += uSpec * pow(sr, 90.0) * 0.55 * smoothstep(-0.05, 0.35, dot(N, Lr)) * gloss;
+      // точечный блик главного софтбокса и светлая кромка по контуру
+      col += uSpec * pow(max(dot(R, Lk), 0.0), 90.0) * 1.6;
+      col += uSpec * fres * 0.42;
+      col *= occl;
+      col += uSpec * tick * 1.35;
 
       gl_FragColor = vec4(col, uAlpha);
       #include <tonemapping_fragment>
@@ -352,7 +383,7 @@ function boot(canvas) {
     o = o || {};
     const u = {
       uEnv:  { value: ENV },
-      uBase: { value: new THREE.Color(o.base || 0x2b2440) },
+      uBase: { value: new THREE.Color(o.base || 0x17131f) },
       uSpec: { value: new THREE.Color(o.spec || 0xd7c9ff) },
       uKnurl:{ value: o.knurl || 0 },
       uTicks:{ value: o.ticks || 0 },
@@ -369,10 +400,10 @@ function boot(canvas) {
 
   const D = THREE.DoubleSide;
   const matBody  = metal({ side: D });
-  const matRim   = metal({ base: 0x362c52, spec: 0xe4d8ff, side: D });
-  const matKnurl = metal({ base: 0x241e38, knurl: 46, rough: 0.25, side: D });
-  const matBlade = metal({ base: 0x1d1830, spec: 0xd6c6ff, rough: 0.30, side: D });
-  const matScale = metal({ base: 0x241d3a, spec: 0xe6dcff, ticks: 60, rough: 0.30, side: D });
+  const matRim   = metal({ base: 0x1f1a2c, spec: 0xeee6ff, side: D });
+  const matKnurl = metal({ base: 0x14111c, knurl: 72, rough: 0.30, side: D });
+  const matBlade = metal({ base: 0x100d18, spec: 0xd6c6ff, rough: 0.30, side: D });
+  const matScale = metal({ base: 0x15121e, spec: 0xeee6ff, ticks: 60, rough: 0.30, side: D });
   const matDark  = metal({ base: 0x0c0a15, spec: 0x6c5ba8, rough: 0.92, side: D });
   let markRef = null;
 
@@ -487,7 +518,7 @@ function boot(canvas) {
       });
       return nodes;
     };
-    knurlRing(0.94, 0.34, -1.94, metal({ base: 0x1e1830, knurl: 44, rough: 0.30, side: D }))
+    knurlRing(0.94, 0.34, -1.94, metal({ base: 0x13101b, knurl: 58, rough: 0.34, side: D }))
       .forEach(node => stageAboutNode('inlet', node));
     knurlRing(1.20, 0.50, -0.30, matKnurl)
       .forEach(node => stageAboutNode('comms', node));
@@ -1954,7 +1985,7 @@ function boot(canvas) {
     const displayOpacity = K.op * (1 - aboutPoseMix) + lockedAboutOpacity * aboutPoseMix;
     const op = displayOpacity * ok * aboutRigVisibility;
     for (const u of glassUniforms) { u.uAlpha.value = op; u.uGain.value = 0.85 + op * 0.40; }
-    for (const u of metalUniforms) u.uAlpha.value = op * 0.92;
+    for (const u of metalUniforms) u.uAlpha.value = op * 0.985;
     for (const u of opticalUniforms) {
       u.uT.value = time;
       u.uA.value = op;
