@@ -748,7 +748,7 @@ function boot(canvas) {
   }
   /* На desktop зазор чуть шире: каждая часть читается отдельно, но вся
      раскладка всё ещё остаётся единым прибором в пределах сцены About. */
-  const desktopAssemblyTravel = layoutAlongOpticalAxis(1.60);
+  const desktopAssemblyTravel = layoutAlongOpticalAxis(0.95);
   /* Телефон не получает «игрушечную» версию прибора. Детали раскрываются
      заметно, но остаются в спокойном осевом коридоре самой сцены About. */
   const mobileAssemblyTravel = layoutAlongOpticalAxis(0.30);
@@ -762,8 +762,8 @@ function boot(canvas) {
     mobileTravel: mobileAssemblyTravel[i],
     tabletTravel: tabletAssemblyTravel[i],
     landscapeTravel: landscapeAssemblyTravel[i],
-    /* Лёгкий поворот ловит свет на кромках, но не нарушает ровную ось. */
-    turn: [-0.018, -0.010, 0, 0.010, 0.018][i],
+    // Open and close on the optical axis without a decorative twist.
+    turn: 0,
     pitch: 0,
     yaw: 0
   }));
@@ -791,8 +791,8 @@ function boot(canvas) {
     }
     return { left, right, width: right - left, height: top - bottom };
   }
-  function frameOpenAssembly(mix) {
-    if (mix <= 0) return;
+  function frameOpenAssembly(mix, centerMix = mix) {
+    if (mix <= 0 && centerMix <= 0) return;
     camera.updateMatrixWorld(true);
     let box = measureAboutFrame();
     const fit = Math.min(1.08, (Math.min(W * .86, 1320) / W * 2) / box.width,
@@ -802,7 +802,7 @@ function boot(canvas) {
     // Centre the visible silhouette, not the rig origin or the left text column.
     frameOrigin.copy(rig.position).project(camera);
     frameTarget.copy(frameOrigin);
-    frameTarget.x -= (box.left + box.right) * .5 * mix;
+    frameTarget.x -= (box.left + box.right) * .5 * centerMix;
     frameTarget.unproject(camera); frameOrigin.unproject(camera);
     rig.position.add(frameTarget.sub(frameOrigin));
   }
@@ -1184,7 +1184,7 @@ function boot(canvas) {
     /* Пока пять узлов садятся обратно, сам прибор почти неподвижен: это
        даёт глазу время увидеть именно механическую сборку, без одновременного
        зума и резкого уноса вправо. */
-    { t: 0.127, sec: 'about', aboutSlot: 2, p: 0.9100, cz: 7.5, cy: 0.00, x: -1.92, y: -0.07, z: -0.08, rx: 0.000, ry: 0.78, s: 0.54, sp: 0.86, br: 0.51, op: 0.72, ro:  0.000 },
+    { t: 0.127, sec: 'about', aboutSlot: 2, p: 0.9100, cz: 7.5, cy: 0.00, x: -1.92, y: -0.05, z: -0.05, rx: 0.000, ry: 0.76, s: 0.56, sp: 0.84, br: 0.54, op: 0.78, ro:  0.000 },
     /* После точной сборки объект медленно сжимается и дрейфует по одной
        диагонали. К моменту Figures он уже достаточно мал и правее метрик —
        никакого броска за край и никакого прохода через текст. */
@@ -1243,7 +1243,7 @@ function boot(canvas) {
        только для обычной прокрутки: при переходе по #about ракурс уже ровный. */
     { cz:7.5, cy:0, x:-1.92, y:-.10, z:-2.30, rx:0, ry:.64, s:.30, sp:.80, br:.52, op:.68, ro:0 },
     { cz:7.5, cy:0, x:-1.92, y:-.05, z:-.05, rx:0, ry:.76, s:.56, sp:.84, br:.54, op:.78, ro:0 },
-    { cz:7.5, cy:0, x:-1.92, y:-.07, z:-.08, rx:0, ry:.78, s:.54, sp:.86, br:.51, op:.72, ro:0 },
+    { cz:7.5, cy:0, x:-1.92, y:-.05, z:-.05, rx:0, ry:.76, s:.56, sp:.84, br:.54, op:.78, ro:0 },
     { cz:7.60, cy:-.01, x:.13, y:-.81, z:-.37, rx:-.13, ry:.92, s:.39, sp:.99, br:.44, op:.34, ro:-.004 }
   ];
   /* Отдельная мобильная постановка. Координаты ведут модель ровно через
@@ -1689,10 +1689,9 @@ function boot(canvas) {
     const aboutLeave = Math.min(0.94, Math.max(aboutArrive + 0.24, aboutBeats[2] || 0.73));
     const aboutCenterHold = compactAbout ? 0.39
       : Math.min(aboutLeave - 0.06, Math.max(aboutArrive + 0.10, aboutNamedBeats.centerHold || aboutArrive + 0.20));
-    /* Раскрытие и сборка — одна механическая фраза, прочитанная в обе
-       стороны. Поэтому у них одно и то же окно scroll-длины, одинаковые
-       каскад и quintic-профиль: обратный проход не «догоняет» раскрытие и
-       не превращает центральную паузу в ожидание. */
+    /* One shared opening signal: every module travels together, so the
+       front crown cannot pull away while the rear modules have stopped.
+       Quintic easing keeps both ends still and makes reverse scroll exact. */
     const openSpan = Math.max(0.06, aboutCenterHold - aboutArrive);
     const closeSpan = Math.max(0.06, aboutLeave - aboutCenterHold);
     const moduleGaps = Math.max(1, aboutAssemblyMotion.length - 1);
@@ -1701,8 +1700,8 @@ function boot(canvas) {
        сохранён безопасный короткий диапазон до fade сцены. */
     const cascadeWindow = compactAbout ? 0.208
       : Math.max(0.06, Math.min(openSpan, closeSpan) * 0.84);
-    const cascadeDuration = compactAbout ? 0.120 : cascadeWindow * 0.64;
-    const cascadeStep = (cascadeWindow - cascadeDuration) / moduleGaps;
+    const cascadeDuration = cascadeWindow;
+    const cascadeStep = 0;
     const openStart = compactAbout ? 0.09
       : aboutArrive + (openSpan - cascadeWindow) * 0.50;
     const closeStart = compactAbout ? 0.33
@@ -1712,8 +1711,7 @@ function boot(canvas) {
     for (let i = 0; i < aboutAssemblyMotion.length; i++) {
       const openFrom = openStart + i * cascadeStep;
       const openTo = openFrom + cascadeDuration;
-      /* Обратная волна повторяет тот же темп и расстояние, но в зеркальном
-         порядке: от передней короны к заднему замку. */
+      // All joints close simultaneously, on the same path as opening.
       const closeFrom = closeStart + (moduleGaps - i) * cascadeStep;
       const closeTo = closeFrom + cascadeDuration;
       /* На телефоне та же реальная механика, только с более плотным,
@@ -1760,8 +1758,8 @@ function boot(canvas) {
        геометрическим якорям. */
     const aboutLabelRail = compactAbout ? 0
       : easeAbout(aboutProgress,
-        openStart + cascadeDuration + cascadeStep * moduleGaps * 0.675,
-        openStart + cascadeDuration + cascadeStep * moduleGaps * 1.075
+        openStart + cascadeDuration * 0.65,
+        openStart + cascadeDuration
       ) * (1 - easeAbout(aboutProgress,
         closeStart + cascadeDuration * 0.38,
         closeStart + cascadeDuration * 0.72
@@ -1930,9 +1928,11 @@ function boot(canvas) {
     );
     camera.lookAt(0, 0, 0);
     camera.rotateZ(cameraRo - vv * 0.010 * cameraFree);
-    // Smooth, reversible framing follows the same mechanical opening signal.
-    // The assembled arrival and onward flight keep their existing trajectory.
-    if (!compactAbout && !reduced) frameOpenAssembly(easeAbout(aboutOpen, 0, 1));
+    // Stay centred while closing, too: don't slide back to the left column.
+    // Release framing only after assembly, into the existing outbound flight.
+    const assemblyCenterPresence = easeAbout(aboutProgress, aboutArrive - 0.10, openStart)
+      * (1 - easeAbout(smoothAboutProgress, aboutAfterBeat, aboutAfterBeat + 0.12));
+    if (!compactAbout && !reduced) frameOpenAssembly(easeAbout(aboutOpen, 0, 1), assemblyCenterPresence);
     flare.quaternion.copy(camera.quaternion);   // блик всегда лицом к камере
     halo.quaternion.copy(camera.quaternion);
     if (aboutLabelVisibility > 0.002) {
