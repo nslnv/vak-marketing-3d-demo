@@ -1510,6 +1510,33 @@ function boot(canvas) {
      раскрытия она тихо уходит и не возвращается во время обратной сборки. */
   const aboutFlowLine = document.querySelector('.about__flow-line');
   let aboutFlowValue = -1;
+  /* Этапы — это группы модулей: Стратегия = Рынок + Позиция, Тактика =
+     Каналы + Контент, Оптимизация = Лиды, Результат = Результат. Луч идёт по
+     отрезкам между словами; слово загорается целиком, когда луч до него
+     дошёл, и вместе с ним загораются его модули. Всё от одного flow. */
+  const ABOUT_FLOW_BOUNDS = [0, 2 / 6, 4 / 6, 5 / 6, 1];
+  const ABOUT_STAGE_OF_MODULE = [0, 0, 1, 1, 2, 3];
+  function updateAboutFlowStages(flow) {
+    const words = aboutFlowLine.querySelectorAll('span');
+    const links = aboutFlowLine.querySelectorAll('i');
+    let active = 0;
+    for (let k = 0; k < ABOUT_FLOW_BOUNDS.length - 1; k++) if (flow >= ABOUT_FLOW_BOUNDS[k]) active = k;
+    const started = flow > 0.004;
+    words.forEach((word, k) => {
+      const state = !started ? 'next' : k < active ? 'done' : k === active ? (flow >= 1 ? 'done' : 'active') : 'next';
+      if (word.dataset.state !== state) word.dataset.state = state;
+    });
+    links.forEach((link, k) => {
+      const a = ABOUT_FLOW_BOUNDS[k], b = ABOUT_FLOW_BOUNDS[k + 1];
+      const fill = Math.min(1, Math.max(0, (flow - a) / (b - a)));
+      link.style.setProperty('--fill', fill.toFixed(3));
+    });
+    aboutModuleLabels.forEach((label, i) => {
+      const stage = ABOUT_STAGE_OF_MODULE[i] ?? 3;
+      const lit = started && (stage < active || (stage === active));
+      label.classList.toggle('is-lit', lit);
+    });
+  }
   let tuneAcc = 0, tuneN = 0;
 
   /* Критически задемпфированная пружина: доводит значение до цели без перелёта
@@ -1869,9 +1896,10 @@ function boot(canvas) {
       if (aboutFlowLine) {
         const flowSpan = Math.max(1e-4, closeStart + cascadeDuration - openStart);
         const flow = reduced ? 1 : Math.min(1, Math.max(0, (aboutProgress - openStart) / flowSpan));
-        if (Math.abs(flow - aboutFlowValue) > 0.002) {
+        if (Math.abs(flow - aboutFlowValue) > 0.002 || !aboutFlowLine.querySelector('span[data-state]')) {
           aboutFlowValue = flow;
           aboutFlowLine.style.setProperty('--flow', flow.toFixed(3));
+          updateAboutFlowStages(flow);
         }
       }
     }

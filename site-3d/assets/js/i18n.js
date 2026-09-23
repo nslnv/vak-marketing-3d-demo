@@ -37,7 +37,7 @@ var EN = {
   'about.module.short4':'Content','about.module.d4':'topics · SEO',
   'about.module.short5':'Leads','about.module.d5':'qualification · pipeline',
   'about.module.short6':'Result','about.module.d6':'partners · deals',
-  'about.flowline':'Strategy<i>—</i>Tactics<i>—</i>Optimisation<i>—</i>Result',
+  'about.flowline':'<span>Strategy</span><i aria-hidden="true"></i><span>Tactics</span><i aria-hidden="true"></i><span>Optimisation</span><i aria-hidden="true"></i><span>Result</span>',
   'about.flow.kicker':'OPERATING SYSTEM',
   'about.flow.t1':'Diagnosis','about.flow.d1':'market, goals, growth points',
   'about.flow.t2':'Positioning','about.flow.d2':'brand role and trust',
