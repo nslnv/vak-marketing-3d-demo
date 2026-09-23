@@ -155,15 +155,15 @@ var SERVICES = {
         ['Система вместо разовой кампании','Каждый контакт квалифицируется и передаётся в продажи по понятному правилу.']
       ]},
       scope:{ label:'Рабочая воронка', title:'Из страницы — в рабочий канал', note:'Собираем не поток шаблонных сообщений, а последовательность, в которой у каждого касания есть контекст и задача.', items:[
-        ['Основа','Страница компании, профили команды и рабочие аккаунты, которым можно доверять.'],['ICP','Сегментация по рынкам, ролям, задачам и сигналам готовности к диалогу.'],['Видимость','Контентные рубрики, регулярный постинг и рост релевантной сети контактов.'],['Диалог и sales','Персональный outreach, квалификация и понятная передача следующего шага в продажи.']
+        ['Основа','Страница компании и профили команды.'],['ICP','Рынки, роли и задачи нужных компаний.'],['Контент','Рубрики и материалы, которые раскрывают экспертизу.'],['Видимость','Регулярные публикации и релевантная сеть контактов.'],['Диалог','Персональный outreach с конкретным поводом.'],['Лиды','Квалификация ответов и следующий шаг с sales-командой.']
       ]},
       diagram:{ label:'Рабочая связка', title:'От ICP до sales-команды', note:'Все четыре элемента должны быть согласованы; иначе даже хороший outreach выглядит как спам.', flow:'linkedin-route', layout:'linkedin', core:['Квалифицированный\nдиалог','к разговору, где есть следующий шаг'], items:[
         ['ICP','Рынки, роли и сигналы готовности'],['Профиль','Страница и люди, которым доверяют'],['Диалог','Контент и персональное первое касание'],['Передача','Квалификация и следующий шаг в sales']
       ]},
-      process:{ label:'Как проходит работа', title:'Три этапа, из которых складывается канал', items:[
-        ['Подготовка','Аудитируем страницу и профили, определяем ICP, сегменты, аргументы и контентные рубрики.'],
-        ['Запуск','Собираем страницу и профили, запускаем регулярный контент, рост сети и точечный outreach.'],
-        ['Оптимизация','Квалифицируем ответы, передаём лиды в sales и корректируем сценарии по качеству диалогов.']
+      process:{ label:'Как проходит работа', title:'Понятный путь к квалифицированному диалогу', items:[
+        ['Подготовка',['Аудит','Анализ рынка','Анализ конкурентов','Разработка стратегии','Определение целевой аудитории']],
+        ['Запуск',['Упаковка профиля','Оформление страницы','Разработка контента','Outreach','Запуск гипотез','Настройка коммуникации']],
+        ['Оптимизация и поддержка',['Анализ ответов','Отчётность','Корректировка гипотез','Масштабирование','Поддержка коммуникации']]
       ]},
       sectors:{ label:'Кому особенно подходит', title:'Когда нужен прямой канал к рынку', note:'Особенно ценен для бизнесов, которым недостаточно массового охвата или закрыта часть рекламных площадок.', items:[
         ['FinTech и payments','Компании с регуляторными ограничениями и длинным циклом доверия.'],
@@ -187,15 +187,15 @@ var SERVICES = {
         ['A system, not a campaign','Every contact is qualified and passed to sales through a clear rule.']
       ]},
       scope:{ label:'Working funnel', title:'From a page to a working channel', note:'We build a sequence in which each touchpoint has context and a purpose, not a stream of stock messages.', items:[
-        ['Foundation','A company page, team profiles and working accounts that are worth trusting.'],['ICP','Segmentation by markets, roles, tasks and readiness signals.'],['Visibility','Content pillars, regular posting and a growing relevant contact network.'],['Conversation and sales','Personalised outreach, qualification and a clear handover of the next step to sales.']
+        ['Foundation','The company page and team profiles.'],['ICP','Markets, roles and needs of the right companies.'],['Content','Content pillars and material that demonstrate expertise.'],['Visibility','Regular publishing and a relevant network.'],['Conversation','Personal outreach with a specific reason to connect.'],['Leads','Qualified replies and a clear next step with sales.']
       ]},
       diagram:{ label:'Operating chain', title:'From ICP to sales', note:'All four elements must agree. Without that, even good outreach reads as spam.', flow:'linkedin-route', layout:'linkedin', core:['Qualified\nconversation','a conversation with a clear next step'], items:[
         ['ICP','Markets, roles and readiness signals'],['Profile','A page and people worth trusting'],['Conversation','Content and a personal first touch'],['Handover','Qualification and the next step with sales']
       ]},
-      process:{ label:'How we work', title:'Three stages that form a working channel', items:[
-        ['Preparation','We audit the page and profiles, define ICP, segments, proof points and content pillars.'],
-        ['Launch','We build the page and profiles, then start regular content, network growth and focused outreach.'],
-        ['Optimisation','We qualify replies, hand leads to sales and adjust scenarios according to conversation quality.']
+      process:{ label:'How we work', title:'A clear path to qualified conversations', items:[
+        ['Preparation',['Audit','Market analysis','Competitor analysis','Strategy development','Target audience definition']],
+        ['Launch',['Profile positioning','Company page setup','Content development','Outreach','Hypothesis testing','Communication setup']],
+        ['Optimisation and support',['Reply analysis','Reporting','Hypothesis refinement','Scaling','Ongoing communication support']]
       ]},
       sectors:{ label:'Especially relevant for', title:'When a direct route to market is needed', note:'It is particularly useful where mass reach is insufficient or advertising inventory is constrained.', items:[
         ['FinTech and payments','Companies operating under regulatory constraints and long trust cycles.'],
@@ -581,7 +581,7 @@ function serviceFlowCanvas(flow) {
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
-  var visualDetails = isStrategy ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
+  var visualDetails = isStrategy || key === 'linkedin' ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + '<h1 class="sp-title">' + renderHeroTitle(d.hero.title) + '</h1>'
@@ -674,16 +674,23 @@ function renderServiceSystem(section) {
     }).join('') + '</ol></div></div></section>';
 }
 function renderLinkedinFunnel(section) {
-  return '<section class="sp-section sp-linkedin-funnel-section"><div class="wrap"><div class="sp-linkedin-funnel__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
+  return '<section class="sp-section sp-linkedin-funnel-section"><div class="wrap sp-linkedin-funnel-layout"><div class="sp-linkedin-funnel__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
     + '<ol class="sp-linkedin-funnel" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
-      return '<li style="--sp-item-delay:' + (i * .09) + 's"><span>' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+      var left = 8 + i * 18, right = 292 - i * 18;
+      return '<li style="--sp-item-delay:' + (i * .07) + 's;--funnel-step:' + i + '"><div class="sp-linkedin-funnel__shape" aria-hidden="true"><svg viewBox="0 0 300 68" preserveAspectRatio="none"><path d="M' + left + ' 2 H' + right + ' L' + (right - 16) + ' 65 H' + (left + 16) + ' Z"/></svg><i></i></div><div class="sp-linkedin-funnel__copy"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></div></li>';
+    }).join('') + '</ol></div></section>';
+}
+function renderLinkedinProcess(section) {
+  return '<section class="sp-section sp-linkedin-process-section"><div class="wrap">' + renderHead(section)
+    + '<ol class="sp-linkedin-phases" data-sp-reveal>' + section.items.map(function (item, i) {
+      return '<li class="sp-linkedin-phase"><span class="sp-linkedin-phase__number" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><ul>' + item[1].map(function (task) { return '<li>' + esc(task) + '</li>'; }).join('') + '</ul></li>';
     }).join('') + '</ol></div></section>';
 }
 function renderLinkedinIcpLine(section) {
   return '<section class="sp-section sp-linkedin-icp-section"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-linkedin-icp" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
       return '<li style="--sp-item-delay:' + (i * .09) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
-    }).join('') + '</ol></div></section>';
+    }).join('') + '<li class="sp-linkedin-icp__result" style="--sp-item-delay:.36s"><h3>' + esc(section.core[0]).replace(/\n/g, ' ') + '</h3><p>' + esc(section.core[1]) + '</p></li></ol></div></section>';
 }
 function renderLinearSequence(section, modifier) {
   return '<section class="sp-section sp-linear-sequence-section sp-linear-sequence-section--' + modifier + '"><div class="wrap">' + renderHead(section)
@@ -700,6 +707,7 @@ function renderDiagram(section) {
 }
 function renderProcess(section) {
   if (isStrategy) return renderStrategyProcess(section);
+  if (key === 'linkedin') return renderLinkedinProcess(section);
   var noIndex = key === 'seo';
   return '<section class="sp-section sp-process-section sp-process-section--' + key + '"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-process' + (noIndex ? ' sp-process--plain' : '') + '" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
