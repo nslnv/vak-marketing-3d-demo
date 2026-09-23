@@ -706,8 +706,8 @@ function boot(canvas) {
      реальным внешним границам: зазоры между соседними деталями всегда равны
      и объект раскрывается ровной инженерной линией, а не «на глаз». */
   scene.updateMatrixWorld(true);
-  function boundsInOptic(node) {
-    const inverseOptic = new THREE.Matrix4().copy(optic.matrixWorld).invert();
+  function boundsInOptic(node, space = optic) {
+    const inverseOptic = new THREE.Matrix4().copy(space.matrixWorld).invert();
     const bounds = new THREE.Box3().makeEmpty();
     node.traverse(child => {
       if (!child.isMesh || !child.geometry) return;
@@ -748,7 +748,7 @@ function boot(canvas) {
   }
   /* На desktop зазор чуть шире: каждая часть читается отдельно, но вся
      раскладка всё ещё остаётся единым прибором в пределах сцены About. */
-  const desktopAssemblyTravel = layoutAlongOpticalAxis(0.84);
+  const desktopAssemblyTravel = layoutAlongOpticalAxis(1.60);
   /* Телефон не получает «игрушечную» версию прибора. Детали раскрываются
      заметно, но остаются в спокойном осевом коридоре самой сцены About. */
   const mobileAssemblyTravel = layoutAlongOpticalAxis(0.30);
@@ -767,6 +767,45 @@ function boot(canvas) {
     pitch: 0,
     yaw: 0
   }));
+
+  // Cache module-local corners once; projecting 40 points is enough to frame
+  // the real assembly, including perspective, without traversing meshes on RAF.
+  const aboutFrameCorners = aboutAssemblyBounds.map(({ node }) => {
+    const box = boundsInOptic(node, node);
+    const corners = [];
+    for (const x of [box.min.x, box.max.x])
+      for (const y of [box.min.y, box.max.y])
+        for (const z of [box.min.z, box.max.z]) corners.push(new THREE.Vector3(x, y, z));
+    return { node, corners };
+  });
+  const framePoint = new THREE.Vector3();
+  const frameOrigin = new THREE.Vector3();
+  const frameTarget = new THREE.Vector3();
+  function measureAboutFrame() {
+    rig.updateMatrixWorld(true);
+    let left = Infinity, right = -Infinity, top = -Infinity, bottom = Infinity;
+    for (const { node, corners } of aboutFrameCorners) for (const point of corners) {
+      framePoint.copy(point).applyMatrix4(node.matrixWorld).project(camera);
+      left = Math.min(left, framePoint.x); right = Math.max(right, framePoint.x);
+      top = Math.max(top, framePoint.y); bottom = Math.min(bottom, framePoint.y);
+    }
+    return { left, right, width: right - left, height: top - bottom };
+  }
+  function frameOpenAssembly(mix) {
+    if (mix <= 0) return;
+    camera.updateMatrixWorld(true);
+    let box = measureAboutFrame();
+    const fit = Math.min(1.08, (Math.min(W * .86, 1320) / W * 2) / box.width,
+      1.16 / box.height);
+    rig.scale.multiplyScalar(THREE.MathUtils.lerp(1, fit, mix));
+    box = measureAboutFrame();
+    // Centre the visible silhouette, not the rig origin or the left text column.
+    frameOrigin.copy(rig.position).project(camera);
+    frameTarget.copy(frameOrigin);
+    frameTarget.x -= (box.left + box.right) * .5 * mix;
+    frameTarget.unproject(camera); frameOrigin.unproject(camera);
+    rig.position.add(frameTarget.sub(frameOrigin));
+  }
 
   /* Редкая контактная пыль не является вторым эффектом поверх страницы.
      Каждое облако — ребёнок настоящего механического модуля, поэтому оно
@@ -1873,6 +1912,9 @@ function boot(canvas) {
     );
     camera.lookAt(0, 0, 0);
     camera.rotateZ(cameraRo - vv * 0.010 * cameraFree);
+    // Smooth, reversible framing follows the same mechanical opening signal.
+    // The assembled arrival and onward flight keep their existing trajectory.
+    if (!compactAbout && !reduced) frameOpenAssembly(easeAbout(aboutOpen, 0, 1));
     flare.quaternion.copy(camera.quaternion);   // блик всегда лицом к камере
     halo.quaternion.copy(camera.quaternion);
     if (aboutLabelVisibility > 0.002) {
