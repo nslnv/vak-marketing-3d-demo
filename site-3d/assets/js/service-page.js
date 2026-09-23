@@ -22,22 +22,22 @@ var two = function (ru, en) { return { ru: ru, en: en }; };
 var items = function (ru, en) { return { ru: ru, en: en }; };
 
 var LOGOS = {
-  ethereum: { src:'/assets/img/brands/clients/ethereum.svg', alt:'Ethereum' },
-  huobi:    { src:'/assets/img/brands/cases/huobi-global.png', alt:'Huobi Global', wide:true },
-  tornado:  { src:'/assets/img/brands/clients/tornado-cash.svg', alt:'Tornado Cash' },
+  ethereum: { src:'/assets/img/brands/clients/ethereum.svg', alt:'Ethereum', mark:true },
+  huobi:    { src:'/assets/img/brands/cases/huobi-global.jpg', alt:'Huobi Global', mark:true, tile:true },
+  tornado:  { src:'/assets/img/brands/clients/tornado-cash.svg', alt:'Tornado Cash', mark:true },
   zenex:    { src:'/assets/img/brands/clients/zenex.svg', alt:'Zenex' },
   ghs:      { src:'/assets/img/brands/cases/1ghs.png', alt:'1GHS', wide:true },
-  coinstore:{ src:'/assets/img/brands/media/coinstore.png', alt:'Coinstore' },
+  coinstore:{ src:'/assets/img/brands/media/coinstore.png', alt:'Coinstore', mark:true },
   cointelegraph:{ src:'/assets/img/logos/cointelegraph.svg', alt:'Cointelegraph', wide:true },
   yahoo:    { src:'/assets/img/logos/partner/yahoo-finance.png', alt:'Yahoo Finance', wide:true },
   forklog:  { src:'/assets/img/logos/forklog-light.png', alt:'ForkLog', ink:true },
   bits:     { src:'/assets/img/logos/bitsmedia.png', alt:'Bits.media', wide:true },
   beincrypto:{ src:'/assets/img/logos/beincrypto-light.png', alt:'BeInCrypto', wide:true, ink:true },
   coindesk: { src:'/assets/img/logos/coindesk-light.png', alt:'CoinDesk', wide:true, ink:true },
-  theblock: { src:'/assets/img/brands/media/the-block.png', alt:'The Block' },
+  theblock: { src:'/assets/img/brands/media/the-block.png', alt:'The Block', mark:true },
   benzinga: { src:'/assets/img/logos/partner/benzinga.png', alt:'Benzinga', wide:true, ink:true },
-  rbc:      { src:'/assets/img/brands/media/rbc-crypto.png', alt:'РБК Крипто', wide:true },
-  cryptoru: { src:'/assets/img/brands/media/crypto-ru.png', alt:'Crypto.ru', wide:true }
+  rbc:      { src:'/assets/img/brands/media/rbc-crypto.png', alt:'РБК Крипто', mark:true },
+  cryptoru: { src:'/assets/img/brands/media/crypto-ru.png', alt:'Crypto.ru', mark:true }
 };
 
 var SERVICES = {
@@ -286,23 +286,20 @@ var SERVICES = {
       meta:{ title:'AI SEO и SERP — VAK Marketing', desc:'SEO-стратегия, техническая оптимизация, контент и аналитика для конкурентных ниш и разных гео.' },
       crumb:'AI SEO и SERP',
       hero:{ title:'SEO для конкурентных ниш, где важно понимать рынок, а не просто собирать ключи', lead:'Соединяем семантику, структуру сайта, техническую работу, контент и внешние факторы. AI-инструменты помогают быстрее анализировать материал и находить точки роста, но не заменяют стратегию.', cta:'Получить консультацию', facts:[{value:'SEO',label:'структура, контент и внешние сигналы в одной системе'},{value:'GEO',label:'работа с локальной спецификой поиска'}] },
-      proof:{ label:'Подход', title:'Там, где обычный SEO-план заканчивается', note:'Строим конкурентную семантику по намерениям, воронке и коммерческой ценности — в том числе для кластеров, где стандартных SEO-подходов недостаточно.', items:[
-        ['Быстрее анализ','Инструменты ускоряют разбор семантики, конкурентов и паттернов выдачи.'],
-        ['Сложные отрасли','Учитываем специфику FinTech, iGaming и Crypto, где выше конкуренция и больше ограничений.'],
-        ['Сложные запросы','Работаем с конкурентной семантикой и коммерческими кластерами, где поверхностной оптимизации мало.'],
-        ['Разные гео','Адаптируем стратегию под локальную логику поиска и рынок продукта.']
+      proof:{ label:'Подход', title:'Семантика под реальный спрос, а не список ключей', note:'Строим конкурентную семантику по намерениям, воронке и коммерческой ценности — в том числе для кластеров, где стандартных SEO-подходов недостаточно.', items:[
+        ['Анализ быстрее','AI-инструменты сокращают разбор семантики, конкурентов и выдачи. Больше времени остаётся на решения.'],
+        ['Отраслевая специфика','В FinTech, iGaming и Crypto учитываем ограничения площадок, регуляторику и плотную конкуренцию.'],
+        ['Коммерческие кластеры','Отдельно прорабатываем запросы, которые ближе всего к заявке или покупке.'],
+        ['Локальная выдача','Для каждого рынка проверяем, как ищут и что показывает поиск, и адаптируем страницы.']
       ]},
-      scope:{ label:'Что входит в работу', title:'SEO как последовательная инженерная работа', note:'Каждая часть влияет на следующую: невозможно оценивать контент отдельно от структуры или ссылки отдельно от целевой страницы.', items:[
-        'Аудит текущих позиций и конкурентного поля','Сбор и кластеризация семантического ядра','Оптимизация структуры сайта под поисковые запросы','Технический SEO-аудит и исправления','Контент-стратегия под ключевые кластеры','Линкбилдинг и работа с внешними факторами','Мониторинг позиций и аналитика динамики','Репутация бренда в поисковой выдаче — SERP'
+      scope:{ label:'Что входит в работу', title:'SEO как последовательная инженерная работа', note:'Каждая часть влияет на следующую: невозможно оценивать контент отдельно от структуры или ссылки отдельно от целевой страницы.', phases:[
+        ['Диагностика и аудит',['Аудит текущих позиций и конкурентного поля','Технический SEO-аудит','Анализ структуры сайта под поисковые запросы']],
+        ['Семантическое ядро и архитектура сайта',['Сбор и кластеризация семантического ядра','Оптимизация структуры сайта под поисковые запросы','Контент-стратегия под ключевые кластеры']],
+        ['Реализация',['Технические исправления','Страницы и контент под ключевые кластеры','Линкбилдинг и работа с внешними факторами']],
+        ['Поддержка, оптимизация и контроль',['Мониторинг позиций и аналитика динамики','Репутация бренда в поисковой выдаче — SERP','Корректировка приоритетов по данным']]
       ]},
-      diagram:{ label:'Контур работы', title:'Поиск видит не один элемент', note:'Структура, материал и внешние сигналы должны поддерживать одну коммерческую задачу.', flow:'seo-loop', layout:'seo', core:['Коммерческая\nвидимость','ответ на реальный спрос'], items:[
-        ['Семантика','Что и как ищет рынок'],['Структура','Куда ведёт поисковой запрос'],['Контент','Чем страница отвечает на намерение'],['SERP','Как бренд выглядит среди результатов']
-      ]},
-      process:{ label:'Как проходит работа', title:'От исходной позиции к управляемой динамике', items:[
-        ['Исследование','Анализируем сайт, спрос, позиции и конкурентное поле.'],
-        ['Основа','Формируем семантические приоритеты, структуру и технический план.'],
-        ['Развитие','Дорабатываем страницы, контентные кластеры и внешние факторы.'],
-        ['Контроль','Отслеживаем динамику, корректируем решения и фиксируем следующий приоритет.']
+      diagram:{ label:'Контур работы', title:'Поиск видит не один элемент', note:'Структура, материал и внешние сигналы должны поддерживать одну коммерческую задачу.', items:[
+        ['Семантика','Что и как ищет рынок'],['Структура','Куда ведёт поисковый запрос'],['Контент','Чем страница отвечает на намерение'],['Коммерческая видимость','Ответ на реальный спрос и заметный бренд в выдаче']
       ]},
       sectors:{ label:'Для каких ниш', title:'Где особенно важна предметная специфика', note:'Методология общая, но исходные ограничения, язык рынка и коммерческая логика каждой вертикали отличаются.', items:[
         ['FinTech и payments','Высокая конкуренция, регуляторный контекст и длинная воронка доверия.'],
@@ -320,23 +317,20 @@ var SERVICES = {
       meta:{ title:'AI SEO and SERP — VAK Marketing', desc:'SEO strategy, technical optimisation, content and analytics for competitive niches and different markets.' },
       crumb:'AI SEO and SERP',
       hero:{ title:'SEO for competitive sectors where market understanding matters more than a keyword list', lead:'We connect semantics, site structure, technical work, content and external factors. AI tools help us analyse material and find growth points faster; they do not replace strategy.', cta:'Book a consultation', facts:[{value:'SEO',label:'structure, content and external signals in one system'},{value:'GEO',label:'work with local search behaviour'}] },
-      proof:{ label:'The approach', title:'Where a typical SEO plan stops', note:'We build competitive semantics around intent, funnel stage and commercial value — including clusters where standard SEO approaches are not enough.', items:[
-        ['Faster analysis','Tools speed up analysis of semantics, competitors and search-result patterns.'],
-        ['Complex sectors','We account for FinTech, iGaming and Crypto specifics, where competition and constraints are higher.'],
-        ['Complex queries','We work with competitive semantic clusters where superficial optimisation is not enough.'],
-        ['Different geographies','We adapt the strategy to local search logic and the product market.']
+      proof:{ label:'The approach', title:'Semantics built on real demand, not a keyword list', note:'We build competitive semantics around intent, funnel stage and commercial value — including clusters where standard SEO approaches are not enough.', items:[
+        ['Faster analysis','AI tools shorten the work on semantics, competitors and search results, leaving more time for decisions.'],
+        ['Sector specifics','In FinTech, iGaming and Crypto we account for platform restrictions, regulation and dense competition.'],
+        ['Commercial clusters','We treat separately the queries closest to an enquiry or a purchase.'],
+        ['Local search','For each market we check how people search and what results appear, then adapt the pages.']
       ]},
-      scope:{ label:'What is included', title:'SEO as sequential engineering work', note:'Each part affects the next: content cannot be assessed apart from structure, nor links apart from their target pages.', items:[
-        'Audit of current positions and competitor landscape','Keyword research and semantic clustering','Site structure optimisation for search intent','Technical SEO audit and fixes','Content strategy for priority clusters','Link building and external factors','Position monitoring and trend analysis','Brand reputation in search results — SERP'
+      scope:{ label:'What is included', title:'SEO as sequential engineering work', note:'Each part affects the next: content cannot be assessed apart from structure, nor links apart from their target pages.', phases:[
+        ['Diagnostics and audit',['Audit of current positions and competitor landscape','Technical SEO audit','Site structure analysis against search demand']],
+        ['Semantic core and site architecture',['Keyword research and semantic clustering','Site structure optimisation for search intent','Content strategy for priority clusters']],
+        ['Implementation',['Technical fixes','Pages and content for priority clusters','Link building and external factors']],
+        ['Support, optimisation and control',['Position monitoring and trend analysis','Brand reputation in search results — SERP','Priority adjustments based on data']]
       ]},
-      diagram:{ label:'Working loop', title:'Search does not see one element', note:'Structure, material and external signals must support the same commercial task.', flow:'seo-loop', layout:'seo', core:['Commercial\nvisibility','an answer to real demand'], items:[
-        ['Semantics','What the market searches and how'],['Structure','Where the query is taken'],['Content','How the page answers intent'],['SERP','How the brand appears among results']
-      ]},
-      process:{ label:'How we work', title:'From the starting point to manageable movement', items:[
-        ['Research','We analyse the site, demand, positions and competitive landscape.'],
-        ['Foundation','We set semantic priorities, site structure and the technical plan.'],
-        ['Development','We improve pages, content clusters and external factors.'],
-        ['Control','We track movement, adjust decisions and establish the next priority.']
+      diagram:{ label:'Working loop', title:'Search does not see one element', note:'Structure, material and external signals must support the same commercial task.', items:[
+        ['Semantics','What the market searches and how'],['Structure','Where the query is taken'],['Content','How the page answers intent'],['Commercial visibility','An answer to real demand and a visible brand in results']
       ]},
       sectors:{ label:'Relevant for', title:'Where subject knowledge matters most', note:'The method is shared; the constraints, market language and commercial logic of each vertical are not.', items:[
         ['FinTech and payments','High competition, regulatory context and a long trust funnel.'],
@@ -489,22 +483,15 @@ function strategyFlow() {
 }
 var SERVICE_DIAGRAM_FLOWS = {
   'linkedin-route': true,
-  'seo-loop': true,
   'localization-relay': true
 };
-var SERVICE_DIAGRAM_LAYOUTS = { linkedin:true, seo:true, localization:true };
+var SERVICE_DIAGRAM_LAYOUTS = { linkedin:true, localization:true };
 var SERVICE_FLOW_GRAPHS = {
   'linkedin-route': { edges:[
     { from:'n0', to:'n1', out:'br', into:'bl', tone:'cyan', opacity:.52 },
     { from:'n1', to:'n2', out:'bc', into:'tr', tone:'lilac', bend:'left', opacity:.58 },
     { from:'n2', to:'n3', out:'rc', into:'lc', tone:'rose', opacity:.54 },
     { from:'n3', to:'core', out:'tr', into:'bl', tone:'lilac', opacity:.74, primary:true }
-  ] },
-  'seo-loop': { edges:[
-    { from:'n0', to:'n1', out:'br', into:'bl', tone:'cyan', opacity:.5 },
-    { from:'n1', to:'n2', out:'rc', into:'lc', tone:'rose', opacity:.54 },
-    { from:'n2', to:'n3', out:'bl', into:'tl', tone:'lilac', opacity:.56 },
-    { from:'n3', to:'core', out:'bl', into:'tr', tone:'cyan', bend:'bottom', opacity:.76, primary:true }
   ] },
   'localization-relay': { edges:[
     { from:'n0', to:'n1', out:'bc', into:'tc', tone:'cyan', opacity:.5 },
@@ -529,13 +516,6 @@ function serviceFlow(flow) {
       ['lilac','M315 390 C385 338 428 194 550 148'],
       ['rose','M620 150 C694 214 544 294 620 350'],
       ['lilac','M690 388 C774 356 808 268 885 252']
-    ],
-    'seo-loop':[
-      ['cyan','M290 126 C360 94 422 154 510 126'],
-      ['rose','M690 126 C770 94 836 154 910 126'],
-      ['lilac','M1000 156 C1065 232 940 280 998 346'],
-      ['cyan','M904 385 C720 430 450 344 312 382'],
-      ['lilac','M210 330 C110 255 138 194 208 156',.22]
     ],
     'localization-relay':[
       ['cyan','M320 250 C392 187 466 135 552 130'],
@@ -565,7 +545,7 @@ function serviceFlowCanvas(flow) {
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
-  var visualDetails = isStrategy || key === 'linkedin' || key === 'pr' ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
+  var visualDetails = isStrategy || key === 'linkedin' || key === 'pr' || key === 'seo' ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + '<h1 class="sp-title">' + renderHeroTitle(d.hero.title) + '</h1>'
@@ -635,6 +615,7 @@ function renderProof(section) {
 function renderScope(section) {
   if (isStrategy) return renderStrategyScope(section);
   if (key === 'linkedin') return renderLinkedinFunnel(section);
+  if (key === 'seo') return renderSeoPhases(section);
   return '<section class="sp-section"><div class="wrap sp-scope"><div class="sp-scope__intro" data-sp-reveal><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2>'
     + (section.note ? '<p>' + esc(section.note) + '</p>' : '') + '</div><ul class="sp-index sp-index--' + key + '" data-sp-reveal style="--sp-delay:.06s">'
     + section.items.map(function (item, i) { return '<li class="sp-index__item" style="--sp-item-delay:' + (i * .055) + 's"><span>' + esc(item) + '</span></li>'; }).join('')
@@ -676,17 +657,32 @@ function renderLinkedinIcpLine(section) {
       return '<li style="--sp-item-delay:' + (i * .09) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '<li class="sp-linkedin-icp__result" style="--sp-item-delay:.36s"><h3>' + esc(section.core[0]).replace(/\n/g, ' ') + '</h3><p>' + esc(section.core[1]) + '</p></li></ol></div></section>';
 }
+// 4.3: tools grouped by phase. The brief asks for a visualisation without
+// numbers, so the phases are marked by a gradient rule, not an index.
+function renderSeoPhases(section) {
+  return '<section class="sp-section sp-seo-phases-section"><div class="wrap sp-seo-phases-layout"><div class="sp-seo-phases__intro" data-sp-reveal><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.note) + '</p></div>'
+    + '<ol class="sp-seo-phases" data-sp-reveal style="--sp-delay:.05s">' + section.phases.map(function (phase, i) {
+      return '<li style="--sp-item-delay:' + (i * .08) + 's"><h3>' + esc(phase[0]) + '</h3><ul>' + phase[1].map(function (tool) { return '<li>' + esc(tool) + '</li>'; }).join('') + '</ul></li>';
+    }).join('') + '</ol></div></section>';
+}
+// 4.4: four ringed steps on one line; the last one is the commercial outcome.
+function renderSeoSteps(section) {
+  return '<section class="sp-section sp-seo-steps-section"><div class="wrap">' + renderHead(section)
+    + '<ol class="sp-seo-steps" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
+      return '<li style="--sp-item-delay:' + (i * .09) + 's"><span class="sp-seo-steps__ring" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    }).join('') + '</ol></div></section>';
+}
 function renderLinearSequence(section, modifier) {
   return '<section class="sp-section sp-linear-sequence-section sp-linear-sequence-section--' + modifier + '"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-linear-sequence sp-linear-sequence--' + modifier + '" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
-      return '<li style="--sp-item-delay:' + (i * .085) + 's">' + (modifier === 'seo' ? '<span aria-hidden="true"></span>' : '<span>' + String(i + 1).padStart(2, '0') + '</span>') + '<h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+      return '<li style="--sp-item-delay:' + (i * .085) + 's">' + '<span>' + String(i + 1).padStart(2, '0') + '</span>' + '<h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></section>';
 }
 function renderDiagram(section) {
   if (isStrategy) return renderStrategySystem(section);
   if (key === 'linkedin') return renderLinkedinIcpLine(section);
   if (key === 'pr') return renderPrChain(section);
-  if (key === 'seo') return renderLinearSequence(section, 'seo');
+  if (key === 'seo') return renderSeoSteps(section);
   if (key === 'localization') return renderLinearSequence(section, 'localization');
   return renderServiceSystem(section);
 }
@@ -694,9 +690,8 @@ function renderProcess(section) {
   if (isStrategy) return renderStrategyProcess(section);
   if (key === 'linkedin') return renderLinkedinProcess(section);
   if (key === 'pr') return renderPrSteps(section);
-  var noIndex = key === 'seo';
   return '<section class="sp-section sp-process-section sp-process-section--' + key + '"><div class="wrap">' + renderHead(section)
-    + '<ol class="sp-process' + (noIndex ? ' sp-process--plain' : '') + '" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
+    + '<ol class="sp-process" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
       return '<li class="sp-process__item" style="--sp-item-delay:' + (i * .075) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></section>';
 }
@@ -718,7 +713,7 @@ function renderPricing(section) {
 function renderLogo(keyName, media) {
   var logo = LOGOS[keyName];
   if (!logo) return '';
-  return '<div class="sp-logo' + (media ? ' sp-logo--media' : '') + (logo.wide ? ' sp-logo--wide' : '') + (logo.ink ? ' sp-logo--ink' : '') + '"><img src="' + esc(logo.src) + '" alt="' + esc(logo.alt) + '" loading="lazy" decoding="async"></div>';
+  return '<div class="sp-logo' + (media ? ' sp-logo--media' : '') + (logo.wide ? ' sp-logo--wide' : '') + (logo.ink ? ' sp-logo--ink' : '') + (logo.mark ? ' sp-logo--mark' : '') + (logo.tile ? ' sp-logo--tile' : '') + '"><img src="' + esc(logo.src) + '" alt="' + (logo.mark ? '' : esc(logo.alt)) + '" loading="lazy" decoding="async">' + (logo.mark ? '<span class="sp-logo__name">' + esc(logo.alt) + '</span>' : '') + '</div>';
 }
 function renderMedia(section) {
   return '<section class="sp-trust sp-media-network sp-media-network--' + key + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
@@ -745,12 +740,12 @@ function renderPrSteps(section) {
 // are carried over: 1GHS metrics are still marked as placeholders on the homepage.
 var PR_CASES = {
   ru:{ title:'Кейсы и результаты', note:'Коротко о проектах, где PR и медиа были частью работы.', task:'Задача.', did:'Что сделали.', rail:'Кейсы, прокрутка по горизонтали', items:[
-    { logo:'/assets/img/brands/cases/huobi-global.png', name:'Huobi Global', meta:'Криптобиржа · выход на рынок · 1 год', task:'Усилить присутствие одной из ведущих мировых криптобирж на российском рынке и поддержать выход бренда в новый регион.', did:'Масштабная кампания: таргетированная и контекстная реклама, PR-инструменты, трафик-арбитраж, медийные активности и работа с инфлюенсерами.', res:[['14 000+','новых клиентов'],['14 млн','потенциальная аудитория рынка'],['10+','индустриальных мероприятий'],['20+','коллабораций с медиа и инфлюенсерами']] },
+    { logo:'/assets/img/brands/cases/huobi-global.jpg', name:'Huobi Global', meta:'Криптобиржа · выход на рынок · 1 год', task:'Усилить присутствие одной из ведущих мировых криптобирж на российском рынке и поддержать выход бренда в новый регион.', did:'Масштабная кампания: таргетированная и контекстная реклама, PR-инструменты, трафик-арбитраж, медийные активности и работа с инфлюенсерами.', res:[['14 000+','новых клиентов'],['14 млн','потенциальная аудитория рынка'],['10+','индустриальных мероприятий'],['20+','коллабораций с медиа и инфлюенсерами']] },
     { logo:'/assets/img/brands/clients/zenex.svg', wordmark:true, name:'Zenex Token', meta:'Токен · PR и доверие · 6 месяцев', task:'Усилить доверие к токену, повысить узнаваемость проекта, привлечь внимание инвесторов и обеспечить трафик на официальные ресурсы.', did:'PR и медийные публикации, работа с социальными сетями, присутствие в индустриальном поле и выстраивание доверия вокруг токена.', res:[['10+','публикаций в ведущих медиа'],['20 000+','подписчиков в социальных сетях'],['3 млн','рекламный охват'],['$1,5 млн','привлечено на pre-sale токена']] },
     { logo:'/assets/img/brands/cases/1ghs.png', wordmark:true, name:'1GHS', meta:'Упаковка бренда · digital и медиа', task:'Повысить узнаваемость проекта и доверие к бренду, создать основу для системного продвижения в digital и медиа.', did:'Упаковка коммуникации, контент, PR-активности, работа с аудиторией и усиление присутствия бренда в релевантных каналах.', res:[] }
   ]},
   en:{ title:'Cases and results', note:'A short look at projects where PR and media were part of the work.', task:'Goal.', did:'What we did.', rail:'Cases, horizontal scroll', items:[
-    { logo:'/assets/img/brands/cases/huobi-global.png', name:'Huobi Global', meta:'Crypto exchange · market entry · 1 year', task:'Strengthen the presence of one of the world’s leading crypto exchanges on the Russian market and support the brand entering a new region.', did:'A large-scale campaign: paid social and search advertising, PR tools, traffic arbitrage, media activity and influencer work.', res:[['14,000+','new clients'],['14 M','potential market audience'],['10+','industry events'],['20+','collaborations with media and influencers']] },
+    { logo:'/assets/img/brands/cases/huobi-global.jpg', name:'Huobi Global', meta:'Crypto exchange · market entry · 1 year', task:'Strengthen the presence of one of the world’s leading crypto exchanges on the Russian market and support the brand entering a new region.', did:'A large-scale campaign: paid social and search advertising, PR tools, traffic arbitrage, media activity and influencer work.', res:[['14,000+','new clients'],['14 M','potential market audience'],['10+','industry events'],['20+','collaborations with media and influencers']] },
     { logo:'/assets/img/brands/clients/zenex.svg', wordmark:true, name:'Zenex Token', meta:'Token · PR and trust · 6 months', task:'Build trust in the token, raise awareness, attract investor attention and drive traffic to the official resources.', did:'PR and media publications, social media work, presence across the industry field and trust-building around the token.', res:[['10+','publications in leading media'],['20,000+','new social media followers'],['3 M','advertising reach'],['$1.5 M','raised at the token pre-sale']] },
     { logo:'/assets/img/brands/cases/1ghs.png', wordmark:true, name:'1GHS', meta:'Brand packaging · digital and media', task:'Raise awareness and brand trust, and create a base for systematic growth in digital and media.', did:'Communication packaging, content, PR activity, audience work and a stronger brand presence in relevant channels.', res:[] }
   ]}
@@ -787,7 +782,7 @@ function render(d) {
   $('#main').innerHTML = renderHero(d) + renderProof(d.proof) + renderScope(d.scope)
     + (d.formats ? renderFormats(d.formats) : '')
     + (d.diagram ? renderDiagram(d.diagram) : '') + (d.pricing ? renderPricing(d.pricing) : '')
-    + (d.media ? renderMedia(d.media) : '') + (key === 'pr' ? renderPrCasesWidget() : '') + renderProcess(d.process)
+    + (d.media ? renderMedia(d.media) : '') + (key === 'pr' ? renderPrCasesWidget() : '') + (d.process ? renderProcess(d.process) : '')
     + (d.sectors ? renderSectors(d.sectors) : '') + (d.outcomes && !isStrategy ? renderSectors(d.outcomes, 'outcomes') : '')
     + (d.trust ? renderTrust(d.trust) : '') + renderCta(d.cta);
   $('#footer').innerHTML = renderFooter();
