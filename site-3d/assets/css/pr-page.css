@@ -1,7 +1,6 @@
 /* PR: the shared VAK shell with a rose-lilac accent taken from the lens
    object. The chain, cases and sector tags follow the annotated brief. */
-.sp[data-service="pr"]{--sp-accent:#eaa9d6;--sp-accent-rgb:234,169,214;--sp-mag-rgb:239,161,196;--sp-cy-rgb:201,166,245}
-.sp[data-service="pr"] .sp-caption{color:var(--sp-accent)}
+
 /* Denser rhythm, as on the strategy page: no screen-high gaps between blocks. */
 .sp[data-service="pr"] .sp-section{padding-block:clamp(60px,6.5vw,100px)}
 

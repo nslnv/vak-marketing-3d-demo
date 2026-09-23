@@ -10,12 +10,15 @@
 /* Service routes reuse the site's published palette.  The page subject may
    change, but VAK Marketing's colour language does not. */
 .sp{--sp-accent:var(--vio-2);--sp-accent-rgb:155,132,255;--sp-vio-rgb:124,92,255;--sp-cy-rgb:98,228,255;--sp-mag-rgb:255,82,184}
-/* Related, readable title palettes distinguish the individual services. */
-.sp[data-service="strategy"]{--sp-title-start:#b4a0ff;--sp-title-mid:#d0bdff;--sp-title-end:#a99eff}
-.sp[data-service="linkedin"]{--sp-title-start:#99baff;--sp-title-mid:#8edbea;--sp-title-end:#b1baff}
-.sp[data-service="pr"]{--sp-title-start:#dbabf5;--sp-title-mid:#efa1c4;--sp-title-end:#efbbb2}
-.sp[data-service="seo"]{--sp-title-start:#aaa5ff;--sp-title-mid:#92baf5;--sp-title-end:#c6a4f4}
-.sp[data-service="localization"]{--sp-title-start:#c3a4f5;--sp-title-mid:#dfa0df;--sp-title-end:#bdaeff}
+/* One colour system for all five services. Each page has its own accent and
+   two neighbouring tones of equal lightness; alternating items cycle only
+   within that family, so a page reads as one colour, not three. The fourth
+   tone ties every page back to the VAK violet. Titles use the same family. */
+.sp[data-service="strategy"]{--sp-accent:#bcabff;--sp-accent-rgb:188,171,255;--sp-cy-rgb:159,176,255;--sp-mag-rgb:211,166,245;--sp-vio-rgb:155,132,255;--sp-title-start:#b6a2ff;--sp-title-mid:#d8c9ff;--sp-title-end:#aaa9f8}
+.sp[data-service="linkedin"]{--sp-accent:#9bbfff;--sp-accent-rgb:155,191,255;--sp-cy-rgb:142,219,234;--sp-mag-rgb:177,186,255;--sp-vio-rgb:160,160,255;--sp-title-start:#99baff;--sp-title-mid:#8edbea;--sp-title-end:#b1baff}
+.sp[data-service="pr"]{--sp-accent:#eaa9d6;--sp-accent-rgb:234,169,214;--sp-cy-rgb:201,166,245;--sp-mag-rgb:239,161,196;--sp-vio-rgb:190,160,250;--sp-title-start:#dbabf5;--sp-title-mid:#efa1c4;--sp-title-end:#efbbb2}
+.sp[data-service="seo"]{--sp-accent:#8adccb;--sp-accent-rgb:138,220,203;--sp-cy-rgb:140,208,236;--sp-mag-rgb:169,182,255;--sp-vio-rgb:150,150,255;--sp-title-start:#92e0cf;--sp-title-mid:#8fcfee;--sp-title-end:#aab4ff}
+.sp[data-service="localization"]{--sp-accent:#efc7a0;--sp-accent-rgb:239,199,160;--sp-cy-rgb:240,178,164;--sp-mag-rgb:205,168,245;--sp-vio-rgb:170,150,255;--sp-title-start:#f1cda5;--sp-title-mid:#f0b6a6;--sp-title-end:#caa9f5}
 
 .sp .atmo{position:fixed}
 /* The service header is the same shell as the homepage header. Reserve its
@@ -65,7 +68,7 @@
 .sp-hero__index span{color:rgba(236,229,255,.72);font-size:11px;font-weight:650;letter-spacing:.11em;text-transform:uppercase}
 .sp-hero__trace{position:absolute;z-index:3;left:-16px;bottom:10%;width:48%;height:25%;border-left:1px solid rgba(var(--sp-accent-rgb),.65);
   border-bottom:1px solid rgba(var(--sp-accent-rgb),.38);pointer-events:none}
-.sp-hero__trace::before,.sp-hero__trace::after{content:'';position:absolute;width:7px;height:7px;border:1px solid var(--vio-2);border-radius:50%;background:var(--bg)}
+.sp-hero__trace::before,.sp-hero__trace::after{content:'';position:absolute;width:7px;height:7px;border:1px solid var(--sp-accent);border-radius:50%;background:var(--bg)}
 .sp-hero__trace::before{left:-4px;top:-4px}.sp-hero__trace::after{right:-4px;bottom:-4px}
 @media (max-width:720px){.sp-hero__object{right:0;width:100%;opacity:.72}}
 
@@ -79,7 +82,7 @@
 .sp-head{display:grid;grid-template-columns:minmax(0,.92fr) minmax(240px,.68fr);gap:clamp(20px,5vw,86px);align-items:end;margin-bottom:clamp(34px,5vw,68px)}
 .sp-head h2{font-size:clamp(27px,3.1vw,47px);font-weight:340;line-height:1.08;letter-spacing:-.032em;max-width:15ch}
 .sp-head__note{max-width:44ch;margin:0;color:var(--ink-2);font-size:inherit;line-height:inherit}
-.sp-caption{margin:0 0 14px;color:var(--vio-2);font-size:13.5px;font-weight:500;letter-spacing:.01em;text-transform:none}
+.sp-caption{margin:0 0 14px;color:var(--sp-accent);font-size:13.5px;font-weight:500;letter-spacing:.01em;text-transform:none}
 
 /* Reasons are an editorial proof strip, not a bank of generic cards. */
 .sp-proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -103,7 +106,7 @@
 /* Strategy formats are a calm decision matrix, not a deck of decorative cards. */
 .sp-formats-section{border-top:1px solid var(--line)}
 .sp-formats__head{display:grid;grid-template-columns:minmax(0,.88fr) minmax(280px,.72fr);gap:clamp(28px,6vw,96px);align-items:end;margin-bottom:clamp(34px,5vw,62px)}
-.sp-formats__head>p{grid-column:1/-1;margin:0 0 -4px;color:var(--vio-2);font-size:13.5px;font-weight:500;letter-spacing:.01em}
+.sp-formats__head>p{grid-column:1/-1;margin:0 0 -4px;color:var(--sp-accent);font-size:13.5px;font-weight:500;letter-spacing:.01em}
 .sp-formats__head h2{font-size:clamp(27px,3.1vw,47px);font-weight:340;line-height:1.08;letter-spacing:-.032em;max-width:14ch}
 .sp-formats__head>span{max-width:42ch;color:var(--ink-2);font-size:15px;line-height:1.58}
 .sp-formats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
@@ -194,7 +197,7 @@
 /* LinkedIn is a measured funnel: four clear transfers, not a decorative cloud. */
 .sp-linkedin-funnel-section{border-top:1px solid var(--line)}
 .sp-linkedin-funnel__head{display:grid;grid-template-columns:minmax(0,.88fr) minmax(280px,.72fr);gap:clamp(28px,6vw,96px);align-items:end;margin-bottom:clamp(34px,5vw,62px)}
-.sp-linkedin-funnel__head>p{grid-column:1/-1;margin:0 0 -4px;color:var(--vio-2);font-size:13.5px;font-weight:500;letter-spacing:.01em}.sp-linkedin-funnel__head h2{font-size:clamp(27px,3.1vw,47px);font-weight:340;line-height:1.08;letter-spacing:-.032em;max-width:14ch}.sp-linkedin-funnel__head>span{max-width:42ch;color:var(--ink-2);font-size:15px;line-height:1.58}
+.sp-linkedin-funnel__head>p{grid-column:1/-1;margin:0 0 -4px;color:var(--sp-accent);font-size:13.5px;font-weight:500;letter-spacing:.01em}.sp-linkedin-funnel__head h2{font-size:clamp(27px,3.1vw,47px);font-weight:340;line-height:1.08;letter-spacing:-.032em;max-width:14ch}.sp-linkedin-funnel__head>span{max-width:42ch;color:var(--ink-2);font-size:15px;line-height:1.58}
 .sp-linkedin-funnel{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0;padding:0;list-style:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sp-linkedin-funnel::before{content:'';position:absolute;left:7%;right:7%;top:clamp(36px,4vw,58px);height:1px;background:linear-gradient(90deg,rgba(var(--sp-accent-rgb),.24),rgba(var(--sp-cy-rgb),.74),rgba(var(--sp-mag-rgb),.42));transform:scaleX(0);transform-origin:left;transition:transform 1.15s cubic-bezier(.16,.74,.25,1) .18s}
 .sp-linkedin-funnel.is-in::before{transform:scaleX(1)}
@@ -237,8 +240,8 @@
 .sp-decision-frame__head h2{max-width:100%;margin:0 auto;font-size:clamp(27px,3.1vw,47px);font-weight:340;line-height:1.08;letter-spacing:-.032em;text-align:center;text-wrap:balance}
 .sp-decision-frame__line{display:block;text-align:center;white-space:nowrap}
 .sp-decision-frame__line+.sp-decision-frame__line{margin-top:.08em}
-.sp-decision-frame__accent{color:var(--vio-2);font-weight:500;letter-spacing:-.055em}
-.sp-strategy-scope__intro>p,.sp-strategy-system__head>p,.sp-strategy-cycle__head>p,.sp-strategy-gate__intro>p{margin:0 0 15px;color:var(--vio-2);font-size:13.5px;font-weight:500;letter-spacing:.01em;text-transform:none}
+.sp-decision-frame__accent{color:var(--sp-accent);font-weight:500;letter-spacing:-.055em}
+.sp-strategy-scope__intro>p,.sp-strategy-system__head>p,.sp-strategy-cycle__head>p,.sp-strategy-gate__intro>p{margin:0 0 15px;color:var(--sp-accent);font-size:13.5px;font-weight:500;letter-spacing:.01em;text-transform:none}
 .sp-strategy-scope__intro h2,.sp-strategy-system__head h2,.sp-strategy-cycle__head h2,.sp-strategy-gate__intro h2{font-size:clamp(27px,3.1vw,47px);font-weight:340;line-height:1.08;letter-spacing:-.032em}
 .sp-strategy-scope__intro>span,.sp-strategy-system__head>span,.sp-strategy-gate__intro>span{display:block;max-width:34ch;margin-top:19px;color:var(--ink-2);font-size:inherit;line-height:inherit}
 .sp-decision-frame__items{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,2.8vw,44px);margin:0;padding:0;list-style:none}
@@ -365,9 +368,9 @@
 .sp-strategy-cycle__head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:clamp(36px,5vw,65px)}
 .sp-strategy-cycle__head h2{max-width:13ch}
 .sp-strategy-cycle{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,4.5vw,72px);margin:0;padding:0;list-style:none}
-.sp-strategy-cycle__phase{--sp-phase:var(--vio-2);--sp-phase-rgb:var(--sp-accent-rgb);position:relative;padding-top:24px;border-top:1px solid var(--line);opacity:0;transform:translateY(16px);transition:opacity .7s var(--e-out) calc(.14s + var(--sp-item-delay)),transform .8s var(--e-out) calc(.14s + var(--sp-item-delay))}
-.sp-strategy-cycle__phase:nth-child(2){--sp-phase:var(--cy);--sp-phase-rgb:var(--sp-cy-rgb)}
-.sp-strategy-cycle__phase:nth-child(3){--sp-phase:var(--mag);--sp-phase-rgb:var(--sp-mag-rgb)}
+.sp-strategy-cycle__phase{--sp-phase:var(--sp-accent);--sp-phase-rgb:var(--sp-accent-rgb);position:relative;padding-top:24px;border-top:1px solid var(--line);opacity:0;transform:translateY(16px);transition:opacity .7s var(--e-out) calc(.14s + var(--sp-item-delay)),transform .8s var(--e-out) calc(.14s + var(--sp-item-delay))}
+.sp-strategy-cycle__phase:nth-child(2){--sp-phase:rgb(var(--sp-cy-rgb));--sp-phase-rgb:var(--sp-cy-rgb)}
+.sp-strategy-cycle__phase:nth-child(3){--sp-phase:rgb(var(--sp-mag-rgb));--sp-phase-rgb:var(--sp-mag-rgb)}
 .sp-strategy-cycle__phase::before{content:'';position:absolute;top:-4px;left:0;width:7px;height:7px;border-radius:50%;background:var(--sp-phase);box-shadow:0 0 0 4px rgba(var(--sp-phase-rgb),.07),0 0 18px rgba(var(--sp-phase-rgb),.48)}
 .sp-strategy-cycle__phase::after{content:'';position:absolute;top:-1px;left:13px;width:clamp(42px,5vw,76px);height:1px;background:linear-gradient(90deg,rgba(var(--sp-phase-rgb),.9),rgba(var(--sp-phase-rgb),0))}
 .sp-strategy-cycle.is-in .sp-strategy-cycle__phase{opacity:1;transform:none}

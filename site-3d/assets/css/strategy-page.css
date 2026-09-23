@@ -2,11 +2,6 @@
    stay intact; subsequent service revisions are deliberately unaffected. */
 .sp[data-service="strategy"]{
   --sec:clamp(58px,6vw,88px);
-  --sp-accent:#bcabff;
-  --sp-accent-rgb:188,171,255;
-  --sp-title-start:#b6a2ff;
-  --sp-title-mid:#d8c9ff;
-  --sp-title-end:#aaa9f8;
 }
 .sp[data-service="strategy"] .sp-hero{min-height:min(100svh,820px);padding-top:calc(var(--nav-h) + 48px);padding-bottom:64px}
 .sp[data-service="strategy"] .sp-hero__grid{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px}

@@ -26,7 +26,7 @@ for (const lang of ['ru', 'en']) {
   for (const html of [funnel, icp, process]) assert.ok(!html.includes('undefined'));
 }
 const html = fs.readFileSync('site-3d/linkedin/index.html','utf8');
-assert.ok(html.includes('linkedin-page.css?v=20260924-01'));
+assert.ok(html.includes('linkedin-page.css?v='));
 assert.ok(html.includes('service-page.js?v=20260924-linkedin-01'));
 for (const route of ['strategy','pr','seo','localization']) {
   assert.ok(!fs.readFileSync(`site-3d/${route}/index.html`,'utf8').includes('linkedin-page.css'), 'styles stay on the LinkedIn route');

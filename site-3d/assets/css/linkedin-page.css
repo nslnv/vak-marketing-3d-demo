@@ -1,6 +1,5 @@
 /* LinkedIn: the shared VAK shell, with a restrained blue / cyan accent.
    The funnel and handover line follow the annotated client references. */
-.sp[data-service="linkedin"]{--sp-accent:#9bbfff;--sp-accent-rgb:155,191,255;--sp-cy-rgb:142,219,234;--sp-mag-rgb:177,186,255}
 .sp[data-service="linkedin"] .sp-section{padding-block:clamp(64px,7vw,104px)}
 .sp[data-service="linkedin"] .sp-caption,
 .sp[data-service="linkedin"] .sp-linkedin-funnel__head>p{color:var(--sp-accent)}
