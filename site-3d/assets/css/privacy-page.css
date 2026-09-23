@@ -1,0 +1,51 @@
+/* Privacy policy: the site shell (header, footer, atmosphere) with a calm
+   document layout. RU and EN live in one file; the inactive language is
+   hidden by the html lang attribute, so nothing jumps after load. */
+html[lang="ru"] [data-l="en"],html[lang="en"] [data-l="ru"]{display:none!important}
+
+.pv .nav{position:fixed}
+.pv-main{position:relative;z-index:2;padding:calc(var(--nav-h) + clamp(48px,7vw,110px)) 0 clamp(72px,9vw,130px)}
+.pv-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.35fr);gap:clamp(40px,7vw,120px);align-items:start}
+
+/* Left column: title, date and a sticky table of contents. */
+.pv-side{position:sticky;top:calc(var(--nav-h) + 32px);min-width:0}
+.pv-eyebrow{margin:0 0 14px;color:var(--vio-2);font-size:13.5px;font-weight:500;letter-spacing:.01em}
+.pv-title{margin:0;font-size:clamp(32px,3.4vw,50px);font-weight:340;line-height:1.06;letter-spacing:-.04em;
+  overflow-wrap:break-word;hyphens:manual}
+.pv-date{margin:18px 0 0;color:var(--ink-2);font-size:14.5px;line-height:1.5}
+.pv-toc{display:grid;gap:2px;margin-top:clamp(28px,3.4vw,44px);padding-top:18px;border-top:1px solid var(--line)}
+.pv-toc a{display:grid;grid-template-columns:30px minmax(0,1fr);align-items:baseline;padding:8px 0;color:var(--ink-3);
+  font-size:14.5px;line-height:1.4;transition:color .3s var(--e)}
+.pv-toc a b{font-weight:400;font-size:12px;letter-spacing:.04em;color:rgba(179,174,199,.7);transition:color .3s var(--e)}
+.pv-toc a:hover{color:var(--ink)}
+.pv-toc a.is-current{color:#fff}
+.pv-toc a.is-current b{color:var(--vio-2)}
+
+/* Right column: numbered sections on hairlines. */
+.pv-body{min-width:0;border-top:1px solid var(--line)}
+.pv-sec{padding:clamp(24px,2.6vw,34px) 0;border-bottom:1px solid var(--line);scroll-margin-top:calc(var(--nav-h) + 24px)}
+.pv-sec h2{display:flex;align-items:baseline;gap:14px;margin:0;font-size:clamp(20px,1.7vw,26px);font-weight:420;line-height:1.2;letter-spacing:-.03em}
+.pv-sec h2 b{flex:0 0 auto;font-weight:400;font-size:13px;letter-spacing:.04em;color:var(--vio-2)}
+.pv-sec p,.pv-sec li{color:var(--ink-2);font-size:15.5px;line-height:1.65}
+.pv-sec p{max-width:62ch;margin:14px 0 0}
+.pv-sec ul{display:grid;gap:8px;max-width:62ch;margin:16px 0 0;padding:0;list-style:none}
+.pv-sec li{position:relative;padding-left:20px}
+.pv-sec li::before{content:'';position:absolute;left:2px;top:.68em;width:6px;height:6px;border-radius:50%;
+  background:var(--vio-2);box-shadow:0 0 10px rgba(155,132,255,.6)}
+.pv-sec a{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(155,132,255,.7);text-underline-offset:3px}
+.pv-sec a:hover{text-decoration-color:var(--ink)}
+
+.pv .foot__col a[aria-current="page"]{color:var(--ink)}
+
+@media (max-width:900px){
+  .pv-grid{grid-template-columns:1fr;gap:34px}
+  .pv-side{position:static}
+  .pv-toc{grid-template-columns:1fr 1fr;column-gap:18px}
+}
+@media (max-width:520px){
+  .pv-main{padding-top:calc(var(--nav-h) + 40px)}
+  .pv-title{font-size:clamp(30px,8.4vw,38px)}
+  .pv-toc{grid-template-columns:1fr}
+  .pv-sec h2{gap:10px;font-size:20px}
+  .pv-sec p,.pv-sec li{font-size:15px}
+}
