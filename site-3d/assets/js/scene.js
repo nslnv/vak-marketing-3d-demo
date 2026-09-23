@@ -1301,6 +1301,19 @@ function boot(canvas) {
       k.p = aboutKeyP[k.aboutSlot];
       Object.assign(k, aboutPoses[k.aboutSlot]);
     }
+    if (!compactAbout) {
+      // Distribute the assembled departure over its whole scroll interval.
+      // The former first exit key dropped most of Y in just ~20 scroll px.
+      const exitKeys = KEYS.filter(k => k.sec === 'about' && k.p > .91);
+      const start = ABOUT_DESKTOP_POSES[2];
+      const end = exitKeys[exitKeys.length - 1];
+      const finish = Object.fromEntries(FIELDS.map(f => [f, end[f]]));
+      for (const k of exitKeys) {
+        const u = (k.p - .91) / (.998 - .91);
+        const eased = u * u * (3 - 2 * u);
+        for (const f of FIELDS) k[f] = THREE.MathUtils.lerp(start[f], finish[f], eased);
+      }
+    }
     if (compactAbout) {
       /* Между основными ключами desktop есть несколько очень плотных
          выходных кадров. На телефоне они раньше оставались с desktop p,
@@ -1413,7 +1426,7 @@ function boot(canvas) {
   let W = 0, H = 0, dpr = 1, xk = 1, yk = 0, sk = 1, ok = 1;
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   const cur = { x: 0, y: 0, z: 0, rx: 0, ry: 0, s: 1, cz: 7.2, cy: 0, ro: 0 };
-  let scrollT = 0, scrollS = 0, scrollPrev = 0, scrollV = 0, started = false;
+  let scrollT = 0, scrollS = 0, scrollPrev = 0, scrollV = 0, scrollRange = 1, started = false;
   let aboutStart = 0, aboutEnd = 0;
   /* Значения заменяются resolveKeys после расчёта фактической высоты About. */
   let aboutBeats = [0.19, 0.75, 0.82, 0.84];
@@ -1593,6 +1606,7 @@ function boot(canvas) {
 
   function readScroll() {
     const max = document.documentElement.scrollHeight - innerHeight;
+    scrollRange = Math.max(1, max);
     scrollT = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
   }
 
@@ -1630,7 +1644,10 @@ function boot(canvas) {
        кадра: не укладываемся в бюджет — снижаем плотность пикселей, есть
        запас — возвращаем. Дешевле любого другого рычага, потому что цена
        кадра здесь почти целиком заливка. */
-    if (dtForce === undefined && !aboutInMotion) {
+    const scrollPixels = scrollRange;
+    const flightSettled = Math.abs(scrollT - scrollS) * scrollPixels < 1
+      && Math.abs(vel.st || 0) * scrollPixels < 4;
+    if (dtForce === undefined && !aboutInMotion && flightSettled) {
       tuneAcc += dt; tuneN++;
       if (tuneN >= 30) {
         const avg = tuneAcc / tuneN;
@@ -1645,11 +1662,11 @@ function boot(canvas) {
 
     /* Одна спокойная кинематическая доводка на всём сайте. Раньше About
        переключал модель на прямой scroll, а соседние секции — на пружину:
-       именно на границах появлялся заметный толчок. 190 мс снимают резкость
+       именно на границах появлялся заметный толчок. 380 мс снимают резкость
        wheel-шагов и одинаково отрабатывают ход вперёд и точный реверс. */
     const rawAboutProgress = (scrollT - aboutStart) / Math.max(1e-5, aboutEnd - aboutStart);
     const isInsideAbout = rawAboutProgress >= -0.08 && rawAboutProgress <= 1.12;
-    scrollS = reduced ? scrollT : damp(scrollS, scrollT, 'st', 0.19, dt);
+    scrollS = reduced ? scrollT : damp(scrollS, scrollT, 'st', 0.38, dt);
     /* Reduced motion — не пустой Hero, а спокойный статичный предметный
        кадр. После Hero он просто не рисуется: никакого scroll-driven
        перелёта, раскладки или резкой смены состояния. */
@@ -1658,7 +1675,8 @@ function boot(canvas) {
     /* Таймлайн About: прилёт сверху-слева → крупное раскрытие в центре →
        пауза → обратная сборка на месте → длинный плавный выход вправо-вниз.
        Всё считается из scroll-позиции, поэтому движение вверх — точный реверс. */
-    const aboutProgress = Math.min(1, Math.max(0, (scrollS - aboutStart) / Math.max(1e-5, aboutEnd - aboutStart)));
+    const smoothAboutProgress = (scrollS - aboutStart) / Math.max(1e-5, aboutEnd - aboutStart);
+    const aboutProgress = Math.min(1, Math.max(0, smoothAboutProgress));
     const aboutEnter = easeRange(aboutProgress, 0.00, 0.08);
     const aboutLand = easeRange(aboutProgress, 0.03, 0.27);
     /* Весь mobile-layout (включая короткий landscape) использует отдельную
@@ -1724,12 +1742,12 @@ function boot(canvas) {
     const aboutFitPresence = compactAbout ? easeAbout(aboutProgress, 0.06, 0.17)
       * (1 - easeAbout(aboutProgress, 0.44, 0.58)) : easeAbout(
       aboutProgress, aboutArrive - 0.10, aboutArrive + 0.02
-    ) * (1 - easeAbout(rawAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
+    ) * (1 - easeAbout(smoothAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
     const aboutScaleFit = THREE.MathUtils.lerp(1, aboutViewportFit, aboutFitPresence);
     const aboutTechnical = compactAbout
       ? easeAbout(aboutProgress, 0.07, 0.16) * (1 - easeAbout(aboutProgress, 0.56, 0.66))
       : easeAbout(aboutProgress, aboutArrive - 0.085, aboutArrive + 0.045)
-        * (1 - easeAbout(rawAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
+        * (1 - easeAbout(smoothAboutProgress, aboutAfterBeat - 0.01, aboutAfterBeat + 0.10));
     const aboutIris = compactAbout
       ? easeAbout(aboutProgress, 0.16, 0.29) * (1 - easeAbout(aboutProgress, 0.42, 0.54))
       : easeAbout(aboutProgress, openStart + cascadeStep, openStart + cascadeDuration)
@@ -1759,7 +1777,7 @@ function boot(canvas) {
        появляется снова лишь за пределами первой полосы Figures. Desktop
        при этом продолжает непрерывный видимый пролёт без этой страховки. */
     const compactLateReturn = compactAbout
-      ? easeAbout(rawAboutProgress, 1.52, 1.70)
+      ? easeAbout(smoothAboutProgress, 1.52, 1.70)
       : 1;
     const reducedHeroVisibility = reduced && scrollT < aboutStart ? 1 : 0;
     const aboutRigVisibility = reduced ? reducedHeroVisibility : compactAbout
@@ -1856,9 +1874,9 @@ function boot(canvas) {
        Поэтому вход, раскрытие и уход живут на одной непрерывной кривой. */
     rig.position.set(rigX, rigY + compactLandscapeY + breathe + landingLift, rigZ);
     rig.rotation.set(
-      rigRx + pointer.y * 0.045 * (1 - aboutTechnical) - mechanicalV * 0.022,
-      rigRy + time * 0.006 * (1 - aboutTechnical) + pointer.x * 0.070 * (1 - aboutTechnical),
-      Math.sin(time * 0.24) * 0.012 * (1 - aboutTechnical) + mechanicalV * 0.028
+      rigRx + pointer.y * 0.025 * (1 - aboutTechnical) - mechanicalV * 0.012,
+      rigRy + (Math.sin(time * 0.12) * 0.045 + pointer.x * 0.035) * (1 - aboutTechnical),
+      Math.sin(time * 0.24) * 0.008 * (1 - aboutTechnical) + mechanicalV * 0.014
     );
     rig.scale.setScalar(rigScale);
 
@@ -1945,9 +1963,11 @@ function boot(canvas) {
     /* Малые движения отдельного узла создают жизнь внутри прибора, но не
        спорят с общей хореографией по прокрутке. Важный момент: скорость
        ниже, чем у частиц — это механика высокого класса, а не спиннер. */
-    calibration.rotation.z = (time * 0.045 + pointer.x * 0.030) * freeMechanics;
-    gimbal.rotation.z = (-time * 0.018 + pointer.x * 0.012) * freeMechanics;
-    frontInner.rotation.z = -time * 0.026 * freeMechanics;
+    // Bounded idle motion cannot wind up while a tab stays open, then spin
+    // several turns when the technical scene releases it on reverse scroll.
+    calibration.rotation.z = (Math.sin(time * 0.18) * 0.16 + pointer.x * 0.018) * freeMechanics;
+    gimbal.rotation.z = (Math.sin(time * 0.12) * -0.10 + pointer.x * 0.008) * freeMechanics;
+    frontInner.rotation.z = Math.sin(time * 0.14) * -0.12 * freeMechanics;
     const focusPulse = 1 + (reduced ? 0 : (Math.sin(time * 0.78) * 0.009 + va * 0.008) * freeMechanics);
     pupil.scale.setScalar(focusPulse);
     for (const d of detailMats) d.m.opacity = d.base * op * (0.82 + K.br * 0.22);
