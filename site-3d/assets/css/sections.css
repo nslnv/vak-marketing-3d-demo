@@ -108,15 +108,19 @@
 .about__flow-line i::after{content:'';position:absolute;top:50%;left:calc(var(--fill) * 100%);width:8px;height:8px;border-radius:50%;
   background:#FFFFFF;box-shadow:0 0 12px 2px rgba(120,210,255,.9);transform:translate(-50%,-50%);
   opacity:calc(min(var(--fill) * 12, 1) * min((1 - var(--fill)) * 12, 1))}
-/* Верхняя строка меняется по этапам: видны только модули текущего этапа.
-   Сцена задаёт --module-opacity (раскрытие), класс is-current — этап;
-   --stage-on плавно переключается за 0,4 с, старые подписи уходят вниз,
-   новые поднимаются. */
-@property --stage-on{syntax:'<number>';inherits:false;initial-value:0}
-.about__module-label{--stage-on:0;opacity:calc(var(--module-opacity,0) * var(--stage-on));
-  translate:0 calc((1 - var(--stage-on)) * 12px);transition:--stage-on .4s var(--e)}
-.about__module-label.is-current{--stage-on:1}
-.about__module-label.is-current span{color:#FFFFFF;text-shadow:0 0 16px rgba(155,132,255,.55),0 2px 10px rgba(5,3,16,.9)}
+/* Одна строка вместо трёх: подписи модулей не показываются, этапы сами
+   ведут историю разборки и сборки. Строка поднята к объективу, крупнее,
+   луч между словами длиннее и ярче. */
+.about__module-labels{display:none}
+.about__flow-line{bottom:clamp(-4px,.4vw,10px);gap:clamp(12px,1.5vw,24px);font-size:clamp(12.5px,1.08vw,16.5px);letter-spacing:.07em}
+.about__flow-line i{width:clamp(48px,5.4vw,96px);height:2px}
+.about__flow-line i::after{width:10px;height:10px;box-shadow:0 0 16px 3px rgba(120,210,255,.95)}
+.about__flow-line span[data-state="done"]{color:#DCD5F7}
+.about__flow-line span[data-state="active"]{color:#FFFFFF;text-shadow:0 0 22px rgba(170,190,255,.8),0 0 2px rgba(255,255,255,.6)}
+.about__flow-line span::before{top:-14px;width:6px;height:6px}
+@media (max-width:900px){.about__flow-line i{width:clamp(18px,5.4vw,44px)}}
+@media (max-width:480px){.about .about__flow-line{font-size:10.5px;gap:6px;letter-spacing:.02em}}
+@media (max-width:370px){.about .about__flow-line{font-size:9.5px;gap:5px}.about .about__flow-line i{width:16px}}
 .about__body{position:relative;isolation:isolate;max-width:46ch;color:var(--ink-2)}
 .about__body::before{content:'';position:absolute;z-index:-1;pointer-events:none;
   inset:-30px -52px -38px -30px;
