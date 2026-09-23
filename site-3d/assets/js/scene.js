@@ -155,13 +155,14 @@ function boot(canvas) {
   const sweepU = {
     uSweep:    { value: -99 },
     uSweepAmp: { value: 0 },
+    uLock:     { value: 0 },
     uAxis:     { value: new THREE.Vector3(0, 0, 1) },
     uCenter:   { value: new THREE.Vector3() },
     uScale:    { value: 1 }
   };
   const sweepTmp = new THREE.Vector3(), sweepQuat = new THREE.Quaternion();
   const sweepGLSL = `
-    uniform float uSweep, uSweepAmp, uScale;
+    uniform float uSweep, uSweepAmp, uScale, uLock;
     uniform vec3 uAxis, uCenter;
     float sweepBand(vec3 w){
       float s = dot(w - uCenter, uAxis) / uScale;
@@ -223,6 +224,7 @@ function boot(canvas) {
       // проход световой полосы: стекло вспыхивает по кромке и просветлению
       float sw = sweepBand(vW);
       col += (vec3(0.92, 0.95, 1.0) * fres * 2.2 + coat * 0.35) * sw;
+      col += vec3(0.90, 0.94, 1.0) * fres * 1.4 * uLock;
 
       float a = uAlpha * clamp(0.32 + 0.80 * fres + 0.26 * length(col), 0.0, 1.0);
       gl_FragColor = vec4(col, a);
@@ -401,6 +403,8 @@ function boot(canvas) {
       // проход световой полосы: сильнее на кромках и по линии точёного блика
       float sw = sweepBand(vW);
       col += mix(uSpec, vec3(1.0), 0.35) * sw * (0.14 + 1.9 * fres + 1.8 * pow(sk, 30.0)) * gloss;
+      // «защёлка»: в момент стыковки модулей кромки коротко вспыхивают
+      col += mix(uSpec, vec3(1.0), 0.4) * uLock * (0.08 + 1.5 * fres + 1.1 * pow(sk, 30.0));
 
       gl_FragColor = vec4(col, uAlpha);
       #include <tonemapping_fragment>
@@ -436,6 +440,7 @@ function boot(canvas) {
   const matScale = metal({ base: 0x15121e, spec: 0xeee6ff, ticks: 60, rough: 0.30, side: D });
   const matDark  = metal({ base: 0x0c0a15, spec: 0x6c5ba8, rough: 0.92, side: D });
   let markRef = null;
+  const focusParts = [];              // кольцо фокуса и шкала проворачиваются вместе
 
   /* --- стеклянные элементы в оправах --- */
   const ELEMENTS = [
@@ -550,8 +555,9 @@ function boot(canvas) {
     };
     knurlRing(0.94, 0.34, -1.94, metal({ base: 0x13101b, knurl: 58, rough: 0.34, side: D }))
       .forEach(node => stageAboutNode('inlet', node));
-    knurlRing(1.20, 0.50, -0.30, matKnurl)
-      .forEach(node => stageAboutNode('comms', node));
+    const focusKnurl = knurlRing(1.20, 0.50, -0.30, matKnurl);
+    focusKnurl.forEach(node => stageAboutNode('comms', node));
+    focusParts.push(focusKnurl[0]);
 
     // кольцо со шкалой
     const scale = new THREE.Mesh(
@@ -560,6 +566,7 @@ function boot(canvas) {
     scale.rotation.x = Math.PI / 2;
     scale.position.z = 0.66;
     optic.add(scale);
+    focusParts.push(scale);
     stageAboutNode('content', scale);
 
     // рёбра: связывают ступени и держат силуэт открытым
@@ -2029,6 +2036,19 @@ function boot(canvas) {
     calibration.rotation.z = (Math.sin(time * 0.18) * 0.16 + pointer.x * 0.018) * freeMechanics;
     gimbal.rotation.z = (Math.sin(time * 0.12) * -0.10 + pointer.x * 0.008) * freeMechanics;
     frontInner.rotation.z = Math.sin(time * 0.14) * -0.12 * freeMechanics;
+    /* Кольцо фокуса со шкалой медленно ходит туда-обратно: накатка и штрихи
+       едут относительно неподвижной метки индекса, как у настоящего объектива. */
+    const focusTurn = reduced ? 0 : Math.sin(time * 0.21) * 0.30 * freeMechanics;
+    for (const part of focusParts) part.rotation.y = focusTurn;
+    /* Импульс защёлки считается от того же drive, что и механика: у самого
+       стыка (drive < 0.12) кромки вспыхивают и гаснут. Без таймера, поэтому
+       при обратной прокрутке кадр тот же. */
+    let lockPulse = 0;
+    if (!reduced) for (let i = 0; i < aboutAssemblyDrive.length; i++) {
+      const d = aboutAssemblyDrive[i];
+      if (d > 0.001 && d < 0.12) lockPulse = Math.max(lockPulse, Math.sin(Math.PI * d / 0.12));
+    }
+    sweepU.uLock.value = lockPulse * 0.9 * op;
     const focusPulse = 1 + (reduced ? 0 : (Math.sin(time * 0.78) * 0.009 + va * 0.008) * freeMechanics);
     pupil.scale.setScalar(focusPulse);
     for (const d of detailMats) d.m.opacity = d.base * op * (0.82 + K.br * 0.22);
