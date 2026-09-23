@@ -149,6 +149,26 @@ function boot(canvas) {
     ];
   }
 
+  /* Световая полоса: раз в несколько секунд по корпусу вдоль оси проходит
+     мягкий блик, как от софтбокса, который проносят мимо прибора. Одни и те
+     же uniform-объекты подключены ко всем материалам, кадр обновляет их один раз. */
+  const sweepU = {
+    uSweep:    { value: -99 },
+    uSweepAmp: { value: 0 },
+    uAxis:     { value: new THREE.Vector3(0, 0, 1) },
+    uCenter:   { value: new THREE.Vector3() },
+    uScale:    { value: 1 }
+  };
+  const sweepTmp = new THREE.Vector3(), sweepQuat = new THREE.Quaternion();
+  const sweepGLSL = `
+    uniform float uSweep, uSweepAmp, uScale;
+    uniform vec3 uAxis, uCenter;
+    float sweepBand(vec3 w){
+      float s = dot(w - uCenter, uAxis) / uScale;
+      float d = (s - uSweep) / 0.46;
+      return exp(-d * d) * uSweepAmp;
+    }`;
+
   const baseVert = `
     varying vec3 vN; varying vec3 vW; varying vec3 vP; varying vec3 vT;
     void main(){
@@ -166,6 +186,7 @@ function boot(canvas) {
     uniform vec3  uTint, uEdge, uAbs;
     uniform float uIor, uDisp, uAlpha, uGain, uCoat;
     varying vec3 vN; varying vec3 vW; varying vec3 vP; varying vec3 vT;
+    ${sweepGLSL}
     void main(){
       vec3 N = normalize(vN);
       vec3 V = normalize(vW - cameraPosition);
@@ -199,6 +220,9 @@ function boot(canvas) {
       float sp = pow(max(dot(reflect(V, N), normalize(vec3(-0.25, 0.78, 0.60))), 0.0), 240.0);
       col += vec3(1.0, 0.97, 1.0) * sp * 3.0;
       col += uEdge * pow(1.0 - ndv, 6.0) * 1.55;
+      // проход световой полосы: стекло вспыхивает по кромке и просветлению
+      float sw = sweepBand(vW);
+      col += (vec3(0.92, 0.95, 1.0) * fres * 2.2 + coat * 0.35) * sw;
 
       float a = uAlpha * clamp(0.32 + 0.80 * fres + 0.26 * length(col), 0.0, 1.0);
       gl_FragColor = vec4(col, a);
@@ -217,7 +241,8 @@ function boot(canvas) {
       uDisp: { value: o.disp },
       uCoat: { value: o.coat || 0 },
       uAlpha:{ value: 1 },
-      uGain: { value: 1 }
+      uGain: { value: 1 },
+      ...sweepU
     };
     glassUniforms.push(u);
     return new THREE.ShaderMaterial({
@@ -311,6 +336,7 @@ function boot(canvas) {
     uniform vec3 uBase, uSpec;
     uniform float uAlpha, uKnurl, uRough, uTicks;
     varying vec3 vN; varying vec3 vW; varying vec3 vP; varying vec3 vT;
+    ${sweepGLSL}
     void main(){
       vec3 Ng = normalize(vN);
       if (!gl_FrontFacing) Ng = -Ng;            // изнутри тубуса грани смотрят на нас
@@ -372,6 +398,9 @@ function boot(canvas) {
       col += uSpec * fres * 0.42;
       col *= occl;
       col += uSpec * tick * 1.35;
+      // проход световой полосы: сильнее на кромках и по линии точёного блика
+      float sw = sweepBand(vW);
+      col += mix(uSpec, vec3(1.0), 0.35) * sw * (0.14 + 1.9 * fres + 1.8 * pow(sk, 30.0)) * gloss;
 
       gl_FragColor = vec4(col, uAlpha);
       #include <tonemapping_fragment>
@@ -388,7 +417,8 @@ function boot(canvas) {
       uKnurl:{ value: o.knurl || 0 },
       uTicks:{ value: o.ticks || 0 },
       uRough:{ value: o.rough || 0 },
-      uAlpha:{ value: 1 }
+      uAlpha:{ value: 1 },
+      ...sweepU
     };
     metalUniforms.push(u);
     return new THREE.ShaderMaterial({
@@ -2005,6 +2035,24 @@ function boot(canvas) {
     if (markRef) markRef.material.opacity = op;
     flare.material.uniforms.uA.value = K.br * ok * aboutRigVisibility * 0.34;
     halo.material.uniforms.uA.value = op * 0.85;
+
+    /* Световая полоса: 2,6 с прохода от хвостовика к передней линзе, затем
+       пауза. Считается от времени, а не от скролла, поэтому не влияет на
+       хореографию и не копится; при reduced motion выключена. */
+    if (!reduced) {
+      const SWEEP_PERIOD = 7.0, SWEEP_RUN = 2.6;
+      const sweepPhase = (time % SWEEP_PERIOD) / SWEEP_RUN;
+      const sweepEase = sweepPhase < 1 ? sweepPhase * sweepPhase * (3 - 2 * sweepPhase) : 1;
+      sweepU.uSweep.value = -3.8 + sweepEase * 6.9;
+      sweepU.uSweepAmp.value = (sweepPhase < 1 ? Math.sin(Math.PI * Math.min(1, sweepPhase)) : 0) * op;
+      optic.getWorldPosition(sweepU.uCenter.value);
+      optic.getWorldScale(sweepTmp);
+      sweepU.uScale.value = Math.max(1e-3, sweepTmp.x);
+      sweepU.uAxis.value.set(0, 0, 1).applyQuaternion(optic.getWorldQuaternion(sweepQuat));
+      // когда полоса доходит до передней линзы, стекло коротко вспыхивает
+      const frontFlash = sweepU.uSweepAmp.value * THREE.MathUtils.smoothstep(sweepU.uSweep.value, 1.3, 2.7);
+      flare.material.uniforms.uA.value *= 1 + frontFlash * 1.8;
+    }
 
     renderer.render(scene, camera);
 
