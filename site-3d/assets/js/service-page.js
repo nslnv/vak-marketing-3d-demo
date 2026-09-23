@@ -46,7 +46,7 @@ var SERVICES = {
     ru:{
       meta:{ title:'Стратегия и комплексное ведение — VAK Marketing', desc:'Индивидуальная маркетинговая стратегия и комплексное ведение для проектов из iGaming, FinTech, Crypto, Web3 и B2B.' },
       crumb:'Маркетинговая система',
-      hero:{ title:'Выстраиваем полноценную систему продвижения под задачи проекта', lead:'От позиционирования и выбора каналов до привлечения клиентов, аналитики и комплексного сопровождения в одном контуре — без разрыва между планом и исполнением.', cta:'Получить консультацию' },
+      hero:{ title:'Выстраиваем полноценную систему продвижения под задачи проекта', accent:'систему продвижения', lead:'От позиционирования и выбора каналов до привлечения клиентов, аналитики и комплексного сопровождения в одном контуре — без разрыва между планом и исполнением.', cta:'Получить консультацию' },
       proof:{ label:'Почему это работает', title:'Не набор услуг, а последовательность решений', note:'Сначала фиксируем, что действительно влияет на задачу бизнеса. Затем подключаем только те направления, у которых есть понятная роль.', items:[
         ['Контекст до каналов','Разбираем нишу, цели, конкурентов и ограничения, чтобы не начинать со случайного набора активностей.'],
         ['Инструменты по задаче','PR, LinkedIn, SEO, контент и реклама подключаются тогда, когда решают конкретную часть воронки.'],
@@ -95,7 +95,7 @@ var SERVICES = {
     en:{
       meta:{ title:'Strategy and full project management — VAK Marketing', desc:'A tailored marketing strategy and integrated delivery for iGaming, FinTech, Crypto, Web3 and B2B businesses.' },
       crumb:'Marketing system',
-      hero:{ title:'A complete marketing system for your project', lead:'From positioning and channel choice to client acquisition, analytics and integrated delivery — without a gap between the plan and its execution.', cta:'Book a consultation' },
+      hero:{ title:'A complete marketing system for your project', accent:'marketing system', lead:'From positioning and channel choice to client acquisition, analytics and integrated delivery — without a gap between the plan and its execution.', cta:'Book a consultation' },
       proof:{ label:'Why it works', title:'Not a menu of services, but a sequence of decisions', note:'We first establish what actually affects the business goal, then bring in only the disciplines with a clear role.', items:[
         ['Context before channels','We examine the market, goals, competitors and constraints before choosing activities.'],
         ['Tools for the task','PR, LinkedIn, SEO, content and advertising are used when they solve a defined part of the funnel.'],
@@ -147,7 +147,7 @@ var SERVICES = {
     ru:{
       meta:{ title:'B2B-маркетинг и LinkedIn — VAK Marketing', desc:'LinkedIn как канал доверия, B2B-диалогов и квалифицированных лидов для сложных ниш.' },
       crumb:'B2B-маркетинг',
-      hero:{ title:'LinkedIn как канал лидов для B2B-бизнеса и компаний со сложными рекламными ограничениями', lead:'Выстраиваем прямой путь к нужным людям: страница компании, профили команды, ICP, контент и точечный outreach работают как один разговор с рынком.', cta:'Получить консультацию', facts:[{value:'ICP',label:'сегментация по рынкам, ролям и задачам'},{value:'B2B',label:'диалоги с людьми, которые принимают решения'}] },
+      hero:{ title:'LinkedIn как канал лидов для B2B-бизнеса и компаний со сложными рекламными ограничениями', accent:'канал лидов', lead:'Выстраиваем прямой путь к нужным людям: страница компании, профили команды, ICP, контент и точечный outreach работают как один разговор с рынком.', cta:'Получить консультацию', facts:[{value:'ICP',label:'сегментация по рынкам, ролям и задачам'},{value:'B2B',label:'диалоги с людьми, которые принимают решения'}] },
       proof:{ label:'Почему LinkedIn', title:'Там, где нужен доступ, а не громкий охват', note:'LinkedIn становится полезным не сам по себе, а когда профиль, контент и outreach собраны в единую логику.', items:[
         ['Работа при ограничениях','Органические и платные инструменты помогают там, где обычная реклама в соцсетях или поиске ограничена.'],
         ['Прямой выход к decision-makers','Команда находит и начинает диалог с теми, кто влияет на партнёрства и закупки.'],
@@ -179,7 +179,7 @@ var SERVICES = {
     en:{
       meta:{ title:'B2B marketing and LinkedIn — VAK Marketing', desc:'LinkedIn as a channel for trust, B2B conversations and qualified leads in complex markets.' },
       crumb:'B2B marketing',
-      hero:{ title:'LinkedIn as a lead channel for B2B businesses with complex advertising restrictions', lead:'We build a direct path to the right people: company page, team profiles, ICP, content and focused outreach become one market conversation.', cta:'Book a consultation', facts:[{value:'ICP',label:'segmentation by markets, roles and tasks'},{value:'B2B',label:'conversations with the people who decide'}] },
+      hero:{ title:'LinkedIn as a lead channel for B2B businesses with complex advertising restrictions', accent:'lead channel', lead:'We build a direct path to the right people: company page, team profiles, ICP, content and focused outreach become one market conversation.', cta:'Book a consultation', facts:[{value:'ICP',label:'segmentation by markets, roles and tasks'},{value:'B2B',label:'conversations with the people who decide'}] },
       proof:{ label:'Why LinkedIn', title:'When access matters more than noisy reach', note:'LinkedIn works when profile, content and outreach are put into one coherent logic.', items:[
         ['Work under restrictions','Organic and paid tools remain useful where standard social or search advertising is restricted.'],
         ['Direct access to decision-makers','The team finds and opens conversations with people who influence partnerships and procurement.'],
@@ -214,7 +214,7 @@ var SERVICES = {
     ru:{
       meta:{ title:'PR, СМИ и медиа — VAK Marketing', desc:'Публикации, интервью и экспертные материалы в профильных международных и СНГ-медиа.' },
       crumb:'PR и медиасеть',
-      hero:{ title:'Публикации и позиции в медиа, которые укрепляют доверие к бренду', lead:'Подбираем издания, собираем материал и ведём размещение от брифа до ссылки и отчёта. Для рынка, партнёров, инвесторов и поисковой выдачи.', cta:'Обсудить публикацию', facts:[{value:'Tier 1–3',label:'международные и СНГ-медиа'},{value:'PR',label:'материал, площадка и контекст в одной логике'}] },
+      hero:{ title:'Публикации и позиции в медиа, которые укрепляют доверие к бренду', accent:'доверие к бренду', lead:'Подбираем издания, собираем материал и ведём размещение от брифа до ссылки и отчёта. Для рынка, партнёров, инвесторов и поисковой выдачи.', cta:'Обсудить публикацию', facts:[{value:'Tier 1–3',label:'международные и СНГ-медиа'},{value:'PR',label:'материал, площадка и контекст в одной логике'}] },
       proof:{ label:'Зачем PR', title:'Публикация должна работать дольше дня выхода', note:'Сильное размещение фиксирует позицию бренда в нескольких контурах: доверие, поиск, аудитория и будущие переговоры.', items:[
         ['Репутация','Публикации в известных изданиях помогают подтвердить статус компании для партнёров, инвесторов и клиентов.'],
         ['Поисковое присутствие','Упоминания в авторитетных СМИ поддерживают видимость бренда в поисковой выдаче.'],
@@ -248,7 +248,7 @@ var SERVICES = {
     en:{
       meta:{ title:'PR, media and publications — VAK Marketing', desc:'Press releases, interviews and expert materials for specialist international and CIS media.' },
       crumb:'PR and media network',
-      hero:{ title:'Media placements and rankings that strengthen brand trust', lead:'We select the outlets, shape the material and manage publication from brief to live link and report — for the market, partners, investors and search visibility.', cta:'Discuss a publication', facts:[{value:'Tier 1–3',label:'international and CIS media'},{value:'PR',label:'material, outlet and context in one logic'}] },
+      hero:{ title:'Media placements and rankings that strengthen brand trust', accent:'brand trust', lead:'We select the outlets, shape the material and manage publication from brief to live link and report — for the market, partners, investors and search visibility.', cta:'Discuss a publication', facts:[{value:'Tier 1–3',label:'international and CIS media'},{value:'PR',label:'material, outlet and context in one logic'}] },
       proof:{ label:'Why PR', title:'A publication should work beyond its launch day', note:'A strong placement fixes the brand position across several contexts: trust, search, audience and future conversations.', items:[
         ['Reputation','Known outlets help validate company status for partners, investors and clients.'],
         ['Search presence','Authoritative mentions support brand visibility in search results.'],
@@ -285,7 +285,7 @@ var SERVICES = {
     ru:{
       meta:{ title:'AI SEO и SERP — VAK Marketing', desc:'SEO-стратегия, техническая оптимизация, контент и аналитика для конкурентных ниш и разных гео.' },
       crumb:'AI SEO и SERP',
-      hero:{ title:'SEO для конкурентных ниш, где важно понимать рынок, а не просто собирать ключи', lead:'Соединяем семантику, структуру сайта, техническую работу, контент и внешние факторы. AI-инструменты помогают быстрее анализировать материал и находить точки роста, но не заменяют стратегию.', cta:'Получить консультацию', facts:[{value:'SEO',label:'структура, контент и внешние сигналы в одной системе'},{value:'GEO',label:'работа с локальной спецификой поиска'}] },
+      hero:{ title:'SEO для конкурентных ниш, где важно понимать рынок, а не просто собирать ключи', accent:'понимать рынок', lead:'Соединяем семантику, структуру сайта, техническую работу, контент и внешние факторы. AI-инструменты помогают быстрее анализировать материал и находить точки роста, но не заменяют стратегию.', cta:'Получить консультацию', facts:[{value:'SEO',label:'структура, контент и внешние сигналы в одной системе'},{value:'GEO',label:'работа с локальной спецификой поиска'}] },
       proof:{ label:'Подход', title:'Семантика под реальный спрос, а не список ключей', note:'Строим конкурентную семантику по намерениям, воронке и коммерческой ценности — в том числе для кластеров, где стандартных SEO-подходов недостаточно.', items:[
         ['Анализ быстрее','AI-инструменты сокращают разбор семантики, конкурентов и выдачи. Больше времени остаётся на решения.'],
         ['Отраслевая специфика','В FinTech, iGaming и Crypto учитываем ограничения площадок, регуляторику и плотную конкуренцию.'],
@@ -316,7 +316,7 @@ var SERVICES = {
     en:{
       meta:{ title:'AI SEO and SERP — VAK Marketing', desc:'SEO strategy, technical optimisation, content and analytics for competitive niches and different markets.' },
       crumb:'AI SEO and SERP',
-      hero:{ title:'SEO for competitive sectors where market understanding matters more than a keyword list', lead:'We connect semantics, site structure, technical work, content and external factors. AI tools help us analyse material and find growth points faster; they do not replace strategy.', cta:'Book a consultation', facts:[{value:'SEO',label:'structure, content and external signals in one system'},{value:'GEO',label:'work with local search behaviour'}] },
+      hero:{ title:'SEO for competitive sectors where market understanding matters more than a keyword list', accent:'market understanding', lead:'We connect semantics, site structure, technical work, content and external factors. AI tools help us analyse material and find growth points faster; they do not replace strategy.', cta:'Book a consultation', facts:[{value:'SEO',label:'structure, content and external signals in one system'},{value:'GEO',label:'work with local search behaviour'}] },
       proof:{ label:'The approach', title:'Semantics built on real demand, not a keyword list', note:'We build competitive semantics around intent, funnel stage and commercial value — including clusters where standard SEO approaches are not enough.', items:[
         ['Faster analysis','AI tools shorten the work on semantics, competitors and search results, leaving more time for decisions.'],
         ['Sector specifics','In FinTech, iGaming and Crypto we account for platform restrictions, regulation and dense competition.'],
@@ -350,7 +350,7 @@ var SERVICES = {
     ru:{
       meta:{ title:'Перевод и локализация — VAK Marketing', desc:'Перевод и локализация для международных проектов: контент, продукт, коммуникации и документы с сохранением смысла и тональности.' },
       crumb:'Translation & Localization',
-      hero:{ title:'Переводим не слова, а смысл бизнеса', lead:'Адаптируем материалы под язык, рынок и ожидания аудитории, сохраняя точность, тональность и экспертность бренда. Работаем с образовательными и юридическими международными организациями, понимаем терминологию и контекст продукта с учётом особенностей вашей отрасли.', cta:'Заказать перевод', facts:[{value:'50 000+',label:'выполненных заказов'},{value:'10+',label:'языковых комбинаций'}] },
+      hero:{ title:'Переводим не слова, а смысл бизнеса', accent:'смысл бизнеса', lead:'Адаптируем материалы под язык, рынок и ожидания аудитории, сохраняя точность, тональность и экспертность бренда. Работаем с образовательными и юридическими международными организациями, понимаем терминологию и контекст продукта с учётом особенностей вашей отрасли.', cta:'Заказать перевод', facts:[{value:'50 000+',label:'выполненных заказов'},{value:'10+',label:'языковых комбинаций'}] },
       proof:{ label:'Почему выбирают нас', title:'Точность там, где цена ошибки высока', note:'Смысл материала, тональность бренда и отраслевые термины должны оставаться целыми и в новом языке.', items:[
         ['Сложные отрасли','8+ лет работы с текстами, где стандартного языкового знания недостаточно для точного результата.'],
         ['Условия под задачу','Гибко согласуем формат, объём и условия сотрудничества; для постоянных клиентов предусмотрены специальные условия.'],
@@ -383,7 +383,7 @@ var SERVICES = {
     en:{
       meta:{ title:'Translation and localisation — VAK Marketing', desc:'Translation and localisation for international projects: content, product, communications and documents, with meaning and tone preserved.' },
       crumb:'Translation and localisation',
-      hero:{ title:'We translate business meaning, not just words', lead:'We adapt materials to the language, market and audience expectations while keeping the brand’s accuracy, tone and expertise. We work with international education and legal organisations and understand product terminology and context in your sector.', cta:'Request a translation', facts:[{value:'50,000+',label:'completed orders'},{value:'10+',label:'language combinations'}] },
+      hero:{ title:'We translate business meaning, not just words', accent:'business meaning', lead:'We adapt materials to the language, market and audience expectations while keeping the brand’s accuracy, tone and expertise. We work with international education and legal organisations and understand product terminology and context in your sector.', cta:'Request a translation', facts:[{value:'50,000+',label:'completed orders'},{value:'10+',label:'language combinations'}] },
       proof:{ label:'Why clients choose us', title:'Accuracy where the cost of error is high', note:'The material’s meaning, brand voice and specialist terms must remain intact in the new language.', items:[
         ['Complex sectors','8+ years working with texts where language knowledge alone is not enough for an accurate outcome.'],
         ['Terms around the task','We agree format, volume and working conditions around the material, with special terms for ongoing clients.'],
@@ -457,12 +457,18 @@ document.addEventListener('click', function (event) {
 function linkArrow(label, href, extra) {
   return '<a class="' + (extra || 'link-arrow') + '" href="' + esc(href) + '">' + esc(label) + '<i></i></a>';
 }
-function renderHeroTitle(title) {
-  if (isStrategy) {
-    var accent = language === 'en' ? 'marketing system' : 'систему продвижения';
-    return esc(title).replace(accent, '<span class="sp-title__accent">' + accent + '</span>');
-  }
-  return '<span class="sp-title__accent sp-title__accent--full">' + esc(title) + '</span>';
+// The title stays white; only its key phrase carries the service gradient,
+// as on the strategy page. Short prepositions and conjunctions are bound to
+// the next word so a line never ends on "к", "в" or "а".
+function bindShortWords(html) {
+  return html.replace(/(^|[\s(])([A-Za-zА-Яа-яЁё]{1,2}) /g, '$1$2&nbsp;');
+}
+function renderHeroTitle(hero) {
+  var title = esc(hero.title);
+  var accent = hero.accent ? esc(hero.accent) : '';
+  if (!accent || title.indexOf(accent) < 0) return bindShortWords(title);
+  var parts = title.split(accent);
+  return bindShortWords(parts[0]) + '<span class="sp-title__accent">' + bindShortWords(accent) + '</span>' + bindShortWords(parts.slice(1).join(accent));
 }
 function strategyProofTitle() {
   return language === 'en'
@@ -547,7 +553,7 @@ function renderHero(d) {
   var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
-    + '<h1 class="sp-title">' + renderHeroTitle(d.hero.title) + '</h1>'
+    + '<h1 class="sp-title">' + renderHeroTitle(d.hero) + '</h1>'
     + '<p class="sp-lead">' + esc(d.hero.lead) + '</p>'
     + '<div class="sp-hero__actions"><a class="btn btn--primary" href="#consultation">' + esc(d.hero.cta) + '</a></div>'
     + '</div>'
@@ -637,11 +643,44 @@ function renderServiceSystem(section) {
       return '<li class="sp-service-system__node" data-sp-flow-anchor="n' + i + '" style="--sp-item-delay:' + (i * .085) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></div></section>';
 }
+// A glass funnel drawn as six stacked, tapering rings. Each ring is a short
+// truncated cone: an open top ellipse with a bright rim, a shaded side wall
+// with a specular streak, and a front bottom edge. Geometry is decorative,
+// every word stays HTML. The central axis carries a slow light stream.
+var LINKEDIN_FUNNEL_TONES = ['#8fc4ff', '#8ed3f0', '#8edbea', '#a3c5ff', '#b1baff', '#bfaef7'];
+function linkedinFunnelTier(i, count, prefix) {
+  var cx = 210, e = .14, yt = 24, yb = 90;
+  var radius = function (k) { return 196 - k * (123 / count); };
+  var rt = radius(i), rb = radius(i + 1) + 9, et = rt * e, eb = rb * e;
+  var tone = LINKEDIN_FUNNEL_TONES[i % LINKEDIN_FUNNEL_TONES.length];
+  var id = (prefix || 'sp-lf-') + i;
+  var r = function (v) { return Math.round(v * 10) / 10; };
+  var side = 'M' + r(cx - rt) + ' ' + yt + ' L' + r(cx - rb) + ' ' + yb + ' A' + r(rb) + ' ' + r(eb) + ' 0 0 0 ' + r(cx + rb) + ' ' + yb + ' L' + r(cx + rt) + ' ' + yt + ' A' + r(rt) + ' ' + r(et) + ' 0 0 1 ' + r(cx - rt) + ' ' + yt + ' Z';
+  var lip = 'M' + r(cx - rb) + ' ' + yb + ' A' + r(rb) + ' ' + r(eb) + ' 0 0 0 ' + r(cx + rb) + ' ' + yb;
+  var streak = 'M' + r(cx - rt * .58) + ' ' + r(yt + et * .82) + ' L' + r(cx - rb * .58) + ' ' + r(yb + eb * .82);
+  return '<svg viewBox="0 0 420 116" preserveAspectRatio="xMidYMid meet" focusable="false"><defs>'
+    + '<linearGradient id="' + id + '-side" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="' + tone + '" stop-opacity=".08"/><stop offset=".2" stop-color="' + tone + '" stop-opacity=".34"/><stop offset=".46" stop-color="' + tone + '" stop-opacity=".12"/><stop offset=".82" stop-color="' + tone + '" stop-opacity=".05"/><stop offset="1" stop-color="' + tone + '" stop-opacity=".16"/></linearGradient>'
+    + '<radialGradient id="' + id + '-in" cx=".5" cy=".62" r=".6"><stop offset="0" stop-color="' + tone + '" stop-opacity=".30"/><stop offset=".55" stop-color="#0b0a1a" stop-opacity=".9"/><stop offset="1" stop-color="#07060f" stop-opacity=".95"/></radialGradient>'
+    + '<linearGradient id="' + id + '-sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".13"/><stop offset=".55" stop-color="#fff" stop-opacity=".02"/><stop offset="1" stop-color="' + tone + '" stop-opacity=".10"/></linearGradient>'
+    + '</defs>'
+    + '<path class="sp-lf__side" d="' + side + '" fill="url(#' + id + '-side)" stroke="' + tone + '"/>'
+    + '<path d="' + side + '" fill="url(#' + id + '-sheen)"/>'
+    + '<path class="sp-lf__lip" d="' + lip + '" stroke="' + tone + '"/>'
+    + '<path class="sp-lf__streak" d="' + streak + '"/>'
+    + '<ellipse class="sp-lf__mouth" cx="' + cx + '" cy="' + yt + '" rx="' + r(rt) + '" ry="' + r(et) + '" fill="url(#' + id + '-in)" stroke="' + tone + '"/>'
+    + '<ellipse class="sp-lf__rim" cx="' + cx + '" cy="' + r(yt + 1.5) + '" rx="' + r(rt * .9) + '" ry="' + r(et * .86) + '" stroke="' + tone + '"/>'
+    + '<circle class="sp-lf__node" cx="' + cx + '" cy="' + yt + '" r="3.2" fill="' + tone + '"/>'
+    + '</svg>';
+}
 function renderLinkedinFunnel(section) {
   return '<section class="sp-section sp-linkedin-funnel-section"><div class="wrap sp-linkedin-funnel-layout"><div class="sp-linkedin-funnel__head" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + esc(section.note) + '</span></div>'
+    // Narrow screens: text rows are taller than the rings, so one unbroken
+    // funnel sits above the list instead of rings split between rows.
+    + '<div class="sp-linkedin-funnel__stack" aria-hidden="true">' + section.items.map(function (item, i) {
+      return '<div class="sp-linkedin-funnel__shape" style="--funnel-step:' + i + ';color:' + LINKEDIN_FUNNEL_TONES[i % LINKEDIN_FUNNEL_TONES.length] + '">' + linkedinFunnelTier(i, section.items.length, 'sp-lfm-') + '</div>';
+    }).join('') + '</div>'
     + '<ol class="sp-linkedin-funnel" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
-      var left = 8 + i * 18, right = 292 - i * 18;
-      return '<li style="--sp-item-delay:' + (i * .07) + 's;--funnel-step:' + i + '"><div class="sp-linkedin-funnel__shape" aria-hidden="true"><svg viewBox="0 0 300 68" preserveAspectRatio="none"><path d="M' + left + ' 2 H' + right + ' L' + (right - 16) + ' 65 H' + (left + 16) + ' Z"/></svg><i></i></div><div class="sp-linkedin-funnel__copy"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></div></li>';
+      return '<li style="--sp-item-delay:' + (i * .07) + 's;--funnel-step:' + i + ';color:' + LINKEDIN_FUNNEL_TONES[i % LINKEDIN_FUNNEL_TONES.length] + '"><div class="sp-linkedin-funnel__shape" aria-hidden="true">' + linkedinFunnelTier(i, section.items.length) + '</div><div class="sp-linkedin-funnel__copy"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></div></li>';
     }).join('') + '</ol></div></section>';
 }
 function renderLinkedinProcess(section) {

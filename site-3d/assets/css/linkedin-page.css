@@ -11,25 +11,35 @@
 .sp[data-service="linkedin"] .sp-hero__object{width:150%;right:-4%;opacity:.96;transform:translate3d(0,-50%,0);transform-origin:center;mask-image:linear-gradient(90deg,transparent,#000 24%,#000 80%,transparent),linear-gradient(0deg,transparent,#000 18%,#000 82%,transparent);mask-composite:intersect;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24%,#000 80%,transparent),linear-gradient(0deg,transparent,#000 18%,#000 82%,transparent);-webkit-mask-composite:source-in}
 .sp[data-service="linkedin"] .sp-hero__visual:hover .sp-hero__object{transform:translate3d(0,-50%,0) scale(1.015);filter:brightness(1.05)}
 
-/* A six-stage tapered funnel; its geometry is decorative, all copy is HTML. */
+/* A six-stage glass funnel: stacked tapering rings (SVG), copy in HTML.
+   Rings touch, so the light on the axis runs from mouth to mouth. */
 .sp-linkedin-funnel-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,6vw,96px);align-items:center}
 .sp-linkedin-funnel__head{display:block;margin:0}
 .sp-linkedin-funnel__head>p{margin:0 0 16px}
 .sp-linkedin-funnel__head h2{margin:0 0 24px;max-width:13ch}
 .sp-linkedin-funnel__head>span{display:block;max-width:36ch;font-size:16px;line-height:1.6}
-.sp-linkedin-funnel{display:grid;grid-template-columns:1fr;border:0;gap:12px}
-.sp-linkedin-funnel::before{display:none}
-.sp-linkedin-funnel::after{content:'';position:absolute;left:calc((100% - 22px) / 3.9);top:38px;bottom:38px;width:1px;background:linear-gradient(#9bbfff80,#b9a5f580);pointer-events:none}
+.sp-linkedin-funnel{position:relative;display:grid;grid-template-columns:1fr;border:0;gap:0}
+.sp-linkedin-funnel::after{display:none}
+/* A soft light volume behind the glass, so the rings read as lit objects. */
+.sp-linkedin-funnel::before{content:'';position:absolute;z-index:-1;left:-6%;width:62%;top:-8%;bottom:-6%;background:radial-gradient(ellipse 50% 46% at 50% 38%,rgba(142,200,255,.16),rgba(177,186,255,.06) 55%,transparent 75%);filter:blur(8px);transform:none;pointer-events:none}
 .sp[data-service="linkedin"] .sp-linkedin-funnel>li{padding:0;border:0}
-.sp-linkedin-funnel li,.sp-linkedin-funnel li+li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);align-items:center;gap:22px;min-height:76px;padding:0;border:0;color:var(--sp-accent)}
-.sp-linkedin-funnel li:nth-child(n+3){color:#aeb6ff}
-.sp-linkedin-funnel li:nth-child(n+5){color:#b9a5f5}
-.sp-linkedin-funnel__shape{position:relative;height:64px}
-.sp-linkedin-funnel__shape svg{display:block;width:100%;height:100%;overflow:visible}
-.sp-linkedin-funnel__shape path{fill:currentColor;fill-opacity:.04;stroke:currentColor;stroke-opacity:.65;stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round}
-.sp-linkedin-funnel__shape i{position:absolute;z-index:1;left:50%;top:50%;width:6px;height:6px;border-radius:50%;background:currentColor;transform:translate(-50%,-50%);box-shadow:0 0 14px currentColor}
-.sp-linkedin-funnel__copy{position:relative;padding-left:2px}
-.sp-linkedin-funnel__copy::before{content:'';position:absolute;right:calc(100% + 9px);top:12px;width:24px;height:1px;background:currentColor;opacity:.4}
+.sp-linkedin-funnel li,.sp-linkedin-funnel li+li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);align-items:stretch;gap:22px;min-height:0;padding:0;border:0}
+.sp-linkedin-funnel__shape{position:relative;isolation:isolate;container-type:inline-size;transition:transform .6s var(--e-out),filter .6s var(--e-out)}
+.sp-linkedin-funnel__shape svg{display:block;width:100%;height:auto;overflow:visible}
+.sp-lf__side{stroke-opacity:.5;stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.sp-lf__lip{fill:none;stroke-opacity:.9;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.sp-lf__streak{fill:none;stroke:#fff;stroke-opacity:.16;stroke-width:5;filter:blur(1.5px);stroke-linecap:round;vector-effect:non-scaling-stroke}
+.sp-lf__mouth{stroke-opacity:.95;stroke-width:1.3;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 4px currentColor)}
+.sp-lf__rim{fill:none;stroke-opacity:.32;stroke-width:1;vector-effect:non-scaling-stroke}
+.sp-lf__node{filter:drop-shadow(0 0 5px currentColor)}
+/* The axis: a faint line from this ring's mouth to the next, with a soft
+   pulse that travels down ring by ring. */
+.sp-linkedin-funnel__stack{display:none}
+.sp-linkedin-funnel li:not(:last-child) .sp-linkedin-funnel__shape::after,.sp-linkedin-funnel__stack .sp-linkedin-funnel__shape:not(:last-child)::after{content:'';position:absolute;z-index:-1;left:calc(50% - 1px);top:calc(100cqw * 24 / 420);height:100%;width:2px;border-radius:2px;background:linear-gradient(180deg,transparent 0 30%,currentColor 50%,transparent 70% 100%) 0 0/100% 300% no-repeat,linear-gradient(currentColor,currentColor) 50% 0/1px 100% no-repeat;opacity:.55;animation:sp-lf-flow 3.6s linear infinite;animation-delay:calc(var(--funnel-step) * .6s);pointer-events:none}
+@keyframes sp-lf-flow{from{background-position:0 100%,50% 0}to{background-position:0 0,50% 0}}
+.sp-linkedin-funnel li:hover .sp-linkedin-funnel__shape{transform:translateY(-2px);filter:brightness(1.18)}
+.sp-linkedin-funnel__copy{position:relative;align-self:center;padding:6px 0 6px 2px}
+.sp-linkedin-funnel__copy::before{content:'';position:absolute;right:calc(100% + 9px);top:18px;width:24px;height:1px;background:currentColor;opacity:.45}
 .sp-linkedin-funnel h3{margin:0;font-size:20px;line-height:1.2;letter-spacing:-.025em;font-weight:420;color:var(--ink)}
 .sp-linkedin-funnel p{margin:7px 0 0;font-size:14px;line-height:1.5;max-width:29ch}
 
@@ -60,13 +70,24 @@
 .sp-linkedin-phase ul li::before{content:'';position:absolute;left:0;top:.65em;width:4px;height:4px;border-radius:50%;background:var(--phase-color)}
 
 @media(min-width:1400px){.sp-linkedin-phase h3{min-height:1.25em}}
+@media(max-width:1200px){
+  .sp-linkedin-funnel-layout{grid-template-columns:minmax(0,.66fr) minmax(0,1.34fr);gap:40px}
+  .sp-linkedin-funnel li,.sp-linkedin-funnel li+li{grid-template-columns:minmax(0,1.1fr) minmax(0,.95fr)}
+}
+/* Below 1000 px text rows outgrow the rings: one unbroken funnel beside
+   (or, on phones, above) the list; list rows get a dot in the ring's tone. */
 @media(max-width:1000px){
   .sp[data-service="linkedin"] .sp-hero__grid{grid-template-columns:1.1fr .9fr;gap:24px}
   .sp[data-service="linkedin"] .sp-title{font-size:clamp(32px,4.2vw,44px)}
   .sp[data-service="linkedin"] .sp-hero__visual{min-height:370px}
-  .sp-linkedin-funnel-layout{grid-template-columns:.8fr 1.2fr;gap:30px}
-  .sp-linkedin-funnel li,.sp-linkedin-funnel li+li{grid-template-columns:.75fr 1fr;gap:16px}
-  .sp-linkedin-funnel::after{left:calc((100% - 16px) * .75 / 3.5)}
+  .sp-linkedin-funnel-layout{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:30px 40px;align-items:center}
+  .sp-linkedin-funnel__head{grid-column:1/-1}
+  .sp-linkedin-funnel__stack{display:block;width:min(100%,320px);margin:0 auto}
+  .sp-linkedin-funnel li,.sp-linkedin-funnel li+li{grid-template-columns:1fr;border:0;gap:0}
+  .sp-linkedin-funnel li .sp-linkedin-funnel__shape{display:none}
+  .sp[data-service="linkedin"] .sp-linkedin-funnel>li{padding:0 0 18px 22px}
+  .sp-linkedin-funnel__copy{padding:0}
+  .sp-linkedin-funnel__copy::before{right:auto;left:-22px;top:8px;width:8px;height:8px;border-radius:50%;opacity:1;box-shadow:0 0 10px currentColor}
   .sp-linkedin-icp{grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.5fr)}
   .sp-linkedin-icp::before{right:27.2727%}
   .sp-linkedin-icp li{padding-right:16px}
@@ -84,8 +105,7 @@
   .sp-linkedin-funnel-layout{grid-template-columns:1fr;gap:34px}
   .sp-linkedin-funnel__head h2{max-width:20ch;margin-bottom:16px}
   .sp-linkedin-funnel__head>span{max-width:44ch;font-size:15px}
-  .sp-linkedin-funnel li,.sp-linkedin-funnel li+li{grid-template-columns:.85fr 1.15fr;border:0;min-height:78px;gap:18px;padding:0}
-  .sp-linkedin-funnel::after{left:calc((100% - 18px) * .2125);top:39px;bottom:39px}
+  .sp-linkedin-funnel__stack{width:min(78%,300px);margin:0 auto}
   .sp-linkedin-funnel h3{margin:0;font-size:19px}
   .sp-linkedin-funnel p{font-size:13px}
   .sp-linkedin-icp{grid-template-columns:1fr;gap:0;border-left:1px solid rgba(var(--sp-accent-rgb),.5);border-top:0;padding:0}
@@ -104,6 +124,7 @@
 }
 @media(prefers-reduced-motion:reduce){
   .sp[data-service="linkedin"] [data-sp-reveal],.sp-linkedin-funnel li,.sp-linkedin-icp li{opacity:1;transform:none;transition:none}
+  .sp-linkedin-funnel__shape::after{animation:none}
   .sp-linkedin-icp::before{transform:none;transition:none}
   .sp[data-service="linkedin"] .sp-hero__object,.sp[data-service="linkedin"] .sp-hero__visual:hover .sp-hero__object{transition:none;transform:translate3d(0,-50%,0)}
 }

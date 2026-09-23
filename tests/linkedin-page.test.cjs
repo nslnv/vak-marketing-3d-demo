@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const source = fs.readFileSync('site-3d/assets/js/service-page.js', 'utf8');
 const data = source.slice(source.indexOf('var SERVICES ='), source.indexOf('/* ---------- Content rendering'));
-const renderers = source.slice(source.indexOf('function renderLinkedinFunnel'), source.indexOf('function renderLinearSequence'));
+const renderers = source.slice(source.indexOf('var LINKEDIN_FUNNEL_TONES'), source.indexOf('function renderLinearSequence'));
 const context = vm.createContext({
   esc: value => String(value == null ? '' : value).replaceAll('&','&amp;').replaceAll('<','&lt;'),
   renderHead: s => '<h2>' + s.title + '</h2>'
@@ -15,7 +15,10 @@ for (const lang of ['ru', 'en']) {
   assert.deepEqual(Array.from(page.process.items, item => item[1].length), [5, 6, 5], 'every task from the brief');
   const funnel = context.renderLinkedinFunnel(page.scope);
   assert.equal((funnel.match(/<li /g) || []).length, 6);
-  assert.equal((funnel.match(/<svg /g) || []).length, 6);
+  assert.equal((funnel.match(/<svg /g) || []).length, 12, 'a ring per step plus the unbroken narrow-screen funnel');
+  assert.equal((funnel.match(/<li style/g) || []).length, 6);
+  assert.equal((funnel.match(/sp-lf__mouth/g) || []).length, 12);
+  assert.ok(!/id="sp-lf-0-side"[\s\S]*id="sp-lf-0-side"/.test(funnel), 'gradient ids stay unique');
   const icp = context.renderLinkedinIcpLine(page.diagram);
   assert.equal((icp.match(/<li /g) || []).length, 5, 'four milestones and the final outcome');
   assert.ok(icp.includes(page.diagram.core[0].replace('\n',' ')));
