@@ -224,8 +224,8 @@ var SERVICES = {
       scope:{ label:'Форматы', title:'Материал под конкретный повод', note:'Не ставим пресс-релиз туда, где нужна колонка, и не делаем рейтинг ради строчки в списке. Формат следует задаче и площадке.', items:[
         'Пресс-релизы','Интервью с фаундерами и топ-менеджерами','Экспертные статьи и авторские колонки','Обзорные и аналитические материалы о проекте','Комментарии для журналистов и упоминания в готовых материалах','Рейтинги и позиции в обзорных материалах ТОП-5 и ТОП-10'
       ]},
-      diagram:{ label:'Контур публикации', title:'Материал работает не сам по себе', note:'Повод, содержание, площадка и отклик должны усиливать одну позицию бренда.', flow:'pr-orbit', layout:'pr', core:['Доверие\nк бренду','материал работает после выхода'], items:[
-        ['Повод','Что именно бренд должен зафиксировать на рынке'],['Материал','Формат, аргументы и голос спикера'],['Издание','Среда, где сообщение получает вес'],['Отклик','Ссылка, видимость и повод для следующего разговора'],['Доверие','Внешнее подтверждение позиции для рынка'],['Переходы','Партнёрства, продажи и следующие контакты']
+      diagram:{ label:'Контур публикации', title:'Материал работает не сам по себе', note:'Пошаговая цепочка: информация становится доверием, а доверие — бизнес-результатом.', result:['Переходы','партнёрства','продажи'], items:[
+        ['Повод','Новость, событие или причина для коммуникации.'],['Материал','Экспертный контент, который раскрывает тему.'],['Издание','Публикация в релевантном медиа или канале.'],['Отклик','Внимание, обсуждение и первые реакции аудитории.'],['Доверие','Накопленный авторитет и готовность к контакту.']
       ]},
       media:{ label:'Наша медиасеть', title:'Профильные и деловые издания', note:'Работаем с Tier-1, Tier-2 и Tier-3 медиа в международном и СНГ-контуре, включая crypto, fintech и бизнес-издания.', logos:['cointelegraph','yahoo','forklog','bits','beincrypto','coindesk','theblock','benzinga','rbc','cryptoru'], action:'Получить полный список доступных СМИ' },
       process:{ label:'Как проходит работа', title:'От повода к опубликованному материалу', items:[
@@ -258,8 +258,8 @@ var SERVICES = {
       scope:{ label:'Formats', title:'Material for a specific occasion', note:'We do not put a press release where a column is needed or produce a ranking for a line in a list. Format follows the task and the outlet.', items:[
         'Press releases','Founder and executive interviews','Expert articles and authored columns','Project overview and analytical pieces','Comments for journalists and mentions in ready-made materials','TOP-5 and TOP-10 positions in review content'
       ]},
-      diagram:{ label:'Publication system', title:'A piece does not work in isolation', note:'The occasion, content, outlet and response must support one clear brand position.', flow:'pr-orbit', layout:'pr', core:['Brand\ntrust','the piece works after it goes live'], items:[
-        ['Occasion','What the brand needs to establish in the market'],['Material','Format, evidence and the speaker’s voice'],['Outlet','A setting in which the message carries weight'],['Response','A live link, visibility and a reason for the next conversation'],['Trust','External validation of the brand position'],['Next steps','Partnerships, sales and the next conversations']
+      diagram:{ label:'Publication system', title:'A piece does not work in isolation', note:'A step-by-step chain: information becomes trust, and trust becomes a business result.', result:['Traffic','partnerships','sales'], items:[
+        ['Occasion','News, an event or a reason to communicate.'],['Material','Expert content that opens up the topic.'],['Outlet','Publication in a relevant medium or channel.'],['Response','Attention, discussion and the first audience reactions.'],['Trust','Accumulated authority and readiness to engage.']
       ]},
       media:{ label:'Our media network', title:'Specialist and business outlets', note:'We work with Tier-1, Tier-2 and Tier-3 outlets in international and CIS markets, including crypto, fintech and business media.', logos:['cointelegraph','yahoo','forklog','bits','beincrypto','coindesk','theblock','benzinga','rbc','cryptoru'], action:'Request the full list of available media' },
       process:{ label:'How we work', title:'From an occasion to a published piece', items:[
@@ -489,25 +489,16 @@ function strategyFlow() {
 }
 var SERVICE_DIAGRAM_FLOWS = {
   'linkedin-route': true,
-  'pr-orbit': true,
   'seo-loop': true,
   'localization-relay': true
 };
-var SERVICE_DIAGRAM_LAYOUTS = { linkedin:true, pr:true, seo:true, localization:true };
+var SERVICE_DIAGRAM_LAYOUTS = { linkedin:true, seo:true, localization:true };
 var SERVICE_FLOW_GRAPHS = {
   'linkedin-route': { edges:[
     { from:'n0', to:'n1', out:'br', into:'bl', tone:'cyan', opacity:.52 },
     { from:'n1', to:'n2', out:'bc', into:'tr', tone:'lilac', bend:'left', opacity:.58 },
     { from:'n2', to:'n3', out:'rc', into:'lc', tone:'rose', opacity:.54 },
     { from:'n3', to:'core', out:'tr', into:'bl', tone:'lilac', opacity:.74, primary:true }
-  ] },
-  'pr-orbit': { edges:[
-    { from:'n0', to:'n1', out:'rc', into:'lc', tone:'lilac', opacity:.5 },
-    { from:'n1', to:'n2', out:'bc', into:'tr', tone:'rose', bend:'left', opacity:.56 },
-    { from:'n2', to:'n3', out:'rc', into:'lc', tone:'cyan', opacity:.52 },
-    { from:'n3', to:'n4', out:'rc', into:'lc', tone:'lilac', opacity:.52 },
-    { from:'n4', to:'n5', out:'lc', into:'rc', tone:'rose', bend:'top', opacity:.58 },
-    { from:'n5', to:'core', out:'tr', into:'bl', tone:'cyan', opacity:.72, primary:true }
   ] },
   'seo-loop': { edges:[
     { from:'n0', to:'n1', out:'br', into:'bl', tone:'cyan', opacity:.5 },
@@ -538,13 +529,6 @@ function serviceFlow(flow) {
       ['lilac','M315 390 C385 338 428 194 550 148'],
       ['rose','M620 150 C694 214 544 294 620 350'],
       ['lilac','M690 388 C774 356 808 268 885 252']
-    ],
-    'pr-orbit':[
-      ['lilac','M290 126 C370 88 440 165 510 130'],
-      ['rose','M610 154 C682 218 535 282 608 350'],
-      ['cyan','M690 388 C780 345 855 424 908 390'],
-      ['lilac','M1000 344 C1066 282 942 222 1000 168'],
-      ['rose','M925 108 C732 44 410 52 288 108',.28]
     ],
     'seo-loop':[
       ['cyan','M290 126 C360 94 422 154 510 126'],
@@ -581,7 +565,7 @@ function serviceFlowCanvas(flow) {
 }
 function renderHero(d) {
   var visualClass = 'sp-hero__visual sp-hero__visual--' + key;
-  var visualDetails = isStrategy || key === 'linkedin' ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
+  var visualDetails = isStrategy || key === 'linkedin' || key === 'pr' ? '' : '<div class="sp-hero__trace" aria-hidden="true"></div>';
   return '<section class="sp-hero sp-hero--' + key + '"><div class="wrap sp-hero__grid">'
     + '<div class="sp-hero__copy" data-sp-reveal>'
     + '<h1 class="sp-title">' + renderHeroTitle(d.hero.title) + '</h1>'
@@ -701,6 +685,7 @@ function renderLinearSequence(section, modifier) {
 function renderDiagram(section) {
   if (isStrategy) return renderStrategySystem(section);
   if (key === 'linkedin') return renderLinkedinIcpLine(section);
+  if (key === 'pr') return renderPrChain(section);
   if (key === 'seo') return renderLinearSequence(section, 'seo');
   if (key === 'localization') return renderLinearSequence(section, 'localization');
   return renderServiceSystem(section);
@@ -708,6 +693,7 @@ function renderDiagram(section) {
 function renderProcess(section) {
   if (isStrategy) return renderStrategyProcess(section);
   if (key === 'linkedin') return renderLinkedinProcess(section);
+  if (key === 'pr') return renderPrSteps(section);
   var noIndex = key === 'seo';
   return '<section class="sp-section sp-process-section sp-process-section--' + key + '"><div class="wrap">' + renderHead(section)
     + '<ol class="sp-process' + (noIndex ? ' sp-process--plain' : '') + '" data-sp-reveal style="--sp-delay:.05s">' + section.items.map(function (item, i) {
@@ -739,21 +725,44 @@ function renderMedia(section) {
     + '<div class="sp-logo-grid" style="--logo-columns:5;--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, true); }).join('') + '</div>'
     + linkArrow(section.action, '#consultation') + '</div></section>';
 }
+// Five steps in one reading line; the business result hangs below the last
+// step instead of becoming a sixth node that competes with "trust".
+function renderPrChain(section) {
+  return '<section class="sp-section sp-pr-chain-section"><div class="wrap">' + renderHead(section)
+    + '<div class="sp-pr-chain-wrap" data-sp-reveal style="--sp-delay:.04s"><ol class="sp-pr-chain">' + section.items.map(function (item, i) {
+      return '<li style="--sp-item-delay:' + (i * .08) + 's"><span class="sp-pr-chain__num" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p>' + (i < section.items.length - 1 ? '<i class="sp-pr-chain__arrow" aria-hidden="true"></i>' : '') + '</li>';
+    }).join('') + '</ol><p class="sp-pr-chain__result">' + section.result.map(esc).join('<i aria-hidden="true">→</i>') + '</p></div></div></section>';
+}
+// Six working steps read left to right in two rows: numbered, compact,
+// without arrows so they do not repeat the publication chain above.
+function renderPrSteps(section) {
+  return '<section class="sp-section sp-pr-steps-section"><div class="wrap">' + renderHead(section)
+    + '<ol class="sp-pr-steps" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
+      return '<li style="--sp-item-delay:' + (i * .07) + 's"><span aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
+    }).join('') + '</ol></div></section>';
+}
+// The homepage cases, trimmed to the PR-relevant ones. Only confirmed figures
+// are carried over: 1GHS metrics are still marked as placeholders on the homepage.
+var PR_CASES = {
+  ru:{ title:'Кейсы и результаты', note:'Коротко о проектах, где PR и медиа были частью работы.', task:'Задача.', did:'Что сделали.', rail:'Кейсы, прокрутка по горизонтали', items:[
+    { logo:'/assets/img/brands/cases/huobi-global.png', name:'Huobi Global', meta:'Криптобиржа · выход на рынок · 1 год', task:'Усилить присутствие одной из ведущих мировых криптобирж на российском рынке и поддержать выход бренда в новый регион.', did:'Масштабная кампания: таргетированная и контекстная реклама, PR-инструменты, трафик-арбитраж, медийные активности и работа с инфлюенсерами.', res:[['14 000+','новых клиентов'],['14 млн','потенциальная аудитория рынка'],['10+','индустриальных мероприятий'],['20+','коллабораций с медиа и инфлюенсерами']] },
+    { logo:'/assets/img/brands/clients/zenex.svg', wordmark:true, name:'Zenex Token', meta:'Токен · PR и доверие · 6 месяцев', task:'Усилить доверие к токену, повысить узнаваемость проекта, привлечь внимание инвесторов и обеспечить трафик на официальные ресурсы.', did:'PR и медийные публикации, работа с социальными сетями, присутствие в индустриальном поле и выстраивание доверия вокруг токена.', res:[['10+','публикаций в ведущих медиа'],['20 000+','подписчиков в социальных сетях'],['3 млн','рекламный охват'],['$1,5 млн','привлечено на pre-sale токена']] },
+    { logo:'/assets/img/brands/cases/1ghs.png', wordmark:true, name:'1GHS', meta:'Упаковка бренда · digital и медиа', task:'Повысить узнаваемость проекта и доверие к бренду, создать основу для системного продвижения в digital и медиа.', did:'Упаковка коммуникации, контент, PR-активности, работа с аудиторией и усиление присутствия бренда в релевантных каналах.', res:[] }
+  ]},
+  en:{ title:'Cases and results', note:'A short look at projects where PR and media were part of the work.', task:'Goal.', did:'What we did.', rail:'Cases, horizontal scroll', items:[
+    { logo:'/assets/img/brands/cases/huobi-global.png', name:'Huobi Global', meta:'Crypto exchange · market entry · 1 year', task:'Strengthen the presence of one of the world’s leading crypto exchanges on the Russian market and support the brand entering a new region.', did:'A large-scale campaign: paid social and search advertising, PR tools, traffic arbitrage, media activity and influencer work.', res:[['14,000+','new clients'],['14 M','potential market audience'],['10+','industry events'],['20+','collaborations with media and influencers']] },
+    { logo:'/assets/img/brands/clients/zenex.svg', wordmark:true, name:'Zenex Token', meta:'Token · PR and trust · 6 months', task:'Build trust in the token, raise awareness, attract investor attention and drive traffic to the official resources.', did:'PR and media publications, social media work, presence across the industry field and trust-building around the token.', res:[['10+','publications in leading media'],['20,000+','new social media followers'],['3 M','advertising reach'],['$1.5 M','raised at the token pre-sale']] },
+    { logo:'/assets/img/brands/cases/1ghs.png', wordmark:true, name:'1GHS', meta:'Brand packaging · digital and media', task:'Raise awareness and brand trust, and create a base for systematic growth in digital and media.', did:'Communication packaging, content, PR activity, audience work and a stronger brand presence in relevant channels.', res:[] }
+  ]}
+};
 function renderPrCasesWidget() {
-  var cases = language === 'en' ? [
-    ['Huobi Global','Market entry and media activity','Integrated campaign for a new regional market.','/assets/img/brands/cases/huobi-global.png'],
-    ['Zenex Token','PR and trust','Media and communications work around a token launch.','/assets/img/brands/clients/zenex.svg'],
-    ['1GHS','Brand packaging','A communications foundation for digital and media activity.','/assets/img/brands/cases/1ghs.png']
-  ] : [
-    ['Huobi Global','Выход на рынок и медийная активность','Комплексная кампания для нового регионального рынка.','/assets/img/brands/cases/huobi-global.png'],
-    ['Zenex Token','PR и доверие','Медийная и коммуникационная работа вокруг запуска токена.','/assets/img/brands/clients/zenex.svg'],
-    ['1GHS','Упаковка бренда','Коммуникационная основа для digital- и медийной активности.','/assets/img/brands/cases/1ghs.png']
-  ];
-  var title = language === 'en' ? 'Selected work' : 'Выборочно: кейсы из практики';
-  var note = language === 'en' ? 'A compact selection; browse manually.' : 'Небольшая выборка — пролистывается вручную.';
-  return '<section class="sp-section sp-pr-cases"><div class="wrap"><div class="sp-pr-cases__head" data-sp-reveal><h2>' + title + '</h2><p>' + note + '</p></div><div class="sp-pr-cases__rail" data-sp-reveal style="--sp-delay:.05s">' + cases.map(function (item, i) {
-    return '<article class="sp-pr-case" style="--sp-item-delay:' + (i * .08) + 's"><img src="' + item[3] + '" alt="' + esc(item[0]) + '" loading="lazy" decoding="async"><span>' + esc(item[1]) + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[2]) + '</p></article>';
-  }).join('') + '</div></div></section>';
+  var d = PR_CASES[language];
+  return '<section class="sp-section sp-pr-cases"><div class="wrap"><div class="sp-pr-cases__head" data-sp-reveal><h2>' + esc(d.title) + '</h2><p>' + esc(d.note) + '</p></div></div>'
+    + '<div class="sp-pr-cases__rail" tabindex="0" aria-label="' + esc(d.rail) + '" data-sp-reveal style="--sp-delay:.05s">' + d.items.map(function (item, i) {
+      var res = item.res.length ? '<ul class="sp-pr-case__res">' + item.res.slice(0, 2).map(function (r) { return '<li><b>' + esc(r[0]) + '</b><span>' + esc(r[1]) + '</span></li>'; }).join('') + '</ul>' : '';
+      return '<article class="sp-pr-case" style="--sp-item-delay:' + (i * .08) + 's"><header><img class="' + (item.wordmark ? 'is-wordmark' : '') + '" src="' + esc(item.logo) + '" alt="" loading="lazy" decoding="async"><div><h3>' + esc(item.name) + '</h3><span>' + esc(item.meta) + '</span></div></header>'
+        + '<p><b>' + esc(d.task) + '</b> ' + esc(item.task) + '</p><p><b>' + esc(d.did) + '</b> ' + esc(item.did) + '</p>' + res + '</article>';
+    }).join('') + '</div></section>';
 }
 function renderTrust(section) {
   return '<section class="sp-trust sp-trust--' + key + (isStrategy ? ' sp-trust--strategy' : '') + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
