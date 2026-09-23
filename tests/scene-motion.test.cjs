@@ -31,7 +31,7 @@ assert.ok(source.includes('frameOpenAssembly(easeAbout(aboutOpen, 0, 1), assembl
 assert.ok(source.includes('layoutAlongOpticalAxis(0.95)'), 'compact desktop joints');
 assert.ok(source.includes('turn: 0'), 'no decorative module twists');
 const ease = source.slice(source.indexOf('  function easeAbout('), source.indexOf('\n  /* HTML', source.indexOf('  function easeAbout(')));
-const assembly = source.slice(source.indexOf('    const openSpan ='), source.indexOf('    if (aboutOpen >'));
+const assembly = source.slice(source.indexOf('    const openSpan ='), source.indexOf('    /* Технический контроллер включается'));
 for (const compactAbout of [false, true]) {
   const ctx = vm.createContext({compactAbout, aboutCenterHold:.60, aboutArrive:.36,
     aboutLeave:.85, aboutAssemblyMotion:Array(5).fill({}), aboutAssemblyDrive:Array(5).fill(0)});
