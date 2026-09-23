@@ -1506,7 +1506,8 @@ function boot(canvas) {
   let aboutNamedBeats = { centerHold: 0.65 };
   /* Вступительная строка принадлежит только первому подлёту. После начала
      раскрытия она тихо уходит и не возвращается во время обратной сборки. */
-  let aboutFlowIntroConsumed = false;
+  const aboutFlowLine = document.querySelector('.about__flow-line');
+  let aboutFlowValue = -1;
   let tuneAcc = 0, tuneN = 0;
 
   /* Критически задемпфированная пружина: доводит значение до цели без перелёта
@@ -1794,7 +1795,6 @@ function boot(canvas) {
       aboutAssemblyDrive[i] = drive;
       aboutOpen = Math.max(aboutOpen, drive);
     }
-    if (aboutOpen > 0.018) aboutFlowIntroConsumed = true;
     /* Технический контроллер включается лишь тогда, когда обычный маршрут
        уже привёл цельный объект в центр. На выходе он совпадает с K2 до
        последней координаты — поэтому переход не смешивает две траектории. */
@@ -1859,7 +1859,19 @@ function boot(canvas) {
       : 1;
     if (aboutSection) {
       aboutSection.classList.toggle('about--labels', aboutLabelVisibility > 0.02);
-      aboutSection.classList.toggle('about--flow-intro', !aboutFlowIntroConsumed && aboutProgress > 0.01);
+      /* Строка «Стратегия — Тактика — Оптимизация — Результат» видна всю
+         сцену About и возвращается при обратной прокрутке. Луч по ней идёт
+         от начала разборки до конца сборки тем же scroll-driven ходом, что и
+         механика, поэтому реверс проигрывает его точно назад. */
+      aboutSection.classList.toggle('about--flow-intro', aboutProgress > 0.01 && aboutProgress < aboutLeave + 0.02);
+      if (aboutFlowLine) {
+        const flowSpan = Math.max(1e-4, closeStart + cascadeDuration - openStart);
+        const flow = reduced ? 1 : Math.min(1, Math.max(0, (aboutProgress - openStart) / flowSpan));
+        if (Math.abs(flow - aboutFlowValue) > 0.002) {
+          aboutFlowValue = flow;
+          aboutFlowLine.style.setProperty('--flow', flow.toFixed(3));
+        }
+      }
     }
     /* Качество WebGL фиксируется до входа в видимую сцену и держится до
        полного выхода. Это убирает даже разовый визуальный скачок DPR прямо

@@ -91,10 +91,22 @@
   color:#E5E0F4;font-size:clamp(11px,.9vw,14px);font-weight:620;letter-spacing:.045em;line-height:1.2;text-transform:uppercase;
   text-align:center;text-shadow:0 2px 14px rgba(5,3,16,.9);pointer-events:none;
   transition:opacity .58s var(--e),transform .72s var(--e-out),filter .58s var(--e)}
-/* Строка — только вступление к раскрытию. После первого движения деталей
-   она растворяется и больше не конкурирует со сценой на обратной сборке. */
+/* Строка видна всю сцену About. По ней идёт луч: --flow (0…1) задаёт сцена
+   от начала разборки до конца сборки. Пройденные слова светлые, впереди
+   приглушённые; под словами дорожка со светящейся головой луча. */
 .about--flow-intro .about__flow-line{opacity:1;transform:translateX(-50%);filter:none}
-.about__flow-line i{font-style:normal;color:var(--vio-2);font-size:1.1em;font-weight:420;opacity:.86}
+.about__flow-line{--flow:0;padding-bottom:12px;text-shadow:none;
+  background:linear-gradient(90deg,#FFFFFF 0,#F1EEFF calc(var(--flow) * 100%),rgba(229,224,244,.42) calc(var(--flow) * 100% + 7%),rgba(229,224,244,.42) 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.about__flow-line::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;
+  background:
+    linear-gradient(90deg,rgba(185,166,255,0),#B9A6FF 35%,#FFFFFF 50%,#62E4FF 65%,rgba(98,228,255,0)) no-repeat,
+    linear-gradient(90deg,rgba(155,132,255,.7),rgba(98,228,255,.7)) no-repeat,
+    rgba(255,255,255,.10);
+  background-size:clamp(70px,9vw,130px) 100%,calc(var(--flow) * 100%) 100%,100% 100%;
+  background-position:calc(var(--flow) * 100%) 0,0 0,0 0;
+  filter:drop-shadow(0 0 6px rgba(160,190,255,.85))}
+.about__flow-line i{font-style:normal;color:var(--vio-2);-webkit-text-fill-color:var(--vio-2);font-size:1.1em;font-weight:420;opacity:.86}
 .about__body{position:relative;isolation:isolate;max-width:46ch;color:var(--ink-2)}
 .about__body::before{content:'';position:absolute;z-index:-1;pointer-events:none;
   inset:-30px -52px -38px -30px;
