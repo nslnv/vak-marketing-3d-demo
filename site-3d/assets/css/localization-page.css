@@ -41,10 +41,6 @@
 .sp-loc-group li{position:relative;padding-left:14px;color:var(--ink-2);font-size:14.5px;line-height:1.45}
 .sp-loc-group li::before{content:'';position:absolute;left:0;top:.62em;width:4px;height:4px;border-radius:50%;background:rgba(var(--group-rgb),.85)}
 
-/* 5.2: terms read as plain conditions, not as a highlighted price. */
-.sp[data-service="localization"] .sp-rate-list__item{grid-template-columns:minmax(140px,.4fr) minmax(0,1fr)}
-.sp[data-service="localization"] .sp-rate-list dd{color:var(--ink-2);font-weight:420;text-align:left}
-
 /* Working steps: one compact row instead of a tall list. */
 .sp-loc-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(18px,2.4vw,34px);list-style:none;margin:0;padding:0}
 .sp-loc-steps li{position:relative;padding-top:20px;opacity:0;transform:translateY(12px);transition:opacity .7s var(--e-out) calc(.08s + var(--sp-item-delay)),transform .8s var(--e-out) calc(.08s + var(--sp-item-delay))}

@@ -13,8 +13,10 @@ const groupSizes = [7, 5, 4, 8];
 for (const lang of ['ru', 'en']) {
   const page = context.SERVICES.localization[lang];
   assert.ok(/смысл бизнеса|business meaning/.test(page.hero.title), '5.1 offer is the hero title');
-  const allCopy = JSON.stringify(page);
-  assert.ok(!/USD/.test(allCopy), '5.2 no price anchor');
+  assert.ok(!/USD/.test(JSON.stringify(page.proof)), '5.2 price removed from the why-us card');
+  assert.ok(/Гибкие условия сотрудничества|Flexible working terms/.test(page.proof.items.map(i => i[1]).join(' ')), '5.2 flexible-terms wording in its place');
+  assert.equal(page.pricing.rows.length, 3, '5.2 the separate pricing block keeps its rates');
+  assert.ok(page.pricing.rows.every(r => /USD/.test(r[1])) && page.pricing.notes.length === 2);
   assert.ok(!/Blockchain|blockchain/.test(page.proof.items.map(i => i[1]).join(' ') + page.trust.note + page.meta.desc), '5.3 no Blockchain emphasis');
   assert.deepEqual(Array.from(page.sectors.groups, g => g[1].length), groupSizes, '5.3 every listed material kept');
   const groups = context.renderLocalizationGroups(page.sectors);

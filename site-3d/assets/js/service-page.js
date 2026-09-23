@@ -353,7 +353,7 @@ var SERVICES = {
       hero:{ title:'Переводим не слова, а смысл бизнеса', accent:'смысл бизнеса', lead:'Адаптируем материалы под язык, рынок и ожидания аудитории, сохраняя точность, тональность и экспертность бренда. Работаем с образовательными и юридическими международными организациями, понимаем терминологию и контекст продукта с учётом особенностей вашей отрасли.', cta:'Заказать перевод', facts:[{value:'50 000+',label:'выполненных заказов'},{value:'10+',label:'языковых комбинаций'}] },
       proof:{ label:'Почему выбирают нас', title:'Точность там, где цена ошибки высока', note:'Смысл материала, тональность бренда и отраслевые термины должны оставаться целыми и в новом языке.', items:[
         ['Сложные отрасли','8+ лет работы с текстами, где стандартного языкового знания недостаточно для точного результата.'],
-        ['Условия под задачу','Гибко согласуем формат, объём и условия сотрудничества; для постоянных клиентов предусмотрены специальные условия.'],
+        ['Гибкие условия','Гибкие условия сотрудничества и специальные условия для постоянных клиентов.'],
         ['Срочные задачи','Берём срочные заказы от двух часов, если объём и язык позволяют выдержать контроль качества.'],
         ['Профильный контекст','Право, образование, финансы и IT переводим с пониманием предмета, а не буквальной подстановкой.']
       ]},
@@ -369,7 +369,7 @@ var SERVICES = {
         ['Коммуникации',['Рекламные сообщения','Материалы для партнёров','Коммерческие предложения','Презентационные материалы']],
         ['Документы для малого бизнеса и частных клиентов',['Дипломы','Аттестаты','Медицинские справки','Банковские выписки','Инвойсы','Согласия','Договоры','Юридические документы']]
       ]},
-      pricing:{ label:'Условия сотрудничества', title:'Условия под задачу, а не прайс из шаблона', note:'Гибкие условия сотрудничества и специальные условия для постоянных клиентов. Перед стартом подтверждаем объём, формат, направление и срок.', rows:[['Языковая пара','Подбираем специалиста под язык и отрасль'],['Формат материала','Сохраняем нужную структуру, вёрстку и способ сдачи'],['Срок','Согласуем реальный срок с обязательной проверкой качества']], notes:['Срочные задачи обсуждаем отдельно — только если это не снижает качество.','Для регулярных объёмов формируем понятный рабочий процесс и единые условия.'] },
+      pricing:{ label:'Языки и стоимость', title:'Прозрачная логика расчёта', note:'Более 10 языковых комбинаций. Перед стартом подтверждаем объём, формат, направление и срок — без скрытых наценок.', rows:[['ENG-RU-ENG','от 7 USD / страница'],['CN-RU-CN','от 8 USD / страница'],['Другие языковые комбинации','от 9 USD / страница']], notes:['Одна страница бесплатно для новых клиентов при заказе от 10 страниц.','Скидка 15% для постоянных клиентов с пятого заказа.'] },
       process:{ label:'Как работаем', title:'От документа к готовому материалу', items:[
         ['Заявка','Вы присылаете документ или короткий бриф на перевод.'],
         ['Оценка','Рассчитываем срок, стоимость и удобный формат сдачи.'],
@@ -386,7 +386,7 @@ var SERVICES = {
       hero:{ title:'We translate business meaning, not just words', accent:'business meaning', lead:'We adapt materials to the language, market and audience expectations while keeping the brand’s accuracy, tone and expertise. We work with international education and legal organisations and understand product terminology and context in your sector.', cta:'Request a translation', facts:[{value:'50,000+',label:'completed orders'},{value:'10+',label:'language combinations'}] },
       proof:{ label:'Why clients choose us', title:'Accuracy where the cost of error is high', note:'The material’s meaning, brand voice and specialist terms must remain intact in the new language.', items:[
         ['Complex sectors','8+ years working with texts where language knowledge alone is not enough for an accurate outcome.'],
-        ['Terms around the task','We agree format, volume and working conditions around the material, with special terms for ongoing clients.'],
+        ['Flexible terms','Flexible working terms and special conditions for ongoing clients.'],
         ['Urgent tasks','We accept urgent orders from two hours when volume and language allow a quality-control pass.'],
         ['Subject context','Law, education, finance and IT are translated with subject knowledge, not literal substitution.']
       ]},
@@ -402,7 +402,7 @@ var SERVICES = {
         ['Communications',['Advertising messages','Partner materials','Commercial proposals','Presentation materials']],
         ['Documents for SMBs and private clients',['Diplomas','School certificates','Medical letters','Bank statements','Invoices','Consents','Contracts','Legal documents']]
       ]},
-      pricing:{ label:'Working terms', title:'Terms around the task, not a stock price list', note:'Flexible working terms and special conditions for ongoing clients. Before starting, we confirm volume, format, direction and timing.', rows:[['Language pair','We select a specialist for the language and sector'],['Material format','We retain the required structure, layout and handover format'],['Timing','We agree a realistic timeframe with a quality-control pass']], notes:['Urgent work is scoped separately and only when it does not compromise quality.','For recurring volumes, we establish one clear delivery process and terms.'] },
+      pricing:{ label:'Languages and pricing', title:'A transparent calculation', note:'More than ten language combinations. Before starting, we confirm volume, format, direction and timing with no hidden markup.', rows:[['ENG-RU-ENG','from USD 7 / page'],['CN-RU-CN','from USD 8 / page'],['Other language combinations','from USD 9 / page']], notes:['One page free for new clients on orders of ten pages or more.','15% discount for returning clients from the fifth order.'] },
       process:{ label:'How we work', title:'From document to a finished material', items:[
         ['Request','You send the document or a short translation brief.'],
         ['Estimate','We calculate timing, cost and handover format.'],
