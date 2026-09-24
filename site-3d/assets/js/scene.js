@@ -22,7 +22,9 @@ function boot(canvas) {
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
-      canvas, alpha: true, antialias: !coarse, powerPreference: 'high-performance'
+      /* Сглаживание включено и на телефонах: без него края прибора
+         лестницей. Плотность пикселей там по-прежнему ограничена. */
+      canvas, alpha: true, antialias: true, powerPreference: 'high-performance'
     });
   } catch (e) { return; }                       // нет WebGL — остаётся CSS-фон
   document.documentElement.classList.add('has-webgl');
@@ -1940,6 +1942,16 @@ function boot(canvas) {
        создавая лишний крен на границах. */
     cur.rx = K.rx;
     cur.ry = K.ry;
+    /* Первый экран телефона: прибор стоит по центру под кнопками, крупнее и
+       без приглушения. С началом прокрутки он плавно возвращается на общий
+       маршрут, поэтому остальные секции не меняются. */
+    const heroMobile = W / Math.max(H, 1) < 0.85
+      ? 1 - THREE.MathUtils.smoothstep(scrollS, 0, Math.max(0.004, KEYS[1].t * 0.85)) : 0;
+    if (heroMobile > 0) {
+      cur.x = THREE.MathUtils.lerp(cur.x, 0.10, heroMobile);
+      cur.y = THREE.MathUtils.lerp(cur.y, -1.98, heroMobile);
+      cur.s = THREE.MathUtils.lerp(cur.s, 0.40, heroMobile);
+    }
 
     const breathe = reduced ? 0 : Math.sin(time * 0.42) * 0.055 * (1 - aboutTechnical);
 
@@ -2074,7 +2086,7 @@ function boot(canvas) {
 
     rig.visible = aboutRigVisibility > 0.006;
     const displayOpacity = K.op * (1 - aboutPoseMix) + lockedAboutOpacity * aboutPoseMix;
-    const op = displayOpacity * ok * aboutRigVisibility;
+    const op = displayOpacity * (ok + (1 - ok) * heroMobile) * aboutRigVisibility;
     for (const u of glassUniforms) { u.uAlpha.value = op; u.uGain.value = 0.85 + op * 0.40; }
     for (const u of metalUniforms) u.uAlpha.value = op * 0.985;
     for (const u of opticalUniforms) {
