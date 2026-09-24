@@ -45,7 +45,7 @@
 
   /* Фоновая догрузка после открытия страницы (только телефон).
      1. Картинки страницы по порядку сверху вниз: грузим и сразу декодируем
-        (img.decode), по одной. Тогда к моменту прокрутки фото уже готово к
+        (img.decode) в четыре потока, по порядку. Тогда к моменту прокрутки фото уже готово к
         показу, а не проявляется пустым местом. Скрытое меню и «Другие услуги»
         внизу страницы — в самом конце.
      2. Файлы страниц услуг (HTML, стили, скрипты) кладём в кэш браузера:
@@ -60,14 +60,16 @@
     var all = Array.prototype.slice.call(document.querySelectorAll('img'));
     var late = function (img) { return img.closest('#menu, .m-others'); };
     var list = all.filter(function (i) { return !late(i); }).concat(all.filter(late));
-    return list.reduce(function (p, img) {
-      return p.then(function () {
-        if (img.loading === 'lazy') img.loading = 'eager';
-        if (img.complete && img.naturalWidth && !img.decode) return;
-        var done = img.decode ? img.decode() : new Promise(function (r) { img.onload = img.onerror = r; });
-        return Promise.race([done.catch(function () {}), wait(4000)]);
-      });
-    }, Promise.resolve());
+    var i = 0;
+    // четыре параллельных потока, порядок сверху вниз сохраняется
+    function next() {
+      if (i >= list.length) return Promise.resolve();
+      var img = list[i++];
+      if (img.loading === 'lazy') img.loading = 'eager';
+      var done = img.decode ? img.decode() : new Promise(function (r) { img.onload = img.onerror = r; });
+      return Promise.race([done.catch(function () {}), wait(6000)]).then(next);
+    }
+    return Promise.all([next(), next(), next(), next()]);
   }
   var PAGES = ['/strategy/', '/linkedin/', '/pr/', '/seo/', '/localization/'];
   function warmPages() {
