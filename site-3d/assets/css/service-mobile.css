@@ -10,6 +10,10 @@
 @media (max-width:900px){
   .sp{--m-grad:linear-gradient(101deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB))}
 
+  /* весь контент виден сразу, без проявления при подходе к блоку */
+  .sp [data-sp-reveal]{opacity:1;transform:none;transition:none}
+  .sp .atmo>i{display:none}
+
   /* первый экран: объект чуть отстаёт от прокрутки */
   .sp .sp-hero__visual{translate:0 var(--m-par,0px);will-change:translate}
   .sp .sp-title{font-weight:300;letter-spacing:-.045em}

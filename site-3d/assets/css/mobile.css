@@ -13,6 +13,15 @@
   /* WebGL на телефоне не грузится; холст под него не нужен. */
   .stage{display:none}
 
+  /* Контент на телефоне виден сразу: без проявления при подходе к блоку.
+     При быстрой прокрутке появление выглядело как недогруженная страница. */
+  [data-reveal]{opacity:1;transform:none;transition:none}
+  /* Постоянные анимации, которые перерисовывали текст и фон каждый кадр:
+     перелив акцентных слов и мерцание звёзд (в Safari звёзды ещё и
+     пересчитывались при каждом скрытии адресной строки — они в vh). */
+  .hero .hero__accent{animation:none;background-size:100% 100%}
+  .atmo>i{display:none}
+
   :root{--m-grad:linear-gradient(96deg,#C9BCFF,#FF8BCB)}
   .sec{padding-block:64px}
   .h2{font-size:34px;font-weight:300;line-height:1.06;letter-spacing:-.045em}

@@ -235,6 +235,9 @@
 
   function enhanceMain() {
     if (!mq.matches || !$('#main .sp-hero')) return;
+    // Блоки со ступенчатым появлением показываем сразу: на телефоне пустые
+    // места при быстрой прокрутке выглядели как недогруженная страница.
+    $$('[data-sp-reveal]').forEach(function (el) { el.classList.add('is-in'); });
     ['.sp-proof', '.sp-decision-frame__items'].forEach(function (s) { $$(s).forEach(rail); });
     ['.sp-sectors', '.sp-strategy-gate__items'].forEach(function (s) { $$(s).forEach(accordion); });
     ['sp-formats', 'sp-seo-phases', 'sp-linkedin-phases', 'sp-loc-groups', 'sp-strategy-cycle'].forEach(function (c) {

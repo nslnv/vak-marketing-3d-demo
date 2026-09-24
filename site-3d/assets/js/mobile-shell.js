@@ -43,6 +43,20 @@
     if (h) { e.preventDefault(); toggle(h.parentNode); }
   });
 
+  /* Картинки «лениво» грузятся у самого края экрана (в Safari особенно
+     поздно), и на телефоне было видно, как они подгружаются. После загрузки
+     страницы дозапрашиваем их в фоне небольшими порциями. */
+  function warmImages() {
+    if (!mq.matches) return;
+    var list = Array.prototype.slice.call(document.querySelectorAll('img[loading="lazy"]'));
+    (function batch() {
+      list.splice(0, 4).forEach(function (img) { img.loading = 'eager'; });
+      if (list.length) setTimeout(batch, 250);
+    })();
+  }
+  if (document.readyState === 'complete') setTimeout(warmImages, 300);
+  else addEventListener('load', function () { setTimeout(warmImages, 300); }, { once: true });
+
   var foot = document.querySelector('footer');
   if (foot && 'MutationObserver' in window) new MutationObserver(prep).observe(foot, { childList: true });
   if (mq.addEventListener) mq.addEventListener('change', prep); else mq.addListener(prep);
