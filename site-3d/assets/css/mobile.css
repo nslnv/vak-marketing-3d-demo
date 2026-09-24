@@ -20,16 +20,26 @@
   .head--split{gap:12px}
   .head__note{font-size:16px;line-height:1.5;color:#BDB6CF}
 
+  /* backdrop-filter на телефоне пересчитывается на каждом кадре прокрутки;
+     плотный фон выглядит так же, а стоит ничего. */
+  .nav.is-stuck,.nav.is-open{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,7,16,.94)}
+  .form.card{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(180deg,#15112A,#0E0B1C)}
+
   /* ---------- первый экран ---------- */
   .hero{min-height:100svh;align-items:flex-start;padding-top:calc(var(--nav-h) + 18px);padding-bottom:26px;
     background:radial-gradient(140% 60% at 50% 60%,#1A1233 0%,#0B0917 45%,transparent 80%)}
   .hero__in{display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h) - 44px);width:100%}
   .hero .hero__h1{font-size:clamp(30px,8.6vw,38px);font-weight:300;line-height:1.05;letter-spacing:-.045em;margin:0}
+  /* Заголовок — главный элемент первого кадра: без маски и задержки,
+     короткое проявление. Раньше он был спрятан анимацией почти на 3 с. */
+  .hero .hero__h1,.hero .hero__sub,.hero .hero__act{clip-path:none;animation:m-rise .5s var(--e-out) both}
+  .hero .hero__sub{animation-delay:.08s}
+  .hero .hero__act{animation-delay:.14s}
   .hero__h1 br{display:none}
   .hero .hero__accent{font-weight:600}
   .hero__art{position:relative;flex:1 1 auto;min-height:180px;max-height:340px;margin:4px calc(var(--gut) * -1) 0;
     display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;
-    opacity:0;animation:m-art-in 1.4s var(--e-out) .35s forwards}
+    opacity:0;animation:m-art-in .8s var(--e-out) .1s forwards}
   .hero__art img{width:108%;max-width:none;height:auto;
     -webkit-mask-image:radial-gradient(58% 58% at 50% 50%,#000 55%,transparent 100%);
             mask-image:radial-gradient(58% 58% at 50% 50%,#000 55%,transparent 100%);
@@ -53,8 +63,7 @@
     background:
       linear-gradient(90deg,#9B84FF,#FF78C8) var(--gut) 100%/calc((100% - var(--gut) * 2) * var(--m-flow,0)) 2px no-repeat,
       linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,.08)) var(--gut) 100%/calc(100% - var(--gut) * 2) 2px no-repeat,
-      rgba(6,5,12,.84);
-    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+      rgba(6,5,12,.96)}
   .about .about__flow-line i{display:none}
   .about .about__flow-line span{color:#6F6886;text-shadow:none;transition:color .35s var(--e)}
   .about .about__flow-line span::before{display:none}
@@ -91,16 +100,16 @@
     border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.12);
     background:linear-gradient(180deg,#211A3D 0%,#120E22 100%);
     box-shadow:0 -24px 50px -30px rgba(0,0,0,.95);
-    transform-origin:50% 0;transform:scale(var(--m-s,1));will-change:transform}
+    transform-origin:50% 0}
   .srv:not(.is-deck) .srv__card:nth-child(2){--m-i:1}
   .srv:not(.is-deck) .srv__card:nth-child(3){--m-i:2}
   .srv:not(.is-deck) .srv__card:nth-child(4){--m-i:3}
   .srv:not(.is-deck) .srv__card:nth-child(5){--m-i:4}
   .srv:not(.is-deck) .srv__card:nth-child(6){--m-i:5}
   .srv:not(.is-deck) .srv__card::after{background:linear-gradient(180deg,transparent 30%,rgba(10,8,20,.55) 62%,rgba(10,8,20,.94))}
-  .srv:not(.is-deck) .srv__art{inset:0 0 auto;height:64%;opacity:1;filter:none;
+  .srv:not(.is-deck) .srv__art{inset:0 0 auto;height:64%;opacity:1;filter:none;mix-blend-mode:normal;will-change:auto;transform:none;transition:none;
     -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%);mask-image:linear-gradient(180deg,#000 60%,transparent 100%)}
-  .srv:not(.is-deck) .srv__body{justify-content:flex-end;padding:24px;opacity:calc(1 - var(--m-dim,0) * .6)}
+  .srv:not(.is-deck) .srv__body{justify-content:flex-end;padding:24px}
   .srv:not(.is-deck) .srv__t{font-size:28px;line-height:1.08;font-weight:400;letter-spacing:-.035em}
   .srv:not(.is-deck) .srv__d{margin-top:12px;font-size:15px;line-height:1.5;color:#CFC9DF}
   .srv:not(.is-deck) .srv__body .link-arrow{align-self:flex-start;margin-top:18px;height:46px;padding:0 20px;border-radius:23px;
@@ -169,6 +178,7 @@
   .ptn .logos span{font-size:9px;letter-spacing:.03em}
 }
 
+@keyframes m-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes m-art-in{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes m-float{0%,100%{translate:0 0}50%{translate:0 -8px}}
 @media (prefers-reduced-motion:reduce){

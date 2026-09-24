@@ -22,10 +22,12 @@
 <meta name="twitter:image" content="https://demo.vakmarketing.com/assets/img/og-v2.png">
 <meta name="twitter:image:alt" content="VAK Marketing — стратегия, PR и B2B для сложных рынков">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/base.css?v=20260922-02">
+<link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css?v=20260924-p1">
   <link rel="stylesheet" href="assets/css/sections.css?v=20260924-mobile-01">
-  <link rel="stylesheet" href="assets/css/mobile-shell.css?v=20260924-m1">
-  <link rel="stylesheet" href="assets/css/mobile.css?v=20260924-m1">
+  <link rel="stylesheet" href="assets/css/mobile-shell.css?v=20260924-p1">
+  <link rel="stylesheet" href="assets/css/mobile.css?v=20260924-p1">
 <script>
   /* Сцена использует ES-модуль: Chrome блокирует его при двойном клике по
      file://. Открываем тот же проект через локальный сервер, где остаётся
@@ -647,20 +649,39 @@
 <!-- Отдельная версия обязательна: после появления подстраниц браузер не должен
      оставлять в кэше старую логику карточек, где «Подробнее» вело в форму. -->
 <script src="assets/js/main.js?v=20260923-audience-01" defer></script>
-<script src="assets/js/mobile.js?v=20260924-m1" defer></script>
+<script src="assets/js/mobile.js?v=20260924-p1" defer></script>
 <script src="assets/js/mobile-shell.js?v=20260924-m1" defer></script>
 <!-- WebGL-сцена нужна только на широком экране: на телефоне её место
-     занимают статичный рендер объектива и лёгкие CSS-анимации. -->
+     занимают статичный рендер объектива и лёгкие CSS-анимации.
+     Модули скачиваются и компилируются сразу (modulepreload, вне основного
+     потока), а запускаются после первой отрисовки страницы в свободное
+     время: текст и кнопки не ждут разбора three.js, сцена проявляется
+     следом (у холста уже есть плавное появление). -->
 <script>
 (function () {
   var wide = matchMedia('(min-width:901px)'), loaded = false;
+  var SCENE = 'assets/js/scene.js?v=20260924-mhero-01';
+  function preload(href) {
+    var l = document.createElement('link');
+    l.rel = 'modulepreload'; l.href = href;
+    document.head.appendChild(l);
+  }
+  function run() {
+    var s = document.createElement('script');
+    s.type = 'module'; s.src = SCENE;
+    document.body.appendChild(s);
+  }
+  function idle(fn) {
+    if ('requestIdleCallback' in window) requestIdleCallback(fn, { timeout: 700 });
+    else setTimeout(fn, 120);
+  }
   function load() {
     if (loaded || !wide.matches) return;
     loaded = true;
-    var s = document.createElement('script');
-    s.type = 'module';
-    s.src = 'assets/js/scene.js?v=20260924-mhero-01';
-    document.body.appendChild(s);
+    preload('assets/vendor/three.module.min.js');
+    preload(SCENE);
+    if (document.readyState === 'complete') idle(run);
+    else addEventListener('load', function () { idle(run); }, { once: true });
   }
   load();
   if (wide.addEventListener) wide.addEventListener('change', load); else wide.addListener(load);

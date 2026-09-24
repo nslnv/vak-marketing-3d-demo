@@ -144,13 +144,19 @@
   /* ---------- этапы: линия заполняется прокруткой ---------- */
   function line(list) { list.classList.add('m-line'); }
   function paintLines() {
-    var mark = innerHeight * 0.62;
+    // сначала все чтения, потом записи — без перерасчёта раскладки в цикле
+    var mark = innerHeight * 0.62, jobs = [];
     $$('.m-line').forEach(function (l) {
       var r = l.getBoundingClientRect();
-      var p = reduced ? 1 : clamp((mark - r.top) / Math.max(1, r.height));
-      l.style.setProperty('--m-p', p.toFixed(3));
-      Array.prototype.forEach.call(l.children, function (li) {
-        li.classList.toggle('is-on', li.getBoundingClientRect().top + 10 < mark || p >= 1);
+      if (r.bottom < -200 || r.top > innerHeight + 200) return;
+      jobs.push({ l: l, r: r, tops: Array.prototype.map.call(l.children, function (li) { return li.getBoundingClientRect().top; }) });
+    });
+    jobs.forEach(function (j) {
+      var p = reduced ? 1 : clamp((mark - j.r.top) / Math.max(1, j.r.height));
+      j.l.style.setProperty('--m-p', p.toFixed(3));
+      Array.prototype.forEach.call(j.l.children, function (li, i) {
+        var on = j.tops[i] + 10 < mark || p >= 1;
+        if (li.__on !== on) { li.__on = on; li.classList.toggle('is-on', on); }
       });
     });
   }
@@ -245,9 +251,9 @@
   function frame() {
     ticking = false;
     if (!mq.matches) return;
+    paintLines();
     var v = $('.sp-hero__visual');
     if (v && !reduced && scrollY < innerHeight * 1.2) v.style.setProperty('--m-par', (scrollY * 0.18).toFixed(1) + 'px');
-    paintLines();
   }
   function kick() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
   addEventListener('scroll', kick, { passive: true });

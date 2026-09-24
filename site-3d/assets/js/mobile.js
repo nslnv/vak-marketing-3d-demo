@@ -22,7 +22,7 @@
   var BOUNDS = [0, 0.25, 0.5, 0.75, 1];
   var lastFlow = -1;
   function paintFlow() {
-    if (!about || !flow) return;
+    if (!about || !flow || !flowOn) return;
     // Полоса идёт, пока под прилипшей строкой проезжает текст раздела:
     // 0 — текст только подошёл к строке, 1 — его конец поднялся к середине экрана.
     var r = (aboutBody || about).getBoundingClientRect();
@@ -39,19 +39,34 @@
     });
   }
 
-  /* Стопка услуг: карточка, которую накрывает следующая, чуть уходит вглубь. */
+  /* Стопка услуг: карточка, которую накрывает следующая, чуть уходит вглубь.
+     Сначала читаем все позиции, потом пишем: так нет принудительных
+     перерасчётов раскладки посреди кадра. Вне экрана секция не считается. */
+  var deckOn = false;
   function paintDeck() {
-    if (!srvDeck || srvSec.classList.contains('is-deck')) return;
-    var cards = srvDeck.children;
-    for (var i = 0; i < cards.length - 1; i++) {
-      var c = cards[i], n = cards[i + 1];
-      var top = c.getBoundingClientRect().top, nt = n.getBoundingClientRect().top;
-      var h = c.offsetHeight || 1;
-      var cover = clamp(1 - (nt - top) / h);
-      c.style.setProperty('--m-s', (1 - cover * 0.06).toFixed(4));
-      c.style.setProperty('--m-dim', cover.toFixed(3));
+    if (!srvDeck || !deckOn || srvSec.classList.contains('is-deck')) return;
+    var cards = srvDeck.children, tops = [], i;
+    for (i = 0; i < cards.length; i++) tops.push(cards[i].getBoundingClientRect().top);
+    var h = cards[0] ? cards[0].offsetHeight || 1 : 1;
+    for (i = 0; i < cards.length - 1; i++) {
+      var c = cards[i];
+      var q = Math.round(clamp(1 - (tops[i + 1] - tops[i]) / h) * 200) / 200;
+      if (c.__q === q) continue;
+      c.__q = q;
+      c.style.transform = q ? 'scale(' + (1 - q * 0.06).toFixed(4) + ')' : '';
+      var body = c.__body || (c.__body = c.querySelector('.srv__body'));
+      if (body) body.style.opacity = q ? (1 - q * 0.6).toFixed(3) : '';
     }
   }
+  if (srvSec && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
+    deckOn = es[0].isIntersecting; if (deckOn) kick();
+  }, { rootMargin: '200px 0px' }).observe(srvSec);
+  else deckOn = true;
+
+  var flowOn = true;
+  if (about && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
+    flowOn = es[0].isIntersecting; if (flowOn) kick();
+  }, { rootMargin: '200px 0px' }).observe(about);
 
   function paintHero() {
     if (!art) return;
@@ -64,8 +79,9 @@
   function frame() {
     ticking = false;
     if (!active) return;
-    if (!reduced) { paintHero(); paintDeck(); }
+    // чтения (flow, deck) раньше записей героя
     paintFlow();
+    if (!reduced) { paintDeck(); paintHero(); }
   }
   function kick() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
 
@@ -82,7 +98,7 @@
       lastFlow = -1;
       kick();
     } else {
-      if (srvDeck) Array.prototype.forEach.call(srvDeck.children, function (c) { c.style.removeProperty('--m-s'); c.style.removeProperty('--m-dim'); });
+      if (srvDeck) Array.prototype.forEach.call(srvDeck.children, function (c) { c.style.transform = ''; c.__q = null; var b = c.querySelector('.srv__body'); if (b) b.style.opacity = ''; });
       if (flow) flow.style.removeProperty('--m-flow');
     }
   }
