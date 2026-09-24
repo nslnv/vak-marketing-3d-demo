@@ -1,0 +1,55 @@
+/* ==========================================================================
+   VAK Marketing — мобильная главная (до 900 px). Длинные столбики карточек
+   превращены в ленты под свайп: карточка почти на ширину экрана, соседняя
+   выглядывает с края, лента защёлкивается по карточке, под ней индикатор
+   позиции (его строит mobile-rails.js). Десктоп этот файл не затрагивает.
+   ========================================================================== */
+@media (max-width:900px){
+  /* Услуги, аудитория и команда — одна и та же механика ленты. */
+  .srv:not(.is-deck) .srv__deck,
+  .aud .slats,
+  .team .team__grid{
+    display:flex;flex-direction:row;align-items:stretch;gap:12px;
+    margin-inline:calc(var(--gut) * -1);padding:4px var(--gut) 8px;
+    overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);
+    scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .srv:not(.is-deck) .srv__deck::-webkit-scrollbar,
+  .aud .slats::-webkit-scrollbar,
+  .team .team__grid::-webkit-scrollbar{display:none}
+
+  .srv:not(.is-deck) .srv__card,
+  .aud .slat,
+  .team .team__card{flex:0 0 min(84%,440px);scroll-snap-align:start;scroll-snap-stop:always}
+
+  /* Карточки выезжают по очереди, когда лента появляется на экране
+     (класс in ставит общий механизм появления). */
+  .srv:not(.is-deck) .srv__deck.in > *,
+  .aud .slats.in > *{animation:m-card-in .7s var(--e-out) both}
+  .srv:not(.is-deck) .srv__deck.in > :nth-child(2),.aud .slats.in > :nth-child(2){animation-delay:.07s}
+  .srv:not(.is-deck) .srv__deck.in > :nth-child(3),.aud .slats.in > :nth-child(3){animation-delay:.14s}
+
+  .aud .slat{min-height:320px}
+  .srv:not(.is-deck) .srv__card{min-height:340px}
+  .team .team__card{flex-basis:min(74%,380px)}
+  .team .team__portrait{aspect-ratio:4/5}
+
+  /* Индикатор позиции под лентой. */
+  .m-rail-bar{position:relative;height:2px;margin:14px 0 0;border-radius:2px;background:rgba(255,255,255,.10);overflow:hidden}
+  .m-rail-bar i{position:absolute;top:0;bottom:0;left:0;width:var(--m-thumb,30%);border-radius:2px;
+    background:linear-gradient(90deg,#9B84FF,#FF78C8);transform:translateX(var(--m-pos,0%));
+    box-shadow:0 0 10px rgba(155,132,255,.6);transition:width .3s var(--e)}
+}
+
+/* Партнёры: плотнее, три колонки уже на телефоне. */
+@media (max-width:619px){
+  .ptn .logos{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .ptn .logos a{min-height:92px;padding:12px 6px;gap:9px}
+  .ptn .logos img{height:26px}
+  .ptn .logos span{font-size:8.5px;letter-spacing:.03em}
+}
+
+@keyframes m-card-in{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .srv__deck > *,.slats > *,.team__grid > *{animation:none!important}
+}
