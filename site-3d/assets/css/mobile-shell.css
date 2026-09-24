@@ -17,7 +17,7 @@
 
   .nav.is-open{background:#0A0815}
   .nav .menu{display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h));max-height:calc(100svh - var(--nav-h));
-    padding:6px var(--gut) max(24px,env(safe-area-inset-bottom));background:transparent;border:0}
+    padding:6px var(--gut) max(24px,env(safe-area-inset-bottom));background:#0A0815;border:0}
   .nav .menu[hidden]{display:none}
   .menu > *{animation:m-menu-in .55s var(--e-out) both}
   .menu > :nth-child(2){animation-delay:.05s}
@@ -27,16 +27,20 @@
   .menu__svc-h{display:inline-block;font-size:44px;line-height:1.02;font-weight:300;letter-spacing:-.05em;
     background:linear-gradient(96deg,#C9BCFF,#FF8BCB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .menu__svc-h:focus{outline:none}
-  .menu__svc-row{display:flex;gap:12px;margin:18px calc(var(--gut) * -1) 0;padding:0 var(--gut);
-    overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
+  /* Лента услуг в меню листается вбок пальцем; последняя карточка
+     выглядывает с края, чтобы было видно, что дальше есть ещё. */
+  .menu__svc-row{display:flex;gap:12px;margin:18px calc(var(--gut) * -1) 0;padding:0 var(--gut) 4px;
+    overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;
+    touch-action:pan-x;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scroll-padding-inline:var(--gut)}
   .menu__svc-row::-webkit-scrollbar{display:none}
-  .menu__svc-row a{flex:0 0 64px;display:flex;flex-direction:column;align-items:center;gap:8px;
-    font-size:12px;line-height:1.2;color:#BDB6CF;text-align:center;transition:transform .2s var(--e)}
+  .menu__svc-row a{flex:0 0 84px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:8px;
+    font-size:13px;line-height:1.2;color:#BDB6CF;text-align:center;transition:transform .2s var(--e)}
   .menu__svc-row a:active{transform:scale(.94)}
   .menu__svc-row a[aria-current] span{color:var(--ink)}
   .menu__svc-row a[aria-current] img{border-color:var(--sp-accent,#9B84FF);box-shadow:0 0 0 1px var(--sp-accent,#9B84FF)}
-  .menu__svc-row img{width:64px;height:64px;border-radius:18px;object-fit:cover;border:1px solid rgba(255,255,255,.10)}
-
+  .menu__svc-row img{width:84px;height:84px;border-radius:22px;object-fit:cover;border:1px solid rgba(255,255,255,.10)}
+  .menu__svc-row small{margin-top:-5px;font-size:11px;color:#8F88A6}
+  .menu__svc-soon img{opacity:.55}
   .nav .menu__links{margin-top:26px;border-bottom:1px solid var(--line)}
   .nav .menu__links > a{display:flex;align-items:center;justify-content:space-between;min-height:58px;padding:0;
     border-top:1px solid var(--line);border-bottom:0;font-size:28px;font-weight:300;line-height:1.1;letter-spacing:-.04em;color:var(--ink)}

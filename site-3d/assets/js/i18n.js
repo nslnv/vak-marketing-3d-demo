@@ -15,7 +15,7 @@ var EN = {
   'nav.cases':'Cases','nav.clients':'Clients','nav.team':'Team',
   'nav.about':'About','nav.blog':'Blog','nav.contacts':'Contacts',
   'nav.cta':'Book a consultation',
-  'nav.menu':'Menu','nav.close':'Close','nav.prShort':'PR','nav.localizationShort':'Translation','nav.founder':'Founder',
+  'nav.menu':'Menu','nav.close':'Close','nav.prShort':'PR','nav.localizationShort':'Translation','nav.founder':'Founder','nav.courseShort':'Course','nav.soon':'soon',
 
   /* первый экран */
   'hero.h1':'Full-cycle marketing, PR <br>and B2B growth for <span class="hero__accent">iGaming, FinTech, <br>Crypto</span> and <span class="hero__accent">Web3</span> projects',

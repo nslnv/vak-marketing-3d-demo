@@ -14,8 +14,14 @@
   .sp [data-sp-reveal]{opacity:1;transform:none;transition:none}
   .sp .atmo>i{display:none}
 
-  /* первый экран: объект чуть отстаёт от прокрутки */
-  .sp .sp-hero__visual{translate:0 var(--m-par,0px);will-change:translate}
+  /* Бесконечные анимации, которые перерисовывали большие слои каждый кадр:
+     блик по объекту «Стратегии» (маска по яркости + наложение screen) и
+     бегущий поток в воронке LinkedIn. На телефоне без них. */
+  .sp .sp-strat-glint{display:none}
+  /* шапка без размытия подложки; открытое меню — сплошной фон */
+  .sp .nav.is-stuck{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,7,16,.94)}
+  .sp .nav.is-open{-webkit-backdrop-filter:none;backdrop-filter:none;background:#0A0815}
+  .sp .sp-linkedin-funnel__shape::after{animation:none}
   .sp .sp-title{font-weight:300;letter-spacing:-.045em}
   .sp .sp-hero__actions .btn--primary{height:56px;border-radius:28px;font-size:16px;font-weight:600}
 

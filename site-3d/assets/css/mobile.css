@@ -31,7 +31,8 @@
 
   /* backdrop-filter на телефоне пересчитывается на каждом кадре прокрутки;
      плотный фон выглядит так же, а стоит ничего. */
-  .nav.is-stuck,.nav.is-open{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,7,16,.94)}
+  .nav.is-stuck{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,7,16,.94)}
+  .nav.is-open{-webkit-backdrop-filter:none;backdrop-filter:none;background:#0A0815}
   .form.card{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(180deg,#15112A,#0E0B1C)}
 
   /* ---------- первый экран ---------- */
@@ -46,13 +47,13 @@
   .hero .hero__act{animation-delay:.14s}
   .hero__h1 br{display:none}
   .hero .hero__accent{font-weight:600}
-  .hero__art{position:relative;flex:1 1 auto;min-height:180px;max-height:340px;margin:4px calc(var(--gut) * -1) 0;
+  /* Объектив берёт только оставшуюся высоту: заголовок, текст и кнопки
+     всегда помещаются в первый экран, даже с панелями Safari. */
+  .hero__art{position:relative;flex:1 1 0;min-height:150px;max-height:340px;margin:4px calc(var(--gut) * -1) 0;
     display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;
     opacity:0;animation:m-art-in .8s var(--e-out) .1s forwards}
-  .hero__art img{width:108%;max-width:none;height:auto;
-    -webkit-mask-image:radial-gradient(58% 58% at 50% 50%,#000 55%,transparent 100%);
-            mask-image:radial-gradient(58% 58% at 50% 50%,#000 55%,transparent 100%);
-    transform:translate3d(0,var(--m-art-y,0px),0) scale(var(--m-art-s,1));will-change:transform;
+  /* фон у рендера уже прозрачный (запечён в файл) — без CSS-маски */
+  .hero__art img{width:auto;height:100%;max-width:112%;object-fit:contain;
     animation:m-float 7s ease-in-out 1.8s infinite}
   .hero .hero__sub{font-size:16px;line-height:1.5;color:#BDB6CF;margin:4px 0 22px}
   .hero .hero__act{flex-direction:row;align-items:center;gap:16px}
@@ -116,8 +117,7 @@
   .srv:not(.is-deck) .srv__card:nth-child(5){--m-i:4}
   .srv:not(.is-deck) .srv__card:nth-child(6){--m-i:5}
   .srv:not(.is-deck) .srv__card::after{background:linear-gradient(180deg,transparent 30%,rgba(10,8,20,.55) 62%,rgba(10,8,20,.94))}
-  .srv:not(.is-deck) .srv__art{inset:0 0 auto;height:64%;opacity:1;filter:none;mix-blend-mode:normal;will-change:auto;transform:none;transition:none;
-    -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%);mask-image:linear-gradient(180deg,#000 60%,transparent 100%)}
+  .srv:not(.is-deck) .srv__art{inset:0;height:100%;object-position:60% 0;opacity:1;filter:none;mix-blend-mode:normal;will-change:auto;transform:none;transition:none;-webkit-mask-image:none;mask-image:none;}
   .srv:not(.is-deck) .srv__body{justify-content:flex-end;padding:24px}
   .srv:not(.is-deck) .srv__t{font-size:28px;line-height:1.08;font-weight:400;letter-spacing:-.035em}
   .srv:not(.is-deck) .srv__d{margin-top:12px;font-size:15px;line-height:1.5;color:#CFC9DF}

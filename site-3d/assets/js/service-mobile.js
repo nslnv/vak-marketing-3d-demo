@@ -39,7 +39,9 @@
       '<div class="menu__svc-row">' + SERVICES.map(function (s) {
         return '<a href="/' + s.k + '/"' + (s.k === key ? ' aria-current="page"' : '') + '><img src="/assets/img/services/thumb/' + s.k +
           '.webp" width="84" height="84" alt="" loading="lazy" decoding="async"><span>' + t(s.sr, s.se) + '</span></a>';
-      }).join('') + '</div></div>' +
+      }).join('') +
+      '<a href="#" data-soon class="menu__svc-soon"><img src="/assets/img/services/thumb/course.webp" width="84" height="84" alt="" loading="lazy" decoding="async"><span>' +
+      t('Курс', 'Course') + '</span><small>' + t('скоро', 'soon') + '</small></a></div></div>' +
       '<nav class="menu__links" aria-label="' + t('Мобильная навигация', 'Mobile navigation') + '">' + [
         ['/#about', 'О нас', 'About'], ['/#cases', 'Кейсы', 'Cases'], ['/#clients', 'Клиенты', 'Clients'],
         ['/#founder', 'Основатель', 'Founder'], ['/#team', 'Команда', 'Team'], ['/#contact', 'Контакты', 'Contacts']
@@ -249,14 +251,12 @@
     kick();
   }
 
-  /* ---------- прокрутка: параллакс объекта и линии этапов ---------- */
+  /* ---------- прокрутка: линии этапов ---------- */
   var ticking = false;
   function frame() {
     ticking = false;
     if (!mq.matches) return;
     paintLines();
-    var v = $('.sp-hero__visual');
-    if (v && !reduced && scrollY < innerHeight * 1.2) v.style.setProperty('--m-par', (scrollY * 0.18).toFixed(1) + 'px');
   }
   function kick() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
   addEventListener('scroll', kick, { passive: true });

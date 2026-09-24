@@ -1,5 +1,6 @@
 /* ==========================================================================
-   VAK Marketing — поведение мобильной главной (до 900 px).
+   VAK Marketing — поведение мобильной главной (до 900 px): строка этапов
+   «О нас» и проявление фото аудитории.
    Всё, что связано с прокруткой, считается в одном requestAnimationFrame и
    пишется только в CSS-переменные и transform: так нет перерасчёта
    раскладки и дёрганья на слабых телефонах. Десктоп этот файл не трогает.
@@ -12,9 +13,7 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
 
-  var art = $('.hero__art img');
   var about = $('#about'), aboutBody = $('.about__body'), flow = $('.about__flow-line');
-  var srvDeck = $('#srvDeck'), srvSec = $('#services');
   var vh = innerHeight, ticking = false, active = false;
 
   /* Строка этапов: слово загорается целиком, когда полоса до него дошла.
@@ -39,49 +38,18 @@
     });
   }
 
-  /* Стопка услуг: карточка, которую накрывает следующая, чуть уходит вглубь.
-     Сначала читаем все позиции, потом пишем: так нет принудительных
-     перерасчётов раскладки посреди кадра. Вне экрана секция не считается. */
-  var deckOn = false;
-  function paintDeck() {
-    if (!srvDeck || !deckOn || srvSec.classList.contains('is-deck')) return;
-    var cards = srvDeck.children, tops = [], i;
-    for (i = 0; i < cards.length; i++) tops.push(cards[i].getBoundingClientRect().top);
-    var h = cards[0] ? cards[0].offsetHeight || 1 : 1;
-    for (i = 0; i < cards.length - 1; i++) {
-      var c = cards[i];
-      var q = Math.round(clamp(1 - (tops[i + 1] - tops[i]) / h) * 200) / 200;
-      if (c.__q === q) continue;
-      c.__q = q;
-      c.style.transform = q ? 'scale(' + (1 - q * 0.06).toFixed(4) + ')' : '';
-      var body = c.__body || (c.__body = c.querySelector('.srv__body'));
-      if (body) body.style.opacity = q ? (1 - q * 0.6).toFixed(3) : '';
-    }
-  }
-  if (srvSec && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
-    deckOn = es[0].isIntersecting; if (deckOn) kick();
-  }, { rootMargin: '200px 0px' }).observe(srvSec);
-  else deckOn = true;
-
+  // строку этапов считаем, только пока раздел «О нас» рядом с экраном
   var flowOn = true;
   if (about && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
     flowOn = es[0].isIntersecting; if (flowOn) kick();
   }, { rootMargin: '200px 0px' }).observe(about);
 
-  function paintHero() {
-    if (!art) return;
-    var y = scrollY;
-    if (y > vh) return;
-    art.style.setProperty('--m-art-y', (y * 0.22).toFixed(1) + 'px');
-    art.style.setProperty('--m-art-s', (1 + y * 0.00035).toFixed(4));
-  }
-
   function frame() {
     ticking = false;
     if (!active) return;
-    // чтения (flow, deck) раньше записей героя
+    // На телефоне по прокрутке считается только строка этапов: покадровое
+    // уменьшение карточек и параллакс объектива на iPhone давали рывки.
     paintFlow();
-    if (!reduced) { paintDeck(); paintHero(); }
   }
   function kick() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
 
@@ -98,7 +66,6 @@
       lastFlow = -1;
       kick();
     } else {
-      if (srvDeck) Array.prototype.forEach.call(srvDeck.children, function (c) { c.style.transform = ''; c.__q = null; var b = c.querySelector('.srv__body'); if (b) b.style.opacity = ''; });
       if (flow) flow.style.removeProperty('--m-flow');
     }
   }
@@ -106,7 +73,6 @@
   addEventListener('scroll', kick, { passive: true });
   addEventListener('resize', function () { vh = innerHeight; kick(); }, { passive: true });
   if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
-  // колоду услуг строит main.js — к load она уже на месте
   if (document.readyState === 'complete') sync(); else addEventListener('load', sync);
   sync();
 })();

@@ -412,3 +412,12 @@ em{font-style:italic}
   .stage{transition:none}
   .nav__services>summary i,.nav__services-menu,.nav__services-menu a{transition:none!important}
 }
+
+/* Переход между страницами сайта — короткое плавное перетекание вместо
+   белой вспышки (Safari 18.2+, Chrome 126+; остальные просто открывают
+   страницу как раньше). */
+@media (prefers-reduced-motion:no-preference){
+  @view-transition{navigation:auto}
+  ::view-transition-old(root),::view-transition-new(root){animation-duration:.26s;animation-timing-function:ease}
+}
+html{background:#06050C}
