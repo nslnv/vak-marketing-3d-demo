@@ -1,0 +1,72 @@
+/* ==========================================================================
+   VAK Marketing — общая мобильная оболочка главной и страниц услуг:
+   шапка с кнопкой «Меню», полноэкранное меню и сворачиваемый подвал.
+   ========================================================================== */
+/* ---------- шапка и меню: бургер появляется до 1080 px ---------- */
+.burger__t{display:none}
+@media (max-width:1080px){
+  .nav__side > .lang{display:none}
+  .nav .burger{position:relative;width:auto;height:40px;padding:0 17px;border-radius:20px;display:inline-flex;align-items:center;
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);color:var(--ink);
+    transition:transform .2s var(--e),background .2s}
+  .nav .burger:active{transform:scale(.96);background:rgba(255,255,255,.12)}
+  .nav .burger span{display:none}
+  .burger__t{font-size:14px;font-weight:500;letter-spacing:0}
+  .burger[aria-expanded="false"] .burger__t--open,
+  .burger[aria-expanded="true"] .burger__t--close{display:block}
+
+  .nav.is-open{background:#0A0815}
+  .nav .menu{display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h));max-height:calc(100svh - var(--nav-h));
+    padding:6px var(--gut) max(24px,env(safe-area-inset-bottom));background:transparent;border:0}
+  .nav .menu[hidden]{display:none}
+  .menu > *{animation:m-menu-in .55s var(--e-out) both}
+  .menu > :nth-child(2){animation-delay:.05s}
+  .menu > :nth-child(3){animation-delay:.1s}
+  .menu > :nth-child(4){animation-delay:.14s}
+
+  .menu__svc-h{display:inline-block;font-size:44px;line-height:1.02;font-weight:300;letter-spacing:-.05em;
+    background:linear-gradient(96deg,#C9BCFF,#FF8BCB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .menu__svc-h:focus{outline:none}
+  .menu__svc-row{display:flex;gap:12px;margin:18px calc(var(--gut) * -1) 0;padding:0 var(--gut);
+    overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
+  .menu__svc-row::-webkit-scrollbar{display:none}
+  .menu__svc-row a{flex:0 0 64px;display:flex;flex-direction:column;align-items:center;gap:8px;
+    font-size:12px;line-height:1.2;color:#BDB6CF;text-align:center;transition:transform .2s var(--e)}
+  .menu__svc-row a:active{transform:scale(.94)}
+  .menu__svc-row a[aria-current] span{color:var(--ink)}
+  .menu__svc-row a[aria-current] img{border-color:var(--sp-accent,#9B84FF);box-shadow:0 0 0 1px var(--sp-accent,#9B84FF)}
+  .menu__svc-row img{width:64px;height:64px;border-radius:18px;object-fit:cover;border:1px solid rgba(255,255,255,.10)}
+
+  .nav .menu__links{margin-top:26px;border-bottom:1px solid var(--line)}
+  .nav .menu__links > a{display:flex;align-items:center;justify-content:space-between;min-height:58px;padding:0;
+    border-top:1px solid var(--line);border-bottom:0;font-size:28px;font-weight:300;line-height:1.1;letter-spacing:-.04em;color:var(--ink)}
+  .nav .menu__links > a::after{content:'';width:9px;height:9px;margin-right:4px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;
+    transform:rotate(45deg);opacity:.55}
+
+  .menu__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 24px}
+  .menu__soc{display:flex;gap:18px;font-size:15px}
+  .menu__soc a{color:#BDB6CF}
+  .nav .lang--menu{display:flex;gap:2px;padding:3px;border-radius:18px;background:rgba(255,255,255,.06)}
+  .nav .lang--menu .lang__b{min-width:0;min-height:0;height:30px;padding:0 12px;border-radius:15px;font-size:13px;color:#8F88A6}
+  .nav .lang--menu .lang__b[aria-pressed="true"]{background:rgba(255,255,255,.14);color:var(--ink);font-weight:600}
+  .nav .menu > .btn{margin-top:auto;width:100%;height:56px;border-radius:28px;font-size:16px}
+}
+@keyframes m-menu-in{from{opacity:0;transform:translateY(14px)}}
+
+@media (max-width:900px){
+  /* ---------- подвал: разделы сворачиваются ---------- */
+  footer .foot__top.foot__top{grid-template-columns:1fr;gap:0}
+  footer .foot__brand{margin-bottom:26px}
+  footer .foot__col.foot__col{gap:0;border-top:1px solid var(--line)}
+  footer .foot__col.foot__col:last-child{border-bottom:1px solid var(--line)}
+  footer .foot__col.foot__col > h4:first-child{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:58px;margin:0;
+    font-size:17px;font-weight:500;letter-spacing:-.01em;text-transform:none;color:var(--ink);cursor:pointer;user-select:none}
+  footer .foot__col.foot__col > h4:first-child::after{content:'';width:8px;height:8px;margin-right:4px;border-right:1.5px solid #BDB6CF;border-bottom:1.5px solid #BDB6CF;
+    transform:translateY(-2px) rotate(45deg);transition:transform .35s var(--e)}
+  footer .foot__col.foot__col:is(.is-open,:nth-child(3):not(.is-closed)) > h4:first-child::after{transform:translateY(2px) rotate(225deg)}
+  footer .foot__col.foot__col > :not(:first-child){display:none}
+  footer .foot__col.foot__col:is(.is-open,:nth-child(3):not(.is-closed)) > :not(:first-child){display:block;padding:7px 0;font-size:15px;animation:m-menu-in .4s var(--e-out) both}
+  footer .foot__col.foot__col:is(.is-open,:nth-child(3):not(.is-closed)) > :last-child{margin-bottom:14px}
+  footer .foot__col.foot__col:is(.is-open,:nth-child(3):not(.is-closed)) > .foot__h2{margin-top:12px;font-size:13px;color:var(--ink)}
+  footer .foot__bot{flex-wrap:wrap;gap:10px 18px}
+}

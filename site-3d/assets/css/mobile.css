@@ -1,55 +1,177 @@
 /* ==========================================================================
-   VAK Marketing — мобильная главная (до 900 px). Длинные столбики карточек
-   превращены в ленты под свайп: карточка почти на ширину экрана, соседняя
-   выглядывает с края, лента защёлкивается по карточке, под ней индикатор
-   позиции (его строит mobile-rails.js). Десктоп этот файл не затрагивает.
+   VAK Marketing — мобильная главная (до 900 px).
+   На телефоне нет WebGL-сцены: первый экран держит статичный рендер
+   объектива, остальное делают лёгкие CSS-переходы и mobile.js (только
+   transform, opacity и CSS-переменные, один rAF на кадр).
+   Стиль: крупная светлая типографика, воздух, настоящие фото и рендеры,
+   стекло, одно цветное выделение на экран. Десктоп файл не затрагивает.
    ========================================================================== */
+
+.hero__art{display:none}
+
 @media (max-width:900px){
-  /* Услуги, аудитория и команда — одна и та же механика ленты. */
-  .srv:not(.is-deck) .srv__deck,
-  .aud .slats,
-  .team .team__grid{
-    display:flex;flex-direction:row;align-items:stretch;gap:12px;
-    margin-inline:calc(var(--gut) * -1);padding:4px var(--gut) 8px;
-    overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
-    scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);
-    scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .srv:not(.is-deck) .srv__deck::-webkit-scrollbar,
-  .aud .slats::-webkit-scrollbar,
-  .team .team__grid::-webkit-scrollbar{display:none}
+  /* WebGL на телефоне не грузится; холст под него не нужен. */
+  .stage{display:none}
 
-  .srv:not(.is-deck) .srv__card,
-  .aud .slat,
-  .team .team__card{flex:0 0 min(84%,440px);scroll-snap-align:start;scroll-snap-stop:always}
+  :root{--m-grad:linear-gradient(96deg,#C9BCFF,#FF8BCB)}
+  .sec{padding-block:64px}
+  .h2{font-size:34px;font-weight:300;line-height:1.06;letter-spacing:-.045em}
+  .head{margin-bottom:26px}
+  .head--split{gap:12px}
+  .head__note{font-size:16px;line-height:1.5;color:#BDB6CF}
 
-  /* Карточки выезжают по очереди, когда лента появляется на экране
-     (класс in ставит общий механизм появления). */
-  .srv:not(.is-deck) .srv__deck.in > *,
-  .aud .slats.in > *{animation:m-card-in .7s var(--e-out) both}
-  .srv:not(.is-deck) .srv__deck.in > :nth-child(2),.aud .slats.in > :nth-child(2){animation-delay:.07s}
-  .srv:not(.is-deck) .srv__deck.in > :nth-child(3),.aud .slats.in > :nth-child(3){animation-delay:.14s}
+  /* ---------- первый экран ---------- */
+  .hero{min-height:100svh;align-items:flex-start;padding-top:calc(var(--nav-h) + 18px);padding-bottom:26px;
+    background:radial-gradient(140% 60% at 50% 60%,#1A1233 0%,#0B0917 45%,transparent 80%)}
+  .hero__in{display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h) - 44px);width:100%}
+  .hero .hero__h1{font-size:clamp(30px,8.6vw,38px);font-weight:300;line-height:1.05;letter-spacing:-.045em;margin:0}
+  .hero__h1 br{display:none}
+  .hero .hero__accent{font-weight:600}
+  .hero__art{position:relative;flex:1 1 auto;min-height:180px;max-height:340px;margin:4px calc(var(--gut) * -1) 0;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;
+    opacity:0;animation:m-art-in 1.4s var(--e-out) .35s forwards}
+  .hero__art img{width:108%;max-width:none;height:auto;
+    -webkit-mask-image:radial-gradient(58% 58% at 50% 50%,#000 55%,transparent 100%);
+            mask-image:radial-gradient(58% 58% at 50% 50%,#000 55%,transparent 100%);
+    transform:translate3d(0,var(--m-art-y,0px),0) scale(var(--m-art-s,1));will-change:transform;
+    animation:m-float 7s ease-in-out 1.8s infinite}
+  .hero .hero__sub{font-size:16px;line-height:1.5;color:#BDB6CF;margin:4px 0 22px}
+  .hero .hero__act{flex-direction:row;align-items:center;gap:16px}
+  .hero .hero__act .btn--primary{flex:1 1 auto;height:56px;border-radius:28px;font-size:16px;font-weight:600}
+  .hero .hero__act .btn--ghost{flex:0 0 auto;width:auto;height:56px;padding:0 4px;border:0;background:none;box-shadow:none;font-size:16px;font-weight:500}
 
-  .aud .slat{min-height:320px}
-  .srv:not(.is-deck) .srv__card{min-height:340px}
-  .team .team__card{flex-basis:min(74%,380px)}
-  .team .team__portrait{aspect-ratio:4/5}
+  /* ---------- о нас: строка этапов липнет под шапкой и заполняется ---------- */
+  .about{padding-top:40px}
+  .about .about__grid{display:block}
+  .about .about__side,.about .about__stage{display:contents}
+  .about__side .h2{margin-bottom:22px}
+  .about .about__module-labels{display:none}
+  .about .about__flow-line{position:sticky;z-index:5;top:calc(var(--nav-h) - 1px);left:auto;bottom:auto;
+    display:flex;justify-content:space-between;gap:8px;margin:0 calc(var(--gut) * -1) 26px;padding:14px var(--gut) 16px;
+    width:auto;max-width:none;opacity:1;transform:none;filter:none;transition:none;white-space:nowrap;
+    font-size:14px;line-height:1.2;font-weight:500;letter-spacing:0;text-transform:none;
+    background:
+      linear-gradient(90deg,#9B84FF,#FF78C8) var(--gut) 100%/calc((100% - var(--gut) * 2) * var(--m-flow,0)) 2px no-repeat,
+      linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,.08)) var(--gut) 100%/calc(100% - var(--gut) * 2) 2px no-repeat,
+      rgba(6,5,12,.84);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .about .about__flow-line i{display:none}
+  .about .about__flow-line span{color:#6F6886;text-shadow:none;transition:color .35s var(--e)}
+  .about .about__flow-line span::before{display:none}
+  .about .about__flow-line span[data-state="done"]{color:#BDB6CF;text-shadow:none}
+  .about .about__flow-line span[data-state="active"]{color:#fff;text-shadow:none}
+  .about__body .lead{font-size:22px;line-height:1.35;font-weight:300;letter-spacing:-.02em;color:var(--ink)}
+  .about__body p{font-size:16px;line-height:1.6;color:#BDB6CF}
 
-  /* Индикатор позиции под лентой. */
-  .m-rail-bar{position:relative;height:2px;margin:14px 0 0;border-radius:2px;background:rgba(255,255,255,.10);overflow:hidden}
-  .m-rail-bar i{position:absolute;top:0;bottom:0;left:0;width:var(--m-thumb,30%);border-radius:2px;
-    background:linear-gradient(90deg,#9B84FF,#FF78C8);transform:translateX(var(--m-pos,0%));
-    box-shadow:0 0 10px rgba(155,132,255,.6);transition:width .3s var(--e)}
+  /* ---------- цифры: 2 × 2, крупные и светлые ---------- */
+  .figures{padding-block:8px 40px}
+  .fig{grid-template-columns:1fr 1fr;column-gap:20px}
+  .fig li,.fig li+li,.fig li:nth-child(3),.fig li:nth-child(n+3){padding:22px 0 20px;border-left:0;border-top:1px solid var(--line)}
+  .fig__n{font-size:56px;font-weight:300;letter-spacing:-.06em}
+  .fig__l{margin-top:10px;font-size:15px}
+  .fig__d{font-size:13px;color:#8F88A6}
+
+  /* ---------- с кем работаем: фото на всю ширину ---------- */
+  .aud .slats{display:flex;flex-direction:column;gap:34px;margin-inline:calc(var(--gut) * -1)}
+  .aud .slat{min-height:0;padding:0;border:0;border-radius:0;background:none;overflow:visible}
+  .aud .slat::before{display:none}
+  .aud .slat__photo{position:relative;inset:auto;display:block;height:auto;aspect-ratio:16/10;
+    -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 55%,transparent 100%);
+    transform:scale(1.08);transition:transform 1.4s var(--e-out)}
+  .aud .slat.is-seen .slat__photo{transform:none}
+  .aud .slat__t{margin:-30px var(--gut) 0;font-size:26px;font-weight:500;letter-spacing:-.03em}
+  .aud .slat__d{width:auto;max-width:none;min-height:0;margin:10px var(--gut) 0;font-size:16px;line-height:1.5;color:#CFC9DF}
+
+  /* ---------- услуги: стопка стеклянных карточек ---------- */
+  .srv .srv__grid{display:block}
+  .srv .srv__list{display:none}
+  .srv:not(.is-deck) .srv__deck{display:block}
+  .srv:not(.is-deck) .srv__card{position:sticky;top:calc(var(--nav-h) + 10px + var(--m-i,0) * 12px);
+    height:min(520px,calc(100svh - var(--nav-h) - 110px));min-height:420px;margin:0 0 18px;padding:0;
+    border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.12);
+    background:linear-gradient(180deg,#211A3D 0%,#120E22 100%);
+    box-shadow:0 -24px 50px -30px rgba(0,0,0,.95);
+    transform-origin:50% 0;transform:scale(var(--m-s,1));will-change:transform}
+  .srv:not(.is-deck) .srv__card:nth-child(2){--m-i:1}
+  .srv:not(.is-deck) .srv__card:nth-child(3){--m-i:2}
+  .srv:not(.is-deck) .srv__card:nth-child(4){--m-i:3}
+  .srv:not(.is-deck) .srv__card:nth-child(5){--m-i:4}
+  .srv:not(.is-deck) .srv__card:nth-child(6){--m-i:5}
+  .srv:not(.is-deck) .srv__card::after{background:linear-gradient(180deg,transparent 30%,rgba(10,8,20,.55) 62%,rgba(10,8,20,.94))}
+  .srv:not(.is-deck) .srv__art{inset:0 0 auto;height:64%;opacity:1;filter:none;
+    -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%);mask-image:linear-gradient(180deg,#000 60%,transparent 100%)}
+  .srv:not(.is-deck) .srv__body{justify-content:flex-end;padding:24px;opacity:calc(1 - var(--m-dim,0) * .6)}
+  .srv:not(.is-deck) .srv__t{font-size:28px;line-height:1.08;font-weight:400;letter-spacing:-.035em}
+  .srv:not(.is-deck) .srv__d{margin-top:12px;font-size:15px;line-height:1.5;color:#CFC9DF}
+  .srv:not(.is-deck) .srv__body .link-arrow{align-self:flex-start;margin-top:18px;height:46px;padding:0 20px;border-radius:23px;
+    display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:15px}
+
+  /* ---------- клиенты ---------- */
+  .cli .h2{font-size:30px}
+
+  /* ---------- кейсы: карточки с крупным результатом ---------- */
+  .cs .rail__track{gap:12px}
+  .cs .case{width:min(84vw,340px);padding:22px;border-radius:28px;
+    background:linear-gradient(180deg,#1C1734 0%,#100D1F 100%);border:1px solid rgba(255,255,255,.11)}
+  .cs .case:hover{transform:none}
+  .cs .case__t{font-size:20px;font-weight:600;letter-spacing:-.02em}
+  .cs .case__meta{margin-top:4px;color:#8F88A6}
+  .cs .case__b{font-size:14px;line-height:1.55;color:#BDB6CF}
+  .cs .res{display:flex;flex-direction:column;padding-top:12px}
+  .cs .res li,.cs .res li:nth-child(even){display:flex;flex-direction:row-reverse;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:12px 0;border-left:0}
+  .cs .res li:first-child{display:block;padding:4px 0 16px;border-top:0}
+  .cs .res li:first-child b{font-size:58px;font-weight:300;letter-spacing:-.06em;
+    background:var(--m-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .cs .res li:first-child b i{-webkit-text-fill-color:#CFC9DF}
+  .cs .res li:first-child span{margin-top:8px;font-size:15px;color:#CFC9DF}
+  .cs .res li:not(:first-child) b{flex:0 0 auto;font-size:20px;font-weight:500}
+  .cs .res li:not(:first-child) span{margin:0;font-size:14px;color:#BDB6CF}
+
+  /* ---------- основатель: фото во всю ширину ---------- */
+  .fnd{padding-top:24px}
+  .fnd .fnd__grid{display:block}
+  .fnd .fnd__pic{width:auto;aspect-ratio:auto;height:min(118vw,470px);margin:0 calc(var(--gut) * -1);border:0;border-radius:0}
+  .fnd .fnd__pic img{object-position:50% 22%;-webkit-mask-image:linear-gradient(180deg,#000 45%,transparent 96%);mask-image:linear-gradient(180deg,#000 45%,transparent 96%)}
+  .fnd .fnd__pic::after{display:none}
+  .fnd .fnd__body{position:relative;margin-top:-64px}
+  .fnd .fnd__name{font-size:34px}
+  .fnd .fnd__role{font-size:15px;color:#BDB6CF}
+  .fnd .fnd__body > p:not(.fnd__role){font-size:16px;line-height:1.55;color:#CFC9DF}
+  .fnd .fnd__links{margin-top:22px;flex-wrap:nowrap}
+  .fnd .fnd__links .btn{flex:1 1 0;height:50px;border-radius:25px}
+
+  /* ---------- команда: все лица сразу, 2 колонки ---------- */
+  .team .team__grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 12px}
+  .team .team__portrait{aspect-ratio:4/5;border:0;border-radius:22px}
+  .team .team__portrait::after{display:none}
+  .team .team__copy{display:flex;flex-direction:column-reverse;padding:10px 2px 0}
+  .team .team__grid h3{font-size:15px;font-weight:600;line-height:1.25}
+  .team .team__role{min-height:0;margin:3px 0 0!important;font-size:13px!important;font-weight:400;color:#8F88A6!important;text-transform:none;letter-spacing:0}
+  .team .team__copy > p:not(.team__role){display:none}
+
+  /* ---------- контакты: крупные строки ---------- */
+  .cta{background:radial-gradient(120% 55% at 50% 100%,#231646 0%,transparent 70%)}
+  .cta .h2{font-size:40px;letter-spacing:-.05em}
+  .cta .contacts{max-width:none;margin-top:30px}
+  .cta .contacts a{min-height:70px;font-size:24px;font-weight:400;letter-spacing:-.03em;color:var(--ink)}
+  .cta .contacts li:nth-child(3) a{font-size:20px}
+  .cta .contacts a i{width:18px;opacity:.8}
+  .cta .form{margin-top:10px;padding:22px;border-radius:26px}
+
 }
 
 /* Партнёры: плотнее, три колонки уже на телефоне. */
 @media (max-width:619px){
   .ptn .logos{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-  .ptn .logos a{min-height:92px;padding:12px 6px;gap:9px}
+  .ptn .logos a{min-height:84px;padding:12px 6px;gap:8px;border-radius:18px}
   .ptn .logos img{height:26px}
-  .ptn .logos span{font-size:8.5px;letter-spacing:.03em}
+  .ptn .logos span{font-size:9px;letter-spacing:.03em}
 }
 
-@keyframes m-card-in{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes m-art-in{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes m-float{0%,100%{translate:0 0}50%{translate:0 -8px}}
 @media (prefers-reduced-motion:reduce){
-  .srv__deck > *,.slats > *,.team__grid > *{animation:none!important}
+  .hero__art,.hero__art img,.menu > *{animation:none!important;opacity:1}
+  .aud .slat__photo{transform:none}
 }

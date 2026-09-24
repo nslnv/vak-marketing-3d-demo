@@ -24,7 +24,8 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/base.css?v=20260922-02">
   <link rel="stylesheet" href="assets/css/sections.css?v=20260924-mobile-01">
-  <link rel="stylesheet" href="assets/css/mobile.css?v=20260924-01">
+  <link rel="stylesheet" href="assets/css/mobile-shell.css?v=20260924-m1">
+  <link rel="stylesheet" href="assets/css/mobile.css?v=20260924-m1">
 <script>
   /* Сцена использует ES-модуль: Chrome блокирует его при двойном клике по
      file://. Открываем тот же проект через локальный сервер, где остаётся
@@ -85,31 +86,38 @@
       <a class="btn btn--primary nav__cta" href="#contact" data-i18n="nav.cta">Получить консультацию</a>
       <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Меню">
         <span></span><span></span>
+        <b class="burger__t burger__t--open" data-i18n="nav.menu">Меню</b><b class="burger__t burger__t--close" data-i18n="nav.close">Закрыть</b>
       </button>
     </div>
   </div>
 
   <div class="menu" id="menu" hidden>
+    <div class="menu__svc">
+      <a class="menu__svc-h" href="#services" data-i18n="nav.services">Услуги</a>
+      <div class="menu__svc-row">
+        <a href="/strategy/"><img src="assets/img/services/thumb/strategy.webp" width="84" height="84" alt="" loading="lazy" decoding="async"><span data-i18n="nav.strategy">Стратегия</span></a>
+        <a href="/linkedin/"><img src="assets/img/services/thumb/linkedin.webp" width="84" height="84" alt="" loading="lazy" decoding="async"><span data-i18n="nav.linkedin">LinkedIn</span></a>
+        <a href="/pr/"><img src="assets/img/services/thumb/pr.webp" width="84" height="84" alt="" loading="lazy" decoding="async"><span data-i18n="nav.prShort">PR</span></a>
+        <a href="/seo/"><img src="assets/img/services/thumb/seo.webp" width="84" height="84" alt="" loading="lazy" decoding="async"><span data-i18n="nav.seo">AI SEO</span></a>
+        <a href="/localization/"><img src="assets/img/services/thumb/localization.webp" width="84" height="84" alt="" loading="lazy" decoding="async"><span data-i18n="nav.localizationShort">Перевод</span></a>
+      </div>
+    </div>
     <nav class="menu__links" aria-label="Мобильная навигация">
-      <details class="menu__services">
-        <summary><span data-i18n="nav.services">Услуги</span><i aria-hidden="true"></i></summary>
-        <div class="menu__services-links">
-          <a href="/strategy/" data-i18n="nav.strategy">Стратегия</a>
-          <a href="/linkedin/" data-i18n="nav.linkedin">LinkedIn</a>
-          <a href="/pr/" data-i18n="nav.pr">PR, СМИ и SERP</a>
-          <a href="/seo/" data-i18n="nav.seo">AI SEO</a>
-          <a href="/localization/" data-i18n="nav.localization">Локализация</a>
-          <span class="menu__services-course" data-i18n="nav.course">B2B и B2C курс по LinkedIn — скоро</span>
-        </div>
-      </details>
+      <a href="#about" data-i18n="nav.about">О нас</a>
       <a href="#cases" data-i18n="nav.cases">Кейсы</a>
       <a href="#clients" data-i18n="nav.clients">Клиенты</a>
+      <a href="#founder" data-i18n="nav.founder">Основатель</a>
       <a href="#team" data-i18n="nav.team">Команда</a>
-      <a href="#about" data-i18n="nav.about">О нас</a>
-      <a href="#" data-soon data-i18n="nav.blog">Блог</a>
       <a href="#contact" data-i18n="nav.contacts">Контакты</a>
     </nav>
-    <a class="btn btn--primary" href="#contact" data-i18n="nav.cta">Получить консультацию</a>
+    <div class="menu__foot">
+      <div class="menu__soc"><a href="#" data-soon>Telegram</a><a href="#" data-soon>WhatsApp</a><a href="#" data-soon>LinkedIn</a></div>
+      <div class="lang lang--menu" role="group" aria-label="Язык / Language">
+        <button type="button" class="lang__b" data-lang="ru" aria-pressed="true">RU</button>
+        <button type="button" class="lang__b" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <a class="btn btn--primary" href="#contact" data-i18n="hero.cta1">Обсудить проект</a>
   </div>
 </header>
 
@@ -119,9 +127,11 @@
 <section class="hero" id="hero">
   <div class="wrap hero__in">
     <h1 class="hero__h1" data-i18n="hero.h1">
-      Комплексный маркетинг, PR<br>и B2B-продвижение для
-      <span class="hero__accent">iGaming, FinTech,<br>Crypto</span> и <span class="hero__nowrap"><span class="hero__accent">Web3</span>-проектов</span>
+      Комплексный маркетинг, PR <br>и B2B-продвижение для
+      <span class="hero__accent">iGaming, FinTech, <br>Crypto</span> и <span class="hero__nowrap"><span class="hero__accent">Web3</span>-проектов</span>
     </h1>
+
+    <div class="hero__art" aria-hidden="true"><img src="assets/img/hero/lens-mobile.webp" width="900" height="758" alt="" decoding="async" fetchpriority="high"></div>
 
     <p class="hero__sub" data-i18n="hero.sub">
       Выстраиваем позиционирование, усиливаем доверие к бренду и запускаем системное
@@ -633,11 +643,28 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/i18n.js?v=20260924-stepper-01" defer></script>
+<script src="assets/js/i18n.js?v=20260924-m1" defer></script>
 <!-- Отдельная версия обязательна: после появления подстраниц браузер не должен
      оставлять в кэше старую логику карточек, где «Подробнее» вело в форму. -->
 <script src="assets/js/main.js?v=20260923-audience-01" defer></script>
-<script src="assets/js/mobile-rails.js?v=20260924-01" defer></script>
-  <script type="module" src="assets/js/scene.js?v=20260924-mhero-01"></script>
+<script src="assets/js/mobile.js?v=20260924-m1" defer></script>
+<script src="assets/js/mobile-shell.js?v=20260924-m1" defer></script>
+<!-- WebGL-сцена нужна только на широком экране: на телефоне её место
+     занимают статичный рендер объектива и лёгкие CSS-анимации. -->
+<script>
+(function () {
+  var wide = matchMedia('(min-width:901px)'), loaded = false;
+  function load() {
+    if (loaded || !wide.matches) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.type = 'module';
+    s.src = 'assets/js/scene.js?v=20260924-mhero-01';
+    document.body.appendChild(s);
+  }
+  load();
+  if (wide.addEventListener) wide.addEventListener('change', load); else wide.addListener(load);
+})();
+</script>
 </body>
 </html>
