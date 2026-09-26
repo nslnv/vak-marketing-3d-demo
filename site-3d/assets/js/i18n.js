@@ -126,7 +126,7 @@ var EN = {
 
   /* основатель */
   'fnd.eyebrow':'Founder of VAK Marketing',
-  'fnd.role':'Founder of VAK Marketing. Crypto, fintech, iGaming, PR and B2B marketing.',
+  'fnd.role':'Founder of VAK Marketing — crypto, fintech, iGaming, PR and B2B marketing',
   'fnd.p1':'Worked with Ethereum Foundation, Huobi Global, Tornado Cash and other international projects. 80+ personal publications and expert mentions in industry and business media, including Crypto.ru, ForkLog, Bits.media and Yahoo Finance.',
   'fnd.p2':'Today the agency focuses on helping iGaming, FinTech, Crypto, Web3 and B2B companies build systematic marketing and win better growth opportunities.',
   /* команда */

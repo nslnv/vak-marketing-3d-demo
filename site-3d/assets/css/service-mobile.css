@@ -19,7 +19,7 @@
      бегущий поток в воронке LinkedIn. На телефоне без них. */
   .sp .sp-strat-glint{display:none}
   /* шапка без размытия подложки; открытое меню — сплошной фон */
-  .sp .nav.is-stuck{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,7,16,.94)}
+  .sp .nav.is-stuck{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,7,16,.98)}
   .sp .nav.is-open{-webkit-backdrop-filter:none;backdrop-filter:none;background:#0A0815}
   .sp .sp-linkedin-funnel__shape::after{animation:none}
   .sp .sp-title{font-weight:300;letter-spacing:-.045em}

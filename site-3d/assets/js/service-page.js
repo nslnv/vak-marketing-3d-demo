@@ -22,11 +22,12 @@ var two = function (ru, en) { return { ru: ru, en: en }; };
 var items = function (ru, en) { return { ru: ru, en: en }; };
 
 var LOGOS = {
-  ethereum: { src:'/assets/img/brands/clients/ethereum.svg', alt:'Ethereum', mark:true },
-  huobi:    { src:'/assets/img/brands/cases/huobi-global.jpg', alt:'Huobi Global', mark:true, tile:true },
+  // Светлые прозрачные знаки для тёмного фона: без белых плашек и синих подложек.
+  ethereum: { src:'/assets/img/brands/clients/ethereum-mark.png', alt:'Ethereum', mark:true },
+  huobi:    { src:'/assets/img/brands/clients/huobi-mark.png', alt:'Huobi Global', mark:true },
   tornado:  { src:'/assets/img/brands/clients/tornado-cash.svg', alt:'Tornado Cash', mark:true },
   zenex:    { src:'/assets/img/brands/clients/zenex.svg', alt:'Zenex' },
-  ghs:      { src:'/assets/img/brands/cases/1ghs.png', alt:'1GHS', wide:true },
+  ghs:      { src:'/assets/img/brands/clients/1ghs-mark.png', alt:'1GHS', wide:true },
   coinstore:{ src:'/assets/img/brands/media/coinstore.png', alt:'Coinstore', mark:true },
   cointelegraph:{ src:'/assets/img/logos/cointelegraph.svg', alt:'Cointelegraph', wide:true },
   yahoo:    { src:'/assets/img/logos/partner/yahoo-finance.png', alt:'Yahoo Finance', wide:true },
@@ -353,7 +354,7 @@ var SERVICES = {
       hero:{ title:'Переводим не слова, а смысл бизнеса', accent:'смысл бизнеса', lead:'Адаптируем материалы под язык, рынок и ожидания аудитории, сохраняя точность, тональность и экспертность бренда. Работаем с образовательными и юридическими международными организациями, понимаем терминологию и контекст продукта с учётом особенностей вашей отрасли.', cta:'Заказать перевод', facts:[{value:'50 000+',label:'выполненных заказов'},{value:'10+',label:'языковых комбинаций'}] },
       proof:{ label:'Почему выбирают нас', title:'Точность там, где цена ошибки высока', note:'Смысл материала, тональность бренда и отраслевые термины должны оставаться целыми и в новом языке.', items:[
         ['Сложные отрасли','8+ лет работы с текстами, где стандартного языкового знания недостаточно для точного результата.'],
-        ['Гибкие условия','Гибкие условия сотрудничества и специальные условия для постоянных клиентов.'],
+        ['Индивидуальный подход','Гибкие условия сотрудничества и специальные предложения для постоянных клиентов.'],
         ['Срочные задачи','Берём срочные заказы от двух часов, если объём и язык позволяют выдержать контроль качества.'],
         ['Профильный контекст','Право, образование, финансы и IT переводим с пониманием предмета, а не буквальной подстановкой.']
       ]},
@@ -386,7 +387,7 @@ var SERVICES = {
       hero:{ title:'We translate business meaning, not just words', accent:'business meaning', lead:'We adapt materials to the language, market and audience expectations while keeping the brand’s accuracy, tone and expertise. We work with international education and legal organisations and understand product terminology and context in your sector.', cta:'Request a translation', facts:[{value:'50,000+',label:'completed orders'},{value:'10+',label:'language combinations'}] },
       proof:{ label:'Why clients choose us', title:'Accuracy where the cost of error is high', note:'The material’s meaning, brand voice and specialist terms must remain intact in the new language.', items:[
         ['Complex sectors','8+ years working with texts where language knowledge alone is not enough for an accurate outcome.'],
-        ['Flexible terms','Flexible working terms and special conditions for ongoing clients.'],
+        ['Individual approach','Flexible working terms and special offers for ongoing clients.'],
         ['Urgent tasks','We accept urgent orders from two hours when volume and language allow a quality-control pass.'],
         ['Subject context','Law, education, finance and IT are translated with subject knowledge, not literal substitution.']
       ]},
@@ -787,7 +788,7 @@ function renderMedia(section) {
 function renderPrChain(section) {
   return '<section class="sp-section sp-pr-chain-section"><div class="wrap">' + renderHead(section)
     + '<div class="sp-pr-chain-wrap" data-sp-reveal style="--sp-delay:.04s"><ol class="sp-pr-chain">' + section.items.map(function (item, i) {
-      return '<li style="--sp-item-delay:' + (i * .08) + 's"><span class="sp-pr-chain__num" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p>' + (i < section.items.length - 1 ? '<i class="sp-pr-chain__arrow" aria-hidden="true"></i>' : '') + '</li>';
+      return '<li style="--sp-item-delay:' + (i * .08) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p>' + (i < section.items.length - 1 ? '<i class="sp-pr-chain__arrow" aria-hidden="true"></i>' : '') + '</li>';
     }).join('') + '</ol><p class="sp-pr-chain__result">' + section.result.map(esc).join('<i aria-hidden="true">→</i>') + '</p></div></div></section>';
 }
 // Six working steps read left to right in two rows: numbered, compact,
