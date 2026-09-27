@@ -1260,25 +1260,30 @@ function boot(canvas) {
        даёт глазу время увидеть именно механическую сборку, без одновременного
        зума и резкого уноса вправо. */
     { t: 0.127, sec: 'about', aboutSlot: 2, p: 0.9100, cz: 7.5, cy: 0.00, x: -1.92, y: -0.05, z: -0.05, rx: 0.000, ry: 0.76, s: 0.56, sp: 0.84, br: 0.54, op: 0.78, ro:  0.000 },
-    /* После точной сборки объект медленно сжимается и дрейфует по одной
-       диагонали. К моменту Figures он уже достаточно мал и правее метрик —
-       никакого броска за край и никакого прохода через текст. */
+    /* После точной сборки объект одной почти горизонтальной дугой уходит
+       в правую половину экрана и остаётся там видимым: слева в это время
+       въезжают стеклянные карточки цифр, справа — сам прибор. Промежуточные
+       кадры ниже resolveKeys пересчитывает в ровный smoothstep между
+       собранной позой и последним кадром, здесь они задают только p. */
     { t: 0.129, sec: 'about', p: 0.9250, cz: 7.51, cy:  0.06, x: -1.28, y: -0.64, z: -0.11, rx: -0.08, ry: 0.80, s: 0.545, sp: 0.88, br: 0.50, op: 0.67, ro: -0.008 },
     { t: 0.130, sec: 'about', p: 0.9400, cz: 7.53, cy:  0.04, x: -1.02, y: -0.67, z: -0.16, rx: -0.09, ry: 0.83, s: 0.515, sp: 0.91, br: 0.49, op: 0.60, ro: -0.007 },
     { t: 0.131, sec: 'about', p: 0.9550, cz: 7.55, cy:  0.02, x: -0.72, y: -0.71, z: -0.22, rx: -0.10, ry: 0.86, s: 0.475, sp: 0.94, br: 0.47, op: 0.51, ro: -0.006 },
     { t: 0.132, sec: 'about', p: 0.9700, cz: 7.58, cy:  0.00, x: -0.38, y: -0.76, z: -0.30, rx: -0.12, ry: 0.89, s: 0.425, sp: 0.97, br: 0.45, op: 0.41, ro: -0.005 },
     { t: 0.133, sec: 'about', aboutSlot: 3, p: 0.9820, cz: 7.60, cy: -0.01, x:  0.13, y: -0.81, z: -0.37, rx: -0.13, ry: 0.92, s: 0.390, sp: 0.99, br: 0.44, op: 0.34, ro: -0.004 },
     { t: 0.135, sec: 'about', p: 0.9910, cz: 7.62, cy: -0.03, x:  0.63, y: -0.88, z: -0.46, rx: -0.14, ry: 0.96, s: 0.345, sp: 1.02, br: 0.43, op: 0.25, ro: -0.003 },
-    { t: 0.136, sec: 'about', p: 0.9980, cz: 7.64, cy: -0.05, x:  1.23, y: -0.96, z: -0.56, rx: -0.16, ry: 1.00, s: 0.300, sp: 1.04, br: 0.42, op: 0.17, ro: -0.002 },
-    /* В Figures прибор остаётся фоновым: плавно уменьшается и уходит
-       вправо-вниз, тогда как сами метрики сохраняют полный приоритет. */
-    { t: 0.145, sec: 'figures', p: 0.0200, cz: 7.67, cy: -0.07, x:  1.83, y: -1.12, z: -0.68, rx: -0.17, ry: 1.05, s: 0.255, sp: 1.07, br: 0.41, op: 0.10, ro: -0.001 },
-    { t: 0.149, sec: 'figures', p: 0.1000, cz: 7.73, cy: -0.10, x:  2.38, y: -1.44, z: -0.90, rx: -0.19, ry: 1.12, s: 0.205, sp: 1.12, br: 0.40, op: 0.05, ro:  0.001 },
-    { t: 0.152, sec: 'figures', p: 0.1800, cz: 7.79, cy: -0.13, x:  2.88, y: -1.78, z: -1.12, rx: -0.21, ry: 1.19, s: 0.165, sp: 1.17, br: 0.39, op: 0.018, ro:  0.003 },
-    { t: 0.153, sec: 'figures', p: 0.2500, cz: 7.84, cy: -0.16, x:  3.30, y: -2.10, z: -1.32, rx: -0.23, ry: 1.25, s: 0.140, sp: 1.22, br: 0.38, op: 0.00, ro:  0.004 },
-    /* цифры: продолжает диагональ вниз, а не возвращается наверх сразу
-       после сборки. */
-    { t: 0.165, sec: 'figures', p: 0.5287, cz: 7.86, cy: -0.12, x:  4.20, y: -2.00, z: -1.52, rx: -0.22, ry:  1.40, s: 0.25, sp: 1.23, br: 0.40, op: 0.00, ro:  0.000 },
+    { wide: true, t: 0.136, sec: 'about', p: 0.9980, cz: 7.56, cy: -0.02, x:  1.05, y: -0.22, z: -0.25, rx: -0.07, ry: 0.82, s: 0.420, sp: 0.98, br: 0.50, op: 0.72, ro: -0.003 },
+    /* Цифры: прибор стоит справа напротив карточек и медленно дрейфует
+       дальше вправо — без нырка вниз и без исчезновения. Оттуда тем же
+       ходом он переходит в позу «С кем мы работаем», которая тоже справа. */
+    { wide: true, t: 0.145, sec: 'figures', p: 0.0200, cz: 7.55, cy: -0.02, x:  1.08, y: -0.21, z: -0.24, rx: -0.06, ry: 0.81, s: 0.418, sp: 1.00, br: 0.50, op: 0.72, ro: -0.002 },
+    { wide: true, t: 0.149, sec: 'figures', p: 0.1000, cz: 7.53, cy: -0.02, x:  1.11, y: -0.20, z: -0.22, rx: -0.05, ry: 0.80, s: 0.415, sp: 1.02, br: 0.50, op: 0.72, ro: -0.001 },
+    { wide: true, t: 0.152, sec: 'figures', p: 0.1800, cz: 7.51, cy: -0.02, x:  1.14, y: -0.19, z: -0.20, rx: -0.04, ry: 0.79, s: 0.412, sp: 1.04, br: 0.50, op: 0.71, ro:  0.000 },
+    { wide: true, t: 0.153, sec: 'figures', p: 0.2500, cz: 7.49, cy: -0.02, x:  1.17, y: -0.18, z: -0.18, rx: -0.03, ry: 0.78, s: 0.410, sp: 1.06, br: 0.49, op: 0.70, ro:  0.002 },
+    { wide: true, t: 0.165, sec: 'figures', p: 0.5287, cz: 7.35, cy: -0.02, x:  1.35, y: -0.15, z: -0.10, rx:  0.00, ry: 0.76, s: 0.400, sp: 1.14, br: 0.48, op: 0.32, ro:  0.008 },
+    /* Заголовок «С кем мы работаем» и описание справа проходят через ту же
+       правую зону: прибор притихает, пока идёт текст, и снова проявляется
+       уже за карточками. */
+    { wide: true, t: 0.190, sec: 'audience', p: 0.0600, cz: 6.95, cy: -0.02, x:  2.10, y: -0.12, z:  0.04, rx:  0.02, ry: 0.74, s: 0.380, sp: 1.24, br: 0.47, op: 0.08, ro:  0.012 },
     /* с кем работаем: поворачивается к зрителю передом, начинается сближение */
     { t: 0.226, sec: 'audience', p: 0.3684, cz: 6.6, cy: -0.02, x:  3.30, y: -0.08, z:  0.2, rx:  0.06, ry:  0.72, s: 0.36, sp: 1.30, br: 0.46, op: 0.42, ro:  0.016 },
     /* Услуги: макро на кольце фокуса у правого края, видно накатку и шкалу.
@@ -1321,7 +1326,7 @@ function boot(canvas) {
     { cz:7.5, cy:0, x:-1.92, y:-.10, z:-2.30, rx:0, ry:.64, s:.30, sp:.80, br:.52, op:.68, ro:0 },
     { cz:7.5, cy:0, x:-1.92, y:-.05, z:-.05, rx:0, ry:.76, s:.56, sp:.84, br:.54, op:.78, ro:0 },
     { cz:7.5, cy:0, x:-1.92, y:-.05, z:-.05, rx:0, ry:.76, s:.56, sp:.84, br:.54, op:.78, ro:0 },
-    { cz:7.60, cy:-.01, x:.13, y:-.81, z:-.37, rx:-.13, ry:.92, s:.39, sp:.99, br:.44, op:.34, ro:-.004 }
+    { cz:7.56, cy:-.02, x:.76, y:-.20, z:-.23, rx:-.06, ry:.81, s:.45, sp:.96, br:.51, op:.73, ro:-.003 }
   ];
   /* Отдельная мобильная постановка. Координаты ведут модель ровно через
      прямоугольник #aboutStage: она приходит снизу-слева, раскрывается по
@@ -1377,6 +1382,16 @@ function boot(canvas) {
       if (k.aboutSlot == null) continue;
       k.p = aboutKeyP[k.aboutSlot];
       Object.assign(k, aboutPoses[k.aboutSlot]);
+    }
+    /* Правая точка ухода задаётся долей ширины экрана, а не мировыми
+       единицами: на широком мониторе камера видит больше по горизонтали,
+       и без поправки прибор останавливался ближе к центру, рядом с
+       карточками цифр. x0 — исходное значение для пропорций 16:10. */
+    const wideK = compactAbout ? 1 : Math.min(1.3, Math.max(1, (innerWidth / innerHeight) / 1.6));
+    for (const k of KEYS) {
+      if (!k.wide) continue;
+      if (k.x0 == null) k.x0 = k.x;
+      k.x = k.x0 * wideK;
     }
     if (!compactAbout) {
       // Distribute the assembled departure over its whole scroll interval.
@@ -2063,9 +2078,12 @@ function boot(canvas) {
     camera.lookAt(0, 0, 0);
     camera.rotateZ(cameraRo - vv * 0.010 * cameraFree);
     // Stay centred while closing, too: don't slide back to the left column.
-    // Release framing only after assembly, into the existing outbound flight.
+    // Release framing during the outbound flight itself (from the end of
+    // assembly to just past the last About key): the lens then travels from
+    // the centre straight into the right-hand zone on one curve, instead of
+    // being held near the centre for another ~240 px of scroll.
     const assemblyCenterPresence = easeAbout(aboutProgress, aboutArrive - 0.10, openStart)
-      * (1 - easeAbout(smoothAboutProgress, aboutAfterBeat, aboutAfterBeat + 0.12));
+      * (1 - easeAbout(smoothAboutProgress, aboutLeave, aboutAfterBeat + 0.03));
     if (!compactAbout && !reduced) frameOpenAssembly(easeAbout(aboutOpen, 0, 1), assemblyCenterPresence);
     flare.quaternion.copy(camera.quaternion);   // блик всегда лицом к камере
     halo.quaternion.copy(camera.quaternion);

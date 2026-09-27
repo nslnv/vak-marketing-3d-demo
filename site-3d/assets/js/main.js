@@ -164,6 +164,17 @@ if (reduced || !('IntersectionObserver' in window)) {
   reveal.forEach(function (el) { io.observe(el); });
 }
 
+/* ── цифры в сцене «О нас» (desktop) ──────────────────────────────────
+   Стеклянные карточки проявляются, когда объектив уже ушёл вправо, и
+   прячутся обратно при прокрутке вверх: иначе в середине ухода прибор
+   проходил бы прямо над ними. Порог — верх карточек выше 40% экрана. */
+var figs = $('#figures'), figsList = figs && $('.fig', figs);
+if (figs && figsList && !reduced && 'IntersectionObserver' in window) {
+  new IntersectionObserver(function (entries) {
+    figs.classList.toggle('is-shown', entries[0].isIntersecting);
+  }, { rootMargin: '0px 0px -60% 0px' }).observe(figsList);
+} else if (figs) figs.classList.add('is-shown');
+
 /* ── счётчики ───────────────────────────────────────────────────────── */
 function countIn(root) {
   var nodes = root.hasAttribute('data-count') ? [root] : $$('[data-count]', root);
