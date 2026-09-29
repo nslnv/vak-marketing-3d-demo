@@ -131,6 +131,15 @@ if (menu) {
 }
 var navBrand = nav && $('.brand', nav);
 if (navBrand) navBrand.addEventListener('click', function () { closeMenu(false); });
+/* Логотип ведёт на главную; если она уже открыта — плавно наверх без перезагрузки. */
+$$('a.brand[href="/"]').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    if (location.pathname !== '/' && location.pathname !== '/index.html') return;
+    e.preventDefault();
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+  });
+});
 if (servicesDetails) document.addEventListener('click', function (e) {
   if (servicesDetails.open && !servicesDetails.contains(e.target)) closeServices();
 });

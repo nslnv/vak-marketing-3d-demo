@@ -1,13 +1,29 @@
 /* ==========================================================================
-   VAK Marketing — мобильная главная (до 900 px).
-   На телефоне нет WebGL-сцены: первый экран держит статичный рендер
-   объектива, остальное делают лёгкие CSS-переходы и mobile.js (только
+   VAK Marketing — главная на телефоне и планшете.
+   WebGL-сцены здесь нет совсем: она не грузится ни на телефоне, ни на
+   планшете (index.html запускает сцену только при мыши на широком экране).
+   Первый экран держат крупная типографика, мягкое фирменное свечение и
+   объектив из кадров той же 3D-модели; остальное — CSS и mobile.js (только
    transform, opacity и CSS-переменные, один rAF на кадр).
-   Стиль: крупная светлая типографика, воздух, настоящие фото и рендеры,
-   стекло, одно цветное выделение на экран. Десктоп файл не затрагивает.
+   Слои: до 900 px — телефон, 600–900 px — планшет вертикально, от 901 px
+   с сенсорным экраном — планшет горизонтально (десктопная сетка без 3D).
+   Компьютер с мышью файл не затрагивает.
    ========================================================================== */
 
-.hero__art{display:none}
+.hero__lens,.hero__dust{display:none}
+/* Объектив первого экрана (телефон и планшет). Кадр 600 × 448: собранный
+   прибор стоит в верхних трёх четвертях, низ кадра нужен развороту. Блок
+   держит место и показывает первый кадр до запуска холста; прибор, блик,
+   разворот и пыльцу рисует mobile.js. На компьютере блок скрыт. */
+.hero__lens-in{position:absolute;inset:0}
+/* Холст запущен — дальше прибор рисует он (mobile.js), блок держит место. */
+.hero__lens.is-canvas .hero__lens-in{visibility:hidden}
+.hero__lens i{position:absolute;inset:0;background:url('../img/hero/lens-0.webp') 50% 0/100% auto no-repeat;
+  background-image:image-set(url('../img/hero/lens-0.avif') type('image/avif'),url('../img/hero/lens-0.webp') type('image/webp'))}
+/* Холст объектива и пыльцы: во весь экран поверх страницы, под шапкой;
+   показывается, только пока прибор или пыльца на экране. */
+.hero__dust{position:fixed;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.hero__dust.is-on{display:block}
 
 @media (max-width:900px){
   /* WebGL на телефоне не грузится; холст под него не нужен. */
@@ -35,52 +51,95 @@
   .nav.is-open{-webkit-backdrop-filter:none;backdrop-filter:none;background:#0A0815}
   .form.card{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(180deg,#15112A,#0E0B1C)}
 
-  /* ---------- первый экран ---------- */
-  .hero{min-height:100svh;align-items:flex-start;padding-top:calc(var(--nav-h) + 18px);padding-bottom:26px;
-    background:radial-gradient(140% 60% at 50% 60%,#1A1233 0%,#0B0917 45%,transparent 80%)}
-  .hero__in{display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h) - 44px);width:100%}
-  .hero .hero__h1{font-size:clamp(30px,8.6vw,38px);font-weight:300;line-height:1.05;letter-spacing:-.045em;margin:0}
+  /* ---------- первый экран: заголовок, свечение, кнопки под пальцем ---------- */
+  .hero{min-height:100svh;align-items:stretch;padding-top:calc(var(--nav-h) + 18px);padding-bottom:18px;
+    overflow:clip;isolation:isolate;background:none}
+  /* Свечение вместо объектива: два мягких пятна медленно дрейфуют одним
+     transform — это делает видеокарта, текст при этом не перерисовывается. */
+  .hero::before{content:'';position:absolute;z-index:-1;inset:-6% -34% -4%;pointer-events:none;will-change:transform;
+    background:
+      radial-gradient(38% 24% at 70% 60%,rgba(124,92,255,.50),transparent 72%),
+      radial-gradient(30% 20% at 30% 74%,rgba(255,82,184,.26),transparent 72%),
+      radial-gradient(44% 22% at 62% 30%,rgba(124,92,255,.16),transparent 72%),
+      radial-gradient(60% 30% at 50% 106%,rgba(98,228,255,.10),transparent 70%);
+    animation:m-glow 18s ease-in-out infinite alternate}
+  .hero__in{display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h) - 36px);width:100%}
+  .hero .hero__h1{font-size:clamp(34px,10.2vw,46px);font-weight:300;line-height:1.04;letter-spacing:-.05em;margin:0}
   /* Заголовок — главный элемент первого кадра: без маски и задержки,
-     короткое проявление. Раньше он был спрятан анимацией почти на 3 с. */
+     короткое проявление. */
   .hero .hero__h1,.hero .hero__sub,.hero .hero__act{clip-path:none;animation:m-rise .5s var(--e-out) both}
   .hero .hero__sub{animation-delay:.08s}
   .hero .hero__act{animation-delay:.14s}
   .hero__h1 br{display:none}
   .hero .hero__accent{font-weight:600}
-  /* Объектив берёт только оставшуюся высоту: заголовок, текст и кнопки
-     всегда помещаются в первый экран, даже с панелями Safari. */
-  .hero__art{position:relative;flex:1 1 0;min-height:150px;max-height:340px;margin:4px calc(var(--gut) * -1) 0;
-    display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;
-    opacity:0;animation:m-art-in .8s var(--e-out) .1s forwards}
-  /* фон у рендера уже прозрачный (запечён в файл) — без CSS-маски */
-  .hero__art img{width:auto;height:100%;max-width:112%;object-fit:contain;
-    animation:m-float 7s ease-in-out 1.8s infinite}
-  .hero .hero__sub{font-size:16px;line-height:1.5;color:#BDB6CF;margin:4px 0 22px}
-  .hero .hero__act{flex-direction:row;align-items:center;gap:16px}
+  .hero .hero__sub{max-width:30em;margin:18px 0 0;font-size:16.5px;line-height:1.5;color:#C9C2DB}
+  /* Первый экран собран по центру: заголовок, текст, объектив, кнопки. */
+  .hero .hero__h1,.hero .hero__sub{text-align:center;margin-inline:auto}
+  .hero .hero__act{justify-content:center}
+  /* Кнопки внизу первого экрана — там, куда достаёт большой палец. */
+  .hero .hero__act{flex-direction:row;align-items:center;gap:16px;margin-top:auto;padding-top:28px}
   .hero .hero__act .btn--primary{flex:1 1 auto;height:56px;border-radius:28px;font-size:16px;font-weight:600}
   .hero .hero__act .btn--ghost{flex:0 0 auto;width:auto;height:56px;padding:0 4px;border:0;background:none;box-shadow:none;font-size:16px;font-weight:500}
 
+  /* Объектив в свободной середине первого экрана. mobile.js подбирает
+     высоту (--lens-h) под свободное место и включает блок (.has-lens),
+     только если он помещается. Нижняя часть кадра прозрачна (нужна
+     развороту), поэтому она заходит под кнопки отрицательным отступом. */
+  .hero.has-lens{overflow:visible;overflow-x:clip}
+  .hero.has-lens .hero__lens{display:block;position:relative;z-index:0;align-self:center;
+    width:calc(var(--lens-h,200px) * 600 / 448);height:var(--lens-h,200px);
+    margin:auto 0 calc(var(--lens-h,200px) * -.22);animation:m-lens-in .9s var(--e-out) .1s backwards}
+  .hero.has-lens .hero__act{position:relative;z-index:2;padding-top:22px}
+  /* Кнопки появляются, когда объектив улетел (.is-cta); при фокусе с
+     клавиатуры — сразу. */
+  .hero.has-lens:not(.is-cta) .hero__act:not(:focus-within) > *{opacity:0;transform:translate3d(0,22px,0) scale(.92);filter:blur(8px);pointer-events:none}
+  .hero.has-lens .hero__act > *{transition:opacity .5s var(--e-out),transform .7s cubic-bezier(.2,1.4,.4,1),filter .5s var(--e-out)}
+  .hero.has-lens .hero__act > :nth-child(2){transition-delay:.09s}
+  .hero.has-lens.is-cta .hero__act .btn--primary{animation:m-cta-glow 1.4s var(--e-out) .15s}
+  /* Служебный режим замера для mobile.js (включается и снимается до отрисовки). */
+  .hero.is-measuring{min-height:0;align-items:flex-start}
+  .hero.is-measuring .hero__in{min-height:0}
+
   /* ---------- о нас: строка этапов липнет под шапкой и заполняется ---------- */
-  .about{padding-top:40px}
+  /* «О нас» начинается мягко скруглённым листом с тонкой светлой кромкой:
+     свечение первого экрана уходит под него, без жёсткой полосы. */
+  .about{position:relative;z-index:1;padding-top:44px;border-radius:30px 30px 0 0;
+    background:#0B0917;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 -18px 40px -24px rgba(124,92,255,.35)}
+  /* Кейсы: тёмная виньетка под шапкой на телефоне читалась грязной тенью. */
+  .cs .head--veil::before{display:none}
   .about .about__grid{display:block}
   .about .about__side,.about .about__stage{display:contents}
   .about__side .h2{margin-bottom:22px}
   .about .about__module-labels{display:none}
-  .about .about__flow-line{position:sticky;z-index:5;top:calc(var(--nav-h) - 1px);left:auto;bottom:auto;
-    display:flex;justify-content:space-between;gap:8px;margin:0 calc(var(--gut) * -1) 26px;padding:14px var(--gut) 16px;
+  /* Этапы — не вкладки: спокойная цепочка «Стратегия → … → Результат»
+     под заголовком, без подложки и подчёркивания. Когда она попадает в
+     кадр, этапы по очереди загораются, стрелки между ними заполняются
+     (mobile.js ставит .is-run один раз); к финалу светится «Результат». */
+  .about .about__flow-line{position:relative;z-index:auto;top:auto;left:auto;bottom:auto;
+    display:flex;justify-content:center;align-items:center;gap:6px;margin:2px 0 30px;padding:0;
     width:auto;max-width:none;opacity:1;transform:none;filter:none;transition:none;white-space:nowrap;
-    font-size:14px;line-height:1.2;font-weight:500;letter-spacing:0;text-transform:none;
-    background:
-      linear-gradient(90deg,#9B84FF,#FF78C8) var(--gut) 100%/calc((100% - var(--gut) * 2) * var(--m-flow,0)) 2px no-repeat,
-      linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,.08)) var(--gut) 100%/calc(100% - var(--gut) * 2) 2px no-repeat,
-      #06050C}
-  .about .about__flow-line i{display:none}
-  .about .about__flow-line span{color:#6F6886;text-shadow:none;transition:color .35s var(--e)}
+    font-size:clamp(11.5px,3.3vw,13.5px);line-height:1.2;font-weight:500;letter-spacing:.01em;text-transform:none;background:none;pointer-events:none}
+  .about .about__flow-line span{--k:0;color:#5F5875;text-shadow:none;transition:color .55s var(--e-out) calc(var(--k) * .42s),text-shadow .55s var(--e-out) calc(var(--k) * .42s)}
   .about .about__flow-line span::before{display:none}
-  .about .about__flow-line span[data-state="done"]{color:#BDB6CF;text-shadow:none}
-  .about .about__flow-line span[data-state="active"]{color:#fff;text-shadow:none}
+  .about .about__flow-line i{--k:0;display:block;position:relative;flex:0 0 auto;width:12px;height:1px;border-radius:0;background:rgba(255,255,255,.16);box-shadow:none}
+  .about .about__flow-line i::after{content:'';position:absolute;left:0;top:0;width:100%;height:100%;border-radius:0;box-shadow:none;
+    background:linear-gradient(90deg,#9B84FF,#FF78C8);transform:scaleX(0);transform-origin:left;
+    transition:transform .38s var(--e-out) calc(var(--k) * .42s + .24s)}
+  .about .about__flow-line i::before{content:'';position:absolute;right:0;top:-2px;width:4px;height:4px;
+    border-top:1px solid rgba(255,255,255,.3);border-right:1px solid rgba(255,255,255,.3);transform:rotate(45deg)}
+  .about .about__flow-line :nth-child(3),.about .about__flow-line :nth-child(4){--k:1}
+  .about .about__flow-line :nth-child(5),.about .about__flow-line :nth-child(6){--k:2}
+  .about .about__flow-line :nth-child(7){--k:3}
+  .about .about__flow-line.is-run span{color:#CFC9DF}
+  .about .about__flow-line.is-run span:last-child{color:#fff;text-shadow:0 0 14px rgba(255,120,200,.55)}
+  .about .about__flow-line.is-run i::after{transform:scaleX(1)}
   .about__body .lead{font-size:22px;line-height:1.35;font-weight:300;letter-spacing:-.02em;color:var(--ink)}
   .about__body p{font-size:16px;line-height:1.6;color:#BDB6CF}
+  /* «О нас» на телефоне собран по центру: заголовок, текст и кнопка. */
+  .about__side .h2{text-align:center;margin-inline:auto}
+  .about .about__body{text-align:center;margin-inline:auto}
+  .about .about__body .link-arrow{margin-inline:auto}
 
   /* ---------- цифры: 2 × 2, крупные и светлые ---------- */
   .figures{padding-block:8px 40px}
@@ -89,6 +148,7 @@
   .fig__n{font-size:56px;font-weight:300;letter-spacing:-.06em}
   .fig__l{margin-top:10px;font-size:15px}
   .fig__d{font-size:13px;color:#8F88A6}
+  .fig li{text-align:center}
 
   /* ---------- с кем работаем: фото на всю ширину ---------- */
   .aud .slats{display:flex;flex-direction:column;gap:34px;margin-inline:calc(var(--gut) * -1)}
@@ -116,9 +176,16 @@
   .srv:not(.is-deck) .srv__card:nth-child(4){--m-i:3}
   .srv:not(.is-deck) .srv__card:nth-child(5){--m-i:4}
   .srv:not(.is-deck) .srv__card:nth-child(6){--m-i:5}
-  .srv:not(.is-deck) .srv__card::after{background:linear-gradient(180deg,transparent 30%,rgba(10,8,20,.55) 62%,rgba(10,8,20,.94))}
   .srv:not(.is-deck) .srv__art{inset:0;height:100%;object-position:60% 0;opacity:1;filter:none;mix-blend-mode:normal;will-change:auto;transform:none;transition:none;-webkit-mask-image:none;mask-image:none;}
   .srv:not(.is-deck) .srv__body{justify-content:flex-end;padding:24px}
+  /* Название — в пустом левом верхнем углу карточки, описание и кнопка —
+     внизу; сверху лёгкое затемнение, чтобы заголовок читался и на визуале. */
+  .srv:not(.is-deck) .srv__t{margin-bottom:auto;max-width:82%}
+  /* Визуал услуги стоит в правой половине кадра: в узкой карточке кадр
+     сдвинут к нему, чтобы объект был виден целиком, а не обрезан краем. */
+  .srv:not(.is-deck) .srv__art{object-position:80% 0}
+  .srv:not(.is-deck) .srv__card:nth-child(5) .srv__art{object-position:92% 0}
+  .srv:not(.is-deck) .srv__card::after{background:linear-gradient(180deg,rgba(10,8,20,.7) 0,rgba(10,8,20,.18) 24%,transparent 38%,rgba(10,8,20,.55) 62%,rgba(10,8,20,.94))}
   .srv:not(.is-deck) .srv__t{font-size:28px;line-height:1.08;font-weight:400;letter-spacing:-.035em}
   .srv:not(.is-deck) .srv__d{margin-top:12px;font-size:15px;line-height:1.5;color:#CFC9DF}
   .srv:not(.is-deck) .srv__body .link-arrow{align-self:flex-start;margin-top:18px;height:46px;padding:0 20px;border-radius:23px;
@@ -179,6 +246,142 @@
 
 }
 
+/* ---------- телефон и планшет: всё по центру ----------
+   Заголовки секций, описания, карточки кейсов, основатель, команда,
+   контакты и подвал выровнены по центру. Исключение — содержимое карточек
+   услуг: там название вверху слева, описание и кнопка внизу. */
+@media (max-width:900px){
+  .head,.head--split{text-align:center;justify-items:center}
+  .head .h2,.head__note{margin-inline:auto}
+
+  /* С кем мы работаем */
+  .aud .slat__t,.aud .slat__d{text-align:center}
+  .aud .slat__d{margin-inline:auto}
+
+  /* Кейсы: логотип над названием, текст по центру; строки результатов
+     остаются таблицей «подпись — цифра», главная цифра — по центру. */
+  .cs .case{text-align:center}
+  .cs .case__h{flex-direction:column;justify-content:center;gap:12px;min-height:0}
+  .cs .case__h > div{display:flex;flex-direction:column;align-items:center}
+  .cs .res li:first-child{text-align:center}
+  .cs .res li:not(:first-child){text-align:left}
+  .cs .rail__foot{flex-direction:column;align-items:center;gap:20px}
+  .cs .rail__bar{flex:none;width:100%}
+
+  /* Основатель */
+  .fnd .fnd__body{text-align:center}
+  .fnd .fnd__role,.fnd .fnd__body > p{margin-inline:auto}
+
+  /* Команда */
+  .team .team__copy{align-items:center;text-align:center}
+
+  /* Контакты: строки по центру, стрелка сразу за текстом. */
+  .cta .cta__side{text-align:center}
+  .cta .cta__sub{margin-inline:auto}
+  .cta .contacts{margin-inline:auto}
+  .cta .contacts a{justify-content:center;gap:12px}
+
+  /* Подвал */
+  .foot .foot__brand{text-align:center}
+  .foot .foot__brand .brand{justify-content:center;margin-inline:auto}
+  .foot .foot__brand p{margin-inline:auto}
+  .foot .foot__bot{justify-content:center;text-align:center}
+}
+
+/* ---------- планшет вертикально (600–900 px) ----------
+   Та же лёгкая мобильная логика, но без растянутых на всю ширину фото:
+   аудитории и цифры встают сеткой, основатель — рядом с текстом, команда
+   в три колонки, карточки услуг читаются слева от визуала. */
+@media (min-width:600px) and (max-width:900px){
+  .h2{font-size:42px}
+  .hero .hero__h1{font-size:clamp(46px,7.3vw,60px);max-width:12.6em}
+  .hero .hero__sub{max-width:30em;font-size:18px}
+  /* На высоком вертикальном планшете кнопки у нижнего края оставляли
+     полэкрана пустоты: весь первый экран собран по центру. */
+  .hero__in{justify-content:center}
+  .hero .hero__act{margin-top:36px;padding-top:0}
+  .hero .hero__act .btn--primary{flex:0 0 auto;padding:0 38px}
+  .hero.has-lens .hero__lens{align-self:center;margin-top:40px;margin-left:0}
+
+  .about__body{max-width:38em}
+  .about__body .lead{font-size:26px}
+  .fig{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:18px}
+  .fig__n{font-size:46px}
+
+  .aud .slats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:38px 18px;margin-inline:0}
+  .aud .slat{aspect-ratio:auto}
+  .aud .slat__d{width:auto;min-height:0}
+  .aud .slat__photo{aspect-ratio:4/3;border-radius:22px;overflow:hidden;-webkit-mask-image:none;mask-image:none}
+  .aud .slat__t{margin:18px 0 0;font-size:23px}
+  .aud .slat__d{margin:8px 0 0;font-size:15px}
+
+  /* Визуал услуги справа, текст слева — как и задуманы новые рендеры. */
+  .srv:not(.is-deck) .srv__card{height:min(470px,calc(100svh - var(--nav-h) - 150px))}
+  .srv:not(.is-deck) .srv__art{object-position:80% 50%}
+  .srv:not(.is-deck) .srv__card::after{background:linear-gradient(90deg,rgba(10,8,20,.95),rgba(10,8,20,.74) 40%,rgba(10,8,20,.06) 74%)}
+  .srv:not(.is-deck) .srv__body{max-width:58%;padding:34px}
+  .srv:not(.is-deck) .srv__t{font-size:34px}
+
+  .cs .case{width:min(44vw,370px)}
+
+  .fnd .fnd__grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:36px;align-items:center}
+  .fnd .fnd__pic{height:auto;aspect-ratio:4/5;margin:0;border-radius:26px;overflow:hidden}
+  .fnd .fnd__pic img{-webkit-mask-image:none;mask-image:none}
+  .fnd .fnd__body{margin-top:0}
+  .fnd .fnd__name{font-size:40px}
+
+  .team .team__grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 16px}
+  .ptn .logos{grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+  .cta .h2{font-size:50px}
+}
+
+/* ---------- планшет горизонтально (от 901 px, сенсорный экран) ----------
+   Десктопная сетка остаётся, но без 3D-сцены: длинная закреплённая сцена
+   «О нас» превращается в обычный блок, цифры — в ряд под ним, а первый
+   экран получает то же свечение и объектив из кадров, что и телефон. */
+@media (min-width:901px) and (hover:none) and (pointer:coarse){
+  .stage{display:none}
+  .hero{overflow:clip;isolation:isolate}
+  .hero::before{content:'';position:absolute;z-index:-1;inset:-8% -12% -6%;pointer-events:none;will-change:transform;
+    background:
+      radial-gradient(34% 40% at 76% 46%,rgba(124,92,255,.34),transparent 72%),
+      radial-gradient(28% 30% at 58% 78%,rgba(255,82,184,.16),transparent 72%);
+    animation:m-glow 18s ease-in-out infinite alternate}
+  /* Объектив в правой половине первого экрана, та же раскладка по прокрутке. */
+  .hero.has-lens{overflow:visible;overflow-x:clip}
+  .hero.has-lens .hero__lens{display:block;position:absolute;z-index:0;right:max(8px,1.5vw);top:57%;
+    width:min(33vw,460px);aspect-ratio:600/448;pointer-events:none;transform:translateY(-50%);
+    animation:m-lens-in 1s var(--e-out) .3s backwards}
+  .hero__in{position:relative;z-index:2}
+  .hero.has-lens:not(.is-cta) .hero__act:not(:focus-within) > *{opacity:0;transform:translate3d(0,22px,0) scale(.92);filter:blur(8px);pointer-events:none}
+  .hero.has-lens .hero__act > *{transition:opacity .5s var(--e-out),transform .7s cubic-bezier(.2,1.4,.4,1),filter .5s var(--e-out)}
+  .hero.has-lens .hero__act > :nth-child(2){transition-delay:.09s}
+  .hero.has-lens.is-cta .hero__act .btn--primary{animation:m-cta-glow 1.4s var(--e-out) .15s}
+
+  .about .about__grid{min-height:0}
+  .about .about__side{position:static;height:auto}
+  .about .about__stage{display:none}
+  #figures{padding-block:clamp(36px,4vw,56px) clamp(64px,7vw,110px)}
+  #figures .wrap{transform:none;margin-bottom:0}
+  #figures .fig{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #figures .fig li{opacity:1;transform:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+    background:linear-gradient(155deg,rgba(255,255,255,.06),rgba(255,255,255,.015) 58%,rgba(255,255,255,.03)),#0E0B1C}
+
+  /* Услуги: закреплённая колода работает только с мышью, а без неё правый
+     список-оглавление дублировал названия. Здесь — сетка 2 × 3: визуал
+     услуги справа, текст слева, как на вертикальном планшете. */
+  .srv .srv__grid{display:block}
+  .srv .srv__list{display:none}
+  .srv:not(.is-deck) .srv__deck{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .srv:not(.is-deck) .srv__card{position:relative;min-height:350px;padding:0;border-radius:26px;
+    border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,#1B1533,#0F0C1E)}
+  .srv:not(.is-deck) .srv__card::before{display:none}
+  .srv:not(.is-deck) .srv__card::after{background:linear-gradient(90deg,rgba(10,8,20,.95),rgba(10,8,20,.72) 42%,rgba(10,8,20,.05) 76%)}
+  .srv:not(.is-deck) .srv__art{object-position:80% 50%;opacity:1;mix-blend-mode:normal;
+    -webkit-mask-image:none;mask-image:none;transform:none;will-change:auto;transition:none}
+  .srv:not(.is-deck) .srv__body{justify-content:flex-end;max-width:62%;padding:30px}
+}
+
 /* Партнёры: плотнее, три колонки уже на телефоне. */
 @media (max-width:619px){
   .ptn .logos{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -188,9 +391,10 @@
 }
 
 @keyframes m-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes m-art-in{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes m-float{0%,100%{translate:0 0}50%{translate:0 -8px}}
+@keyframes m-glow{from{transform:translate3d(-5%,1%,0) scale(1)}to{transform:translate3d(6%,-3%,0) scale(1.08)}}
+@keyframes m-lens-in{from{opacity:0}}
+@keyframes m-cta-glow{0%{box-shadow:0 0 0 0 rgba(180,120,255,.7)}100%{box-shadow:0 0 0 22px rgba(180,120,255,0)}}
 @media (prefers-reduced-motion:reduce){
-  .hero__art,.hero__art img,.menu > *{animation:none!important;opacity:1}
+  .hero::before,.hero__lens,.menu__svc-row a,.menu > *{animation:none!important}
   .aud .slat__photo{transform:none}
 }

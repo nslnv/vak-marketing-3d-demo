@@ -20,6 +20,7 @@ const MIME = {
   '.png':  'image/png',
   '.jpg':  'image/jpeg',
   '.webp': 'image/webp',
+  '.avif': 'image/avif',
   '.ico':  'image/x-icon'
 };
 

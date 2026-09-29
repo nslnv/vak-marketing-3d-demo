@@ -1,9 +1,9 @@
 /* ==========================================================================
-   VAK Marketing — поведение мобильной главной (до 900 px): строка этапов
-   «О нас» и проявление фото аудитории.
-   Всё, что связано с прокруткой, считается в одном requestAnimationFrame и
-   пишется только в CSS-переменные и transform: так нет перерасчёта
-   раскладки и дёрганья на слабых телефонах. Десктоп этот файл не трогает.
+   VAK Marketing — поведение мобильной главной (телефон и планшет): цепочка
+   этапов «О нас», проявление фото аудитории и объектив первого экрана.
+   Анимации пишут только transform, opacity и CSS-классы; объектив и пыльца
+   рисуются на одном холсте в одном requestAnimationFrame. Компьютер с мышью
+   этот файл не затрагивает.
    ========================================================================== */
 (function () {
   'use strict';
@@ -11,68 +11,305 @@
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
-  var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+  var io = 'IntersectionObserver' in window;
 
-  var about = $('#about'), aboutBody = $('.about__body'), flow = $('.about__flow-line');
-  var vh = innerHeight, ticking = false, active = false;
-
-  /* Строка этапов: слово загорается целиком, когда полоса до него дошла.
-     Путь привязан к тексту раздела, который проезжает под строкой. */
-  var BOUNDS = [0, 0.25, 0.5, 0.75, 1];
-  var lastFlow = -1;
-  function paintFlow() {
-    if (!about || !flow || !flowOn) return;
-    // Полоса идёт, пока под прилипшей строкой проезжает текст раздела:
-    // 0 — текст только подошёл к строке, 1 — его конец поднялся к середине экрана.
-    var r = (aboutBody || about).getBoundingClientRect();
-    var line = flow.getBoundingClientRect().bottom + 24;
-    var f = reduced ? 1 : clamp((line - r.top) / Math.max(1, r.height - (vh * 0.5 - line)));
-    if (Math.abs(f - lastFlow) < 0.002) return;
-    lastFlow = f;
-    flow.style.setProperty('--m-flow', f.toFixed(3));
-    var k = 0;
-    for (var i = 0; i < BOUNDS.length - 1; i++) if (f >= BOUNDS[i]) k = i;
-    $$('span', flow).forEach(function (w, i) {
-      var st = f < 0.004 ? 'next' : i < k ? 'done' : i === k ? (f >= 1 ? 'done' : 'active') : 'next';
-      if (w.dataset.state !== st) w.dataset.state = st;
-    });
-  }
-
-  // строку этапов считаем, только пока раздел «О нас» рядом с экраном
-  var flowOn = true;
-  if (about && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
-    flowOn = es[0].isIntersecting; if (flowOn) kick();
-  }, { rootMargin: '200px 0px' }).observe(about);
-
-  function frame() {
-    ticking = false;
-    if (!active) return;
-    // На телефоне по прокрутке считается только строка этапов: покадровое
-    // уменьшение карточек и параллакс объектива на iPhone давали рывки.
-    paintFlow();
-  }
-  function kick() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
-
-  /* Фото аудитории проявляются из лёгкого приближения. */
-  var seen = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-seen'); seen.unobserve(e.target); } });
-  }, { rootMargin: '0px 0px -12% 0px' }) : null;
-
-  function sync() {
-    active = mq.matches;
-    if (active) {
-      if (seen) $$('.aud .slat').forEach(function (s) { seen.observe(s); });
-      else $$('.aud .slat').forEach(function (s) { s.classList.add('is-seen'); });
-      lastFlow = -1;
-      kick();
-    } else {
-      if (flow) flow.style.removeProperty('--m-flow');
+  /* Цепочка этапов под «О VAK Marketing»: один раз загорается по очереди,
+     когда целиком попадает в кадр (сама анимация — в CSS). */
+  var flow = $('.about__flow-line');
+  if (flow) {
+    if (reduced || !io) flow.classList.add('is-run');
+    else {
+      var flowIo = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { flow.classList.add('is-run'); flowIo.disconnect(); }
+      }, { threshold: 1, rootMargin: '0px 0px -18% 0px' });
+      flowIo.observe(flow);
     }
   }
 
-  addEventListener('scroll', kick, { passive: true });
-  addEventListener('resize', function () { vh = innerHeight; kick(); }, { passive: true });
+  /* Фото аудитории проявляются из лёгкого приближения. */
+  var seen = io ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-seen'); seen.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -12% 0px' }) : null;
+  function sync() {
+    if (!mq.matches) return;
+    $$('.aud .slat').forEach(function (s) { if (seen) seen.observe(s); else s.classList.add('is-seen'); });
+  }
   if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
-  if (document.readyState === 'complete') sync(); else addEventListener('load', sync);
   sync();
+})();
+
+/* ── объектив первого экрана: телефон и планшет ──────────────────────────
+   Вместо WebGL — настоящие кадры той же модели. Объектив стоит собранным,
+   из передней линзы тихо струится пыльца, раз в несколько секунд по нему
+   проходит блик. С началом прокрутки он разворачивается (14 кадров одного
+   спрайта, соседние перетекают), улетает вдаль, пыльца тянется шлейфом;
+   когда он улетел, появляются кнопки.
+   Всё рисуется на одном холсте из уже раскодированных картинок, положение
+   считается формулой: ни замеров страницы, ни перерисовки DOM на кадре —
+   поэтому старт прокрутки не подтормаживает. HTML-блок .hero__lens только
+   держит место в раскладке и показывает первый кадр до запуска холста. */
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var mq = matchMedia('(max-width:900px), (hover:none) and (pointer:coarse)');
+  var phone = matchMedia('(max-width:900px)');
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hero = $('.hero'), heroIn = $('.hero__in'), lens = $('.hero__lens');
+  if (!hero || !heroIn || !lens) return;
+  var FRAMES = 32, COLS = 4, DIR = '/assets/img/hero/';
+  /* Передняя линза в каждом кадре (доли кадра) и куда смотрит её ось на
+     экране — сняты из той же 3D-сцены. [x, y, dx, dy, длина оси]: когда
+     линза развёрнута к зрителю, ось на экране короткая. */
+  var FRONT = [
+    [.863,.392,.987,-.159,1],[.854,.388,.985,-.17,1],[.845,.384,.983,-.183,1],[.835,.381,.981,-.196,1],[.824,.377,.978,-.209,1],
+    [.813,.373,.975,-.224,1],[.802,.37,.971,-.24,.97],[.79,.367,.966,-.257,.95],[.777,.364,.961,-.275,.92],[.764,.363,.957,-.289,.88],
+    [.751,.365,.955,-.298,.85],[.737,.37,.954,-.3,.8],[.723,.378,.956,-.294,.76],[.708,.389,.96,-.279,.71],[.693,.402,.967,-.254,.66],
+    [.677,.418,.977,-.215,.6],[.662,.435,.987,-.159,.55],[.645,.454,.997,-.08,.49],[.629,.475,1,.028,.43],[.612,.496,.985,.172,.38],
+    [.595,.518,.936,.352,.34],[.578,.54,.833,.554,.32],[.561,.561,.668,.744,.31],[.544,.582,.465,.885,.32],[.526,.601,.261,.965,.34],
+    [.509,.618,.081,.997,.37],[.492,.633,-.069,.998,.41],[.474,.646,-.192,.981,.45],[.457,.656,-.295,.955,.49],
+    [.44,.663,-.385,.923,.52],[.423,.667,-.465,.886,.55],[.406,.667,-.538,.843,.58]
+  ];
+  var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+  var ease = function (a, b, v) { var t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+
+  var on = false, key = '', heroH = 1, cta = false, started = 0;
+  var vw = innerWidth, vh = innerHeight;
+  var base = { x: 0, y: 0, w: 1, h: 1 };        // блок .hero__lens в координатах страницы
+
+  /* Высота объектива — по свободному месту между текстом и кнопками.
+     Меряем синхронно, до отрисовки, и только при смене ширины/ориентации:
+     в Safari высота окна меняется от панелей при каждой прокрутке. */
+  function fit() {
+    if (!mq.matches) { on = false; key = ''; hero.classList.remove('has-lens', 'is-cta'); showCanvas(false); return; }
+    var k = innerWidth + (innerWidth > innerHeight ? 'l' : 'p');
+    if (k === key) return;
+    key = k;
+    if (!phone.matches) { on = true; hero.classList.add('has-lens'); measure(); return; }
+    hero.classList.remove('has-lens');
+    var minH = parseFloat(getComputedStyle(heroIn).minHeight) || 0;
+    hero.classList.add('is-measuring');     // блок не растягивается: видна чистая высота текста и кнопок
+    var natural = heroIn.offsetHeight;
+    hero.classList.remove('is-measuring');
+    // собранный прибор — верхние ~78% кадра 600 × 448; по ширине он
+    // занимает не весь экран: справа нужно место для потока пыльцы
+    var h = Math.min(innerWidth >= 600 ? 300 : 230, (minH - natural - 36) / 0.8, innerWidth * 0.76 * 448 / 600);
+    on = h >= 120;
+    if (on) {
+      lens.style.setProperty('--lens-h', Math.floor(h) + 'px');
+      hero.classList.add('has-lens');
+      measure();
+    } else { hero.classList.remove('is-cta'); showCanvas(false); }
+  }
+  function measure() {
+    if (!on) return;
+    var r = lens.getBoundingClientRect();
+    base.w = r.width; base.h = r.height;
+    base.x = r.left + r.width / 2; base.y = r.top + scrollY + r.height / 2;
+    heroH = hero.offsetHeight; vw = innerWidth; vh = innerHeight;
+  }
+
+  /* ---------- холст ---------- */
+  var cv = null, cx = null, dpr = 1, img0 = null, sprite = null, canvasOn = false;
+  function ensureCanvas() {
+    if (cv) return;
+    cv = document.createElement('canvas');
+    cv.className = 'hero__dust';
+    cv.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(cv);
+    cx = cv.getContext('2d');
+    sizeCanvas();
+  }
+  function sizeCanvas() {
+    if (!cv) return;
+    dpr = Math.min(3, devicePixelRatio || 1);
+    vw = innerWidth; vh = innerHeight;
+    cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
+  }
+  function showCanvas(v) {
+    if (!cv || canvasOn === v) return;
+    canvasOn = v;
+    cv.classList.toggle('is-on', v);
+  }
+  function loadImg(name, done) {
+    var tryLoad = function (ext, fallback) {
+      var img = new Image();
+      img.decoding = 'async';
+      img.onerror = fallback;
+      img.onload = function () {
+        var ready = function () { done(img); };
+        if (img.decode) img.decode().then(ready, ready); else ready();
+      };
+      img.src = DIR + name + ext;
+    };
+    // AVIF заметно легче; старый Safari его не знает — тогда WebP.
+    tryLoad('.avif', function () { tryLoad('.webp', function () {}); });
+  }
+
+  /* ---------- пыльца ---------- */
+  var parts = [], acc = 0;
+  var COLORS = ['255,255,255', '207,233,255', '201,188,255', '191,233,255', '255,160,214'];
+  function spawn(n, e, boost) {
+    for (var i = 0; i < n && parts.length < 340; i++) {
+      // линза смотрит на зрителя — струя раскрывается веером к нам
+      var spread = (Math.random() - 0.5) * (0.5 + boost * 0.5 + (1 - e.len) * 2.2);
+      var cs = Math.cos(spread), sn = Math.sin(spread);
+      var dx = e.dx * cs - e.dy * sn, dy = e.dx * sn + e.dy * cs;
+      var sp = e.w * (0.16 + Math.random() * 0.34) * (0.6 + e.len * 0.4) * (1 + boost * 1.4);
+      parts.push({
+        x: e.x + (Math.random() - 0.5) * e.w * 0.03, y: e.y + (Math.random() - 0.5) * e.w * 0.03,
+        vx: dx * sp, vy: dy * sp, life: 0, max: 1.1 + Math.random() * 1.3,
+        r: (0.7 + Math.random() * 1.6) * (e.w / 330) * (1 + boost * 0.35), g: (1 - e.len) * 1.6,
+        c: COLORS[(Math.random() * COLORS.length) | 0], tw: Math.random() * 6.28
+      });
+    }
+  }
+
+  /* ---------- кадр ---------- */
+  var lastT = 0, raf = 0;
+  function draw(t) {
+    raf = 0;
+    if (!on || !cx) return;
+    var dt = Math.min(0.05, (t - (lastT || t)) / 1000); lastT = t;
+    var sy = scrollY;
+    // Весь номер — первые ~40% экрана прокрутки. На горизонтальном планшете
+    // кнопки стоят высоко, поэтому полёт короче: они появляются на глазах.
+    var D = vh * (phone.matches ? 0.42 : 0.2);
+    var y = Math.min(sy, D);
+    var prog = reduced ? 0 : clamp(sy / D);
+    var turn = ease(0, 0.6, prog), fly = ease(0.3, 1, prog);
+    var f = turn * (FRAMES - 1);
+    // Пока разворачивается, прибор почти висит на экране (и смещается к
+    // середине: боком он шире всего); затем уходит в точку схода и тает.
+    var vx = vw * 0.64, vy = Math.max(110, vh * 0.2);
+    var cx0 = base.x + (vw * 0.5 - base.x) * turn * 0.8, cy0 = base.y - y * 0.2;
+    var bob = reduced ? 0 : Math.sin(t / 1000 * 0.9) * 3.5 * (1 - turn);   // лёгкое покачивание в покое
+    var X = cx0 + (vx - cx0) * fly, Y = (cy0 + (vy - cy0) * fly) - (sy - y) + bob;
+    var S = 1 - 0.95 * Math.pow(fly, 1.35);
+    var fade = started ? clamp((t - started) / 900) : 0;
+    var O = (1 - ease(0.78, 1, prog)) * fade;
+    var W = base.w * S, H = base.h * S, L = X - W / 2, T = Y - H / 2;
+
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx.clearRect(0, 0, vw, vh);
+    var lensVisible = O > 0.003 && T < vh && T + H > 0;
+    if (lensVisible && img0) {
+      // кадры перетекают: сложение двух взвешенных кадров на пустом холсте
+      cx.globalCompositeOperation = 'lighter';
+      if (sprite) {
+        // кадры лежат сеткой 4 × 8: так картинка не упирается в предел размера на iPhone
+        var fw = sprite.width / COLS, fh = sprite.height / Math.ceil(FRAMES / COLS);
+        var a = Math.floor(f), b = Math.min(FRAMES - 1, a + 1), k = f - a;
+        cx.globalAlpha = O * (1 - k); cx.drawImage(sprite, (a % COLS) * fw, Math.floor(a / COLS) * fh, fw, fh, L, T, W, H);
+        if (k > 0.003) { cx.globalAlpha = O * k; cx.drawImage(sprite, (b % COLS) * fw, Math.floor(b / COLS) * fh, fw, fh, L, T, W, H); }
+      } else { cx.globalAlpha = O; cx.drawImage(img0, L, T, W, H); }
+      // блик по металлу и вспышка линзы — только пока прибор стоит
+      var still = (1 - ease(0, 0.04, prog)) * fade;
+      if (still > 0 && !reduced) {
+        var ph = ((t / 1000 - 1.6) % 5.2 + 5.2) % 5.2 / 5.2;
+        if (ph < 0.3) {
+          var u = ph / 0.3, e2 = u * u * (3 - 2 * u), bx = L - W * 0.4 + e2 * W * 1.8;
+          var g = cx.createLinearGradient(bx - W * 0.16, T, bx + W * 0.16, T + H * 0.35);
+          g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(236,232,255,0.55)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+          cx.globalCompositeOperation = 'source-atop'; cx.globalAlpha = still;
+          cx.fillStyle = g; cx.fillRect(L, T, W, H);
+        }
+        if (ph > 0.2 && ph < 0.48) {
+          var q = ph < 0.29 ? (ph - 0.2) / 0.09 : 1 - (ph - 0.29) / 0.19;
+          var fx = L + FRONT[0][0] * W, fy = T + FRONT[0][1] * H, R = W * 0.16 * (0.5 + q * 0.6);
+          var rg = cx.createRadialGradient(fx, fy, 0, fx, fy, R);
+          rg.addColorStop(0, 'rgba(255,255,255,0.95)'); rg.addColorStop(0.2, 'rgba(191,233,255,0.5)'); rg.addColorStop(1, 'rgba(160,140,255,0)');
+          cx.globalCompositeOperation = 'lighter'; cx.globalAlpha = still * q;
+          cx.fillStyle = rg; cx.fillRect(fx - R, fy - R, R * 2, R * 2);
+        }
+      }
+    }
+
+    // пыльца из передней линзы: тихий поток в покое, шлейф при улёте
+    if (!reduced && dt > 0 && lensVisible && prog < 0.995) {
+      var fa = Math.floor(f), fb = Math.min(FRAMES - 1, fa + 1), fk = f - fa, A = FRONT[fa], B = FRONT[fb];
+      var m = function (i) { return A[i] + (B[i] - A[i]) * fk; };
+      var ddx = m(2), ddy = m(3), dl = Math.hypot(ddx, ddy) || 1;
+      var em = { x: L + m(0) * W, y: T + m(1) * H, dx: ddx / dl, dy: ddy / dl, len: m(4), w: W };
+      // линза развёрнута к зрителю и толкает прибор вдаль — она светится
+      var glow = turn * O;
+      if (glow > 0.01) {
+        var GR = W * (0.2 + 0.1 * Math.sin(t / 90) * 0.5);
+        var gg = cx.createRadialGradient(em.x, em.y, 0, em.x, em.y, GR);
+        gg.addColorStop(0, 'rgba(255,255,255,0.9)'); gg.addColorStop(0.18, 'rgba(191,233,255,0.55)');
+        gg.addColorStop(0.5, 'rgba(150,120,255,0.18)'); gg.addColorStop(1, 'rgba(150,120,255,0)');
+        cx.globalCompositeOperation = 'lighter'; cx.globalAlpha = glow;
+        cx.fillStyle = gg; cx.fillRect(em.x - GR, em.y - GR, GR * 2, GR * 2); cx.globalAlpha = 1;
+      }
+      var flying = ease(0.25, 0.8, prog);
+      acc += dt * (64 + flying * 170) * (prog > 0.9 ? (1 - prog) * 10 : 1) * fade;
+      var n = acc | 0; acc -= n;
+      if (n) spawn(n, em, flying);
+    }
+    // частицы живут в координатах экрана: прокрутка оставляет их шлейфом
+    var shift = sy - (draw.sy == null ? sy : draw.sy); draw.sy = sy;
+    cx.globalCompositeOperation = 'lighter';
+    for (var i = parts.length - 1; i >= 0; i--) {
+      var p = parts[i];
+      p.life += dt;
+      if (p.life >= p.max) { parts.splice(i, 1); continue; }
+      var drag = Math.pow(0.45, dt);
+      p.vx *= drag; p.vy *= drag;
+      p.x += p.vx * dt; p.y += p.vy * dt - 6 * dt - shift * 0.35;
+      var kk = p.life / p.max, al = (kk < 0.15 ? kk / 0.15 : 1 - (kk - 0.15) / 0.85) * (0.55 + 0.45 * Math.sin(p.tw + p.life * 9));
+      cx.globalAlpha = 1;
+      cx.fillStyle = 'rgba(' + p.c + ',' + Math.min(1, al).toFixed(3) + ')';
+      var pr = p.r * (1 + p.g * kk);            // летящие к зрителю частицы растут
+      cx.beginPath(); cx.arc(p.x, p.y, pr, 0, 6.2832); cx.fill();
+      if (pr > 1.3) { cx.fillStyle = 'rgba(' + p.c + ',' + (al * 0.12).toFixed(3) + ')'; cx.beginPath(); cx.arc(p.x, p.y, pr * 2.4, 0, 6.2832); cx.fill(); }
+    }
+    cx.globalAlpha = 1; cx.globalCompositeOperation = 'source-over';
+
+    // кнопки: появляются, когда прибор улетел; прячутся, если вернуть его
+    if (reduced) { if (!cta) { cta = true; hero.classList.add('is-cta'); } }
+    else if (!cta && prog >= 0.86) { cta = true; hero.classList.add('is-cta'); }
+    else if (cta && prog < 0.3) { cta = false; hero.classList.remove('is-cta'); }
+
+    var busy = lensVisible || parts.length > 0;
+    showCanvas(busy);
+    // Пока прибор на экране или ещё летит пыльца — следующий кадр; дальше
+    // холст спит до возврата прокрутки к первому экрану.
+    if (!document.hidden && (busy || sy < heroH)) raf = requestAnimationFrame(draw);
+  }
+  function kick() { if (!raf && on && cx) raf = requestAnimationFrame(draw); }
+
+  function start() {
+    if (!on) return;
+    ensureCanvas();
+    if (!img0) loadImg('lens-0', function (im) {
+      img0 = im; started = performance.now();
+      lens.classList.add('is-canvas');           // дальше прибор рисует холст
+      kick();
+    });
+  }
+  var sprReq = false;
+  function loadSprite() {
+    if (sprReq || !on || reduced) return;
+    sprReq = true;
+    loadImg('lens-turn', function (im) { sprite = im; kick(); });
+  }
+  function idleSprite() {
+    if ('requestIdleCallback' in window) requestIdleCallback(loadSprite, { timeout: 1200 });
+    else setTimeout(loadSprite, 300);
+  }
+
+  function sync() {
+    fit();
+    if (on) { start(); kick(); if (document.readyState === 'complete') idleSprite(); }
+  }
+  sync();
+  addEventListener('load', idleSprite);
+  addEventListener('scroll', kick, { passive: true });
+  addEventListener('resize', function () {
+    fit();
+    if (on) { measure(); sizeCanvas(); start(); kick(); idleSprite(); }
+  }, { passive: true });
+  document.addEventListener('visibilitychange', function () { lastT = 0; kick(); });
+  if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
+  // Шрифт уточняет высоту заголовка — перемеряем свободное место.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { key = ''; fit(); if (on) { measure(); kick(); } });
 })();

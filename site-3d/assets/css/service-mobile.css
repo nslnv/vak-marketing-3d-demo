@@ -24,6 +24,10 @@
   .sp .sp-linkedin-funnel__shape::after{animation:none}
   .sp .sp-title{font-weight:300;letter-spacing:-.045em}
   .sp .sp-hero__actions .btn--primary{height:56px;border-radius:28px;font-size:16px;font-weight:600}
+  /* Визуалы услуг — объект в правой половине кадра, слева пустой фон.
+     В узкой рамке телефона кадр сдвинут к объекту, чтобы он был виден
+     целиком, а не обрезан по краю. */
+  .sp .sp-hero__photo img{object-position:80% 50%}
 
   /* ---------- лента под свайп ---------- */
   .sp[data-service] .sp-main .m-rail{display:flex;flex-direction:row;gap:12px;margin-inline:calc(var(--gut) * -1);padding:4px var(--gut) 6px;
@@ -126,6 +130,32 @@
   .m-others__row span{display:block;margin-top:10px;font-size:14px;font-weight:500;line-height:1.3;color:var(--ink)}
 }
 @keyframes m-open{from{opacity:0;transform:translateY(8px)}}
+/* ---------- страницы услуг на телефоне и планшете: по центру ----------
+   Первый экран, заголовки секций, подписи, вводные абзацы, блоки доверия и
+   консультации — по центру. Содержимое карточек, списков, вкладок и
+   калькулятора остаётся выровненным по левому краю, как было. */
+@media (max-width:900px){
+  .sp .sp-hero__copy{text-align:center}
+  .sp .sp-title,.sp .sp-lead{margin-inline:auto}
+  .sp .sp-hero__actions{justify-content:center}
+  .sp .sp-head,.sp [class*="__head"]:not(.sp-decision-frame__head),.sp [class*="__intro"],.sp .m-others > .wrap,
+  .sp .sp-cta__copy,.sp .sp-pricing__copy{text-align:center;justify-items:center}
+  .sp .sp-head h2,.sp .sp-head__note,.sp [class*="__head"] h2,.sp [class*="__head"] p,
+  .sp [class*="__intro"] h2,.sp [class*="__intro"] p,.sp [class*="__intro"] .sp-caption,.sp .m-others h2,.sp .sp-cta__copy h2,.sp .sp-cta__copy p,
+  .sp .sp-pricing__copy h2,.sp .sp-pricing__copy p{margin-inline:auto}
+  .sp .sp-caption{text-align:center}
+  .sp .sp-decision-frame__head{text-align:center;margin-inline:auto}
+  .sp .sp-trust__head{display:grid;justify-items:center;text-align:center}
+  .sp .sp-trust__head p{margin-inline:auto}
+  /* Нечётный последний логотип — по центру ряда, а не у левого края. */
+  .sp .sp-logo-grid > :last-child:nth-child(odd){grid-column:1/-1}
+  .sp .sp-main > section .wrap > .link-arrow,.sp .sp-media-network .link-arrow{display:flex;width:max-content;margin-inline:auto}
+  .sp .sp-foot .foot__brand{text-align:center}
+  .sp .sp-foot .foot__brand .brand{justify-content:center;margin-inline:auto}
+  .sp .sp-foot .foot__brand p{margin-inline:auto}
+  .sp .sp-foot .foot__bot{justify-content:center;text-align:center}
+}
+
 @media (prefers-reduced-motion:reduce){
   .sp[data-service] .sp-main .m-acc > .m-acc__i.is-open > *,.sp[data-service] .sp-main .m-tabs > .m-tab-on{animation:none}
 }

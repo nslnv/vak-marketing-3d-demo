@@ -18,7 +18,7 @@ var EN = {
   'nav.menu':'Menu','nav.close':'Close','nav.prShort':'PR','nav.localizationShort':'Translation','nav.founder':'Founder','nav.courseShort':'Course','nav.soon':'soon',
 
   /* первый экран */
-  'hero.h1':'Full-cycle marketing, PR <br>and B2B growth for <span class="hero__accent">iGaming, FinTech, <br>Crypto</span> and <span class="hero__accent">Web3</span> projects',
+  'hero.h1':'Full-cycle marketing, PR <br>and B2B growth for <span class="hero__accent">iGaming, <br>FinTech</span> and <span class="hero__accent">Web3</span> projects',
   'hero.sub':'We build positioning, strengthen brand trust and run growth as one system: PR, LinkedIn, SEO, content, media and automation.',
   'hero.cta1':'Discuss your project','hero.cta2':'See our services',
 

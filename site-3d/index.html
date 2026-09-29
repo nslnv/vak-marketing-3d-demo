@@ -12,23 +12,26 @@
 <meta property="og:title" content="VAK Marketing — стратегия, PR и B2B для сложных рынков">
 <meta property="og:description" content="iGaming, FinTech, Crypto и Web3.">
 <meta property="og:url" content="https://demo.vakmarketing.com/">
-<meta property="og:image" content="https://demo.vakmarketing.com/assets/img/og-v2.png">
+<meta property="og:image" content="https://demo.vakmarketing.com/assets/img/og-v3.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="VAK Marketing — стратегия, PR и B2B для сложных рынков">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="VAK Marketing — стратегия, PR и B2B для сложных рынков">
 <meta name="twitter:description" content="iGaming, FinTech, Crypto и Web3.">
-<meta name="twitter:image" content="https://demo.vakmarketing.com/assets/img/og-v2.png">
+<meta name="twitter:image" content="https://demo.vakmarketing.com/assets/img/og-v3.png">
 <meta name="twitter:image:alt" content="VAK Marketing — стратегия, PR и B2B для сложных рынков">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
+<link rel="icon" href="/assets/img/brand/icon-96.png?v=2" type="image/png" sizes="96x96">
+<link rel="icon" href="/assets/img/brand/icon-192.png?v=2" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png?v=2">
 <link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/base.css?v=20260924-p3">
+  <link rel="stylesheet" href="assets/css/base.css?v=20260930-1">
   <link rel="stylesheet" href="assets/css/sections.css?v=20260924-mobile-01">
-  <link rel="stylesheet" href="assets/css/mobile-shell.css?v=20260924-p4">
-  <link rel="stylesheet" href="assets/css/mobile.css?v=20260927-1">
-  <link rel="stylesheet" href="assets/css/polish.css?v=20260927-4">
+  <link rel="stylesheet" href="assets/css/mobile-shell.css?v=20260930-1">
+  <link rel="stylesheet" href="assets/css/mobile.css?v=20260930-15">
+  <link rel="stylesheet" href="assets/css/polish.css?v=20260930-7">
 <script>
   /* Сцена использует ES-модуль: Chrome блокирует его при двойном клике по
      file://. Открываем тот же проект через локальный сервер, где остаётся
@@ -36,7 +39,7 @@
   if (location.protocol === 'file:') location.replace('http://localhost:4322/');
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"VAK Marketing","description":"Маркетинговое агентство для iGaming, FinTech, Crypto, Web3 и B2B-проектов","founder":{"@type":"Person","name":"Vladimir Alex Kochenov"},"areaServed":"Worldwide"}
+{"@context":"https://schema.org","@type":"Organization","name":"VAK Marketing","url":"https://demo.vakmarketing.com/","logo":"https://demo.vakmarketing.com/assets/img/brand/icon-512.png","description":"Маркетинговое агентство для iGaming, FinTech, Crypto, Web3 и B2B-проектов","founder":{"@type":"Person","name":"Vladimir Alex Kochenov"},"areaServed":"Worldwide"}
 </script>
 </head>
 <body>
@@ -50,15 +53,7 @@
 <!-- ═══════════════ 1. HEADER ═══════════════ -->
 <header class="nav" id="nav">
   <div class="nav__bar">
-    <a class="brand" href="#hero" aria-label="VAK Marketing">
-      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
-        <circle cx="16" cy="16" r="13.2" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/>
-        <path d="M4.6 21.2C9 15 23 15 27.4 21.2" fill="none" stroke="currentColor" stroke-width="1.1"/>
-        <path d="M4.6 10.8C9 17 23 17 27.4 10.8" fill="none" stroke="currentColor" stroke-width="1.1"/>
-        <circle cx="16" cy="16" r="2.1" fill="currentColor"/>
-      </svg>
-      <span class="brand__text">VAK <b>Marketing</b></span>
-    </a>
+    <a class="brand" href="/"><img class="brand__logo" src="assets/img/brand/vak-logo.png" width="289" height="132" alt="VAK Marketing" decoding="async"></a>
 
     <nav class="nav__links" aria-label="Основная навигация">
       <details class="nav__services">
@@ -132,15 +127,19 @@
   <div class="wrap hero__in">
     <h1 class="hero__h1" data-i18n="hero.h1">
       Комплексный маркетинг, PR <br>и B2B-продвижение для
-      <span class="hero__accent">iGaming, FinTech, <br>Crypto</span> и <span class="hero__nowrap"><span class="hero__accent">Web3</span>-проектов</span>
+      <span class="hero__accent">iGaming, <br>FinTech</span> и <span class="hero__nowrap"><span class="hero__accent">Web3</span>-проектов</span>
     </h1>
-
-    <div class="hero__art" aria-hidden="true"><img src="assets/img/hero/lens-mobile.webp?v=2" width="760" height="640" alt="" decoding="async" fetchpriority="high"></div>
 
     <p class="hero__sub" data-i18n="hero.sub">
       Выстраиваем позиционирование, усиливаем доверие к бренду и запускаем системное
       продвижение: PR, LinkedIn, SEO, контент, медиа и автоматизация.
     </p>
+
+    <!-- Телефон и планшет: вместо WebGL-сцены — настоящие кадры того же
+         объектива. Он стоит и раз в несколько секунд вспыхивает бликом; с
+         началом прокрутки разворачивается и улетает вдаль, оставляя шлейф
+         пыльцы, и только потом появляются кнопки (mobile.js). -->
+    <div class="hero__lens" aria-hidden="true"><div class="hero__lens-in"><i></i></div></div>
 
     <div class="hero__act">
       <a class="btn btn--primary" href="#contact" data-i18n="hero.cta1">Обсудить проект</a>
@@ -588,15 +587,7 @@
   <div class="wrap">
     <div class="foot__top">
       <div class="foot__brand">
-        <a class="brand" href="#hero" aria-label="VAK Marketing">
-          <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
-            <circle cx="16" cy="16" r="13.2" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/>
-            <path d="M4.6 21.2C9 15 23 15 27.4 21.2" fill="none" stroke="currentColor" stroke-width="1.1"/>
-            <path d="M4.6 10.8C9 17 23 17 27.4 10.8" fill="none" stroke="currentColor" stroke-width="1.1"/>
-            <circle cx="16" cy="16" r="2.1" fill="currentColor"/>
-          </svg>
-          <span class="brand__text">VAK <b>Marketing</b></span>
-        </a>
+        <a class="brand" href="/"><img class="brand__logo" src="assets/img/brand/vak-logo.png" width="289" height="132" alt="VAK Marketing" decoding="async"></a>
         <p data-i18n="foot.desc">
           Комплексное маркетинговое агентство для iGaming, FinTech, Crypto, Web3 и B2B.
           Стратегия, бренд, медиа, LinkedIn, B2B-лиды и масштабирование маркетинга.
@@ -647,22 +638,23 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/i18n.js?v=20260927-1" defer></script>
+<script src="assets/js/i18n.js?v=20260930-2" defer></script>
 <!-- Отдельная версия обязательна: после появления подстраниц браузер не должен
      оставлять в кэше старую логику карточек, где «Подробнее» вело в форму. -->
-<script src="assets/js/main.js?v=20260927-figs" defer></script>
-<script src="assets/js/mobile.js?v=20260924-p3" defer></script>
+<script src="assets/js/main.js?v=20260930-1" defer></script>
+<script src="assets/js/mobile.js?v=20260930-11" defer></script>
 <script src="assets/js/mobile-shell.js?v=20260924-p9" defer></script>
-<!-- WebGL-сцена нужна только на широком экране: на телефоне её место
-     занимают статичный рендер объектива и лёгкие CSS-анимации.
+<!-- WebGL-сцена нужна только на компьютере с мышью. На телефоне и
+     планшете 3D-объектива нет совсем — ни сцены, ни статичного рендера:
+     там первый экран держат типографика, свечение и кадры объектива.
      Модули скачиваются и компилируются сразу (modulepreload, вне основного
      потока), а запускаются после первой отрисовки страницы в свободное
      время: текст и кнопки не ждут разбора three.js, сцена проявляется
      следом (у холста уже есть плавное появление). -->
 <script>
 (function () {
-  var wide = matchMedia('(min-width:901px)'), loaded = false;
-  var SCENE = 'assets/js/scene.js?v=20260927-exit7';
+  var wide = matchMedia('(min-width:901px) and (hover:hover) and (pointer:fine)'), loaded = false;
+  var SCENE = 'assets/js/scene.js?v=20260930-1';
   function preload(href) {
     var l = document.createElement('link');
     l.rel = 'modulepreload'; l.href = href;
