@@ -43,33 +43,63 @@
     if (h) { e.preventDefault(); toggle(h.parentNode); }
   });
 
-  /* Фоновая догрузка после открытия страницы (только телефон).
-     1. Картинки страницы по порядку сверху вниз: грузим и сразу декодируем
-        (img.decode) в четыре потока, по порядку. Тогда к моменту прокрутки фото уже готово к
-        показу, а не проявляется пустым местом. Скрытое меню и «Другие услуги»
-        внизу страницы — в самом конце.
-     2. Файлы страниц услуг (HTML, стили, скрипты) кладём в кэш браузера:
-        переход в услугу берёт их оттуда и открывается сразу.
+  /* Фоновая догрузка (только телефон), но без рывка в первые секунды:
+     в браузерах Telegram и Instagram одновременная загрузка и декодирование
+     всех картинок страницы сразу после открытия подтормаживали анимацию.
+     1. Картинки догружаются и декодируются заранее, но порциями — когда до
+        них остаётся около полутора экранов (IntersectionObserver), по две
+        за раз. К моменту прокрутки фото готово, а не проявляется пустым местом.
+     2. Файлы страниц услуг (HTML, стили, скрипты) кладём в кэш, когда
+        страница уже несколько секунд спокойна: переход в услугу мгновенный.
      При включённой экономии трафика ничего не делаем. */
   function saveData() {
     var c = navigator.connection;
     return !!(c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || '')));
   }
   function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
-  function warmImages() {
-    var all = Array.prototype.slice.call(document.querySelectorAll('img'));
-    var late = function (img) { return img.closest('#menu, .m-others'); };
-    var list = all.filter(function (i) { return !late(i); }).concat(all.filter(late));
-    var i = 0;
-    // четыре параллельных потока, порядок сверху вниз сохраняется
-    function next() {
-      if (i >= list.length) return Promise.resolve();
-      var img = list[i++];
+  function idle(fn, ms) {
+    if ('requestIdleCallback' in window) requestIdleCallback(fn, { timeout: ms });
+    else setTimeout(fn, ms);
+  }
+  var queue = [], busy = 0;
+  function pump() {
+    while (busy < 2 && queue.length) {
+      var img = queue.shift();
+      busy++;
       if (img.loading === 'lazy') img.loading = 'eager';
       var done = img.decode ? img.decode() : new Promise(function (r) { img.onload = img.onerror = r; });
-      return Promise.race([done.catch(function () {}), wait(6000)]).then(next);
+      Promise.race([done.catch(function () {}), wait(6000)]).then(function () { busy--; pump(); });
     }
-    return Promise.all([next(), next(), next(), next()]);
+  }
+  function warmImages() {
+    var imgs = Array.prototype.slice.call(document.querySelectorAll('img')).filter(function (i) {
+      return !i.closest('#menu') && !i.complete;
+    });
+    if (!('IntersectionObserver' in window)) { queue = imgs; pump(); return; }
+    // Картинки внутри лент, листаемых вбок, спрятаны за краем ленты, и
+    // наблюдатель их не видит: следим за самой лентой и берём их все сразу.
+    var groups = [];
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        var g = e.target.__warm || [e.target];
+        Array.prototype.push.apply(queue, g);
+      });
+      pump();
+    }, { rootMargin: '0px 0px 150% 0px' });
+    imgs.forEach(function (i) {
+      var row = i.closest('.rail, .m-rail, .m-others__row, .sp-pr-cases__rail, .m-track');
+      if (!row) return io.observe(i);
+      if (!row.__warm) { row.__warm = []; groups.push(row); }
+      row.__warm.push(i);
+    });
+    groups.forEach(function (row) { io.observe(row); });
+  }
+  // Картинки меню — маленькие; грузим, когда страница успокоится.
+  function warmMenu() {
+    Array.prototype.slice.call(document.querySelectorAll('#menu img')).forEach(function (i) { queue.push(i); });
+    pump();
   }
   var PAGES = ['/strategy/', '/linkedin/', '/pr/', '/seo/', '/localization/'];
   function warmPages() {
@@ -86,16 +116,17 @@
           var urls = [], re = /(?:href|src)="(\/assets\/(?:css|js)\/[^"]+)"/g, m;
           while ((m = re.exec(html))) urls.push(m[1]);
           return Promise.all(urls.map(get));
-        });
+        }).then(function () { return wait(250); });
       });
     }, Promise.resolve());
   }
   function warm() {
     if (!mq.matches || saveData()) return;
-    warmImages().then(function () { return wait(300); }).then(warmPages);
+    warmImages();
+    idle(function () { warmMenu(); idle(warmPages, 2500); }, 4000);
   }
-  if (document.readyState === 'complete') setTimeout(warm, 400);
-  else addEventListener('load', function () { setTimeout(warm, 400); }, { once: true });
+  if (document.readyState === 'complete') setTimeout(warm, 1200);
+  else addEventListener('load', function () { setTimeout(warm, 1200); }, { once: true });
 
   var foot = document.querySelector('footer');
   if (foot && 'MutationObserver' in window) new MutationObserver(prep).observe(foot, { childList: true });

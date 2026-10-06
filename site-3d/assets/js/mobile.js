@@ -134,7 +134,7 @@
     if (!cv) return;
     var w = hero.clientWidth, h = heroH, d = Math.min(2, devicePixelRatio || 1);
     if (w === cw && h === ch && d === dpr) return;
-    cw = w; ch = h; dpr = d;
+    cw = w; ch = h; dpr = d; dirty = null;
     cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
   }
   function showCanvas(v) {
@@ -142,19 +142,36 @@
     canvasOn = v;
     cv.classList.toggle('is-on', v);
   }
-  function loadImg(name, done) {
-    var tryLoad = function (ext, fallback) {
-      var img = new Image();
-      img.decoding = 'async';
-      img.onerror = fallback;
-      img.onload = function () {
-        var ready = function () { done(img); };
-        if (img.decode) img.decode().then(ready, ready); else ready();
+  /* Картинки для холста декодируются вне основного потока
+     (createImageBitmap): иначе первый drawImage большого спрайта
+     раскодировал его прямо в кадре, и объектив подвисал. */
+  var avifOk = null;
+  function supportsAvif(cb) {
+    if (avifOk != null) return cb(avifOk);
+    var t = new Image();
+    t.onload = function () { avifOk = t.width > 0; cb(avifOk); };
+    t.onerror = function () { avifOk = false; cb(false); };
+    t.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
+  }
+  var blobs = {};
+  function loadImg(name, done, small) {
+    supportsAvif(function (avif) {
+      var src = DIR + name + (avif ? '.avif' : '.webp');
+      var viaImg = function () {
+        var img = new Image();
+        img.decoding = 'async';
+        img.onload = function () {
+          var ready = function () { done(img); };
+          if (img.decode) img.decode().then(ready, ready); else ready();
+        };
+        img.src = src;
       };
-      img.src = DIR + name + ext;
-    };
-    // AVIF заметно легче; старый Safari его не знает — тогда WebP.
-    tryLoad('.avif', function () { tryLoad('.webp', function () {}); });
+      // маленький первый кадр берём обычной картинкой — её уже загрузил preload
+      if (small || !window.createImageBitmap || !window.fetch) return viaImg();
+      fetch(src).then(function (r) { if (!r.ok) throw 0; return r.blob(); })
+        .then(function (b) { blobs[name] = b; return createImageBitmap(b); })
+        .then(done, viaImg);
+    });
   }
 
   /* ---------- пыльца ---------- */
@@ -177,7 +194,7 @@
   }
 
   /* ---------- кадр ---------- */
-  var lastT = 0, raf = 0, ys = null;
+  var lastT = 0, raf = 0, ys = null, dirty = null;
   function draw(t) {
     raf = 0;
     if (!on || !cx) return;
@@ -206,8 +223,12 @@
     var W = base.w * S, H = base.h * S, L = X - W / 2, T = Y - H / 2;
 
     cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cx.clearRect(0, 0, cw, ch);
+    // Стираем только то, что рисовали в прошлом кадре, а не весь холст.
+    if (dirty) cx.clearRect(dirty[0], dirty[1], dirty[2] - dirty[0], dirty[3] - dirty[1]);
+    var nd = [1e9, 1e9, -1e9, -1e9];
+    var grow = function (x0, y0, x1, y1) { if (x0 < nd[0]) nd[0] = x0; if (y0 < nd[1]) nd[1] = y0; if (x1 > nd[2]) nd[2] = x1; if (y1 > nd[3]) nd[3] = y1; };
     var lensVisible = O > 0.003 && T < sy + vh && T + H > sy;
+    if (lensVisible) grow(L - W * 0.25, T - H * 0.25, L + W * 1.25, T + H * 1.25);
     if (lensVisible && img0) {
       // кадры перетекают: сложение двух взвешенных кадров на пустом холсте
       cx.globalCompositeOperation = 'lighter';
@@ -274,10 +295,12 @@
       cx.globalAlpha = 1;
       cx.fillStyle = 'rgba(' + p.c + ',' + Math.min(1, al).toFixed(3) + ')';
       var pr = p.r * (1 + p.g * kk);            // летящие к зрителю частицы растут
+      grow(p.x - pr * 2.5, p.y - pr * 2.5, p.x + pr * 2.5, p.y + pr * 2.5);
       cx.beginPath(); cx.arc(p.x, p.y, pr, 0, 6.2832); cx.fill();
       if (pr > 1.3) { cx.fillStyle = 'rgba(' + p.c + ',' + (al * 0.12).toFixed(3) + ')'; cx.beginPath(); cx.arc(p.x, p.y, pr * 2.4, 0, 6.2832); cx.fill(); }
     }
     cx.globalAlpha = 1; cx.globalCompositeOperation = 'source-over';
+    dirty = nd[2] > nd[0] ? [Math.max(0, Math.floor(nd[0]) - 2), Math.max(0, Math.floor(nd[1]) - 2), Math.min(cw, Math.ceil(nd[2]) + 2), Math.min(ch, Math.ceil(nd[3]) + 2)] : null;
 
     // Кнопки появляются, когда прибор улетел, и дальше остаются: если
     // прятать их при обратной прокрутке, они мигали от движения пальца.
@@ -298,18 +321,55 @@
       img0 = im; started = performance.now();
       lens.classList.add('is-canvas');           // дальше прибор рисует холст
       kick();
-    });
+    }, true);
   }
+  /* Кадры разворота (~0,5 МБ) грузим чуть позже открытия (0,9 с после
+     загрузки) или сразу при первом касании: к началу прокрутки они уже
+     раскодированы и переданы видеокарте, и первый разворот не дёргается.
+     До их прихода прибор летит первым кадром. */
   var sprReq = false;
   function loadSprite() {
     if (sprReq || !on || reduced) return;
     sprReq = true;
-    loadImg('lens-turn', function (im) { sprite = im; kick(); });
+    loadImg('lens-turn', function (im) {
+      sprite = im;
+      /* Сразу один раз «показываем» лист видеокарте на крошечном холсте,
+         пока прибор ещё стоит: иначе загрузка текстуры попадала в первый
+         кадр разворота. */
+      try { var w = document.createElement('canvas'); w.width = w.height = 2; w.getContext('2d').drawImage(im, 0, 0, 2, 2); } catch (e) {}
+      kick();
+    });
   }
+  /* Раскодированный лист кадров занимает ~34 МБ памяти. Во встроенных
+     браузерах Telegram и Instagram памяти меньше, и при её нехватке браузер
+     выкидывает уже раскодированные фото страницы, а при прокрутке назад
+     раскодирует их заново — отсюда подтормаживания. Поэтому, когда первый
+     экран далеко позади, лист освобождаем, а при возвращении заново
+     раскодируем вне основного потока из сохранённого файла (~0,5 МБ). Пока
+     он не готов, прибор у начала разворота показан первым кадром. */
+  var released = false;
+  function spriteMemory() {
+    if (!on || !sprite) {
+      if (released && on && scrollY < heroTop + heroH + vh * 1.2) {
+        released = false;
+        var b = blobs['lens-turn'];
+        if (b && window.createImageBitmap) createImageBitmap(b).then(function (im) { sprite = im; kick(); }, function () {});
+        else { sprReq = false; loadSprite(); }
+      }
+      return;
+    }
+    if (scrollY > heroTop + heroH + vh * 2 && sprite.close) {
+      sprite.close(); sprite = null; released = true;
+    }
+  }
+  var sprTimer = 0;
   function idleSprite() {
-    if ('requestIdleCallback' in window) requestIdleCallback(loadSprite, { timeout: 1200 });
-    else setTimeout(loadSprite, 300);
+    if (sprReq || sprTimer) return;
+    sprTimer = setTimeout(loadSprite, 900);
   }
+  ['touchstart', 'scroll', 'wheel'].forEach(function (type) {
+    addEventListener(type, function first() { removeEventListener(type, first); loadSprite(); }, { passive: true, once: true });
+  });
 
   function sync() {
     fit();
@@ -317,7 +377,7 @@
   }
   sync();
   addEventListener('load', idleSprite);
-  addEventListener('scroll', kick, { passive: true });
+  addEventListener('scroll', function () { kick(); spriteMemory(); }, { passive: true });
   // Панели Safari при прокрутке тоже шлют resize: реагируем только на смену
   // ширины или ориентации, иначе холст пересоздавался прямо в движении.
   addEventListener('resize', function () {
@@ -326,5 +386,5 @@
   document.addEventListener('visibilitychange', function () { lastT = 0; kick(); });
   if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
   // Шрифт уточняет высоту заголовка — перемеряем свободное место.
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { key = ''; fit(); if (on) { measure(); kick(); } });
+  if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(function () { key = ''; fit(); if (on) { measure(); kick(); } });
 })();

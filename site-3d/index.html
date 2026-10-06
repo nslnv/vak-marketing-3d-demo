@@ -25,12 +25,14 @@
 <link rel="icon" href="/assets/img/brand/icon-96.png?v=2" type="image/png" sizes="96x96">
 <link rel="icon" href="/assets/img/brand/icon-192.png?v=2" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png?v=2">
+<!-- Телефон и планшет: первый кадр объектива грузится вместе со шрифтами, а не после стилей. -->
+<link rel="preload" href="assets/img/hero/lens-0.avif" as="image" type="image/avif" media="(max-width:900px), (hover:none) and (pointer:coarse)">
 <link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/base.css?v=20261006-1">
+  <link rel="stylesheet" href="assets/css/base.css?v=20261006-z">
   <link rel="stylesheet" href="assets/css/sections.css?v=20260924-mobile-01">
-  <link rel="stylesheet" href="assets/css/mobile-shell.css?v=20260930-1">
-  <link rel="stylesheet" href="assets/css/mobile.css?v=20261006-1">
+  <link rel="stylesheet" href="assets/css/mobile-shell.css?v=20261006-z">
+  <link rel="stylesheet" href="assets/css/mobile.css?v=20261006-z">
   <link rel="stylesheet" href="assets/css/polish.css?v=20260930-7">
 <script>
   /* Сцена использует ES-модуль: Chrome блокирует его при двойном клике по
@@ -244,22 +246,22 @@
 
     <div class="slats" data-reveal style="--d:.1s">
       <article class="slat">
-        <img class="slat__photo" src="assets/img/audience/igaming-violet-v2.jpg" srcset="assets/img/audience/igaming-violet-v2-m.jpg 1080w, assets/img/audience/igaming-violet-v2.jpg 1440w" sizes="(max-width:900px) 88vw, 50vw" alt="" width="1536" height="640" loading="lazy" decoding="async">
+        <picture><source media="(max-width:599px)" srcset="assets/img/audience/igaming-violet-v2-mf.jpg"><img class="slat__photo" src="assets/img/audience/igaming-violet-v2.jpg" srcset="assets/img/audience/igaming-violet-v2-m.jpg 1080w, assets/img/audience/igaming-violet-v2.jpg 1440w" sizes="(max-width:900px) 88vw, 50vw" alt="" width="1536" height="640" loading="lazy" decoding="async"></picture>
         <h3 class="slat__t" data-i18n="aud.t1">iGaming-проекты</h3>
         <p class="slat__d" data-i18n="aud.d1">Операторы, платформы, PSP, affiliate-команды и B2B-сервисы, которым нужно усилить бренд, доверие и поток партнёрских запросов.</p>
       </article>
       <article class="slat">
-        <img class="slat__photo" src="assets/img/audience/fintech-violet-v2.jpg" srcset="assets/img/audience/fintech-violet-v2-m.jpg 1080w, assets/img/audience/fintech-violet-v2.jpg 1440w" sizes="(max-width:900px) 88vw, 50vw" alt="" width="1536" height="640" loading="lazy" decoding="async">
+        <picture><source media="(max-width:599px)" srcset="assets/img/audience/fintech-violet-v2-mf.jpg"><img class="slat__photo" src="assets/img/audience/fintech-violet-v2.jpg" srcset="assets/img/audience/fintech-violet-v2-m.jpg 1080w, assets/img/audience/fintech-violet-v2.jpg 1440w" sizes="(max-width:900px) 88vw, 50vw" alt="" width="1536" height="640" loading="lazy" decoding="async"></picture>
         <h3 class="slat__t" data-i18n="aud.t2">FinTech и payment-компании</h3>
         <p class="slat__d" data-i18n="aud.d2">Платёжные провайдеры, карточные программы, banking-as-a-service, финансовые сервисы и инфраструктурные продукты.</p>
       </article>
       <article class="slat">
-        <img class="slat__photo" src="assets/img/audience/crypto-web3-violet-v2.jpg" srcset="assets/img/audience/crypto-web3-violet-v2-m.jpg 1080w, assets/img/audience/crypto-web3-violet-v2.jpg 1440w" sizes="(max-width:900px) 88vw, 50vw" alt="" width="1536" height="640" loading="lazy" decoding="async">
+        <picture><source media="(max-width:599px)" srcset="assets/img/audience/crypto-web3-violet-v2-mf.jpg"><img class="slat__photo" src="assets/img/audience/crypto-web3-violet-v2.jpg" srcset="assets/img/audience/crypto-web3-violet-v2-m.jpg 1080w, assets/img/audience/crypto-web3-violet-v2.jpg 1440w" sizes="(max-width:900px) 88vw, 50vw" alt="" width="1536" height="640" loading="lazy" decoding="async"></picture>
         <h3 class="slat__t" data-i18n="aud.t3">Crypto и Web3</h3>
         <p class="slat__d" data-i18n="aud.d3">Биржи, кошельки, DeFi, токены, инфраструктурные проекты, блокчейн-сервисы и Web3-стартапы.</p>
       </article>
       <article class="slat">
-        <img class="slat__photo" src="assets/img/audience/founders-violet-v2.jpg" srcset="assets/img/audience/founders-violet-v2-m.jpg 1080w, assets/img/audience/founders-violet-v2.jpg 1440w" sizes="(max-width:900px) 88vw, 50vw" alt="" width="1536" height="640" loading="lazy" decoding="async">
+        <picture><source media="(max-width:599px)" srcset="assets/img/audience/founders-violet-v2-mf.jpg"><img class="slat__photo" src="assets/img/audience/founders-violet-v2.jpg" srcset="assets/img/audience/founders-violet-v2-m.jpg 1080w, assets/img/audience/founders-violet-v2.jpg 1440w" sizes="(max-width:900px) 88vw, 50vw" alt="" width="1536" height="640" loading="lazy" decoding="async"></picture>
         <h3 class="slat__t" data-i18n="aud.t4">Фаундеры и эксперты</h3>
         <p class="slat__d" data-i18n="aud.d4">Предприниматели, которым нужно развивать личный бренд, усиливать экспертность и выстраивать доверие аудитории.</p>
       </article>
@@ -641,9 +643,9 @@
 <script src="assets/js/i18n.js?v=20260930-2" defer></script>
 <!-- Отдельная версия обязательна: после появления подстраниц браузер не должен
      оставлять в кэше старую логику карточек, где «Подробнее» вело в форму. -->
-<script src="assets/js/main.js?v=20261006-1" defer></script>
-<script src="assets/js/mobile.js?v=20261006-1" defer></script>
-<script src="assets/js/mobile-shell.js?v=20260924-p9" defer></script>
+<script src="assets/js/main.js?v=20261006-z" defer></script>
+<script src="assets/js/mobile.js?v=20261006-z" defer></script>
+<script src="assets/js/mobile-shell.js?v=20261006-z" defer></script>
 <!-- WebGL-сцена нужна только на компьютере с мышью. На телефоне и
      планшете 3D-объектива нет совсем — ни сцены, ни статичного рендера:
      там первый экран держат типографика, свечение и кадры объектива.

@@ -56,15 +56,15 @@
   /* ---------- первый экран: заголовок, свечение, кнопки под пальцем ---------- */
   .hero{min-height:100svh;align-items:stretch;padding-top:calc(var(--nav-h) + 18px);padding-bottom:18px;
     overflow:clip;isolation:isolate;background:none}
-  /* Свечение вместо объектива: два мягких пятна медленно дрейфуют одним
-     transform — это делает видеокарта, текст при этом не перерисовывается. */
-  .hero::before{content:'';position:absolute;z-index:-1;inset:-6% -34% -4%;pointer-events:none;will-change:transform;
+  /* Мягкое фирменное свечение за первым экраном. Статичное: огромный
+     анимированный слой в браузерах Telegram и Instagram заметно утяжелял
+     открытие страницы, а движение здесь и так даёт объектив. */
+  .hero::before{content:'';position:absolute;z-index:-1;inset:-6% -34% -4%;pointer-events:none;
     background:
       radial-gradient(38% 24% at 70% 60%,rgba(124,92,255,.50),transparent 72%),
       radial-gradient(30% 20% at 30% 74%,rgba(255,82,184,.26),transparent 72%),
       radial-gradient(44% 22% at 62% 30%,rgba(124,92,255,.16),transparent 72%),
-      radial-gradient(60% 30% at 50% 106%,rgba(98,228,255,.10),transparent 70%);
-    animation:m-glow 18s ease-in-out infinite alternate}
+      radial-gradient(60% 30% at 50% 106%,rgba(98,228,255,.10),transparent 70%)}
   .hero__in{display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h) - 36px);width:100%}
   .hero .hero__h1{font-size:clamp(34px,10.2vw,46px);font-weight:300;line-height:1.04;letter-spacing:-.05em;margin:0}
   /* Заголовок — главный элемент первого кадра: без маски и задержки,
@@ -163,16 +163,21 @@
   .aud .slat__t{margin:-30px var(--gut) 0;font-size:26px;font-weight:500;letter-spacing:-.03em}
   .aud .slat__d{width:auto;max-width:none;min-height:0;margin:10px var(--gut) 0;font-size:16px;line-height:1.5;color:#CFC9DF}
 
-  /* ---------- услуги: стопка стеклянных карточек ---------- */
+  /* ---------- услуги: стопка карточек ----------
+     Карточки липнут и складываются стопкой. Скругление — через clip-path,
+     без border-radius, overflow:hidden и тени: со скруглённым фоном каждая
+     липкая карточка становилась прозрачным по углам слоем, браузер смешивал
+     все шесть слоёв на каждом кадре, и прокрутка (особенно вверх и в
+     браузерах Telegram/Instagram) проседала. Замер: 44–56 долгих кадров за
+     проход вниз и вверх с прежней стопкой, 2–5 — с этой. Рамка — ::after. */
   .srv .srv__grid{display:block}
   .srv .srv__list{display:none}
   .srv:not(.is-deck) .srv__deck{display:block}
   .srv:not(.is-deck) .srv__card{position:sticky;top:calc(var(--nav-h) + 10px + var(--m-i,0) * 12px);
     height:min(520px,calc(100svh - var(--nav-h) - 110px));min-height:420px;margin:0 0 18px;padding:0;
-    border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.12);
-    background:linear-gradient(180deg,#211A3D 0%,#120E22 100%);
-    box-shadow:0 -24px 50px -30px rgba(0,0,0,.95);
-    transform-origin:50% 0}
+    border-radius:0;overflow:visible;clip-path:inset(0 round 28px);border:0;box-shadow:none;
+    background:linear-gradient(180deg,#211A3D 0%,#120E22 100%)}
+  .srv:not(.is-deck) .srv__card::after{border-radius:28px;border:1px solid rgba(255,255,255,.12)}
   .srv:not(.is-deck) .srv__card:nth-child(2){--m-i:1}
   .srv:not(.is-deck) .srv__card:nth-child(3){--m-i:2}
   .srv:not(.is-deck) .srv__card:nth-child(4){--m-i:3}
@@ -290,6 +295,32 @@
   .foot .foot__bot{justify-content:center;text-align:center}
 }
 
+/* ---------- лёгкая отрисовка на телефоне ----------
+   Во встроенных браузерах Telegram и Instagram прокрутка проседала на
+   «дорогих» эффектах, которые браузер перерисовывает при каждом появлении
+   блока: маски на крупных фото, CSS-фильтры на 25 картинках и маска поверх
+   движущейся ленты логотипов. Тот же вид собран дешевле: у фото аудиторий
+   переход в фон запечён в картинку, у основателя и ленты — накладки. */
+@media (max-width:599px){
+  .aud .slat__photo{-webkit-mask-image:none;mask-image:none;transform:none;transition:none}
+  .aud .slat{contain:none;isolation:auto}
+  .aud .slat.is-seen .slat__photo{transform:none}
+  /* Переход фото в фон «запечён» в отдельные картинки для телефона
+     (-mf.jpg через <picture>): накладка поверх фото перерисовывалась при
+     прокрутке. */
+  .fnd .fnd__pic img{-webkit-mask-image:none;mask-image:none}
+  .fnd .fnd__pic::after{display:block;background:linear-gradient(180deg,rgba(6,5,12,0) 45%,var(--bg) 96%)}
+}
+@media (max-width:900px){
+  .fnd__pic img,.team__portrait img,.logos img{filter:none}
+  .logos a[href*="finance.yahoo.com"] img,.logos a[href*="benzinga.com"] img{filter:grayscale(1) brightness(2.5)}
+  .ring.is-live{-webkit-mask-image:none;mask-image:none}
+  .toast{-webkit-backdrop-filter:none;backdrop-filter:none;background:#15112A}
+  .ring.is-live::before,.ring.is-live::after{content:'';position:absolute;z-index:2;top:0;bottom:0;width:11%;pointer-events:none}
+  .ring.is-live::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(6,5,12,0))}
+  .ring.is-live::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(6,5,12,0))}
+}
+
 /* ---------- планшет вертикально (600–900 px) ----------
    Та же лёгкая мобильная логика, но без растянутых на всю ширину фото:
    аудитории и цифры встают сеткой, основатель — рядом с текстом, команда
@@ -344,11 +375,10 @@
 @media (min-width:901px) and (hover:none) and (pointer:coarse){
   .stage{display:none}
   .hero{overflow:clip;isolation:isolate}
-  .hero::before{content:'';position:absolute;z-index:-1;inset:-8% -12% -6%;pointer-events:none;will-change:transform;
+  .hero::before{content:'';position:absolute;z-index:-1;inset:-8% -12% -6%;pointer-events:none;
     background:
       radial-gradient(34% 40% at 76% 46%,rgba(124,92,255,.34),transparent 72%),
-      radial-gradient(28% 30% at 58% 78%,rgba(255,82,184,.16),transparent 72%);
-    animation:m-glow 18s ease-in-out infinite alternate}
+      radial-gradient(28% 30% at 58% 78%,rgba(255,82,184,.16),transparent 72%)}
   /* Объектив в правой половине первого экрана, та же раскладка по прокрутке. */
   .hero.has-lens{overflow:visible;overflow-x:clip}
   .hero.has-lens .hero__lens{display:block;position:absolute;z-index:0;right:max(8px,1.5vw);top:57%;
@@ -393,7 +423,6 @@
 }
 
 @keyframes m-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes m-glow{from{transform:translate3d(-5%,1%,0) scale(1)}to{transform:translate3d(6%,-3%,0) scale(1.08)}}
 @keyframes m-lens-in{from{opacity:0}}
 @keyframes m-cta-glow{0%{box-shadow:0 0 0 0 rgba(180,120,255,.7)}100%{box-shadow:0 0 0 22px rgba(180,120,255,0)}}
 @media (prefers-reduced-motion:reduce){

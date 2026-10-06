@@ -662,8 +662,10 @@ if (rail) {
 
   /* Автопереход нужен только как спокойный способ показать, что дальше есть
      ещё кейсы. Любое прямое взаимодействие сразу ставит его на паузу; у
-     пользователей с отключённым движением он вовсе не запускается. */
-  if (!reduced) {
+     пользователей с отключённым движением он вовсе не запускается. На
+     сенсорных экранах тоже: лента сама уезжала, пока палец листал страницу,
+     и мешала прокрутке; там её листают пальцем. */
+  if (!reduced && matchMedia('(hover:hover)').matches) {
     var railVisible = false, railPaused = false;
     var railTimer = setInterval(function () {
       if (!railVisible || railPaused || document.hidden) return;
@@ -786,8 +788,7 @@ if (ringEl && ringSet && !reduced) (function () {
       }
 
       it.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,-50%,0)';
-      it.el.style.opacity = '1';
-      it.vis = 1;
+      if (it.vis !== 1) { it.el.style.opacity = '1'; it.vis = 1; }   // без лишней записи стиля каждый кадр
     }
   }
 
@@ -817,7 +818,9 @@ if (ringEl && ringSet && !reduced) (function () {
   });
 
   build();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+  // Повторная сборка нужна, только если шрифт ещё догружался (обычно он уже
+  // пришёл по preload) — лишние пересчёты раскладки при открытии ни к чему.
+  if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(build);
   window.__ringSync = build;    // пересборка после смены языка: имена меняют ширину
   requestAnimationFrame(frame);
 })();

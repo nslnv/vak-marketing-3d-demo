@@ -156,6 +156,17 @@
   .sp .sp-foot .foot__bot{justify-content:center;text-align:center}
 }
 
+/* ---------- лёгкая отрисовка на телефоне ----------
+   Во встроенных браузерах Telegram и Instagram прокрутка проседала на
+   размытии подложки формы и CSS-фильтрах на логотипах: такой элемент
+   перерисовывается при каждом появлении. Тот же вид без них. */
+@media (max-width:900px){
+  .sp .form.card{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(180deg,#15112A,#0E0B1C)}
+  .sp .sp-logo img{filter:none}
+  .sp .sp-logo img[src*="yahoo-finance"],.sp .sp-logo img[src*="benzinga"]{filter:grayscale(1) brightness(2.5)}
+  .toast{-webkit-backdrop-filter:none;backdrop-filter:none;background:#15112A}
+}
+
 @media (prefers-reduced-motion:reduce){
   .sp[data-service] .sp-main .m-acc > .m-acc__i.is-open > *,.sp[data-service] .sp-main .m-tabs > .m-tab-on{animation:none}
 }
