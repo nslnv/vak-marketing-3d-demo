@@ -66,6 +66,12 @@ html{
   scroll-padding-top:calc(var(--nav-h) + 24px);
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* На сенсорных экранах плавную прокрутку у всего документа выключаем:
+   Safari анимирует ею и собственные поправки позиции, когда при смене
+   направления пальца появляются и прячутся его панели, — страница
+   «прыгала», хотя ползунок стоял на месте. Плавный переход по ссылкам на
+   разделы делает main.js. */
+@media (hover:none) and (pointer:coarse){html{scroll-behavior:auto}}
 
 body{
   margin:0;

@@ -131,6 +131,17 @@ if (menu) {
 }
 var navBrand = nav && $('.brand', nav);
 if (navBrand) navBrand.addEventListener('click', function () { closeMenu(false); });
+/* На сенсорных экранах у документа нет scroll-behavior:smooth (см. base.css),
+   поэтому ссылки на разделы страницы прокручиваем плавно сами. */
+if (matchMedia('(hover:none) and (pointer:coarse)').matches) document.addEventListener('click', function (e) {
+  var a = e.target.closest('a[href^="#"]');
+  if (!a || e.defaultPrevented || a.hasAttribute('data-soon')) return;
+  var id = a.getAttribute('href').slice(1), target = id && document.getElementById(id);
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+  if (history.replaceState) history.replaceState(null, '', '#' + id);
+});
 /* Логотип ведёт на главную; если она уже открыта — плавно наверх без перезагрузки. */
 $$('a.brand[href="/"]').forEach(function (a) {
   a.addEventListener('click', function (e) {
@@ -681,7 +692,9 @@ var ringEl = $('#ring'), ringSet = $('#ringSet');
 if (ringEl && ringSet && !reduced) (function () {
   var PAD = 28;          // знак целиком уезжает за край до повтора
   var DRIFT = 15;        // px/с в покое — +25%, остаётся ровный спокойный ритм
-  var GAIN = 0.05;       // у прокрутки только небольшой вклад
+  /* У прокрутки только небольшой вклад, и только с мышью: на телефоне палец
+     водит страницу туда-сюда, и лента дёргалась бы вперёд-назад. */
+  var GAIN = matchMedia('(hover:hover)').matches ? 0.05 : 0;
   var VMAX = 80;         // без разгона при резком wheel / trackpad
   var SLOW = 0.12;       // под курсором почти останавливается
 
@@ -794,8 +807,14 @@ if (ringEl && ringSet && !reduced) (function () {
       { rootMargin: '120px 0px' }).observe(ringEl);
   }
 
-  var rt;
-  addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(build, 180); });
+  // Пересборка только при смене ширины: в Safari высота окна меняется от
+  // панелей при каждой смене направления прокрутки.
+  var rt, builtW = innerWidth;
+  addEventListener('resize', function () {
+    if (innerWidth === builtW) return;
+    builtW = innerWidth;
+    clearTimeout(rt); rt = setTimeout(build, 180);
+  });
 
   build();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);

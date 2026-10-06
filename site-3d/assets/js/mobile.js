@@ -45,9 +45,13 @@
    спрайта, соседние перетекают), улетает вдаль, пыльца тянется шлейфом;
    когда он улетел, появляются кнопки.
    Всё рисуется на одном холсте из уже раскодированных картинок, положение
-   считается формулой: ни замеров страницы, ни перерисовки DOM на кадре —
-   поэтому старт прокрутки не подтормаживает. HTML-блок .hero__lens только
-   держит место в раскладке и показывает первый кадр до запуска холста. */
+   считается формулой: ни замеров страницы, ни перерисовки DOM на кадре.
+   Холст лежит внутри первого экрана и прокручивается вместе со страницей
+   силами браузера, а скрипт добавляет только сам номер — поэтому прибор не
+   дрожит, когда палец водит страницу туда-сюда. Ход номера сглажен
+   (догоняет прокрутку за ~0,1 с), а высота экрана берётся одна на
+   ориентацию: в Safari она меняется от панелей, и номер дёргался.
+   HTML-блок .hero__lens держит место и показывает первый кадр до холста. */
 (function () {
   'use strict';
   var $ = function (s) { return document.querySelector(s); };
@@ -72,19 +76,20 @@
   var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
   var ease = function (a, b, v) { var t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
 
-  var on = false, key = '', heroH = 1, cta = false, started = 0;
-  var vw = innerWidth, vh = innerHeight;
-  var base = { x: 0, y: 0, w: 1, h: 1 };        // блок .hero__lens в координатах страницы
+  var on = false, key = '', heroH = 1, heroTop = 0, cta = false, started = 0;
+  var vw = innerWidth, vh = innerHeight;         // одна высота на ориентацию
+  var base = { x: 0, y: 0, w: 1, h: 1 };        // блок .hero__lens в координатах первого экрана
 
   /* Высота объектива — по свободному месту между текстом и кнопками.
      Меряем синхронно, до отрисовки, и только при смене ширины/ориентации:
      в Safari высота окна меняется от панелей при каждой прокрутке. */
   function fit() {
-    if (!mq.matches) { on = false; key = ''; hero.classList.remove('has-lens', 'is-cta'); showCanvas(false); return; }
+    if (!mq.matches) { on = false; key = ''; hero.classList.remove('has-lens', 'is-cta'); showCanvas(false); return false; }
     var k = innerWidth + (innerWidth > innerHeight ? 'l' : 'p');
-    if (k === key) return;
+    if (k === key) return false;
     key = k;
-    if (!phone.matches) { on = true; hero.classList.add('has-lens'); measure(); return; }
+    vw = innerWidth; vh = innerHeight;
+    if (!phone.matches) { on = true; hero.classList.add('has-lens'); measure(); return true; }
     hero.classList.remove('has-lens');
     var minH = parseFloat(getComputedStyle(heroIn).minHeight) || 0;
     hero.classList.add('is-measuring');     // блок не растягивается: видна чистая высота текста и кнопок
@@ -99,13 +104,15 @@
       hero.classList.add('has-lens');
       measure();
     } else { hero.classList.remove('is-cta'); showCanvas(false); }
+    return true;
   }
   function measure() {
     if (!on) return;
-    var r = lens.getBoundingClientRect();
+    var r = lens.getBoundingClientRect(), hr = hero.getBoundingClientRect();
     base.w = r.width; base.h = r.height;
-    base.x = r.left + r.width / 2; base.y = r.top + scrollY + r.height / 2;
-    heroH = hero.offsetHeight; vw = innerWidth; vh = innerHeight;
+    base.x = r.left - hr.left + r.width / 2; base.y = r.top - hr.top + r.height / 2;
+    heroTop = hr.top + scrollY; heroH = hero.offsetHeight;
+    sizeCanvas();
   }
 
   /* ---------- холст ---------- */
@@ -115,15 +122,20 @@
     cv = document.createElement('canvas');
     cv.className = 'hero__dust';
     cv.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(cv);
+    hero.appendChild(cv);
     cx = cv.getContext('2d');
     sizeCanvas();
   }
+  /* Холст размером с первый экран; пересоздаётся только при смене ширины
+     или высоты блока, не на каждое движение панелей Safari. Плотность ≤2:
+     третья на iPhone удваивала работу без видимой разницы. */
+  var cw = 1, ch = 1;
   function sizeCanvas() {
     if (!cv) return;
-    dpr = Math.min(3, devicePixelRatio || 1);
-    vw = innerWidth; vh = innerHeight;
-    cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
+    var w = hero.clientWidth, h = heroH, d = Math.min(2, devicePixelRatio || 1);
+    if (w === cw && h === ch && d === dpr) return;
+    cw = w; ch = h; dpr = d;
+    cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
   }
   function showCanvas(v) {
     if (!cv || canvasOn === v) return;
@@ -165,33 +177,37 @@
   }
 
   /* ---------- кадр ---------- */
-  var lastT = 0, raf = 0;
+  var lastT = 0, raf = 0, ys = null;
   function draw(t) {
     raf = 0;
     if (!on || !cx) return;
     var dt = Math.min(0.05, (t - (lastT || t)) / 1000); lastT = t;
-    var sy = scrollY;
+    // Координаты — внутри первого экрана. Номер идёт за сглаженной
+    // прокруткой ys: рывки пальца туда-сюда превращаются в плавный ход.
+    var sy = Math.max(0, scrollY - heroTop);
+    if (ys == null || reduced) ys = sy;
+    else { ys += (sy - ys) * (1 - Math.exp(-dt * 11)); if (Math.abs(sy - ys) < 0.25) ys = sy; }
     // Весь номер — первые ~40% экрана прокрутки. На горизонтальном планшете
     // кнопки стоят высоко, поэтому полёт короче: они появляются на глазах.
     var D = vh * (phone.matches ? 0.42 : 0.2);
-    var y = Math.min(sy, D);
-    var prog = reduced ? 0 : clamp(sy / D);
+    var y = Math.min(ys, D);
+    var prog = reduced ? 0 : clamp(ys / D);
     var turn = ease(0, 0.6, prog), fly = ease(0.3, 1, prog);
     var f = turn * (FRAMES - 1);
     // Пока разворачивается, прибор почти висит на экране (и смещается к
     // середине: боком он шире всего); затем уходит в точку схода и тает.
-    var vx = vw * 0.64, vy = Math.max(110, vh * 0.2);
-    var cx0 = base.x + (vw * 0.5 - base.x) * turn * 0.8, cy0 = base.y - y * 0.2;
+    var vx = cw * 0.64, vy = ys + Math.max(110, vh * 0.2);
+    var cx0 = base.x + (cw * 0.5 - base.x) * turn * 0.8, cy0 = base.y + y * 0.8;
     var bob = reduced ? 0 : Math.sin(t / 1000 * 0.9) * 3.5 * (1 - turn);   // лёгкое покачивание в покое
-    var X = cx0 + (vx - cx0) * fly, Y = (cy0 + (vy - cy0) * fly) - (sy - y) + bob;
+    var X = cx0 + (vx - cx0) * fly, Y = cy0 + (vy - cy0) * fly + bob;
     var S = 1 - 0.95 * Math.pow(fly, 1.35);
     var fade = started ? clamp((t - started) / 900) : 0;
     var O = (1 - ease(0.78, 1, prog)) * fade;
     var W = base.w * S, H = base.h * S, L = X - W / 2, T = Y - H / 2;
 
     cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cx.clearRect(0, 0, vw, vh);
-    var lensVisible = O > 0.003 && T < vh && T + H > 0;
+    cx.clearRect(0, 0, cw, ch);
+    var lensVisible = O > 0.003 && T < sy + vh && T + H > sy;
     if (lensVisible && img0) {
       // кадры перетекают: сложение двух взвешенных кадров на пустом холсте
       cx.globalCompositeOperation = 'lighter';
@@ -245,8 +261,7 @@
       var n = acc | 0; acc -= n;
       if (n) spawn(n, em, flying);
     }
-    // частицы живут в координатах экрана: прокрутка оставляет их шлейфом
-    var shift = sy - (draw.sy == null ? sy : draw.sy); draw.sy = sy;
+    // частицы живут на странице и уплывают вместе с ней
     cx.globalCompositeOperation = 'lighter';
     for (var i = parts.length - 1; i >= 0; i--) {
       var p = parts[i];
@@ -254,7 +269,7 @@
       if (p.life >= p.max) { parts.splice(i, 1); continue; }
       var drag = Math.pow(0.45, dt);
       p.vx *= drag; p.vy *= drag;
-      p.x += p.vx * dt; p.y += p.vy * dt - 6 * dt - shift * 0.35;
+      p.x += p.vx * dt; p.y += p.vy * dt - 6 * dt;
       var kk = p.life / p.max, al = (kk < 0.15 ? kk / 0.15 : 1 - (kk - 0.15) / 0.85) * (0.55 + 0.45 * Math.sin(p.tw + p.life * 9));
       cx.globalAlpha = 1;
       cx.fillStyle = 'rgba(' + p.c + ',' + Math.min(1, al).toFixed(3) + ')';
@@ -264,16 +279,15 @@
     }
     cx.globalAlpha = 1; cx.globalCompositeOperation = 'source-over';
 
-    // кнопки: появляются, когда прибор улетел; прячутся, если вернуть его
-    if (reduced) { if (!cta) { cta = true; hero.classList.add('is-cta'); } }
-    else if (!cta && prog >= 0.86) { cta = true; hero.classList.add('is-cta'); }
-    else if (cta && prog < 0.3) { cta = false; hero.classList.remove('is-cta'); }
+    // Кнопки появляются, когда прибор улетел, и дальше остаются: если
+    // прятать их при обратной прокрутке, они мигали от движения пальца.
+    if (!cta && (reduced || prog >= 0.86)) { cta = true; hero.classList.add('is-cta'); }
 
     var busy = lensVisible || parts.length > 0;
     showCanvas(busy);
-    // Пока прибор на экране или ещё летит пыльца — следующий кадр; дальше
-    // холст спит до возврата прокрутки к первому экрану.
-    if (!document.hidden && (busy || sy < heroH)) raf = requestAnimationFrame(draw);
+    // Пока прибор на экране, летит пыльца или номер догоняет прокрутку —
+    // следующий кадр; дальше холст спит до возврата к первому экрану.
+    if (!document.hidden && (busy || sy < heroH || ys !== sy)) raf = requestAnimationFrame(draw);
   }
   function kick() { if (!raf && on && cx) raf = requestAnimationFrame(draw); }
 
@@ -299,14 +313,15 @@
 
   function sync() {
     fit();
-    if (on) { start(); kick(); if (document.readyState === 'complete') idleSprite(); }
+    if (on) { start(); measure(); kick(); if (document.readyState === 'complete') idleSprite(); }
   }
   sync();
   addEventListener('load', idleSprite);
   addEventListener('scroll', kick, { passive: true });
+  // Панели Safari при прокрутке тоже шлют resize: реагируем только на смену
+  // ширины или ориентации, иначе холст пересоздавался прямо в движении.
   addEventListener('resize', function () {
-    fit();
-    if (on) { measure(); sizeCanvas(); start(); kick(); idleSprite(); }
+    if (fit() && on) { start(); measure(); kick(); idleSprite(); }
   }, { passive: true });
   document.addEventListener('visibilitychange', function () { lastT = 0; kick(); });
   if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);

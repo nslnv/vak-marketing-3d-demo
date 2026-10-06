@@ -20,10 +20,12 @@
 .hero__lens.is-canvas .hero__lens-in{visibility:hidden}
 .hero__lens i{position:absolute;inset:0;background:url('../img/hero/lens-0.webp') 50% 0/100% auto no-repeat;
   background-image:image-set(url('../img/hero/lens-0.avif') type('image/avif'),url('../img/hero/lens-0.webp') type('image/webp'))}
-/* Холст объектива и пыльцы: во весь экран поверх страницы, под шапкой;
-   показывается, только пока прибор или пыльца на экране. */
-.hero__dust{position:fixed;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
-.hero__dust.is-on{display:block}
+/* Холст объектива и пыльцы — во весь первый экран, поверх его текста, и
+   прокручивается вместе со страницей. Пока прибора и пыльцы нет, холст
+   просто скрыт (visibility не трогает раскладку). */
+.hero__dust{position:absolute;left:0;top:0;width:100%;height:100%;z-index:3;pointer-events:none;visibility:hidden}
+.hero.has-lens .hero__dust{display:block}
+.hero__dust.is-on{visibility:visible}
 
 @media (max-width:900px){
   /* WebGL на телефоне не грузится; холст под него не нужен. */

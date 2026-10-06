@@ -262,6 +262,18 @@
   addEventListener('scroll', kick, { passive: true });
   addEventListener('resize', kick, { passive: true });
 
+  /* На сенсорных экранах у документа нет scroll-behavior:smooth (base.css):
+     переход к форме и другим разделам страницы делаем плавным сами. */
+  if (matchMedia('(hover:none) and (pointer:coarse)').matches) document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || a.hasAttribute('data-soon')) return;
+    var id = a.getAttribute('href').slice(1), target = id && document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    if (history.replaceState) history.replaceState(null, '', '#' + id);
+  });
+
   function all() { enhanceNav(); enhanceMain(); }
   function watch() {
     var nav = $('#nav'), main = $('#main');
