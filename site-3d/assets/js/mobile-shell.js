@@ -120,8 +120,46 @@
       });
     }, Promise.resolve());
   }
+  /* Сеть: все картинки страницы скачиваются заранее — и на компьютере, и на
+     телефоне. Хостинг отдаёт каждый файл с заметной задержкой (замер 16.10:
+     20–80 КБ идут по 1–2,5 с), и встроенная ленивая загрузка браузера
+     начинала качать фото, только когда оно уже подходило к экрану: на
+     компьютере команда и аудитории стояли пустыми по несколько секунд.
+     Порядок — от текущего экрана вниз, потом то, что выше; по несколько
+     файлов одновременно, декодирует браузер сам, когда фото появится. */
+  var netQueue = [], netBusy = 0, NET = mq.matches ? 3 : 4;
+  function fetchAhead() {
+    while (netBusy < NET && netQueue.length) {
+      var img = netQueue.shift();
+      if (img.complete) continue;
+      netBusy++;
+      (function (img) {
+        var done = false, t;
+        var fin = function () {
+          if (done) return; done = true; clearTimeout(t);
+          img.removeEventListener('load', fin); img.removeEventListener('error', fin);
+          netBusy--; fetchAhead();
+        };
+        img.addEventListener('load', fin); img.addEventListener('error', fin);
+        t = setTimeout(fin, 8000);
+        if (img.loading === 'lazy') img.loading = 'eager';
+      })(img);
+    }
+  }
+  function prefetchImages() {
+    var y = scrollY;
+    netQueue = Array.prototype.slice.call(document.querySelectorAll('img')).filter(function (i) {
+      return !i.closest('#menu') && !i.complete;
+    }).map(function (i) {
+      var top = i.getBoundingClientRect().top + y;
+      return { i: i, k: top >= y ? top - y : 1e7 + (y - top) };
+    }).sort(function (a, b) { return a.k - b.k; }).map(function (x) { return x.i; });
+    fetchAhead();
+  }
   function warm() {
-    if (!mq.matches || saveData()) return;
+    if (saveData()) return;
+    prefetchImages();
+    if (!mq.matches) return;
     warmImages();
     idle(function () { warmMenu(); idle(warmPages, 2500); }, 4000);
   }
