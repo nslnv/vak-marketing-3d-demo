@@ -164,8 +164,6 @@
   .sp .sp-decision-frame__head{text-align:center;margin-inline:auto}
   .sp .sp-trust__head{display:grid;justify-items:center;text-align:center}
   .sp .sp-trust__head p{margin-inline:auto}
-  /* Нечётный последний логотип — по центру ряда, а не у левого края. */
-  .sp .sp-logo-grid > :last-child:nth-child(odd){grid-column:1/-1}
   .sp .sp-main > section .wrap > .link-arrow,.sp .sp-media-network .link-arrow{display:flex;width:max-content;margin-inline:auto}
   .sp .sp-foot .foot__brand{text-align:center}
   .sp .sp-foot .foot__brand .brand{justify-content:center;margin-inline:auto}
@@ -183,8 +181,6 @@
   /* Подписи разделов и текст в шапке «Доверие» — акцентным цветом. */
   .sp .sp-caption{margin-bottom:12px;color:var(--sp-accent)}
   .sp .sp-trust__head p{color:var(--sp-accent);margin-bottom:12px}
-  /* Названия у всех логотипов в «Проекты, с которыми работали». */
-  .sp .sp-logo{grid-template-rows:44px auto;row-gap:10px}
 
   /* Единый ритм, как на главной: все разделы услуг — 56 px сверху и снизу,
      первый экран — 44 px снизу, подвал — как на главной. Раньше у каждой
@@ -198,13 +194,6 @@
   .sp[data-service] #main .sp-head,.sp[data-service] #main .sp-trust__head{margin-bottom:28px}
   .sp[data-service] #main .sp-cta .sp-caption{margin-top:0}
   .sp[data-service] #main .sp-pricing,.sp[data-service] #main .sp-seo-phases-layout{row-gap:28px}
-  /* Медиасеть PR — тем же видом, что «Проекты, с которыми работали»:
-     логотип одной высоты, название под ним, без подсветки под тёмными
-     знаками и без отдельной линии над сеткой. */
-  .sp .sp-logo::before{content:none}
-  .sp .sp-media-network .sp-logo-grid{padding-block:0}
-  .sp .sp-media-network .sp-logo-grid::before{content:none}
-  .sp .sp-logo:not(.sp-logo--mark) img{max-width:min(100%,132px);max-height:30px}
 }
 
 /* ---------- лёгкая отрисовка на телефоне ----------

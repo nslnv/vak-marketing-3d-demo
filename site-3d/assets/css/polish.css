@@ -125,30 +125,50 @@
 .sp .sp-logo.sp-logo--mark img{height:44px;max-height:44px}
 /* Правки ч. 3, п. 4 и ч. 4: название стоит под каждым логотипом, включая
    словесные ZENEX и 1GHS, — и на компьютере, и на телефоне. */
-/* Правки ч. 3, п. 5: медиасеть PR в формате главной — ровный ряд логотипов
-   с тонкими линиями сверху и снизу и названием капсом под каждым. */
-@media (min-width:901px){
-  .sp .sp-media-network .sp-logo-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:22px 18px;padding-block:0;align-items:stretch}
-  .sp .sp-media-network .sp-logo-grid::before{content:none}
-  .sp .sp-media-network .sp-logo{min-height:118px;padding:16px 8px;grid-template-rows:auto auto;row-gap:12px;align-content:center;
-    border-top:1px solid rgba(255,255,255,.075);border-bottom:1px solid rgba(255,255,255,.075);color:rgba(229,224,244,.68);
-    transition:border-color .35s var(--e),color .35s var(--e),transform .45s var(--e-out)}
-  .sp .sp-media-network .sp-logo::before{inset:0;width:auto;height:auto;border-radius:0;filter:none;opacity:0;
-    background:linear-gradient(108deg,rgba(124,92,255,.055),transparent 48%,rgba(255,82,184,.035))}
-  .sp .sp-media-network .sp-logo img,.sp .sp-media-network .sp-logo.sp-logo--mark img{
-    height:clamp(26px,2.4vw,34px);max-height:none;width:auto;max-width:94%;filter:drop-shadow(0 4px 12px rgba(4,3,12,.3))}
-  .sp .sp-media-network .sp-logo img[src*="yahoo-finance"],.sp .sp-media-network .sp-logo img[src*="benzinga"]{
-    filter:grayscale(1) brightness(2.5) contrast(.94) drop-shadow(0 4px 12px rgba(4,3,12,.3))}
-  .sp .sp-media-network .sp-logo__name{color:inherit;font-size:11px;font-weight:650;line-height:1.1;letter-spacing:.04em;text-transform:uppercase}
-}
+/* Медиасеть PR — тот же блок, что «Наши партнёры и медиасеть» на главной:
+   те же 18 изданий сразу, тонкие линии сверху и снизу, название капсом.
+   Сетка как там: телефон — три колонки плиток, планшет — шесть, компьютер —
+   пять, широкий экран — девять с увеличенными на 1.15 логотипами. */
+.sp .sp-media-network .sp-logo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,2.4vw,34px);padding-block:0;align-items:stretch}
+.sp .sp-media-network .sp-logo-grid::before{content:none}
+.sp .sp-media-network .sp-logo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  min-height:126px;padding:18px 12px;border-top:1px solid rgba(255,255,255,.075);border-bottom:1px solid rgba(255,255,255,.075);
+  color:rgba(229,224,244,.68);transition:border-color .35s var(--e),color .35s var(--e),transform .45s var(--e-out)}
+.sp .sp-media-network .sp-logo::before{inset:0;width:auto;height:auto;border-radius:0;filter:none;opacity:0;
+  background:linear-gradient(108deg,rgba(124,92,255,.055),transparent 48%,rgba(255,82,184,.035))}
+.sp .sp-media-network .sp-logo img,.sp .sp-media-network .sp-logo.sp-logo--mark img{
+  height:clamp(30px,3vw,42px);max-height:none;width:auto;max-width:94%;object-fit:contain;
+  filter:drop-shadow(0 4px 12px rgba(4,3,12,.3));transition:filter .35s var(--e),transform .45s var(--e-out)}
+.sp .sp-media-network .sp-logo img[src*="yahoo-finance"],.sp .sp-media-network .sp-logo img[src*="benzinga"]{
+  filter:grayscale(1) brightness(2.5) contrast(.94) drop-shadow(0 4px 12px rgba(4,3,12,.3))}
+.sp .sp-media-network .sp-logo__name{color:inherit;font-size:11px;font-weight:650;line-height:1.1;letter-spacing:.04em;text-align:center;text-transform:uppercase}
+@media (min-width:900px){.sp .sp-media-network .sp-logo-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.sp .sp-media-network .sp-logo{min-height:132px}}
 @media (min-width:1180px){
-  .sp .sp-media-network .sp-logo-grid{grid-template-columns:repeat(10,minmax(0,1fr));gap:22px 14px}
-  .sp .sp-media-network .sp-logo img,.sp .sp-media-network .sp-logo.sp-logo--mark img{height:clamp(22px,2.1vw,32px)}
+  .sp .sp-media-network .sp-logo-grid{grid-template-columns:repeat(9,minmax(0,1fr));gap:44px 18px}
+  .sp .sp-media-network .sp-logo{min-height:118px;padding:16px 8px;transform:scale(1.15)}
+  .sp .sp-media-network .sp-logo img,.sp .sp-media-network .sp-logo.sp-logo--mark img{height:clamp(22px,2.25vw,34px)}
   .sp .sp-media-network .sp-logo__name{font-size:9.5px}
 }
-@media (min-width:901px) and (hover:hover){
+/* В service-page.css на узких экранах колонки сетки логотипов заданы с
+   !important (1fr 1fr и 3), поэтому для телефона и планшета — тоже с ним. */
+@media (min-width:600px) and (max-width:900px){.sp .sp-media-network .sp-logo-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:12px}}
+@media (max-width:619px){
+  .sp .sp-media-network .sp-logo-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px}
+  .sp .sp-media-network .sp-logo{min-height:84px;padding:12px 6px;gap:8px;border-radius:18px}
+  .sp .sp-media-network .sp-logo img,.sp .sp-media-network .sp-logo.sp-logo--mark img{height:26px}
+  .sp .sp-media-network .sp-logo__name{font-size:9px;letter-spacing:.03em}
+}
+@media (max-width:900px){
+  .sp .sp-media-network .sp-logo img{filter:none}
+  .sp .sp-media-network .sp-logo img[src*="yahoo-finance"],.sp .sp-media-network .sp-logo img[src*="benzinga"]{filter:grayscale(1) brightness(2.5)}
+}
+@media (hover:hover){
   .sp .sp-media-network .sp-logo:hover{border-color:rgba(196,183,255,.42);color:#fff;transform:translateY(-3px)}
   .sp .sp-media-network .sp-logo:hover::before{opacity:1}
+  .sp .sp-media-network .sp-logo:hover img{transform:translateY(-2px);filter:drop-shadow(0 4px 12px rgba(4,3,12,.3)) drop-shadow(0 0 10px rgba(184,167,255,.28))}
+}
+@media (min-width:1180px) and (hover:hover){
+  .sp .sp-media-network .sp-logo:hover{transform:scale(1.15) translateY(-3px)}
 }
 
 /* Правки ч. 4: подписи «Доверие» и «Консультация» на всех услугах —

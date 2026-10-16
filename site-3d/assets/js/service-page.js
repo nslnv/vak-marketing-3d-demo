@@ -38,7 +38,15 @@ var LOGOS = {
   theblock: { src:'/assets/img/brands/media/the-block.png', alt:'The Block', mark:true },
   benzinga: { src:'/assets/img/logos/partner/benzinga.png', alt:'Benzinga', wide:true, ink:true },
   rbc:      { src:'/assets/img/brands/media/rbc-crypto.png', alt:'РБК Крипто', mark:true },
-  cryptoru: { src:'/assets/img/brands/media/crypto-ru.png', alt:'Crypto.ru', mark:true }
+  cryptoru: { src:'/assets/img/brands/media/crypto-ru.png', alt:'Crypto.ru', mark:true },
+  // Остальная медиасеть с главной: в PR показываем все издания сразу.
+  entrepreneur:{ src:'/assets/img/logos/partner/entrepreneur.png', alt:'Entrepreneur', wide:true },
+  investing:{ src:'/assets/img/logos/partner/investing.png', alt:'Investing.com', wide:true },
+  ibt:      { src:'/assets/img/logos/partner/ibt.png', alt:'IBT', wide:true },
+  cryptodaily:{ src:'/assets/img/logos/partner/cryptodaily.png', alt:'CryptoDaily', wide:true },
+  decrypt:  { src:'/assets/img/logos/partner/decrypt.png', alt:'Decrypt', wide:true },
+  ambcrypto:{ src:'/assets/img/logos/partner/amb-crypto.png', alt:'AMBCrypto', wide:true },
+  bitcoincom:{ src:'/assets/img/logos/partner/bitcoin-com.png', alt:'Bitcoin.com', wide:true }
 };
 
 var SERVICES = {
@@ -230,7 +238,7 @@ var SERVICES = {
       diagram:{ label:'Контур публикации', title:'Материал работает не сам по себе', note:'Пошаговая цепочка: информация становится доверием, а доверие — бизнес-результатом.', items:[
         ['Инфоповод','Новость, событие или причина для коммуникации.'],['Материал','Экспертный контент, который раскрывает тему.'],['Издание','Публикация в релевантном медиа или канале.'],['Отклик','Внимание, обсуждение и первые реакции аудитории.'],['Доверие','Накопленный авторитет и готовность к контакту.']
       ]},
-      media:{ label:'Наша медиасеть', title:'Профильные и деловые издания', note:'Работаем с Tier-1, Tier-2 и Tier-3 медиа в международном и СНГ-контуре, включая crypto, fintech и бизнес-издания.', logos:['cointelegraph','yahoo','forklog','bits','beincrypto','coindesk','theblock','benzinga','rbc','cryptoru'], action:'Получить полный список доступных СМИ' },
+      media:{ label:'Наша медиасеть', title:'Профильные и деловые издания', note:'Работаем с Tier-1, Tier-2 и Tier-3 медиа в международном и СНГ-контуре, включая crypto, fintech и бизнес-издания.', logos:['cointelegraph','coindesk','theblock','beincrypto','forklog','bits','cryptoru','coinstore','rbc','yahoo','benzinga','entrepreneur','investing','ibt','cryptodaily','decrypt','ambcrypto','bitcoincom'], action:'Получить полный список доступных СМИ' },
       process:{ label:'Как проходит работа', title:'От повода к опубликованному материалу', items:[
         ['Бриф','Фиксируем цель: репутация, SEO, событие, запуск или экспертная позиция.'],
         ['Подбор изданий','Предлагаем релевантные медиа под нишу, географию и бюджет.'],
@@ -264,7 +272,7 @@ var SERVICES = {
       diagram:{ label:'Publication system', title:'A piece does not work in isolation', note:'A step-by-step chain: information becomes trust, and trust becomes a business result.', items:[
         ['News hook','News, an event or a reason to communicate.'],['Material','Expert content that opens up the topic.'],['Outlet','Publication in a relevant medium or channel.'],['Response','Attention, discussion and the first audience reactions.'],['Trust','Accumulated authority and readiness to engage.']
       ]},
-      media:{ label:'Our media network', title:'Specialist and business outlets', note:'We work with Tier-1, Tier-2 and Tier-3 outlets in international and CIS markets, including crypto, fintech and business media.', logos:['cointelegraph','yahoo','forklog','bits','beincrypto','coindesk','theblock','benzinga','rbc','cryptoru'], action:'Request the full list of available media' },
+      media:{ label:'Our media network', title:'Specialist and business outlets', note:'We work with Tier-1, Tier-2 and Tier-3 outlets in international and CIS markets, including crypto, fintech and business media.', logos:['cointelegraph','coindesk','theblock','beincrypto','forklog','bits','cryptoru','coinstore','rbc','yahoo','benzinga','entrepreneur','investing','ibt','cryptodaily','decrypt','ambcrypto','bitcoincom'], action:'Request the full list of available media' },
       process:{ label:'How we work', title:'From an occasion to a published piece', items:[
         ['Brief','We define the objective: reputation, SEO, an event, a launch or an expert position.'],
         ['Outlet selection','We propose relevant media for the niche, geography and budget.'],

@@ -231,7 +231,9 @@
   .fnd .fnd__pic{width:auto;aspect-ratio:auto;height:min(118vw,470px);margin:0 calc(var(--gut) * -1);border:0;border-radius:0}
   .fnd .fnd__pic img{object-position:50% 22%;-webkit-mask-image:linear-gradient(180deg,#000 45%,transparent 96%);mask-image:linear-gradient(180deg,#000 45%,transparent 96%)}
   .fnd .fnd__pic::after{display:none}
-  .fnd .fnd__body{position:relative;margin-top:-64px}
+  /* Имя и подпись стоят под фото, а не наезжают на него: поверх рук и
+     одежды текст ложился криво (просьба 16.10). */
+  .fnd .fnd__body{position:relative;margin-top:20px}
   .fnd .fnd__name{font-size:34px}
   .fnd .fnd__role{font-size:15px;color:#BDB6CF}
   .fnd .fnd__body > p:not(.fnd__role){font-size:16px;line-height:1.55;color:#CFC9DF}
@@ -316,7 +318,7 @@
      (-mf.jpg через <picture>): накладка поверх фото перерисовывалась при
      прокрутке. */
   .fnd .fnd__pic img{-webkit-mask-image:none;mask-image:none}
-  .fnd .fnd__pic::after{display:block;background:linear-gradient(180deg,rgba(6,5,12,0) 45%,var(--bg) 96%)}
+  .fnd .fnd__pic::after{display:block;background:linear-gradient(180deg,rgba(6,5,12,0) 72%,var(--bg) 100%)}
 }
 @media (max-width:900px){
   .fnd__pic img,.team__portrait img,.logos img{filter:none}
