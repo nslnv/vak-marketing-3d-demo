@@ -41,9 +41,11 @@
   .atmo>i{display:none}
 
   :root{--m-grad:linear-gradient(96deg,#C9BCFF,#FF8BCB)}
-  .sec{padding-block:64px}
+  /* Единый ритм на телефоне и планшете: у всех разделов главной и услуг
+     одинаковые поля сверху и снизу (56 px) и одно боковое поле --gut. */
+  .sec,.aud + .srv{padding-block:56px}
   .h2{font-size:34px;font-weight:300;line-height:1.06;letter-spacing:-.045em}
-  .head{margin-bottom:26px}
+  .head{margin-bottom:28px}
   .head--split{gap:12px}
   .head__note{font-size:16px;line-height:1.5;color:#BDB6CF}
 
@@ -144,7 +146,7 @@
   .about .about__body .link-arrow{margin-inline:auto}
 
   /* ---------- цифры: 2 × 2, крупные и светлые ---------- */
-  .figures{padding-block:8px 40px}
+  .figures{padding-block:8px 56px}
   .fig{grid-template-columns:1fr 1fr;column-gap:20px}
   .fig li,.fig li+li,.fig li:nth-child(3),.fig li:nth-child(n+3){padding:22px 0 20px;border-left:0;border-top:1px solid var(--line)}
   .fig__n{font-size:56px;font-weight:300;letter-spacing:-.06em}
@@ -224,7 +226,7 @@
   .cs .res__h{margin:auto 0 0;padding-top:16px}
 
   /* ---------- основатель: фото во всю ширину ---------- */
-  .fnd{padding-top:24px}
+  .fnd{padding-top:56px}
   .fnd .fnd__grid{display:block}
   .fnd .fnd__pic{width:auto;aspect-ratio:auto;height:min(118vw,470px);margin:0 calc(var(--gut) * -1);border:0;border-radius:0}
   .fnd .fnd__pic img{object-position:50% 22%;-webkit-mask-image:linear-gradient(180deg,#000 45%,transparent 96%);mask-image:linear-gradient(180deg,#000 45%,transparent 96%)}
@@ -266,7 +268,9 @@
 
   /* С кем мы работаем */
   .aud .slat__t,.aud .slat__d{text-align:center}
-  .aud .slat__d{margin-inline:auto}
+  /* Описание стоит в тех же полях, что заголовок карточки: auto здесь
+     обнулял поля, и на телефоне текст шёл от края до края экрана. */
+  .aud .slat__d{margin-inline:var(--gut)}
 
   /* Кейсы: логотип над названием, текст по центру; строки результатов
      остаются таблицей «подпись — цифра», главная цифра — по центру. */

@@ -114,7 +114,7 @@
   .sp[data-service="linkedin"] .sp-hero__visual{min-height:62vw;max-height:none}
   .sp[data-service="linkedin"] .sp-hero__object{width:115%;right:0;max-width:none}
   .sp[data-service="linkedin"] .sp-section{padding-block:56px}
-  .sp-linkedin-funnel-layout{grid-template-columns:1fr;gap:34px}
+  .sp-linkedin-funnel-layout{grid-template-columns:1fr;gap:28px}
   .sp-linkedin-funnel__head h2{max-width:20ch;margin-bottom:16px}
   .sp-linkedin-funnel__head>span{max-width:44ch;font-size:15px}
   .sp-linkedin-funnel__stack{width:min(78%,300px);margin:0 auto}

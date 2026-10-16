@@ -416,10 +416,14 @@ if (srvSec && srvPin && srvDeck && srvCards.length && !reduced && srvDeckMode.ma
          подписи исчезали в середине шага, из-за чего пользователь видел
          пустой экран; CSS мягко передаёт copy следующей услуге в точке
          смены активной карточки. */
+      /* Прятать нужно именно текстовую обёртку. Первым ребёнком карточки
+         стала картинка, и раньше гасла она, а тексты задних карточек
+         оставались под размытием: Safari перерисовывал их каждый кадр, и
+         колода проседала. */
       var bodyOpacity = i === activeIndex ? 1 : 0;
       if (c.__bodyOpacity !== bodyOpacity) {
         c.__bodyOpacity = bodyOpacity;
-        c.firstChild.style.opacity = String(bodyOpacity);
+        (c.__body || (c.__body = c.querySelector('.srv__body'))).style.opacity = String(bodyOpacity);
       }
       c.style.opacity = op.toFixed(3);
       c.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,' + z.toFixed(1) + 'px)'

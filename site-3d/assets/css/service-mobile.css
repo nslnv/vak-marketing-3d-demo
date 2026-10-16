@@ -185,6 +185,26 @@
   .sp .sp-trust__head p{color:var(--sp-accent);margin-bottom:12px}
   /* Названия у всех логотипов в «Проекты, с которыми работали». */
   .sp .sp-logo{grid-template-rows:44px auto;row-gap:10px}
+
+  /* Единый ритм, как на главной: все разделы услуг — 56 px сверху и снизу,
+     первый экран — 44 px снизу, подвал — как на главной. Раньше у каждой
+     услуги было своё значение (48–56 px), а у «Доверия» и «Консультации» по
+     96 px, и между разделами набегало до 192 px пустоты. */
+  .sp[data-service] #main > section:not(.sp-hero):not(.m-others){padding-block:56px}
+  .sp[data-service] #main > .sp-hero{padding-bottom:44px}
+  .sp #footer.sp-foot{padding-block:56px 34px}
+  /* От шапки раздела до содержимого — одинаковые 28 px, как на главной
+     (было от 26 до 40 px), подпись «Консультация» без лишнего отступа сверху. */
+  .sp[data-service] #main .sp-head,.sp[data-service] #main .sp-trust__head{margin-bottom:28px}
+  .sp[data-service] #main .sp-cta .sp-caption{margin-top:0}
+  .sp[data-service] #main .sp-pricing,.sp[data-service] #main .sp-seo-phases-layout{row-gap:28px}
+  /* Медиасеть PR — тем же видом, что «Проекты, с которыми работали»:
+     логотип одной высоты, название под ним, без подсветки под тёмными
+     знаками и без отдельной линии над сеткой. */
+  .sp .sp-logo::before{content:none}
+  .sp .sp-media-network .sp-logo-grid{padding-block:0}
+  .sp .sp-media-network .sp-logo-grid::before{content:none}
+  .sp .sp-logo:not(.sp-logo--mark) img{max-width:min(100%,132px);max-height:30px}
 }
 
 /* ---------- лёгкая отрисовка на телефоне ----------
