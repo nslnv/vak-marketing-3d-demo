@@ -415,53 +415,8 @@
   .srv__short{display:none}
 }
 
-/* ═══ 7. КЛИЕНТЫ ════════════════════════════════════════════════════════ */
-/* Спокойная движущаяся лента с исходными логотипами. Марки остаются крупными
-   и полностью резкими по всей ширине; движение служит только живым ритмом,
-   а не эффектом «скрыть-показать». Без JS видна такая же чистая сетка. */
-.ring__set{display:flex;flex-wrap:wrap;align-items:center;
-  gap:clamp(20px,2vw,32px) clamp(26px,3.2vw,52px);
-  margin:0;padding:clamp(8px,1.2vw,18px) 0;list-style:none}
-.ring__i{color:var(--ink);white-space:nowrap}
-.ring__i span{display:inline-block}
-.ring__name{display:block;font-family:var(--f);font-size:clamp(11px,.82vw,13px);
-  font-weight:500;letter-spacing:.005em;line-height:1.16;color:var(--ink-2);white-space:nowrap}
-.ring__i--brand{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:10px;height:clamp(102px,9vw,128px);width:clamp(142px,11.6vw,172px);min-width:0;
-  box-sizing:border-box;padding:12px 16px}
-.ring__brand{display:block;width:74px;height:62px;max-width:100%;object-fit:contain;filter:none;opacity:1}
-.ring__brand--symbol{width:72px;height:64px}
-.ring__brand--wordmark{width:min(100%,154px);height:54px}
-.ring__brand--ethereum{padding:5px;box-sizing:border-box;border-radius:12px;background:#f7f6fb}
-.ring__brand--huobi{width:70px;height:64px}
-.ring__brand--next-on{width:112px;height:54px}
-.ring__brand--1ghs{width:146px;height:46px;border-radius:6px}
-.ring__brand--new-level{width:146px;height:52px;box-sizing:border-box;padding:7px 10px;border-radius:7px;background:#f6f5f2}
-.ring__i--nda{gap:7px}
-.ring__nda{font-family:var(--f);font-size:clamp(36px,3.2vw,48px);font-weight:200;line-height:.9;
-  letter-spacing:-.055em;color:#F1EDFF}
-@media (max-width:640px){
-  .ring__set{gap:16px 24px}
-  .ring__i--brand{height:92px;width:128px;min-width:0;padding:10px 12px;gap:7px}
-  .ring__brand--symbol{width:58px;height:50px}
-  .ring__brand--wordmark{width:min(100%,118px);height:42px}
-  .ring__brand--1ghs{width:116px;height:38px}
-  .ring__brand--new-level{width:118px;height:42px;padding:6px 8px}
-  .ring__nda{font-size:34px}
-  /* Логотип входит и выходит через мягкую кромку: обрезанная половина
-     подписи не цепляет взгляд, а спокойный ритм ленты сохраняется. */
-  .ring.is-live{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%);
-    mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%)}
-}
-
-/* Рабочее состояние: бесшовная спокойная лента без размытия и декоративных
-   разделителей — движутся только реальные логотипы. На телефоне выше есть
-   лишь мягкая кромка, чтобы не обрывать подпись по букве. */
-.ring.is-live{position:relative;overflow:hidden;height:var(--ring-h,156px)}
-.ring.is-live .ring__set{display:block;padding:0;gap:0;height:100%}
-.ring.is-live .ring__i{position:absolute;top:50%;left:0;
-  transform-origin:50% 50%;transition:none;will-change:transform;
-  backface-visibility:hidden}
+/* ═══ 7. КЛИЕНТЫ: лента «Нам доверяют» вынесена в ring.css — она общая
+   с блоком «Доверие» на страницах услуг. ═══ */
 
 /* Между гармошкой направлений и закреплённой колодой услуг раньше складывались
    два полных вертикальных отступа секций. Эта пара блоков читается как единый

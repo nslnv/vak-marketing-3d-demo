@@ -239,6 +239,10 @@
     if (!$('#main .sp-hero')) return;
     // Калькулятор перевода — и на телефоне, и на компьютере (правки ч. 4).
     calculator();
+    // «Доверие» — бегущая лента, как «Нам доверяют» на главной, на любой ширине.
+    if (window.vakRing) $$('#main [data-sp-ring]').forEach(function (el) {
+      if (!el.__ring) el.__ring = window.vakRing(el, el.querySelector('.ring__set')) || true;
+    });
     if (!mq.matches) return;
     // Блоки со ступенчатым появлением показываем сразу: на телефоне пустые
     // места при быстрой прокрутке выглядели как недогруженная страница.

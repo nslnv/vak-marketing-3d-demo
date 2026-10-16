@@ -175,6 +175,7 @@ var SERVICES = {
       outcomes:{ label:'Результат работы', title:'Что появляется в системе', note:'Не обещаем одинаковую цифру всем. Настраиваем контур, по которому можно видеть качество охватов, диалогов и переданных лидов.', items:[
         ['Видимость','Рост охватов страницы компании и профилей команды.'],['Входящие диалоги','Регулярный поток релевантных ответов и обращений.'],['База контактов','Структурированная база лидов с понятной квалификацией.'],['Контроль','Прозрачные KPI и регулярная отчётность по активности.']
       ]},
+      trust:{ title:'Проекты, с которыми работали', note:'Комплексное продвижение для проектов из crypto, fintech и iGaming.', logos:['ethereum','huobi','tornado','zenex','ghs','nda'] },
       cta:{ title:'Проверим LinkedIn как канал для вашего бизнеса', text:'Расскажите о продукте, рынках и нужных типах контактов. Покажем, с чего начать без шаблонного outreach и лишних касаний.', button:'Отправить заявку', success:'Спасибо. Запрос принят — вернёмся с ответом.' }
     },
     en:{
@@ -207,6 +208,7 @@ var SERVICES = {
       outcomes:{ label:'The working result', title:'What enters the system', note:'We do not promise one number for every business. We build a loop that makes reach, conversations and handed-over leads visible.', items:[
         ['Visibility','Growing reach for the company page and team profiles.'],['Inbound conversations','A regular flow of relevant replies and enquiries.'],['Contact base','A structured lead base with clear qualification.'],['Control','Transparent KPIs and regular activity reporting.']
       ]},
+      trust:{ title:'Projects we have worked with', note:'Integrated marketing work for projects in crypto, fintech and iGaming.', logos:['ethereum','huobi','tornado','zenex','ghs','nda'] },
       cta:{ title:'Test LinkedIn as a channel for your business', text:'Tell us about the product, markets and contact types that matter. We will show a useful starting point without stock outreach or unnecessary touches.', button:'Send request', success:'Thank you. Your request has been received.' }
     }
   },
@@ -803,7 +805,15 @@ function renderPrSteps(section) {
 }
 function renderTrust(section) {
   return '<section class="sp-trust sp-trust--' + key + (isStrategy ? ' sp-trust--strategy' : '') + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
-    + '<div class="sp-logo-grid sp-logo-grid--free" style="--logo-columns:' + (section.logos.length <= 6 ? section.logos.length : 5) + ';--sp-delay:.06s" data-sp-reveal>' + section.logos.map(function (logo) { return renderLogo(logo, false); }).join('') + '</div></div></section>';
+    + '<div class="ring sp-ring" data-sp-ring data-sp-reveal style="--sp-delay:.06s"><ul class="ring__set">' + section.logos.map(function (logo) { return renderRingItem(logo); }).join('') + '</ul></div></div></section>';
+}
+// «Доверие» — та же бегущая лента, что «Нам доверяют» на главной: знак или
+// словесный логотип и название под ним. Движение задаёт assets/js/ring.js.
+function renderRingItem(keyName) {
+  if (keyName === 'nda') return '<li class="ring__i ring__i--brand ring__i--nda"><span class="ring__nda">NDA</span><span class="ring__name">' + (language === 'en' ? 'NDA iGaming projects' : 'NDA‑проекты iGaming') + '</span></li>';
+  var logo = LOGOS[keyName];
+  if (!logo) return '';
+  return '<li class="ring__i ring__i--brand"><img class="ring__brand ' + (logo.mark ? 'ring__brand--symbol' : 'ring__brand--wordmark') + '" src="' + esc(logo.src) + '" alt="" decoding="async"><span class="ring__name">' + esc(logo.alt) + '</span></li>';
 }
 function renderCta(section) {
   return '<section class="sp-cta sp-cta--' + key + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'

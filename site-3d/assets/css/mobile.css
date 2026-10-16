@@ -321,11 +321,7 @@
 @media (max-width:900px){
   .fnd__pic img,.team__portrait img,.logos img{filter:none}
   .logos a[href*="finance.yahoo.com"] img,.logos a[href*="benzinga.com"] img{filter:grayscale(1) brightness(2.5)}
-  .ring.is-live{-webkit-mask-image:none;mask-image:none}
   .toast{-webkit-backdrop-filter:none;backdrop-filter:none;background:#15112A}
-  .ring.is-live::before,.ring.is-live::after{content:'';position:absolute;z-index:2;top:0;bottom:0;width:11%;pointer-events:none}
-  .ring.is-live::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(6,5,12,0))}
-  .ring.is-live::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(6,5,12,0))}
 }
 
 /* ---------- планшет вертикально (600–900 px) ----------
