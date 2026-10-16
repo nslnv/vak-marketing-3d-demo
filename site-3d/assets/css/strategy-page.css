@@ -36,7 +36,7 @@
 .sp-strategy-deliverables dt{font-size:16px;font-weight:460;color:var(--ink)}
 .sp-strategy-deliverables dd{margin:4px 0 0;font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:47ch}
 .sp-strategy-workmap{min-width:0}
-.sp-strategy-workmap>.sp-caption{margin-bottom:16px;color:var(--ink-2)}
+.sp-strategy-workmap__title{margin:0 0 16px;font-size:clamp(27px,3.1vw,47px);font-weight:340;line-height:1.08;letter-spacing:-.032em}
 .sp-strategy-step{border-top:1px solid var(--line)}
 .sp-strategy-step:last-child{border-bottom:1px solid var(--line)}
 .sp-strategy-step summary{display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:62px;padding:16px 0;list-style:none;cursor:pointer}
@@ -72,7 +72,9 @@
 .sp[data-service="strategy"] .sp-cta{border-top:1px solid var(--line)}
 
 @media(min-width:901px){
-  .sp[data-service="strategy"] .sp-strategy-system-section>.wrap{max-width:1440px;padding-inline:clamp(28px,3vw,48px)}
+  /* Правки ч. 4: блок «Одна задача связывает все направления» стоит в той же
+     колонке, что и соседние разделы, — заголовок и схема на одной линии с ними. */
+  .sp[data-service="strategy"] .sp-strategy-system-section>.wrap{max-width:var(--wrap);padding-inline:var(--gut)}
   .sp[data-service="strategy"] .sp-strategy-system{grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto 140px auto;row-gap:76px}
   .sp[data-service="strategy"] .sp-strategy-system__links{display:block}
   .sp[data-service="strategy"] .sp-strategy-system__core{grid-column:4/10;grid-row:2;width:240px}
@@ -102,8 +104,13 @@
   .sp[data-service="strategy"] .sp-strategy-system__nodes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 32px}
   .sp[data-service="strategy"] .sp-strategy-system__node{border-top:1px solid var(--line);padding-top:14px;text-align:left!important}
   .sp[data-service="strategy"] .sp-strategy-system__node p{margin-left:0!important}
-  .sp[data-service="strategy"] .sp-strategy-system__core{justify-self:start;justify-items:start;text-align:left;width:auto}
-  .sp[data-service="strategy"] .sp-strategy-system__core strong br{display:none}
+  /* Правки ч. 4: на телефоне и планшете центральный узел «Задача бизнеса»
+     скрыт — направления идут двумя колонками, каждое в узком блоке по центру
+     своей колонки. */
+  .sp[data-service="strategy"] .sp-strategy-system__core{display:none}
+  .sp[data-service="strategy"] .sp-strategy-system__nodes{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:26px 16px}
+  .sp[data-service="strategy"] .sp-strategy-system__node{justify-self:center;width:100%;max-width:150px}
+  .sp[data-service="strategy"] .sp-strategy-system__node:last-child:nth-child(odd){grid-column:1/-1!important}
 }
 @media(max-width:600px){
   .sp[data-service="strategy"]{--sec:48px}
@@ -117,7 +124,6 @@
   .sp[data-service="strategy"] .sp-formats{grid-template-columns:1fr}
   .sp[data-service="strategy"] .sp-formats>li{border-left:0;padding:20px 0}
   .sp[data-service="strategy"] .sp-formats h3{font-size:21px;max-width:none}
-  .sp[data-service="strategy"] .sp-strategy-system__nodes{grid-template-columns:1fr;gap:18px}
   .sp[data-service="strategy"] .sp-strategy-system__node p{max-width:none}
 }
 @media(prefers-reduced-motion:reduce){

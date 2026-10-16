@@ -236,7 +236,10 @@
   }
 
   function enhanceMain() {
-    if (!mq.matches || !$('#main .sp-hero')) return;
+    if (!$('#main .sp-hero')) return;
+    // Калькулятор перевода — и на телефоне, и на компьютере (правки ч. 4).
+    calculator();
+    if (!mq.matches) return;
     // Блоки со ступенчатым появлением показываем сразу: на телефоне пустые
     // места при быстрой прокрутке выглядели как недогруженная страница.
     $$('[data-sp-reveal]').forEach(function (el) { el.classList.add('is-in'); });
@@ -246,7 +249,6 @@
       $$('.' + c).forEach(function (l) { tabs(l, c); });
     });
     ['.sp-pr-steps', '.sp-loc-steps'].forEach(function (s) { $$(s).forEach(line); });
-    calculator();
     others();
     kick();
   }

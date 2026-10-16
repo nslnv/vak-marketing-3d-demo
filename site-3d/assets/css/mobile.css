@@ -212,13 +212,16 @@
   .cs .res{display:flex;flex-direction:column;padding-top:12px}
   .cs .res li,.cs .res li:nth-child(even){display:flex;flex-direction:row-reverse;align-items:baseline;justify-content:space-between;gap:12px;
     padding:12px 0;border-left:0}
-  .cs .res li:first-child{display:block;padding:4px 0 16px;border-top:0}
-  .cs .res li:first-child b{font-size:58px;font-weight:300;letter-spacing:-.06em;
+  /* Главный результат кейса (акцентный, .res__key) — крупно первым,
+     остальные строками «подпись — цифра». */
+  .cs .res .res__key{order:-1;display:block;padding:4px 0 16px;border-top:0}
+  .cs .res .res__key b{font-size:58px;font-weight:300;letter-spacing:-.06em;
     background:var(--m-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .cs .res li:first-child b i{-webkit-text-fill-color:#CFC9DF}
-  .cs .res li:first-child span{margin-top:8px;font-size:15px;color:#CFC9DF}
-  .cs .res li:not(:first-child) b{flex:0 0 auto;font-size:20px;font-weight:500}
-  .cs .res li:not(:first-child) span{margin:0;font-size:14px;color:#BDB6CF}
+  .cs .res .res__key b i{-webkit-text-fill-color:#CFC9DF}
+  .cs .res .res__key span{margin-top:8px;font-size:15px;color:#CFC9DF}
+  .cs .res li:not(.res__key) b{flex:0 0 auto;font-size:20px;font-weight:500}
+  .cs .res li:not(.res__key) span{margin:0;font-size:14px;color:#BDB6CF}
+  .cs .res__h{margin:auto 0 0;padding-top:16px}
 
   /* ---------- основатель: фото во всю ширину ---------- */
   .fnd{padding-top:24px}
@@ -270,8 +273,8 @@
   .cs .case{text-align:center}
   .cs .case__h{flex-direction:column;justify-content:center;gap:12px;min-height:0}
   .cs .case__h > div{display:flex;flex-direction:column;align-items:center}
-  .cs .res li:first-child{text-align:center}
-  .cs .res li:not(:first-child){text-align:left}
+  .cs .res .res__key{text-align:center}
+  .cs .res li:not(.res__key){text-align:left}
   .cs .rail__foot{flex-direction:column;align-items:center;gap:20px}
   .cs .rail__bar{flex:none;width:100%}
 

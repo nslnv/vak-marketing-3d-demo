@@ -45,7 +45,8 @@
 
 /* All milestones share one physical baseline, including the sales outcome. */
 .sp-linkedin-icp{grid-template-columns:repeat(5,minmax(0,1fr));gap:0;padding:0;border:0;align-items:stretch}
-.sp-linkedin-icp::before{top:auto;bottom:0;left:0;right:20%;background:linear-gradient(90deg,#9bbfff,#8edbea 45%,#b1baff)}
+/* Правки ч. 4: линия метрики идёт до конца блока, а не обрывается на последней точке. */
+.sp-linkedin-icp::before{top:auto;bottom:0;left:0;right:0;background:linear-gradient(90deg,#9bbfff,#8edbea 45%,#b1baff 82%,rgba(177,186,255,.35))}
 .sp-linkedin-icp li{padding:12px 24px 28px 0;display:flex;flex-direction:column;justify-content:flex-end}
 .sp-linkedin-icp li::before{top:auto;bottom:-3px;left:0;width:6px;height:6px;border:0;background:var(--sp-accent);box-shadow:0 0 10px rgba(var(--sp-accent-rgb),.35)}
 .sp-linkedin-icp h3{font-size:clamp(18px,1.6vw,23px);line-height:1.2}
@@ -89,11 +90,22 @@
   .sp-linkedin-funnel__copy{padding:0}
   .sp-linkedin-funnel__copy::before{right:auto;left:-22px;top:8px;width:8px;height:8px;border-radius:50%;opacity:1;box-shadow:0 0 10px currentColor}
   .sp-linkedin-icp{grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.5fr)}
-  .sp-linkedin-icp::before{right:27.2727%}
+  .sp-linkedin-icp::before{right:0}
   .sp-linkedin-icp li{padding-right:16px}
   .sp-linkedin-icp p{font-size:13px;min-height:4.5em}
   .sp-linkedin-phase,.sp-linkedin-phase+.sp-linkedin-phase{padding-right:20px;padding-left:20px}
   .sp-linkedin-phase:first-child{padding-left:0}
+}
+/* Правки ч. 4: на телефоне и планшете воронка целиком стоит над списком
+   этапов, а не узкой колонкой слева от него. На планшете этапы идут в две
+   колонки под воронкой. */
+@media(max-width:900px){
+  .sp-linkedin-funnel-layout{grid-template-columns:1fr;gap:34px}
+  .sp-linkedin-funnel__stack{width:min(78%,340px);margin:0 auto}
+  .sp-linkedin-funnel{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px}
+}
+@media(max-width:600px){
+  .sp-linkedin-funnel{grid-template-columns:1fr}
 }
 @media(max-width:700px){
   .sp[data-service="linkedin"] .sp-hero{min-height:auto;padding-top:calc(var(--nav-h) + 36px);padding-bottom:44px}

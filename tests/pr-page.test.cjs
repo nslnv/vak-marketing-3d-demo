@@ -10,24 +10,20 @@ const context = vm.createContext({
   language: 'ru'
 });
 vm.runInContext(data + '\n' + renderers, context);
-const chainOrder = { ru:['Повод','Материал','Издание','Отклик','Доверие'], en:['Occasion','Material','Outlet','Response','Trust'] };
+const chainOrder = { ru:['Инфоповод','Материал','Издание','Отклик','Доверие'], en:['News hook','Material','Outlet','Response','Trust'] };
 for (const lang of ['ru', 'en']) {
   context.language = lang;
   const page = context.SERVICES.pr[lang];
-  assert.deepEqual(Array.from(page.diagram.items, item => item[0]), chainOrder[lang], 'brief order: occasion → material → outlet → response → trust');
-  assert.equal(page.diagram.result.length, 3, 'traffic / partnerships / sales after trust');
+  assert.deepEqual(Array.from(page.diagram.items, item => item[0]), chainOrder[lang], 'brief order: news hook → material → outlet → response → trust');
+  assert.ok(!page.diagram.result, 'part 4: the chain ends at trust, no result pill');
   const chain = context.renderPrChain(page.diagram);
   assert.equal((chain.match(/<li /g) || []).length, 5);
   assert.equal((chain.match(/sp-pr-chain__arrow/g) || []).length, 4, 'arrows only between steps');
-  assert.ok(chain.includes('sp-pr-chain__result'));
+  assert.ok(!chain.includes('sp-pr-chain__result'));
   const steps = context.renderPrSteps(page.process);
   assert.equal((steps.match(/<li /g) || []).length, 6);
-  const cases = context.renderPrCasesWidget();
-  assert.equal((cases.match(/class="sp-pr-case"/g) || []).length, 3);
-  assert.ok(cases.includes('tabindex="0"'), 'rail is keyboard scrollable');
-  assert.ok(!cases.includes('15+') && !cases.includes('1,2 млн') && !cases.includes('1.2 M'), 'placeholder 1GHS figures stay off the PR page');
   for (const sector of page.sectors.items) assert.equal(sector[2].length, 4, 'four accent tags per sector');
-  for (const html of [chain, steps, cases]) assert.ok(!html.includes('undefined'));
+  for (const html of [chain, steps]) assert.ok(!html.includes('undefined'));
 }
 const html = fs.readFileSync('site-3d/pr/index.html','utf8');
 assert.ok(html.includes('pr-page.css?v='));
@@ -35,4 +31,5 @@ for (const route of ['strategy','linkedin','seo','localization']) {
   assert.ok(!fs.readFileSync(`site-3d/${route}/index.html`,'utf8').includes('pr-page.css'), 'styles stay on the PR route');
 }
 assert.ok(!source.includes('pr-orbit'), 'retired orbit diagram removed');
-console.log('PR: RU/EN five-step chain, result, six steps, cases widget, tags and route isolation passed.');
+assert.ok(!source.includes('renderPrCasesWidget'), 'part 4: the cases block is gone from the PR page');
+console.log('PR: RU/EN five-step chain without result pill, six steps, no cases block, tags and route isolation passed.');

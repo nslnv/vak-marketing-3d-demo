@@ -47,11 +47,11 @@ var SERVICES = {
     ru:{
       meta:{ title:'Стратегия и комплексное ведение — VAK Marketing', desc:'Индивидуальная маркетинговая стратегия и комплексное ведение для проектов из iGaming, FinTech, Crypto, Web3 и B2B.' },
       crumb:'Маркетинговая система',
-      hero:{ title:'Выстраиваем полноценную систему продвижения под задачи проекта', accent:'систему продвижения', lead:'От позиционирования и выбора каналов до привлечения клиентов, аналитики и комплексного сопровождения в одном контуре — без разрыва между планом и исполнением.', cta:'Получить консультацию' },
+      hero:{ title:'Выстраиваем полноценную систему продвижения под задачи проекта', accent:'систему продвижения', lead:'От позиционирования и выбора каналов до привлечения клиентов, аналитики и комплексного сопровождения в рамках единой стратегии.', cta:'Получить консультацию' },
       proof:{ label:'Почему это работает', title:'Не набор услуг, а последовательность решений', note:'Сначала фиксируем, что действительно влияет на задачу бизнеса. Затем подключаем только те направления, у которых есть понятная роль.', items:[
         ['Контекст до каналов','Разбираем нишу, цели, конкурентов и ограничения, чтобы не начинать со случайного набора активностей.'],
         ['Инструменты по задаче','PR, LinkedIn, SEO, контент и реклама подключаются тогда, когда решают конкретную часть воронки.'],
-        ['Проверка гипотез','Тестируем сообщения, форматы и каналы; оставляем в работе то, что даёт измеримый сигнал.'],
+        ['Проверка гипотез','Анализируем результаты и оставляем наиболее эффективные подходы.'],
         ['Один рабочий контур','Координируем внешние направления и работаем вместе с in-house-командой, если она есть.']
       ]},
       scope:{ label:'Рабочая карта', title:'Как собираем результат', note:'На выходе вы получаете позиционирование, карту целевой аудитории, приоритетные каналы, контент- и PR-стратегию, план запуска, KPI и систему оценки, рекомендации по команде и ресурсам.', items:[
@@ -96,11 +96,11 @@ var SERVICES = {
     en:{
       meta:{ title:'Strategy and full project management — VAK Marketing', desc:'A tailored marketing strategy and integrated delivery for iGaming, FinTech, Crypto, Web3 and B2B businesses.' },
       crumb:'Marketing system',
-      hero:{ title:'A complete marketing system for your project', accent:'marketing system', lead:'From positioning and channel choice to client acquisition, analytics and integrated delivery — without a gap between the plan and its execution.', cta:'Book a consultation' },
+      hero:{ title:'A complete marketing system for your project', accent:'marketing system', lead:'From positioning and channel choice to client acquisition, analytics and integrated delivery within a single strategy.', cta:'Book a consultation' },
       proof:{ label:'Why it works', title:'Not a menu of services, but a sequence of decisions', note:'We first establish what actually affects the business goal, then bring in only the disciplines with a clear role.', items:[
         ['Context before channels','We examine the market, goals, competitors and constraints before choosing activities.'],
         ['Tools for the task','PR, LinkedIn, SEO, content and advertising are used when they solve a defined part of the funnel.'],
-        ['Hypotheses under review','Messages, formats and channels are tested; only work with a measurable signal remains.'],
+        ['Hypotheses under review','We analyse the results and keep the most effective approaches.'],
         ['One operating loop','We coordinate external disciplines and work alongside an in-house team when one is in place.']
       ]},
       scope:{ label:'Operating map', title:'How we build a result', note:'You receive positioning, an audience map, priority channels, content and PR strategy, a launch plan, KPIs and evaluation system, plus recommendations on team and resources.', items:[
@@ -158,8 +158,8 @@ var SERVICES = {
       scope:{ label:'Рабочая воронка', title:'Из страницы — в рабочий канал', note:'Собираем не поток шаблонных сообщений, а последовательность, в которой у каждого касания есть контекст и задача.', items:[
         ['Основа','Страница компании и профили команды.'],['ICP','Рынки, роли и задачи нужных компаний.'],['Контент','Рубрики и материалы, которые раскрывают экспертизу.'],['Видимость','Регулярные публикации и релевантная сеть контактов.'],['Диалог','Персональный outreach с конкретным поводом.'],['Лиды','Квалификация ответов и следующий шаг с sales-командой.']
       ]},
-      diagram:{ label:'Рабочая связка', title:'От ICP до sales-команды', note:'Все четыре элемента должны быть согласованы; иначе даже хороший outreach выглядит как спам.', flow:'linkedin-route', layout:'linkedin', core:['Квалифицированный\nдиалог','к разговору, где есть следующий шаг'], items:[
-        ['ICP','Рынки, роли и сигналы готовности'],['Профиль','Страница и люди, которым доверяют'],['Диалог','Контент и персональное первое касание'],['Передача','Квалификация и следующий шаг в sales']
+      diagram:{ label:'Рабочая связка', title:'От составления профиля идеального клиента до sales-команды', note:'Все четыре элемента должны быть согласованы; иначе даже хороший outreach выглядит как спам.', flow:'linkedin-route', layout:'linkedin', core:['Квалифицированный\nдиалог','к разговору, где есть следующий шаг'], items:[
+        ['Ideal Customer Profile','Рынки, роли и сигналы готовности'],['Профиль','Страница и люди, которым доверяют'],['Диалог','Контент и персональное первое касание'],['Передача','Квалификация и следующий шаг в sales']
       ]},
       process:{ label:'Как проходит работа', title:'Понятный путь к квалифицированному диалогу', items:[
         ['Подготовка',['Аудит','Анализ рынка','Анализ конкурентов','Разработка стратегии','Определение целевой аудитории']],
@@ -190,8 +190,8 @@ var SERVICES = {
       scope:{ label:'Working funnel', title:'From a page to a working channel', note:'We build a sequence in which each touchpoint has context and a purpose, not a stream of stock messages.', items:[
         ['Foundation','The company page and team profiles.'],['ICP','Markets, roles and needs of the right companies.'],['Content','Content pillars and material that demonstrate expertise.'],['Visibility','Regular publishing and a relevant network.'],['Conversation','Personal outreach with a specific reason to connect.'],['Leads','Qualified replies and a clear next step with sales.']
       ]},
-      diagram:{ label:'Operating chain', title:'From ICP to sales', note:'All four elements must agree. Without that, even good outreach reads as spam.', flow:'linkedin-route', layout:'linkedin', core:['Qualified\nconversation','a conversation with a clear next step'], items:[
-        ['ICP','Markets, roles and readiness signals'],['Profile','A page and people worth trusting'],['Conversation','Content and a personal first touch'],['Handover','Qualification and the next step with sales']
+      diagram:{ label:'Operating chain', title:'From the ideal customer profile to the sales team', note:'All four elements must agree. Without that, even good outreach reads as spam.', flow:'linkedin-route', layout:'linkedin', core:['Qualified\nconversation','a conversation with a clear next step'], items:[
+        ['Ideal Customer Profile','Markets, roles and readiness signals'],['Profile','A page and people worth trusting'],['Conversation','Content and a personal first touch'],['Handover','Qualification and the next step with sales']
       ]},
       process:{ label:'How we work', title:'A clear path to qualified conversations', items:[
         ['Preparation',['Audit','Market analysis','Competitor analysis','Strategy development','Target audience definition']],
@@ -216,17 +216,17 @@ var SERVICES = {
       meta:{ title:'PR, СМИ и медиа — VAK Marketing', desc:'Публикации, интервью и экспертные материалы в профильных международных и СНГ-медиа.' },
       crumb:'PR и медиасеть',
       hero:{ title:'Публикации и позиции в медиа, которые укрепляют доверие к бренду', accent:'доверие к бренду', lead:'Подбираем издания, собираем материал и ведём размещение от брифа до ссылки и отчёта. Для рынка, партнёров, инвесторов и поисковой выдачи.', cta:'Обсудить публикацию', facts:[{value:'Tier 1–3',label:'международные и СНГ-медиа'},{value:'PR',label:'материал, площадка и контекст в одной логике'}] },
-      proof:{ label:'Зачем PR', title:'Публикация должна работать дольше дня выхода', note:'Сильное размещение фиксирует позицию бренда в нескольких контурах: доверие, поиск, аудитория и будущие переговоры.', items:[
+      proof:{ label:'Зачем PR', title:'Публикация с долгосрочным эффектом', note:'Сильное размещение фиксирует позицию бренда в нескольких контурах: доверие, поиск, аудитория и будущие переговоры.', items:[
         ['Репутация','Публикации в известных изданиях помогают подтвердить статус компании для партнёров, инвесторов и клиентов.'],
         ['Поисковое присутствие','Упоминания в авторитетных СМИ поддерживают видимость бренда в поисковой выдаче.'],
         ['Новая аудитория','Проект появляется в поле зрения профильного сообщества и людей за пределами текущей базы.'],
         ['Новый трафик','Публикации и обзорные позиции создают дополнительные точки входа к продукту.']
       ]},
-      scope:{ label:'Форматы', title:'Материал под конкретный повод', note:'Не ставим пресс-релиз туда, где нужна колонка, и не делаем рейтинг ради строчки в списке. Формат следует задаче и площадке.', items:[
+      scope:{ label:'Форматы', title:'Материал под конкретный повод', note:'Не ставим пресс-релиз туда, где нужна колонка, и не делаем рейтинг ради строчки в списке. Формат отвечает поставленной задаче и учитывает особенности площадки.', items:[
         'Пресс-релизы','Интервью с фаундерами и топ-менеджерами','Экспертные статьи и авторские колонки','Обзорные и аналитические материалы о проекте','Комментарии для журналистов и упоминания в готовых материалах','Рейтинги и позиции в обзорных материалах ТОП-5 и ТОП-10'
       ]},
-      diagram:{ label:'Контур публикации', title:'Материал работает не сам по себе', note:'Пошаговая цепочка: информация становится доверием, а доверие — бизнес-результатом.', result:['Переходы','партнёрства','продажи'], items:[
-        ['Повод','Новость, событие или причина для коммуникации.'],['Материал','Экспертный контент, который раскрывает тему.'],['Издание','Публикация в релевантном медиа или канале.'],['Отклик','Внимание, обсуждение и первые реакции аудитории.'],['Доверие','Накопленный авторитет и готовность к контакту.']
+      diagram:{ label:'Контур публикации', title:'Материал работает не сам по себе', note:'Пошаговая цепочка: информация становится доверием, а доверие — бизнес-результатом.', items:[
+        ['Инфоповод','Новость, событие или причина для коммуникации.'],['Материал','Экспертный контент, который раскрывает тему.'],['Издание','Публикация в релевантном медиа или канале.'],['Отклик','Внимание, обсуждение и первые реакции аудитории.'],['Доверие','Накопленный авторитет и готовность к контакту.']
       ]},
       media:{ label:'Наша медиасеть', title:'Профильные и деловые издания', note:'Работаем с Tier-1, Tier-2 и Tier-3 медиа в международном и СНГ-контуре, включая crypto, fintech и бизнес-издания.', logos:['cointelegraph','yahoo','forklog','bits','beincrypto','coindesk','theblock','benzinga','rbc','cryptoru'], action:'Получить полный список доступных СМИ' },
       process:{ label:'Как проходит работа', title:'От повода к опубликованному материалу', items:[
@@ -250,17 +250,17 @@ var SERVICES = {
       meta:{ title:'PR, media and publications — VAK Marketing', desc:'Press releases, interviews and expert materials for specialist international and CIS media.' },
       crumb:'PR and media network',
       hero:{ title:'Media placements and rankings that strengthen brand trust', accent:'brand trust', lead:'We select the outlets, shape the material and manage publication from brief to live link and report — for the market, partners, investors and search visibility.', cta:'Discuss a publication', facts:[{value:'Tier 1–3',label:'international and CIS media'},{value:'PR',label:'material, outlet and context in one logic'}] },
-      proof:{ label:'Why PR', title:'A publication should work beyond its launch day', note:'A strong placement fixes the brand position across several contexts: trust, search, audience and future conversations.', items:[
+      proof:{ label:'Why PR', title:'A publication with a long-term effect', note:'A strong placement fixes the brand position across several contexts: trust, search, audience and future conversations.', items:[
         ['Reputation','Known outlets help validate company status for partners, investors and clients.'],
         ['Search presence','Authoritative mentions support brand visibility in search results.'],
         ['A new audience','The project enters the field of view of specialist communities and people beyond its existing base.'],
         ['New entry points','Publications and review positions create additional paths to the product.']
       ]},
-      scope:{ label:'Formats', title:'Material for a specific occasion', note:'We do not put a press release where a column is needed or produce a ranking for a line in a list. Format follows the task and the outlet.', items:[
+      scope:{ label:'Formats', title:'Material for a specific occasion', note:'We do not put a press release where a column is needed or produce a ranking for a line in a list. The format answers the task and takes the outlet’s specifics into account.', items:[
         'Press releases','Founder and executive interviews','Expert articles and authored columns','Project overview and analytical pieces','Comments for journalists and mentions in ready-made materials','TOP-5 and TOP-10 positions in review content'
       ]},
-      diagram:{ label:'Publication system', title:'A piece does not work in isolation', note:'A step-by-step chain: information becomes trust, and trust becomes a business result.', result:['Traffic','partnerships','sales'], items:[
-        ['Occasion','News, an event or a reason to communicate.'],['Material','Expert content that opens up the topic.'],['Outlet','Publication in a relevant medium or channel.'],['Response','Attention, discussion and the first audience reactions.'],['Trust','Accumulated authority and readiness to engage.']
+      diagram:{ label:'Publication system', title:'A piece does not work in isolation', note:'A step-by-step chain: information becomes trust, and trust becomes a business result.', items:[
+        ['News hook','News, an event or a reason to communicate.'],['Material','Expert content that opens up the topic.'],['Outlet','Publication in a relevant medium or channel.'],['Response','Attention, discussion and the first audience reactions.'],['Trust','Accumulated authority and readiness to engage.']
       ]},
       media:{ label:'Our media network', title:'Specialist and business outlets', note:'We work with Tier-1, Tier-2 and Tier-3 outlets in international and CIS markets, including crypto, fintech and business media.', logos:['cointelegraph','yahoo','forklog','bits','beincrypto','coindesk','theblock','benzinga','rbc','cryptoru'], action:'Request the full list of available media' },
       process:{ label:'How we work', title:'From an occasion to a published piece', items:[
@@ -308,7 +308,7 @@ var SERVICES = {
         ['Crypto и Web3','Биржи, кошельки, токены и блокчейн-сервисы с быстро меняющимся спросом.'],
         ['B2B и SaaS','Коммерческие и экспертные запросы, где органика должна вести к понятному действию.']
       ]},
-      outcomes:{ label:'Результат работы', title:'Что можно наблюдать и улучшать', note:'Срок и темп зависят от сайта, рынка и конкуренции. Мы делаем динамику видимой и объяснимой, а не обещаем одинаковую цифру всем.', items:[
+      outcomes:{ label:'Результат работы', title:'Динамика и точки роста в SEO', note:'Срок и темп зависят от сайта, рынка и конкуренции. Мы делаем динамику видимой и объяснимой, а не обещаем одинаковую цифру всем.', items:[
         ['Приоритеты','Понятный порядок работ по страницам, кластерам и техническим задачам.'],['Структура','Сайт, в котором поисковику и пользователю проще находить нужное.'],['Динамика','Регулярное наблюдение за позициями и поисковым спросом.'],['Контроль','Отчётность с решениями, а не только с таблицей позиций.']
       ]},
       trust:{ title:'Проекты, с которыми работали', note:'Продвижение и поисковая работа для проектов из crypto, fintech и iGaming.', logos:['ethereum','huobi','zenex','ghs'] },
@@ -339,7 +339,7 @@ var SERVICES = {
         ['Crypto and Web3','Exchanges, wallets, tokens and blockchain services with fast-moving demand.'],
         ['B2B and SaaS','Commercial and expert queries where organic traffic must lead to a clear next action.']
       ]},
-      outcomes:{ label:'The working result', title:'What becomes observable and improvable', note:'Timing and pace depend on the site, market and competition. We make change visible and explainable rather than promise one number to everyone.', items:[
+      outcomes:{ label:'The working result', title:'SEO dynamics and growth points', note:'Timing and pace depend on the site, market and competition. We make change visible and explainable rather than promise one number to everyone.', items:[
         ['Priorities','A clear work order for pages, clusters and technical tasks.'],['Structure','A site that is easier for both search engines and people to navigate.'],['Movement','Regular observation of positions and search demand.'],['Control','Reporting with decisions, not just a rankings table.']
       ]},
       trust:{ title:'Projects we have worked with', note:'Promotion and search work for projects in crypto, fintech and iGaming.', logos:['ethereum','huobi','zenex','ghs'] },
@@ -351,7 +351,7 @@ var SERVICES = {
     ru:{
       meta:{ title:'Перевод и локализация — VAK Marketing', desc:'Перевод и локализация для международных проектов: контент, продукт, коммуникации и документы с сохранением смысла и тональности.' },
       crumb:'Translation & Localization',
-      hero:{ title:'Переводим не слова, а смысл бизнеса', accent:'смысл бизнеса', lead:'Адаптируем материалы под язык, рынок и ожидания аудитории, сохраняя точность, тональность и экспертность бренда. Работаем с образовательными и юридическими международными организациями, понимаем терминологию и контекст продукта с учётом особенностей вашей отрасли.', cta:'Заказать перевод', facts:[{value:'50 000+',label:'выполненных заказов'},{value:'10+',label:'языковых комбинаций'}] },
+      hero:{ title:'Переводим не слова, а смысл бизнеса', accent:'смысл бизнеса', lead:'Адаптируем материалы с учётом языковых и культурных особенностей рынка, сохраняя точность, тональность и экспертность бренда. Работаем с образовательными и юридическими международными организациями, понимаем терминологию и специфику продукта с учётом особенностей вашей отрасли.', cta:'Заказать перевод', facts:[{value:'50 000+',label:'выполненных заказов'},{value:'10+',label:'языковых комбинаций'}] },
       proof:{ label:'Почему выбирают нас', title:'Точность там, где цена ошибки высока', note:'Смысл материала, тональность бренда и отраслевые термины должны оставаться целыми и в новом языке.', items:[
         ['Сложные отрасли','8+ лет работы с текстами, где стандартного языкового знания недостаточно для точного результата.'],
         ['Индивидуальный подход','Гибкие условия сотрудничества и специальные предложения для постоянных клиентов.'],
@@ -361,7 +361,7 @@ var SERVICES = {
       scope:{ label:'Материалы и документы', title:'Что можно передать в работу', note:'Подготовим материал для международного рынка, внутреннего оборота или конкретного продукта — с нужным форматом на выходе.', items:[
         'Сайты и лендинги','Презентации, pitch decks и whitepapers','Статьи, пресс-релизы и PR-материалы','Юридические и нотариальные документы','Договоры и корпоративная документация','Дипломы, аттестаты, транскрипты и сертификаты','Приложения и продуктовые интерфейсы — UI/UX-локализация','Маркетинговые и рекламные материалы'
       ]},
-      diagram:{ label:'Контур локализации', title:'Смысл должен выдержать новый рынок', note:'Исходный текст, терминология, перевод и проверка работают как единая передача смысла.', items:[
+      diagram:{ label:'Контур локализации', title:'Адаптация контента для нового рынка', note:'Исходный текст, терминология, перевод и проверка работают как единая передача смысла.', items:[
         ['Исходный материал','Задача материала, аудитория и исходный формат'],['Перевод','Язык, который сохраняет смысл, а не кальку'],['Адаптация под рынок','Подстройка под особенности целевого рынка'],['Сохранение смысла и тональности','Голос бренда, интонация и акценты'],['Готовый материал для аудитории','Понятный, точный и готовый к работе текст']
       ]},
       sectors:{ label:'Ниши и направления', title:'Материалы, которые адаптируем под рынок', note:'До начала работы сверяем задачу, исходный контекст и требования к стилю. Это важнее любого шаблонного глоссария.', groups:[
@@ -370,7 +370,7 @@ var SERVICES = {
         ['Коммуникации',['Рекламные сообщения','Материалы для партнёров','Коммерческие предложения','Презентационные материалы']],
         ['Документы для малого бизнеса и частных клиентов',['Дипломы','Аттестаты','Медицинские справки','Банковские выписки','Инвойсы','Согласия','Договоры','Юридические документы']]
       ]},
-      pricing:{ label:'Языки и стоимость', title:'Прозрачная логика расчёта', note:'Более 10 языковых комбинаций. Перед стартом подтверждаем объём, формат, направление и срок — без скрытых наценок.', rows:[['ENG-RU-ENG','от 7 USD / страница'],['CN-RU-CN','от 8 USD / страница'],['Другие языковые комбинации','от 9 USD / страница']], notes:['Одна страница бесплатно для новых клиентов при заказе от 10 страниц.','Скидка 15% для постоянных клиентов с пятого заказа.'] },
+      pricing:{ label:'Языки и стоимость', title:'Прозрачная логика расчёта', note:'Более 10 языковых комбинаций. Перед стартом подтверждаем объём, формат, направление и срок — без скрытых наценок.', rows:[['ENG-RU-ENG','от 7 USD / страница'],['CN-RU-CN','от 8 USD / страница'],['Другие языковые комбинации','от 9 USD / страница']] },
       process:{ label:'Как работаем', title:'От документа к готовому материалу', items:[
         ['Заявка','Вы присылаете документ или короткий бриф на перевод.'],
         ['Оценка','Рассчитываем срок, стоимость и удобный формат сдачи.'],
@@ -384,7 +384,7 @@ var SERVICES = {
     en:{
       meta:{ title:'Translation and localisation — VAK Marketing', desc:'Translation and localisation for international projects: content, product, communications and documents, with meaning and tone preserved.' },
       crumb:'Translation and localisation',
-      hero:{ title:'We translate business meaning, not just words', accent:'business meaning', lead:'We adapt materials to the language, market and audience expectations while keeping the brand’s accuracy, tone and expertise. We work with international education and legal organisations and understand product terminology and context in your sector.', cta:'Request a translation', facts:[{value:'50,000+',label:'completed orders'},{value:'10+',label:'language combinations'}] },
+      hero:{ title:'We translate business meaning, not just words', accent:'business meaning', lead:'We adapt materials to the linguistic and cultural specifics of each market while keeping the brand’s accuracy, tone and expertise. We work with international education and legal organisations and understand product terminology and specifics in your sector.', cta:'Request a translation', facts:[{value:'50,000+',label:'completed orders'},{value:'10+',label:'language combinations'}] },
       proof:{ label:'Why clients choose us', title:'Accuracy where the cost of error is high', note:'The material’s meaning, brand voice and specialist terms must remain intact in the new language.', items:[
         ['Complex sectors','8+ years working with texts where language knowledge alone is not enough for an accurate outcome.'],
         ['Individual approach','Flexible working terms and special offers for ongoing clients.'],
@@ -394,7 +394,7 @@ var SERVICES = {
       scope:{ label:'Materials and documents', title:'What you can send to us', note:'We prepare material for an international market, internal use or a specific product, in the format needed at handover.', items:[
         'Websites and landing pages','Presentations, pitch decks and white papers','Articles, press releases and PR material','Legal and notarial documents','Contracts and corporate documentation','Diplomas, transcripts, certificates and educational documents','Applications and product interfaces — UI/UX localisation','Marketing and advertising materials'
       ]},
-      diagram:{ label:'Localisation system', title:'Meaning must survive a new market', note:'Source text, terminology, translation and review work as one transfer of meaning.', items:[
+      diagram:{ label:'Localisation system', title:'Adapting content for a new market', note:'Source text, terminology, translation and review work as one transfer of meaning.', items:[
         ['Source material','Its purpose, audience and source format'],['Translation','Language that carries meaning, not a calque'],['Market adaptation','Fitted to the specifics of the target market'],['Meaning and tone preserved','Brand voice, tone and emphasis'],['Ready material for the audience','Clear, accurate text ready for use']
       ]},
       sectors:{ label:'Materials and directions', title:'Materials we adapt for a market', note:'Before work begins, we confirm the task, source context and style requirements. That matters more than a generic glossary.', groups:[
@@ -403,7 +403,7 @@ var SERVICES = {
         ['Communications',['Advertising messages','Partner materials','Commercial proposals','Presentation materials']],
         ['Documents for SMBs and private clients',['Diplomas','School certificates','Medical letters','Bank statements','Invoices','Consents','Contracts','Legal documents']]
       ]},
-      pricing:{ label:'Languages and pricing', title:'A transparent calculation', note:'More than ten language combinations. Before starting, we confirm volume, format, direction and timing with no hidden markup.', rows:[['ENG-RU-ENG','from USD 7 / page'],['CN-RU-CN','from USD 8 / page'],['Other language combinations','from USD 9 / page']], notes:['One page free for new clients on orders of ten pages or more.','15% discount for returning clients from the fifth order.'] },
+      pricing:{ label:'Languages and pricing', title:'A transparent calculation', note:'More than ten language combinations. Before starting, we confirm volume, format, direction and timing with no hidden markup.', rows:[['ENG-RU-ENG','from USD 7 / page'],['CN-RU-CN','from USD 8 / page'],['Other language combinations','from USD 9 / page']] },
       process:{ label:'How we work', title:'From document to a finished material', items:[
         ['Request','You send the document or a short translation brief.'],
         ['Estimate','We calculate timing, cost and handover format.'],
@@ -573,9 +573,9 @@ function renderStrategyScope(section) {
   var question = language === 'en' ? 'Question we answer' : 'Вопрос, на который отвечаем';
   var output = language === 'en' ? 'Result of this stage' : 'Результат этапа';
   return '<section class="sp-section sp-strategy-scope-section"><div class="wrap"><div class="sp-strategy-scope">'
-    + '<div class="sp-strategy-scope__intro" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><span>' + (language === 'en' ? 'You receive:' : 'На выходе вы получаете:') + '</span>'
+    + '<div class="sp-strategy-scope__intro" data-sp-reveal><p>' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2>'
     + '<dl class="sp-strategy-deliverables">' + deliverables.items.map(function (item) { return '<div><dt>' + esc(item[0]) + '</dt><dd>' + esc(item[1]) + '</dd></div>'; }).join('') + '</dl></div>'
-    + '<div class="sp-strategy-workmap" data-sp-reveal style="--sp-delay:.05s"><p class="sp-caption">' + (language === 'en' ? 'Explore each stage' : 'Что делаем на каждом этапе') + '</p>'
+    + '<div class="sp-strategy-workmap" data-sp-reveal style="--sp-delay:.05s"><h2 class="sp-strategy-workmap__title">' + (language === 'en' ? 'What we do at each stage' : 'Что делаем на каждом этапе') + '</h2>'
     + section.items.map(function (item, i) {
       return '<details class="sp-strategy-step" name="strategy-workmap"' + (i === 0 ? ' open' : '') + '><summary><h3>' + esc(item.title) + '</h3></summary><div class="sp-strategy-step__detail"><span>' + esc(question) + '</span><p>' + esc(item.question) + '</p><span>' + esc(output) + '</span><p>' + esc(item.output) + '</p></div></details>';
     }).join('') + '</div></div></div></section>';
@@ -771,7 +771,7 @@ function renderPricing(section) {
   return '<section class="sp-section sp-pricing-section sp-pricing-section--' + key + '"><div class="wrap sp-pricing"><div class="sp-pricing__copy" data-sp-reveal><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.note) + '</p></div>'
     + '<div data-sp-reveal style="--sp-delay:.06s"><dl class="sp-rate-list sp-rate-list--' + key + '">'
     + section.rows.map(function (row, i) { return '<div class="sp-rate-list__item" style="--sp-item-delay:' + (i * .075) + 's"><dt>' + esc(row[0]) + '</dt><dd>' + esc(row[1]) + '</dd></div>'; }).join('') + '</dl>'
-    + '<ul class="sp-pricing__notes">' + section.notes.map(function (note) { return '<li class="sp-pricing__note">' + esc(note) + '</li>'; }).join('') + '</ul></div></div></section>';
+    + (section.notes && section.notes.length ? '<ul class="sp-pricing__notes">' + section.notes.map(function (note) { return '<li class="sp-pricing__note">' + esc(note) + '</li>'; }).join('') + '</ul>' : '') + '</div></div></section>';
 }
 // Name under every logo, wordmarks included (design notes part 3, items 4-5):
 // the visible caption is the text alternative, so the image itself is decorative.
@@ -791,7 +791,7 @@ function renderPrChain(section) {
   return '<section class="sp-section sp-pr-chain-section"><div class="wrap">' + renderHead(section)
     + '<div class="sp-pr-chain-wrap" data-sp-reveal style="--sp-delay:.04s"><ol class="sp-pr-chain">' + section.items.map(function (item, i) {
       return '<li style="--sp-item-delay:' + (i * .08) + 's"><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p>' + (i < section.items.length - 1 ? '<i class="sp-pr-chain__arrow" aria-hidden="true"></i>' : '') + '</li>';
-    }).join('') + '</ol><p class="sp-pr-chain__result">' + section.result.map(esc).join('<i aria-hidden="true">→</i>') + '</p></div></div></section>';
+    }).join('') + '</ol>' + (section.result ? '<p class="sp-pr-chain__result">' + section.result.map(esc).join('<i aria-hidden="true">→</i>') + '</p>' : '') + '</div></div></section>';
 }
 // Six working steps read left to right in two rows: numbered, compact,
 // without arrows so they do not repeat the publication chain above.
@@ -800,29 +800,6 @@ function renderPrSteps(section) {
     + '<ol class="sp-pr-steps" data-sp-reveal style="--sp-delay:.04s">' + section.items.map(function (item, i) {
       return '<li style="--sp-item-delay:' + (i * .07) + 's"><span aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><h3>' + esc(item[0]) + '</h3><p>' + esc(item[1]) + '</p></li>';
     }).join('') + '</ol></div></section>';
-}
-// The homepage cases, trimmed to the PR-relevant ones. Only confirmed figures
-// are carried over: 1GHS metrics are still marked as placeholders on the homepage.
-var PR_CASES = {
-  ru:{ title:'Кейсы и результаты', note:'Коротко о проектах, где PR и медиа были частью работы.', task:'Задача.', did:'Что сделали.', rail:'Кейсы, прокрутка по горизонтали', items:[
-    { logo:'/assets/img/brands/cases/huobi-global.jpg', name:'Huobi Global', meta:'Криптобиржа · выход на рынок · 1 год', task:'Усилить присутствие одной из ведущих мировых криптобирж на российском рынке и поддержать выход бренда в новый регион.', did:'Масштабная кампания: таргетированная и контекстная реклама, PR-инструменты, трафик-арбитраж, медийные активности и работа с инфлюенсерами.', res:[['14 000+','новых клиентов'],['14 млн','потенциальная аудитория рынка'],['10+','индустриальных мероприятий'],['20+','коллабораций с медиа и инфлюенсерами']] },
-    { logo:'/assets/img/brands/clients/zenex.svg', wordmark:true, name:'Zenex Token', meta:'Токен · PR и доверие · 6 месяцев', task:'Усилить доверие к токену, повысить узнаваемость проекта, привлечь внимание инвесторов и обеспечить трафик на официальные ресурсы.', did:'PR и медийные публикации, работа с социальными сетями, присутствие в индустриальном поле и выстраивание доверия вокруг токена.', res:[['10+','публикаций в ведущих медиа'],['20 000+','подписчиков в социальных сетях'],['3 млн','рекламный охват'],['$1,5 млн','привлечено на pre-sale токена']] },
-    { logo:'/assets/img/brands/cases/1ghs.png', wordmark:true, name:'1GHS', meta:'Упаковка бренда · digital и медиа', task:'Повысить узнаваемость проекта и доверие к бренду, создать основу для системного продвижения в digital и медиа.', did:'Упаковка коммуникации, контент, PR-активности, работа с аудиторией и усиление присутствия бренда в релевантных каналах.', res:[] }
-  ]},
-  en:{ title:'Cases and results', note:'A short look at projects where PR and media were part of the work.', task:'Goal.', did:'What we did.', rail:'Cases, horizontal scroll', items:[
-    { logo:'/assets/img/brands/cases/huobi-global.jpg', name:'Huobi Global', meta:'Crypto exchange · market entry · 1 year', task:'Strengthen the presence of one of the world’s leading crypto exchanges on the Russian market and support the brand entering a new region.', did:'A large-scale campaign: paid social and search advertising, PR tools, traffic arbitrage, media activity and influencer work.', res:[['14,000+','new clients'],['14 M','potential market audience'],['10+','industry events'],['20+','collaborations with media and influencers']] },
-    { logo:'/assets/img/brands/clients/zenex.svg', wordmark:true, name:'Zenex Token', meta:'Token · PR and trust · 6 months', task:'Build trust in the token, raise awareness, attract investor attention and drive traffic to the official resources.', did:'PR and media publications, social media work, presence across the industry field and trust-building around the token.', res:[['10+','publications in leading media'],['20,000+','new social media followers'],['3 M','advertising reach'],['$1.5 M','raised at the token pre-sale']] },
-    { logo:'/assets/img/brands/cases/1ghs.png', wordmark:true, name:'1GHS', meta:'Brand packaging · digital and media', task:'Raise awareness and brand trust, and create a base for systematic growth in digital and media.', did:'Communication packaging, content, PR activity, audience work and a stronger brand presence in relevant channels.', res:[] }
-  ]}
-};
-function renderPrCasesWidget() {
-  var d = PR_CASES[language];
-  return '<section class="sp-section sp-pr-cases"><div class="wrap"><div class="sp-pr-cases__head" data-sp-reveal><h2>' + esc(d.title) + '</h2><p>' + esc(d.note) + '</p></div></div>'
-    + '<div class="sp-pr-cases__rail" tabindex="0" aria-label="' + esc(d.rail) + '" data-sp-reveal style="--sp-delay:.05s">' + d.items.map(function (item, i) {
-      var res = item.res.length ? '<ul class="sp-pr-case__res">' + item.res.slice(0, 2).map(function (r) { return '<li><b>' + esc(r[0]) + '</b><span>' + esc(r[1]) + '</span></li>'; }).join('') + '</ul>' : '';
-      return '<article class="sp-pr-case" style="--sp-item-delay:' + (i * .08) + 's"><header><img class="' + (item.wordmark ? 'is-wordmark' : '') + '" src="' + esc(item.logo) + '" alt="" loading="lazy" decoding="async"><div><h3>' + esc(item.name) + '</h3><span>' + esc(item.meta) + '</span></div></header>'
-        + '<p><b>' + esc(d.task) + '</b> ' + esc(item.task) + '</p><p><b>' + esc(d.did) + '</b> ' + esc(item.did) + '</p>' + res + '</article>';
-    }).join('') + '</div></section>';
 }
 function renderTrust(section) {
   return '<section class="sp-trust sp-trust--' + key + (isStrategy ? ' sp-trust--strategy' : '') + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + (language === 'en' ? 'Trust' : 'Доверие') + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
@@ -847,7 +824,7 @@ function render(d) {
   $('#main').innerHTML = renderHero(d) + renderProof(d.proof) + renderScope(d.scope)
     + (d.formats ? renderFormats(d.formats) : '')
     + (d.diagram ? renderDiagram(d.diagram) : '') + (d.pricing ? renderPricing(d.pricing) : '')
-    + (d.media ? renderMedia(d.media) : '') + (key === 'pr' ? renderPrCasesWidget() : '') + (d.process ? renderProcess(d.process) : '')
+    + (d.media ? renderMedia(d.media) : '') + (d.process ? renderProcess(d.process) : '')
     + (d.sectors ? renderSectors(d.sectors) : '') + (d.outcomes && !isStrategy ? renderSectors(d.outcomes, 'outcomes') : '')
     + (d.trust ? renderTrust(d.trust) : '') + renderCta(d.cta);
   $('#footer').innerHTML = renderFooter();

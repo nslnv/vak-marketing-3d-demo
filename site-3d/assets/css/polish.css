@@ -35,24 +35,13 @@
   .cs .case__b{margin-top:18px;font-size:14px;line-height:1.55}
   .cs .res b{font-size:clamp(19px,1.5vw,27px)}
   .cs .res li:nth-child(even){padding-left:12px}
-  .cs .rail__foot{justify-content:center;margin-top:clamp(28px,3vw,44px)}
-  .cs .rail__bar{display:none}
-  .cs .rail__nav .link-arrow{margin:0;height:54px;padding:0 30px;border-radius:999px;color:#F1EEFF;
-    border:1px solid rgba(255,255,255,.12);
-    background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.015) 58%,rgba(255,255,255,.035)),rgba(11,8,22,.42);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 18px 40px -26px rgba(0,0,0,.8);
-    transition:border-color .35s var(--e),background .35s var(--e),transform .45s var(--e-out),box-shadow .45s var(--e-out)}
-  .cs .rail__nav .link-arrow i{opacity:.8}
+  /* «Смотреть все кейсы» убрана (правки ч. 4): в меню для этого есть пункт. */
+  .cs .rail__foot{display:none}
 }
 @media (min-width:1400px){
   .cs .case{flex-basis:calc((100% - 4 * var(--cs-gap)) / 5)}
   /* Панель-шапка ровно по ширине ряда из пяти карточек под ней. */
   .cs > .wrap:first-child{max-width:1760px;padding-inline:clamp(20px,2.2vw,40px)}
-}
-@media (min-width:901px) and (hover:hover){
-  .cs .rail__nav .link-arrow:hover{border-color:rgba(196,183,255,.42);transform:translateY(-2px);
-    background:linear-gradient(155deg,rgba(166,140,255,.16),rgba(255,255,255,.02) 58%,rgba(255,82,184,.08)),rgba(11,8,22,.42);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 20px 44px -24px rgba(124,92,255,.6)}
 }
 
 /* ---------- Услуги (колода): весь текст карточки — в левой половине ------
@@ -67,6 +56,14 @@
   .srv.is-deck .srv__body .link-arrow{grid-area:3/1/4/2;margin-top:clamp(20px,2vw,30px)}
 }
 
+/* Кейсы, правки ч. 4: подпись «Ключевые результаты» над цифрами, главный
+   результат каждого кейса — акцентным градиентом. */
+.case .res__h{margin:auto 0 0;padding-top:20px;color:#A794FF;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.case .res__h + .res{margin-top:10px;padding-top:0}
+.res .res__key b{background:linear-gradient(96deg,#B6A7FF,#FF78C8 72%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:400}
+.res .res__key b i{-webkit-text-fill-color:#CFC9DF}
+.res .res__key span{color:#E6E1F5}
+
 /* ---------- 16. Партнёры: логотипы крупнее на широком экране ------------
    Масштаб 1.15 на пункте списка, как в разборе. Появление (data-reveal)
    висит на самом списке, поэтому transform пунктов с ним не спорит; зазор
@@ -76,65 +73,15 @@
   .ptn .logos li{transform:scale(1.15)}
 }
 /* Правки ч. 3, п. 3: собственная цветная подложка секции обрывалась по
-   бокам заметными швами. Убрана — партнёры лежат на общем фоне страницы. */
-@media (min-width:901px){
-  .ptn::before{content:none}
-}
+   бокам заметными швами. Убрана — партнёры лежат на общем фоне страницы.
+   Правки ч. 4: на телефоне и планшете та же подложка давала жёсткий верхний
+   край после «Команды», поэтому убрана на всех ширинах. */
+.ptn::before{content:none}
 
-/* ---------- 17. «О нас» короче: цифры — стеклянными квадратами ----------
-   Отдельная полоса цифр с большим отступом убрана. Цифры стали сеткой 2×2
-   слева и в конце сцены «О нас» въезжают в её нижний левый угол — туда,
-   откуда объектив как раз уходит вправо. Секция #figures остаётся якорем
-   3D-хореографии (по ней объектив покидает сцену), но стала заметно ниже.
-   Карточки чуть шире прежних (клиент, 30.09): цифры и подписи свободнее,
-   а до объектива справа всё равно остаётся запас. */
-@media (min-width:901px){
-  .about{padding-top:clamp(64px,6vw,104px)}
-  .figures{--fig-lift:clamp(80px,7vw,110px);padding-block:0 clamp(24px,3vw,40px)}
-  /* Сдвиг только визуальный (transform), а высота секции уменьшается на ту
-     же величину: верх секции, от которого считает 3D-сцена, не двигается. */
-  .figures .wrap{transform:translateY(calc(var(--fig-lift) * -1));margin-bottom:calc(var(--fig-lift) * -1)}
-  .figures .fig{grid-template-columns:repeat(2,minmax(0,clamp(168px,13vw,216px)));gap:12px;border-top:0}
-  .figures .fig li,.figures .fig li+li{padding:clamp(18px,1.6vw,24px);border:1px solid rgba(255,255,255,.1);border-radius:20px;
-    min-height:clamp(158px,12.6vw,190px);display:flex;flex-direction:column;
-    background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.018) 58%,rgba(255,255,255,.035));
-    -webkit-backdrop-filter:blur(14px) saturate(130%);backdrop-filter:blur(14px) saturate(130%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 18px 40px -26px rgba(0,0,0,.8)}
-  /* Проявление по классу is-shown (main.js): после ухода объектива вправо. */
-  .figures .fig li{opacity:0;transform:translate3d(-14px,12px,0);
-    transition:opacity .55s var(--e-out),transform .75s var(--e-out)}
-  .figures.is-shown .fig li{opacity:1;transform:none}
-  .figures.is-shown .fig li:nth-child(2){transition-delay:.05s}
-  .figures.is-shown .fig li:nth-child(3){transition-delay:.1s}
-  .figures.is-shown .fig li:nth-child(4){transition-delay:.15s}
-  .figures .fig__n{font-size:clamp(30px,2.7vw,44px)}
-  .figures .fig__l{margin-top:auto;padding-top:10px;font-size:14px}
-  .figures .fig__d{margin-top:4px;font-size:11.5px;line-height:1.38}
-  .aud{padding-top:clamp(40px,4vw,72px)}
-}
-
-/* ---------- «Нам доверяют…»: без лишней пустоты сверху и снизу ---------
-   Над блоком складывались нижний отступ закреплённой колоды услуг и полный
-   отступ секции (вместе с пустым низом сцены больше 400 px), под ним — два
-   полных отступа подряд. Колода и так держит воздух внутри своей сцены,
-   поэтому её нижний отступ снят, а у клиентов отступы втрое меньше. */
-@media (min-width:901px){
-  .srv.is-deck{padding-bottom:0}
-  .cli{padding-block:clamp(40px,4vw,72px) clamp(24px,2.4vw,40px)}
-  .cli .head{margin-bottom:clamp(28px,3vw,44px)}
-  .cli + .cs{padding-top:clamp(48px,4.4vw,80px)}
-  /* Лента логотипов входит и выходит через мягкую кромку, как на телефоне,
-     а не обрывается по букве у края колонки. */
-  .ring.is-live{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
-    mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%)}
-}
-
-/* ---------- «С кем мы работаем»: мягкие скругления карточек ------------
-   Углы 8 px смотрелись грубо рядом со скруглёнными карточками кейсов и
-   услуг — приведены к тому же радиусу. */
-@media (min-width:901px){
-  .aud .slat{border-radius:22px}
-}
+/* ---------- 17. «О нас» ---------------------------------------------------
+   Правки ч. 4: блок «О VAK Marketing» вернули как было — цифры снова
+   идут полосой из четырёх колонок под сценой, без стеклянных квадратов.
+   Объектив после сборки уходит вправо и растворяется до этой полосы. */
 
 /* ---------- 18. Основатель: роль акцентом, ховер кнопок ---------------- */
 .fnd__role{color:var(--vio-2)}
@@ -155,14 +102,15 @@
 }
 
 /* ---------- 20. Стратегия: две колонки «Рабочей карты» на одном уровне ----
-   Подпись справа стала таким же заголовком, как слева, и стоит на одной
-   линии с ним; до списка этапов — больший отступ. */
+   «Что делаем на каждом этапе» — настоящий h2 (правки ч. 4), того же
+   размера, что и заголовок слева, и на одной линии с ним. Подпись «На
+   выходе вы получаете» убрана: список сразу под заголовком. */
 @media (min-width:901px){
-  .sp[data-service="strategy"] .sp-strategy-workmap > .sp-caption{
+  .sp[data-service="strategy"] .sp-strategy-workmap__title{
     margin:calc(13.5px * 1.45 + 18px) 0 clamp(26px,2.4vw,36px);
-    color:var(--ink);font-size:clamp(27px,2.8vw,40px);font-weight:340;line-height:1.08;letter-spacing:-.032em;text-transform:none}
+    color:var(--ink);font-size:clamp(27px,2.8vw,40px);font-weight:340;line-height:1.08;letter-spacing:-.032em}
   .sp[data-service="strategy"] .sp-strategy-scope__intro h2{font-size:clamp(27px,2.8vw,40px)}
-  .sp[data-service="strategy"] .sp-strategy-scope__intro > span{margin-top:clamp(26px,2.4vw,36px)}
+  .sp[data-service="strategy"] .sp-strategy-deliverables{margin-top:clamp(26px,2.4vw,36px)}
 }
 
 /* ---------- 21. Блок доверия / медиасеть: фон как у всей страницы -------
@@ -175,13 +123,8 @@
 .sp .sp-logo img{align-self:center;justify-self:center;max-height:44px;width:auto}
 .sp .sp-logo--wide img,.sp .sp-logo:not(.sp-logo--mark) img{max-height:32px}
 .sp .sp-logo.sp-logo--mark img{height:44px;max-height:44px}
-/* Правки ч. 3, п. 4: название теперь стоит под каждым логотипом, включая
-   словесные ZENEX и 1GHS, — одной строкой с остальными подписями. Телефон
-   пока остаётся прежним: там новые подписи только для экранного чтения. */
-@media (max-width:900px){
-  .sp .sp-logo:not(.sp-logo--mark) .sp-logo__name{position:absolute;width:1px;height:1px;overflow:hidden;
-    clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
-}
+/* Правки ч. 3, п. 4 и ч. 4: название стоит под каждым логотипом, включая
+   словесные ZENEX и 1GHS, — и на компьютере, и на телефоне. */
 /* Правки ч. 3, п. 5: медиасеть PR в формате главной — ровный ряд логотипов
    с тонкими линиями сверху и снизу и названием капсом под каждым. */
 @media (min-width:901px){
@@ -207,6 +150,10 @@
   .sp .sp-media-network .sp-logo:hover{border-color:rgba(196,183,255,.42);color:#fff;transform:translateY(-3px)}
   .sp .sp-media-network .sp-logo:hover::before{opacity:1}
 }
+
+/* Правки ч. 4: подписи «Доверие» и «Консультация» на всех услугах —
+   акцентным цветом страницы, как уже было на LinkedIn. */
+.sp .sp-trust .sp-caption,.sp .sp-cta .sp-caption{color:var(--sp-accent)}
 
 /* ---------- 22. LinkedIn: ховер ступени подсвечивает и её подпись ------- */
 .sp-linkedin-funnel li{cursor:default}

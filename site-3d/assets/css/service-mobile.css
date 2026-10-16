@@ -7,6 +7,49 @@
    ========================================================================== */
 .m-seg,.m-track,.m-calc,.m-others{display:none}
 
+/* ---------- калькулятор перевода (телефон и компьютер) ----------
+   Правки ч. 4: калькулятор есть и на компьютере — под тарифами в правой
+   колонке блока «Прозрачная логика расчёта». Два пункта под тарифами,
+   которые повторяли его переключатели, убраны в обеих версиях. */
+.sp .m-calc{--m-grad:linear-gradient(101deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB))}
+.sp .m-calc .m-seg{position:relative;display:flex;margin:0;padding:4px;border-radius:22px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.sp .m-calc .m-seg::-webkit-scrollbar{display:none}
+.sp .m-calc .m-seg button{position:relative;z-index:1;flex:1 0 auto;height:38px;padding:0 15px;border:0;border-radius:19px;background:none;
+  font:inherit;font-size:14px;font-weight:500;color:#8F88A6;white-space:nowrap;cursor:pointer;transition:color .3s}
+.sp .m-calc .m-seg button.is-on{color:#0B0917}
+.sp .m-calc .m-seg__thumb{position:absolute;z-index:0;top:4px;left:4px;height:38px;border-radius:19px;background:var(--m-grad);
+  transition:transform .45s var(--e),width .45s var(--e);will-change:transform}
+.sp .m-calc{display:block;margin-top:22px;padding:20px;border-radius:26px;
+    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--line)}
+.m-calc .m-seg{margin:0}
+.m-calc__sum{display:flex;align-items:baseline;gap:10px;margin:22px 0 0}
+.m-calc__sum span{font-size:15px;color:#BDB6CF}
+.m-calc__sum b{font-size:56px;line-height:1;font-weight:300;letter-spacing:-.06em;font-variant-numeric:tabular-nums;
+    background:var(--m-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.m-calc__sub{min-height:18px;margin:6px 0 0;font-size:13px;color:#8F88A6}
+.m-calc__range{display:block;margin-top:20px}
+.m-calc__range > span{display:flex;justify-content:space-between;font-size:14px;color:#BDB6CF}
+.m-calc__range b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.m-calc input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:36px;margin:4px 0 0;background:transparent}
+.m-calc input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;
+    background:linear-gradient(90deg,var(--sp-accent) 0 var(--p,15%),rgba(255,255,255,.1) var(--p,15%))}
+.m-calc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+.m-calc input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:rgba(255,255,255,.1)}
+.m-calc input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--sp-accent)}
+.m-calc input[type=range]::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:#fff}
+.m-calc__tg{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:14px 0;border:0;border-top:1px solid var(--line);
+    background:none;font:inherit;font-size:14px;line-height:1.4;color:#BDB6CF;text-align:left;cursor:pointer}
+.m-calc__tg i{flex:0 0 46px;position:relative;height:28px;border-radius:14px;background:rgba(255,255,255,.12);transition:background .3s}
+.m-calc__tg i::after{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .35s var(--e)}
+.m-calc__tg.is-on i{background:var(--sp-accent)}
+.m-calc__tg.is-on i::after{transform:translateX(18px)}
+.m-calc__note{margin:12px 0 0;font-size:13px;line-height:1.45;color:#8F88A6}
+@media (min-width:901px){
+  .sp .m-calc{margin-top:28px;padding:24px 26px}
+  .sp .m-calc__tg{font-size:14.5px}
+}
+
 @media (max-width:900px){
   .sp{--m-grad:linear-gradient(101deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB))}
 
@@ -91,32 +134,6 @@
   .sp[data-service] .sp-main .m-line > li.is-on h3{color:var(--ink)}
   .sp[data-service] .sp-main .m-line > li.is-on p{color:#BDB6CF}
 
-  /* ---------- калькулятор перевода ---------- */
-  .m-calc{display:block;margin-top:22px;padding:20px;border-radius:26px;
-    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--line)}
-  .m-calc .m-seg{margin:0}
-  .m-calc__sum{display:flex;align-items:baseline;gap:10px;margin:22px 0 0}
-  .m-calc__sum span{font-size:15px;color:#BDB6CF}
-  .m-calc__sum b{font-size:56px;line-height:1;font-weight:300;letter-spacing:-.06em;font-variant-numeric:tabular-nums;
-    background:var(--m-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .m-calc__sub{min-height:18px;margin:6px 0 0;font-size:13px;color:#8F88A6}
-  .m-calc__range{display:block;margin-top:20px}
-  .m-calc__range > span{display:flex;justify-content:space-between;font-size:14px;color:#BDB6CF}
-  .m-calc__range b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
-  .m-calc input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:36px;margin:4px 0 0;background:transparent}
-  .m-calc input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;
-    background:linear-gradient(90deg,var(--sp-accent) 0 var(--p,15%),rgba(255,255,255,.1) var(--p,15%))}
-  .m-calc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.5)}
-  .m-calc input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:rgba(255,255,255,.1)}
-  .m-calc input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--sp-accent)}
-  .m-calc input[type=range]::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:#fff}
-  .m-calc__tg{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:14px 0;border:0;border-top:1px solid var(--line);
-    background:none;font:inherit;font-size:14px;line-height:1.4;color:#BDB6CF;text-align:left;cursor:pointer}
-  .m-calc__tg i{flex:0 0 46px;position:relative;height:28px;border-radius:14px;background:rgba(255,255,255,.12);transition:background .3s}
-  .m-calc__tg i::after{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .35s var(--e)}
-  .m-calc__tg.is-on i{background:var(--sp-accent)}
-  .m-calc__tg.is-on i::after{transform:translateX(18px)}
-  .m-calc__note{margin:12px 0 0;font-size:13px;line-height:1.45;color:#8F88A6}
 
   /* ---------- другие услуги ---------- */
   .m-others{display:block;padding:8px 0 56px}
@@ -154,6 +171,20 @@
   .sp .sp-foot .foot__brand .brand{justify-content:center;margin-inline:auto}
   .sp .sp-foot .foot__brand p{margin-inline:auto}
   .sp .sp-foot .foot__bot{justify-content:center;text-align:center}
+
+  /* Правки ч. 4. Заголовки разделов всех услуг — без ограничения ширины в
+     символах: из-за него «Как собираем результат» и другие переносились
+     раньше времени и стояли не по центру. Поля слева и справа одинаковые. */
+  .sp .sp-main h2{max-width:none;text-wrap:pretty}
+  .sp .sp-strategy-cycle__head h2,.sp .sp-strategy-gate__intro h2,
+  .sp .sp-strategy-gate__intro > span,.sp .sp-strategy-gate__intro aside,.sp .sp-cta h2{max-width:none}
+  /* «Что делаем на каждом этапе» — заголовок h2, как на компьютере. */
+  .sp[data-service="strategy"] .sp-strategy-workmap__title{margin:0 0 20px;text-align:center;color:var(--ink);font-size:29px;font-weight:340;line-height:1.1;letter-spacing:-.032em}
+  /* Подписи разделов и текст в шапке «Доверие» — акцентным цветом. */
+  .sp .sp-caption{margin-bottom:12px;color:var(--sp-accent)}
+  .sp .sp-trust__head p{color:var(--sp-accent);margin-bottom:12px}
+  /* Названия у всех логотипов в «Проекты, с которыми работали». */
+  .sp .sp-logo{grid-template-rows:44px auto;row-gap:10px}
 }
 
 /* ---------- лёгкая отрисовка на телефоне ----------

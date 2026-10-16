@@ -14,7 +14,8 @@
 /* 5.4: one line, five points; colour moves from champagne to lilac. */
 .sp-loc-relay-section .sp-head{margin-bottom:clamp(40px,5vw,72px)}
 .sp-loc-relay{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));list-style:none;margin:0;padding:0}
-.sp-loc-relay::before{content:'';position:absolute;left:5px;right:calc(20% - 5px);top:5px;height:1px;background:linear-gradient(90deg,rgba(var(--sp-accent-rgb),.8),rgba(var(--sp-cy-rgb),.7) 50%,rgba(var(--sp-mag-rgb),.85));transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--e-out) .1s}
+/* Правки ч. 4: линия метрики идёт до конца блока. */
+.sp-loc-relay::before{content:'';position:absolute;left:5px;right:0;top:5px;height:1px;background:linear-gradient(90deg,rgba(var(--sp-accent-rgb),.8),rgba(var(--sp-cy-rgb),.7) 50%,rgba(var(--sp-mag-rgb),.85));transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--e-out) .1s}
 .sp-loc-relay.is-in::before{transform:scaleX(1)}
 .sp-loc-relay li{position:relative;padding-right:clamp(16px,2vw,30px);opacity:0;transform:translateY(12px);transition:opacity .7s var(--e-out) calc(.12s + var(--sp-item-delay)),transform .8s var(--e-out) calc(.12s + var(--sp-item-delay))}
 .sp-loc-relay.is-in li{opacity:1;transform:none}

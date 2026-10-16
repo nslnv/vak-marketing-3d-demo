@@ -37,6 +37,17 @@ html[lang="ru"] [data-l="en"],html[lang="en"] [data-l="ru"]{display:none!importa
 
 .pv .foot__col a[aria-current="page"]{color:var(--ink)}
 
+/* Редакция от 01.10.2026: двенадцать разделов. Оглавление плотнее и, если
+   окно невысокое, прокручивается внутри закреплённой колонки. Цели обработки
+   в разделе 03 начинаются с выделенного названия цели. */
+@media (min-width:901px){
+  .pv-side{max-height:calc(100vh - var(--nav-h) - 48px);overflow-y:auto;scrollbar-width:none}
+  .pv-side::-webkit-scrollbar{display:none}
+  .pv-toc a{padding:6px 0;font-size:14px}
+}
+.pv-sec p.pv-purpose{padding-left:20px;border-left:1px solid rgba(155,132,255,.35)}
+.pv-sec p.pv-purpose b{color:var(--ink);font-weight:500}
+
 @media (max-width:900px){
   .pv-grid{grid-template-columns:1fr;gap:34px}
   .pv-side{position:static}

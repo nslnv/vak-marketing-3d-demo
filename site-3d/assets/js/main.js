@@ -184,17 +184,6 @@ if (reduced || !('IntersectionObserver' in window)) {
   reveal.forEach(function (el) { io.observe(el); });
 }
 
-/* ── цифры в сцене «О нас» (desktop) ──────────────────────────────────
-   Стеклянные карточки проявляются, когда объектив уже ушёл вправо, и
-   прячутся обратно при прокрутке вверх: иначе в середине ухода прибор
-   проходил бы прямо над ними. Порог — верх карточек выше 40% экрана. */
-var figs = $('#figures'), figsList = figs && $('.fig', figs);
-if (figs && figsList && !reduced && 'IntersectionObserver' in window) {
-  new IntersectionObserver(function (entries) {
-    figs.classList.toggle('is-shown', entries[0].isIntersecting);
-  }, { rootMargin: '0px 0px -60% 0px' }).observe(figsList);
-} else if (figs) figs.classList.add('is-shown');
-
 /* ── счётчики ───────────────────────────────────────────────────────── */
 function countIn(root) {
   var nodes = root.hasAttribute('data-count') ? [root] : $$('[data-count]', root);
@@ -229,7 +218,7 @@ var SRV = [
     art: '/assets/img/services/3d/linkedin-object.jpg', artAlt: 'Связи и международная B2B-коммуникация' },
   { i: '03', href: '/pr/',
     t: 'PR, СМИ и SERP',
-    d: 'Размещаем статьи, пресс-релизы, интервью и экспертные материалы в Tier-1 и Tier-2-3 медиа, усиливаем репутацию бренда в поисковой выдаче.',
+    d: 'Размещаем статьи, пресс-релизы, интервью и экспертные материалы в Tier-1 и Tier-2-3 медиа, укрепляем репутацию бренда в поисковой выдаче.',
     photo: '/assets/img/services/web/pr-media-photo-v1.jpg',
     art: '/assets/img/services/3d/pr-object.jpg', artAlt: 'Медиа-система и публикации' },
   { i: '04', href: '/seo/',
