@@ -16,6 +16,10 @@ const canvas = document.getElementById('stage');
 if (canvas) boot(canvas);
 
 function boot(canvas) {
+  /* «Уменьшить движение» в системе выключает только то, что движется само
+     по себе: дыхание диафрагмы, вращение колец, вспышки и световую полосу.
+     Хореография по прокрутке (пролёт, раскрытие и сборка в «О VAK») остаётся:
+     её ведёт сам человек, и без неё блок «О VAK» оставался пустым. */
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse  = matchMedia('(pointer: coarse)').matches;
 
@@ -1792,11 +1796,8 @@ function boot(canvas) {
        wheel-шагов и одинаково отрабатывают ход вперёд и точный реверс. */
     const rawAboutProgress = (scrollT - aboutStart) / Math.max(1e-5, aboutEnd - aboutStart);
     const isInsideAbout = rawAboutProgress >= -0.08 && rawAboutProgress <= 1.12;
-    scrollS = reduced ? scrollT : damp(scrollS, scrollT, 'st', 0.38, dt);
-    /* Reduced motion — не пустой Hero, а спокойный статичный предметный
-       кадр. После Hero он просто не рисуется: никакого scroll-driven
-       перелёта, раскладки или резкой смены состояния. */
-    sampleKeys(reduced ? 0 : scrollS);
+    scrollS = damp(scrollS, scrollT, 'st', 0.38, dt);
+    sampleKeys(scrollS);
 
     /* Таймлайн About: прилёт сверху-слева → крупное раскрытие в центре →
        пауза → обратная сборка на месте → длинный плавный выход вправо-вниз.
@@ -1902,8 +1903,7 @@ function boot(canvas) {
     const compactLateReturn = compactAbout
       ? easeAbout(smoothAboutProgress, 1.52, 1.70)
       : 1;
-    const reducedHeroVisibility = reduced && scrollT < aboutStart ? 1 : 0;
-    const aboutRigVisibility = reduced ? reducedHeroVisibility : compactAbout
+    const aboutRigVisibility = compactAbout
       /* На узком портрете ракета красиво завершает пролёт ещё до H2: дальше
          начинается плотная текстовая композиция, которой не нужен стеклянный
          слой поверх букв. Обратный scroll проходит тот же мягкий fade назад. */
@@ -1922,7 +1922,7 @@ function boot(canvas) {
         const flowFrom = openStart + cascadeDuration * 0.62;
         const flowTo = closeStart + cascadeDuration * 0.30;
         const flowSpan = Math.max(1e-4, flowTo - flowFrom);
-        const flow = reduced ? 1 : Math.min(1, Math.max(0, (aboutProgress - flowFrom) / flowSpan));
+        const flow = Math.min(1, Math.max(0, (aboutProgress - flowFrom) / flowSpan));
         if (Math.abs(flow - aboutFlowValue) > 0.002 || !aboutFlowLine.querySelector('span[data-state]')) {
           aboutFlowValue = flow;
           aboutFlowLine.style.setProperty('--flow', flow.toFixed(3));
@@ -2087,7 +2087,7 @@ function boot(canvas) {
     // being held near the centre for another ~240 px of scroll.
     const assemblyCenterPresence = easeAbout(aboutProgress, aboutArrive - 0.10, openStart)
       * (1 - easeAbout(smoothAboutProgress, aboutLeave, aboutAfterBeat + 0.03));
-    if (!compactAbout && !reduced) frameOpenAssembly(easeAbout(aboutOpen, 0, 1), assemblyCenterPresence);
+    if (!compactAbout) frameOpenAssembly(easeAbout(aboutOpen, 0, 1), assemblyCenterPresence);
     flare.quaternion.copy(camera.quaternion);   // блик всегда лицом к камере
     halo.quaternion.copy(camera.quaternion);
     if (aboutLabelVisibility > 0.002) {

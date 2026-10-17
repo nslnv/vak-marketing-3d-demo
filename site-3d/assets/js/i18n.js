@@ -89,7 +89,7 @@ var EN = {
   /* кейсы */
   'cs.h2':'Cases and results',
   'cs.sub':'Entering new markets, PR and media, brand packaging, LinkedIn, B2B growth, content and full-cycle marketing.',
-  'cs.task':'Goal.','cs.did':'What we did.','cs.key':'Key results','cs.key6':'Key results in 6 months',
+  'cs.task':'Goal.','cs.did':'What we did.','cs.key':'Key results',
   'cs.m1':'Crypto exchange · market entry · 1 year',
   'cs.q1':'Strengthen Huobi Global’s presence on the Russian market and support the brand’s entry into a new region.',
   'cs.w1':'Launched an integrated campaign: paid social and search advertising, PR, work with media and influencers. Organised industry events and collaborations.',

@@ -36,6 +36,22 @@
 .sp-seo-steps h3{margin:0;font-size:clamp(20px,1.75vw,25px);font-weight:390;line-height:1.2;letter-spacing:-.03em}
 .sp-seo-steps li:last-child h3{color:var(--sp-accent)}
 .sp-seo-steps p{margin:10px 0 0;max-width:24ch;color:var(--ink-2);font-size:14.5px;line-height:1.55}
+/* Обратная связь по ч. 4: «Поиск видит не один элемент» — к виду исходной
+   правки. Кольца идут фиолетовый → пурпурный → розовый → голубой, линия между
+   шагами переходит цветом от одного к другому, после последнего шага линия
+   доходит до края блока, заголовки белые. */
+.sp-seo-steps li{--step-rgb:139,108,255;--next-rgb:170,104,250}
+.sp-seo-steps li:nth-child(2){--step-rgb:170,104,250;--next-rgb:228,104,214}
+.sp-seo-steps li:nth-child(3){--step-rgb:228,104,214;--next-rgb:92,182,246}
+.sp-seo-steps li:nth-child(4){--step-rgb:92,182,246;--next-rgb:92,182,246}
+.sp-seo-steps li:not(:last-child)::after{height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(var(--step-rgb),.95),rgba(var(--next-rgb),.95))}
+.sp-seo-steps__ring{border-width:1.5px;border-color:rgba(var(--step-rgb),.95);color:#fff;box-shadow:0 0 18px -10px rgba(var(--step-rgb),.9)}
+.sp-seo-steps li:last-child h3{color:var(--ink)}
+@media (min-width:761px){
+  .sp-seo-steps li:last-child{padding-right:0}
+  .sp-seo-steps li:last-child::after{content:'';position:absolute;left:72px;right:0;top:28px;height:2px;border-radius:2px;
+    background:linear-gradient(90deg,rgba(var(--step-rgb),.9),rgba(var(--step-rgb),.12))}
+}
 
 @media(max-width:1000px){
   .sp-seo-phases-layout{grid-template-columns:1fr;gap:36px}
@@ -44,7 +60,7 @@
 @media(max-width:760px){
   .sp-seo-steps{grid-template-columns:1fr;gap:0}
   .sp-seo-steps li{display:grid;grid-template-columns:48px minmax(0,1fr);column-gap:18px;padding:0 0 26px}
-  .sp-seo-steps li:not(:last-child)::after{left:24px;right:auto;top:52px;bottom:4px;width:1px;height:auto;background:linear-gradient(rgba(var(--step-rgb),.7),rgba(var(--step-rgb),.15))}
+  .sp-seo-steps li:not(:last-child)::after{left:24px;right:auto;top:52px;bottom:4px;width:1px;height:auto;background:linear-gradient(rgba(var(--step-rgb),.9),rgba(var(--next-rgb),.9))}
   .sp-seo-steps__ring{grid-row:span 2;width:48px;height:48px;margin:0;font-size:14px}
   .sp-seo-steps h3{align-self:center;font-size:21px}
   .sp-seo-steps p{max-width:40ch;margin-top:6px}

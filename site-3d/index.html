@@ -31,10 +31,10 @@
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css?v=20261016-1">
   <link rel="stylesheet" href="assets/css/sections.css?v=20261016-3">
-  <link rel="stylesheet" href="assets/css/ring.css?v=20261016-3">
+  <link rel="stylesheet" href="assets/css/ring.css?v=20261017-1">
   <link rel="stylesheet" href="assets/css/mobile-shell.css?v=20261006-z">
   <link rel="stylesheet" href="assets/css/mobile.css?v=20261016-5">
-  <link rel="stylesheet" href="assets/css/polish.css?v=20261016-5">
+  <link rel="stylesheet" href="assets/css/polish.css?v=20261017-1">
 <script>
   /* Сцена использует ES-модуль: Chrome блокирует его при двойном клике по
      file://. Открываем тот же проект через локальный сервер, где остаётся
@@ -360,9 +360,9 @@
         </div>
         <p class="res__h" data-i18n="cs.key">Ключевые результаты</p>
         <ul class="res">
+          <li class="res__key"><b data-i18n="cs.v1c">100+</b><span data-i18n="cs.r1c">коллабораций с медиа и инфлюенсерами</span></li>
           <li><b data-i18n="cs.v1a">14 <i>млн</i></b><span data-i18n="cs.r1a">охват рекламной кампании</span></li>
           <li><b data-i18n="cs.v1b">6&nbsp;000+</b><span data-i18n="cs.r1b">новых клиентов</span></li>
-          <li class="res__key"><b data-i18n="cs.v1c">100+</b><span data-i18n="cs.r1c">коллабораций с медиа и инфлюенсерами</span></li>
           <li><b data-i18n="cs.v1d">10+</b><span data-i18n="cs.r1d">отраслевых мероприятий</span></li>
         </ul>
       </article>
@@ -416,7 +416,7 @@
           <p class="case__task"><b data-i18n="cs.task">Задача.</b> <span data-i18n="cs.q4">Развить LinkedIn как B2B-канал продвижения в сфере iGaming и наладить коммуникацию с лицами, принимающими решения.</span></p>
           <p class="case__do"><b data-i18n="cs.did">Что сделали.</b> <span data-i18n="cs.w4">Оформили страницы компании и профили сотрудников, подготовили контентные рубрики, настроили Sales Navigator и разработали сценарии коммуникации. Определили профиль идеального клиента: описание компаний, которым продукт подходит лучше всего, с учётом их отрасли, потребностей и лиц, принимающих решения.</span></p>
         </div>
-        <p class="res__h" data-i18n="cs.key6">Ключевые результаты за 6 месяцев</p>
+        <p class="res__h" data-i18n="cs.key">Ключевые результаты</p>
         <ul class="res">
           <li class="res__key"><b data-i18n="cs.v4a">120+</b><span data-i18n="cs.r4a">диалогов с decision-makers</span></li>
           <li><b data-i18n="cs.v4b">900+</b><span data-i18n="cs.r4b">целевых контактов найдено</span></li>
@@ -645,12 +645,12 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/i18n.js?v=20261016-1" defer></script>
+<script src="assets/js/i18n.js?v=20261017-1" defer></script>
 <!-- Отдельная версия обязательна: после появления подстраниц браузер не должен
      оставлять в кэше старую логику карточек, где «Подробнее» вело в форму. -->
-<script src="assets/js/ring.js?v=20261016-3" defer></script>
-<script src="assets/js/main.js?v=20261016-3" defer></script>
-<script src="assets/js/mobile.js?v=20261006-z" defer></script>
+<script src="assets/js/ring.js?v=20261017-1" defer></script>
+<script src="assets/js/main.js?v=20261017-1" defer></script>
+<script src="assets/js/mobile.js?v=20261017-1" defer></script>
 <script src="assets/js/mobile-shell.js?v=20261016-4" defer></script>
 <!-- WebGL-сцена нужна только на компьютере с мышью. На телефоне и
      планшете 3D-объектива нет совсем — ни сцены, ни статичного рендера:
@@ -662,7 +662,7 @@
 <script>
 (function () {
   var wide = matchMedia('(min-width:901px) and (hover:hover) and (pointer:fine)'), loaded = false;
-  var SCENE = 'assets/js/scene.js?v=20261016-1';
+  var SCENE = 'assets/js/scene.js?v=20261017-1';
   function preload(href) {
     var l = document.createElement('link');
     l.rel = 'modulepreload'; l.href = href;

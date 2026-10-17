@@ -253,7 +253,6 @@ var SERVICES = {
         ['Crypto и Web3','Перед листингом, pre-sale, запуском или важной коммуникационной точкой.',['Объяснение сложного продукта','Формирование доверия','Работа с комьюнити','Международные медиа']],
         ['Фаундеры и эксперты','Когда личная экспертность должна поддержать репутацию компании.',['Личный бренд','Интервью','Экспертные колонки','Публичная экспертность']]
       ]},
-      trust:{ title:'Проекты, с которыми работали', note:'Публикации помогли усилить репутационный контур проектов из сложных цифровых отраслей.', logos:['ethereum','huobi','tornado','coinstore','zenex'] },
       cta:{ title:'Подберём медиа под вашу задачу', text:'Опишите повод, рынок и желаемый результат. Мы предложим формат, пул изданий и реалистичный маршрут размещения.', button:'Отправить заявку', success:'Спасибо. Запрос принят — вернёмся с ответом.' }
     },
     en:{
@@ -287,7 +286,6 @@ var SERVICES = {
         ['Crypto and Web3','Before a listing, pre-sale, launch or significant communications moment.',['Explaining a complex product','Building trust','Community work','International media']],
         ['Founders and experts','When personal expertise must support company reputation.',['Personal brand','Interviews','Expert columns','Public expertise']]
       ]},
-      trust:{ title:'Projects we have worked with', note:'Publications helped strengthen the reputational context of projects in complex digital sectors.', logos:['ethereum','huobi','tornado','coinstore','zenex'] },
       cta:{ title:'Let’s select media for the task', text:'Tell us about the occasion, market and desired outcome. We will suggest a format, outlet pool and realistic placement route.', button:'Send request', success:'Thank you. Your request has been received.' }
     }
   },

@@ -4,7 +4,9 @@
 /* Спокойная движущаяся лента с исходными логотипами. Марки остаются крупными
    и полностью резкими по всей ширине; движение служит только живым ритмом,
    а не эффектом «скрыть-показать». Без JS видна такая же чистая сетка. */
-.ring__set{display:flex;flex-wrap:wrap;align-items:center;
+/* Пока лента не поехала (и всегда при «Уменьшить движение»), логотипы стоят
+   сеткой — по центру, а не у левого края (правки по ч. 4). */
+.ring__set{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
   gap:clamp(20px,2vw,32px) clamp(26px,3.2vw,52px);
   margin:0;padding:clamp(8px,1.2vw,18px) 0;list-style:none}
 .ring__i{color:var(--ink);white-space:nowrap}

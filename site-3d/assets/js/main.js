@@ -170,7 +170,9 @@ else mobileNav.addListener(syncMobileNav);
 
 /* ── появление блоков ───────────────────────────────────────────────── */
 var reveal = $$('[data-reveal]');
-if (reduced || !('IntersectionObserver' in window)) {
+/* При «Уменьшить движение» блоки и так видны сразу (base.css), наблюдатель
+   нужен только чтобы запустить счёт цифр в «О VAK». */
+if (!('IntersectionObserver' in window)) {
   reveal.forEach(function (el) { el.classList.add('in'); });
 } else {
   var io = new IntersectionObserver(function (entries) {
@@ -192,7 +194,8 @@ function countIn(root) {
     n.__done = true;
     var to = parseFloat(n.getAttribute('data-count')) || 0;
     var suf = n.getAttribute('data-suffix') || '';
-    if (reduced) { n.textContent = fmt(to) + suf; return; }
+    // Короткий счёт цифр «О VAK» остаётся и при «Уменьшить движение»:
+    // это не перемещение по экрану, а без него блок выглядел застывшим.
     var t0 = performance.now(), dur = 1150;
     (function step(t) {
       var p = Math.min(1, (t - t0) / dur);
@@ -313,7 +316,10 @@ setSrv(0);
    прокрутку. Там остаётся базовый вертикальный список: он быстрее читается,
    не конфликтует с инерцией пальца и уже работает без скриптов. */
 var srvDeckMode = matchMedia('(min-width: 901px) and (pointer: fine)');
-if (srvSec && srvPin && srvDeck && srvCards.length && !reduced && srvDeckMode.matches) (function () {
+/* Колода работает и при «Уменьшить движение» в системе: её ведёт прокрутка
+   самого человека, а вместо неё был длинный список карточек со строкой
+   названий справа (правки по ч. 4, клиент смотрит именно так). */
+if (srvSec && srvPin && srvDeck && srvCards.length && srvDeckMode.matches) (function () {
   var N = srvCards.length, STEP = 760, pinTop = 0, raf = 0;
   var SNAP_FORWARD = 0.32, SNAP_BACKWARD = 0.68;
 
@@ -677,6 +683,37 @@ if (rail) {
     else railVisible = true;
   }
 }
+
+/* ── кейсы: «Ключевые результаты» на одной линии во всех карточках ──────
+   Описания и подписи у карточек разной длины, поэтому блок результатов был
+   разной высоты и заголовок «Ключевые результаты» стоял ступеньками. Главной
+   цифре и строкам результатов даём общую минимальную высоту — по самой
+   высокой во всей ленте; блок прижат к низу карточки, и всё встаёт в ряд. */
+var caseCards = $$('.cs .case');
+if (caseCards.length) (function () {
+  var GROUPS = ['.res__key', '.res li:not(.res__key)'];
+  var pending = 0, alignedW = 0;
+  function align() {
+    pending = 0;
+    alignedW = innerWidth;
+    GROUPS.forEach(function (sel) {
+      var els = [];
+      caseCards.forEach(function (card) { els.push.apply(els, $$(sel, card)); });
+      els.forEach(function (el) { el.style.minHeight = ''; });
+      var h = 0;
+      els.forEach(function (el) { if (el.offsetHeight > h) h = el.offsetHeight; });
+      els.forEach(function (el) { el.style.minHeight = h + 'px'; });
+    });
+  }
+  function schedule() { if (!pending) pending = requestAnimationFrame(align); }
+  schedule();
+  if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(schedule);
+  addEventListener('load', schedule, { once: true });
+  addEventListener('resize', function () { if (innerWidth !== alignedW) schedule(); });
+  // Смена языка переписывает тексты карточек — выравниваем заново.
+  if ('MutationObserver' in window) new MutationObserver(schedule)
+    .observe($('.cs') || caseCards[0].parentNode, { childList: true, characterData: true, subtree: true });
+})();
 
 /* ── клиенты: спокойная лента оригинальных логотипов ────────────────────
    Сама лента живёт в assets/js/ring.js: тот же код крутит блок «Доверие»

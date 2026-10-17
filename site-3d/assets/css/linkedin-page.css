@@ -45,10 +45,15 @@
 
 /* All milestones share one physical baseline, including the sales outcome. */
 .sp-linkedin-icp{grid-template-columns:repeat(5,minmax(0,1fr));gap:0;padding:0;border:0;align-items:stretch}
-/* Правки ч. 4: линия метрики идёт до конца блока, а не обрывается на последней точке. */
-.sp-linkedin-icp::before{top:auto;bottom:0;left:0;right:0;background:linear-gradient(90deg,#9bbfff,#8edbea 45%,#b1baff 82%,rgba(177,186,255,.35))}
+/* Правки ч. 4: линия метрики идёт до конца блока, а не обрывается на последней точке.
+   Обратная связь по ч. 4: «цветная линейка пропала» — линия теперь самостоятельная
+   (не зависит от общих правил и анимации появления), 2 px и ярче, точки — на ней. */
+.sp-linkedin-icp{position:relative}
+.sp-linkedin-icp::before{content:'';position:absolute;z-index:0;top:auto;bottom:0;left:0;right:0;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#9bbfff,#8edbea 40%,#b1baff 78%,rgba(177,186,255,.4));box-shadow:0 0 12px rgba(155,191,255,.35);
+  opacity:1;transform:none!important;transition:none}
 .sp-linkedin-icp li{padding:12px 24px 28px 0;display:flex;flex-direction:column;justify-content:flex-end}
-.sp-linkedin-icp li::before{top:auto;bottom:-3px;left:0;width:6px;height:6px;border:0;background:var(--sp-accent);box-shadow:0 0 10px rgba(var(--sp-accent-rgb),.35)}
+.sp-linkedin-icp li::before{z-index:1;top:auto;bottom:-3px;left:0;width:8px;height:8px;border:0;background:var(--sp-accent);box-shadow:0 0 10px rgba(var(--sp-accent-rgb),.35)}
 .sp-linkedin-icp h3{font-size:clamp(18px,1.6vw,23px);line-height:1.2}
 .sp-linkedin-icp p{font-size:14px;line-height:1.5;min-height:3em;max-width:24ch}
 .sp-linkedin-icp .sp-linkedin-icp__result{padding-right:0}
@@ -124,7 +129,7 @@
   .sp-linkedin-icp::before{display:none}
   .sp-linkedin-icp li,.sp-linkedin-icp li:nth-child(n+3){display:block;border:0;padding:0 0 26px 22px}
   .sp-linkedin-icp li:last-child{padding-bottom:0}
-  .sp-linkedin-icp li::before{top:8px;bottom:auto;left:-3.5px}
+  .sp-linkedin-icp li::before{top:8px;bottom:auto;left:-4.5px}
   .sp-linkedin-icp h3{font-size:21px}
   .sp-linkedin-icp p{font-size:14px;min-height:0;max-width:none;margin-top:5px}
   .sp-linkedin-icp__result h3 br{display:none}

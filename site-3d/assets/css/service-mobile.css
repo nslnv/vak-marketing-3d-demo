@@ -102,7 +102,8 @@
   .sp[data-service] .sp-main .m-acc > .m-acc__i.is-open > :not(h3){display:block;animation:m-open .45s var(--e-out) both}
   .sp[data-service] .sp-main .m-acc > .m-acc__i.is-open > p{margin:0 0 16px;font-size:15px;line-height:1.55;color:#BDB6CF}
   .sp[data-service] .sp-main .m-acc > .m-acc__i.is-open > ul{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;padding:0}
-  .sp[data-service] .sp-main .m-acc .sp-sector__tags li{text-transform:none;letter-spacing:0;font-weight:400;padding:6px 11px;border-radius:14px;font-size:13px;color:#BDB6CF;background:rgba(255,255,255,.07);border:0}
+  /* Цвет меток не задаём: берётся акцентный цвет страницы, как на компьютере (правки по ч. 4). */
+  .sp[data-service] .sp-main .m-acc .sp-sector__tags li{text-transform:none;letter-spacing:0;font-weight:400;padding:6px 11px;border-radius:14px;font-size:13px;background:rgba(255,255,255,.07);border:0}
 
   /* ---------- вкладки ---------- */
   .m-seg{position:relative;display:flex;margin:0 0 16px;padding:4px;border-radius:22px;
