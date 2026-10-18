@@ -37,7 +37,7 @@ var LOGOS = {
   coindesk: { src:'/assets/img/logos/coindesk-light.png', alt:'CoinDesk', wide:true, ink:true },
   theblock: { src:'/assets/img/brands/media/the-block.png', alt:'The Block', mark:true },
   benzinga: { src:'/assets/img/logos/partner/benzinga.png', alt:'Benzinga', wide:true, ink:true },
-  rbc:      { src:'/assets/img/brands/media/rbc-crypto.png', alt:'РБК Крипто', mark:true },
+  rbc:      { src:'/assets/img/brands/media/rbc-crypto.png', alt:'РБК Крипто', en:'RBC Crypto', mark:true },
   cryptoru: { src:'/assets/img/brands/media/crypto-ru.png', alt:'Crypto.ru', mark:true },
   // Остальная медиасеть с главной: в PR показываем все издания сразу.
   entrepreneur:{ src:'/assets/img/logos/partner/entrepreneur.png', alt:'Entrepreneur', wide:true },
@@ -781,12 +781,14 @@ function renderPricing(section) {
     + section.rows.map(function (row, i) { return '<div class="sp-rate-list__item" style="--sp-item-delay:' + (i * .075) + 's"><dt>' + esc(row[0]) + '</dt><dd>' + esc(row[1]) + '</dd></div>'; }).join('') + '</dl>'
     + (section.notes && section.notes.length ? '<ul class="sp-pricing__notes">' + section.notes.map(function (note) { return '<li class="sp-pricing__note">' + esc(note) + '</li>'; }).join('') + '</ul>' : '') + '</div></div></section>';
 }
+// Russian outlet names get their English form on the English version.
+function logoName(logo) { return language === 'en' && logo.en ? logo.en : logo.alt; }
 // Name under every logo, wordmarks included (design notes part 3, items 4-5):
 // the visible caption is the text alternative, so the image itself is decorative.
 function renderLogo(keyName, media) {
   var logo = LOGOS[keyName];
   if (!logo) return '';
-  return '<div class="sp-logo' + (media ? ' sp-logo--media' : '') + (logo.wide ? ' sp-logo--wide' : '') + (logo.ink ? ' sp-logo--ink' : '') + (logo.mark ? ' sp-logo--mark' : '') + (logo.tile ? ' sp-logo--tile' : '') + '"><img src="' + esc(logo.src) + '" alt="" loading="lazy" decoding="async"><span class="sp-logo__name">' + esc(logo.alt) + '</span></div>';
+  return '<div class="sp-logo' + (media ? ' sp-logo--media' : '') + (logo.wide ? ' sp-logo--wide' : '') + (logo.ink ? ' sp-logo--ink' : '') + (logo.mark ? ' sp-logo--mark' : '') + (logo.tile ? ' sp-logo--tile' : '') + '"><img src="' + esc(logo.src) + '" alt="" loading="lazy" decoding="async"><span class="sp-logo__name">' + esc(logoName(logo)) + '</span></div>';
 }
 function renderMedia(section) {
   return '<section class="sp-trust sp-media-network sp-media-network--' + key + '"><div class="wrap"><div class="sp-trust__head" data-sp-reveal><div><p class="sp-caption">' + esc(section.label) + '</p><h2>' + esc(section.title) + '</h2></div><p>' + esc(section.note) + '</p></div>'
@@ -819,7 +821,7 @@ function renderRingItem(keyName) {
   if (keyName === 'nda') return '<li class="ring__i ring__i--brand ring__i--nda"><span class="ring__nda">NDA</span><span class="ring__name">' + (language === 'en' ? 'NDA iGaming projects' : 'NDA‑проекты iGaming') + '</span></li>';
   var logo = LOGOS[keyName];
   if (!logo) return '';
-  return '<li class="ring__i ring__i--brand"><img class="ring__brand ' + (logo.mark ? 'ring__brand--symbol' : 'ring__brand--wordmark') + '" src="' + esc(logo.src) + '" alt="" decoding="async"><span class="ring__name">' + esc(logo.alt) + '</span></li>';
+  return '<li class="ring__i ring__i--brand"><img class="ring__brand ' + (logo.mark ? 'ring__brand--symbol' : 'ring__brand--wordmark') + '" src="' + esc(logo.src) + '" alt="" decoding="async"><span class="ring__name">' + esc(logoName(logo)) + '</span></li>';
 }
 function renderCta(section) {
   return '<section class="sp-cta sp-cta--' + key + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'
@@ -832,6 +834,9 @@ function renderFooter() {
 
 function render(d) {
   document.documentElement.lang = language;
+  // The skip link lives in the static HTML of every service page.
+  var skip = document.querySelector('.skip-link');
+  if (skip) skip.textContent = language === 'en' ? 'Skip to content' : 'Перейти к содержимому';
   document.title = d.meta.title;
   var desc = $('meta[name="description"]'); if (desc) desc.setAttribute('content', d.meta.desc);
   var ogTitle = $('meta[property="og:title"]'); if (ogTitle) ogTitle.setAttribute('content', d.meta.title);

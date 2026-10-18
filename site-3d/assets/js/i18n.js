@@ -7,7 +7,7 @@
 'use strict';
 
 var EN = {
-  'a11y.skip':'Skip to content',
+  'a11y.skip':'Skip to content','ptn.rbc':'RBC Crypto',
 
   /* шапка */
   'nav.services':'Services','nav.allServices':'View all services','nav.course':'B2B and B2C LinkedIn course — coming soon','nav.strategy':'Strategy','nav.linkedin':'LinkedIn',
@@ -165,7 +165,7 @@ var EN = {
   'foot.about':'About','foot.team':'Team','foot.media':'Media',
   'foot.s1':'Strategy and full management','foot.s2':'B2B marketing and LinkedIn',
   'foot.s3':'PR and media','foot.s4':'SEO and SERP',
-  'foot.s5':'Marketing automation','foot.s6':'Educational products',
+  'foot.s5':'Marketing automation','foot.s6':'Educational products','foot.s7':'Translation and localisation',
   'foot.privacy':'Privacy policy','foot.rights':'All rights reserved'
 };
 
