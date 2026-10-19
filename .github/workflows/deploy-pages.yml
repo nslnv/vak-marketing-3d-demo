@@ -1,4 +1,4 @@
-name: Deploy VAK Marketing demo
+name: Deploy VAK Marketing site
 
 on:
   push:
