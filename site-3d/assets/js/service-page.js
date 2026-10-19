@@ -824,12 +824,12 @@ function renderRingItem(keyName) {
   return '<li class="ring__i ring__i--brand"><img class="ring__brand ' + (logo.mark ? 'ring__brand--symbol' : 'ring__brand--wordmark') + '" src="' + esc(logo.src) + '" alt="" decoding="async"><span class="ring__name">' + esc(logoName(logo)) + '</span></li>';
 }
 function renderCta(section) {
-  return '<section class="sp-cta sp-cta--' + key + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p></div>'
-    + '<form class="form card sp-form" id="spForm" data-sp-reveal style="--sp-delay:.08s" novalidate><div class="f-row sp-form__row"><label class="f sp-field"><span>' + (language === 'en' ? 'Name' : 'Имя') + '</span><input name="name" autocomplete="name" required></label><label class="f sp-field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label></div><label class="f sp-field"><span>' + (language === 'en' ? 'Phone / messenger' : 'Телефон / мессенджер') + '</span><input name="contact" autocomplete="tel" required></label><input type="hidden" name="service" value="' + esc(key) + '"><button class="btn btn--primary btn--wide" type="submit">' + esc(section.button) + '</button><p class="form__note sp-form__note" role="status" aria-live="polite"></p></form></div></section>';
+  return '<section class="sp-cta sp-cta--' + key + (isStrategy ? ' sp-cta--strategy' : '') + '" id="consultation"><div class="wrap sp-cta__grid"><div class="sp-cta__copy" data-sp-reveal><p class="sp-caption">' + (language === 'en' ? 'Consultation' : 'Консультация') + '</p><h2>' + esc(section.title) + '</h2><p>' + esc(section.text) + '</p><p class="sp-cta__direct">' + (language === 'en' ? 'Or message us directly:' : 'Или напишите напрямую:') + ' <a href="https://wa.me/77476740799" target="_blank" rel="noopener noreferrer">WhatsApp</a><span aria-hidden="true">·</span><a href="https://t.me/vladimirfromcyprus" target="_blank" rel="noopener noreferrer">Telegram</a></p></div>'
+    + '<form class="form card sp-form" id="spForm" data-sp-reveal style="--sp-delay:.08s" novalidate><div class="f-row sp-form__row"><label class="f sp-field"><span>' + (language === 'en' ? 'Name' : 'Имя') + '</span><input name="name" autocomplete="name" required></label><label class="f sp-field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label></div><label class="f sp-field"><span>' + (language === 'en' ? 'Phone / messenger' : 'Телефон / мессенджер') + '</span><input name="contact" autocomplete="tel" required></label><input type="hidden" name="service" value="' + esc(key) + '"><label class="hp" aria-hidden="true"><input type="text" name="website_url" tabindex="-1" autocomplete="off"></label><button class="btn btn--primary btn--wide" type="submit">' + esc(section.button) + '</button><p class="form__note sp-form__note" role="status" aria-live="polite"></p></form></div></section>';
 }
 function renderFooter() {
   var en = language === 'en';
-  return '<div class="wrap"><div class="foot__top"><div class="foot__brand"><a class="brand" href="/"><img class="brand__logo" src="/assets/img/brand/vak-logo.png" width="289" height="132" alt="VAK Marketing" decoding="async"></a><p>' + esc(en ? 'A full-cycle marketing agency for iGaming, FinTech, Crypto, Web3 and B2B. Strategy, brand, media, LinkedIn, B2B leads and marketing at scale.' : 'Комплексное маркетинговое агентство для iGaming, FinTech, Crypto, Web3 и B2B. Стратегия, бренд, медиа, LinkedIn, B2B-лиды и масштабирование маркетинга.') + '</p></div><nav class="foot__col" aria-label="' + (en ? 'Company' : 'Компания') + '"><h4>' + (en ? 'Company' : 'Компания') + '</h4><a href="/#about">' + (en ? 'About' : 'О нас') + '</a><a href="/#team">' + (en ? 'Team' : 'Команда') + '</a><a href="/#founder">Founder</a><a href="/#cases">' + (en ? 'Cases' : 'Кейсы') + '</a><a href="/#contact">' + (en ? 'Contacts' : 'Контакты') + '</a></nav><nav class="foot__col" aria-label="' + (en ? 'Services' : 'Услуги') + '"><h4>' + (en ? 'Services' : 'Услуги') + '</h4><a href="/strategy/">' + (en ? 'Strategy and full management' : 'Стратегия и комплексное ведение') + '</a><a href="/linkedin/">' + (en ? 'B2B marketing and LinkedIn' : 'B2B-маркетинг и LinkedIn') + '</a><a href="/pr/">' + (en ? 'PR and media' : 'PR и СМИ') + '</a><a href="/seo/">' + (en ? 'SEO and SERP' : 'SEO и SERP') + '</a><a href="/localization/">' + (en ? 'Translation and localisation' : 'Перевод и локализация') + '</a></nav><nav class="foot__col" aria-label="' + (en ? 'Resources and contacts' : 'Материалы и контакты') + '"><h4>' + (en ? 'Resources' : 'Материалы') + '</h4><a href="/#partners">' + (en ? 'Media' : 'Медиа') + '</a><a href="/privacy/">' + (en ? 'Privacy policy' : 'Политика конфиденциальности') + '</a><h4 class="foot__h2">' + (en ? 'Contacts' : 'Контакты') + '</h4><a href="mailto:hello@vakmarketing.com">hello@vakmarketing.com</a></nav></div><div class="foot__bot"><span>© ' + new Date().getFullYear() + ' VAK Marketing</span><a href="/privacy/">' + (en ? 'Privacy policy' : 'Политика конфиденциальности') + '</a><span>' + (en ? 'All rights reserved' : 'Все права защищены') + '</span></div></div>';
+  return '<div class="wrap"><div class="foot__top"><div class="foot__brand"><a class="brand" href="/"><img class="brand__logo" src="/assets/img/brand/vak-logo.png" width="289" height="132" alt="VAK Marketing" decoding="async"></a><p>' + esc(en ? 'A full-cycle marketing agency for iGaming, FinTech, Crypto, Web3 and B2B. Strategy, brand, media, LinkedIn, B2B leads and marketing at scale.' : 'Комплексное маркетинговое агентство для iGaming, FinTech, Crypto, Web3 и B2B. Стратегия, бренд, медиа, LinkedIn, B2B-лиды и масштабирование маркетинга.') + '</p></div><nav class="foot__col" aria-label="' + (en ? 'Company' : 'Компания') + '"><h4>' + (en ? 'Company' : 'Компания') + '</h4><a href="/#about">' + (en ? 'About' : 'О нас') + '</a><a href="/#team">' + (en ? 'Team' : 'Команда') + '</a><a href="/#founder">Founder</a><a href="/#cases">' + (en ? 'Cases' : 'Кейсы') + '</a><a href="/#contact">' + (en ? 'Contacts' : 'Контакты') + '</a></nav><nav class="foot__col" aria-label="' + (en ? 'Services' : 'Услуги') + '"><h4>' + (en ? 'Services' : 'Услуги') + '</h4><a href="/strategy/">' + (en ? 'Strategy and full management' : 'Стратегия и комплексное ведение') + '</a><a href="/linkedin/">' + (en ? 'B2B marketing and LinkedIn' : 'B2B-маркетинг и LinkedIn') + '</a><a href="/pr/">' + (en ? 'PR and media' : 'PR и СМИ') + '</a><a href="/seo/">' + (en ? 'SEO and SERP' : 'SEO и SERP') + '</a><a href="/localization/">' + (en ? 'Translation and localisation' : 'Перевод и локализация') + '</a></nav><nav class="foot__col" aria-label="' + (en ? 'Resources and contacts' : 'Материалы и контакты') + '"><h4>' + (en ? 'Resources' : 'Материалы') + '</h4><a href="/#partners">' + (en ? 'Media' : 'Медиа') + '</a><a href="/privacy/">' + (en ? 'Privacy policy' : 'Политика конфиденциальности') + '</a><h4 class="foot__h2">' + (en ? 'Contacts' : 'Контакты') + '</h4><a href="https://t.me/vladimirfromcyprus" target="_blank" rel="noopener noreferrer">Telegram</a><a href="https://wa.me/77476740799" target="_blank" rel="noopener noreferrer">WhatsApp</a><a href="mailto:hello@vakmarketing.com">hello@vakmarketing.com</a><a href="https://www.linkedin.com/company/vakmarketing/" target="_blank" rel="noopener noreferrer">LinkedIn</a></nav></div><div class="foot__bot"><span>© ' + new Date().getFullYear() + ' VAK Marketing</span><a href="/privacy/">' + (en ? 'Privacy policy' : 'Политика конфиденциальности') + '</a><span>' + (en ? 'All rights reserved' : 'Все права защищены') + '</span></div></div>';
 }
 
 function render(d) {
@@ -977,18 +977,44 @@ function bindNav() {
   window.addEventListener('resize', currentNavResizeHandler, { passive:true });
   $$('.lang__b', nav).forEach(function (button) { button.addEventListener('click', function () { language = button.getAttribute('data-lang'); try { localStorage.setItem('vak-lang', language); } catch (e) {} render(copy()); }); });
 }
+// Заявки уходят письмом на hello@vakmarketing.com через FormSubmit, как с главной:
+// таблица с полями, в теме — услуга, «Ответить» в почте отвечает клиенту.
+var LEAD_ENDPOINT = 'https://formsubmit.co/ajax/hello@vakmarketing.com';
+var SERVICE_NAMES = { strategy:'Стратегия и комплексное ведение', linkedin:'B2B-маркетинг и LinkedIn', pr:'PR, СМИ и SERP', seo:'AI SEO и автоматизация маркетинга', localization:'Перевод и локализация' };
 function bindForm(cta) {
   var form = $('#spForm'); if (!form) return;
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     var name = $('[name="name"]', form), email = $('[name="email"]', form), contact = $('[name="contact"]', form), note = $('.sp-form__note', form);
+    var trap = $('[name="website_url"]', form);
+    if (trap && trap.value) return;
     var valid = Boolean(name.value.trim() && email.value.trim() && email.validity.valid && contact.value.trim());
     [name, email, contact].forEach(function (field) { field.setAttribute('aria-invalid', valid || (field.value.trim() && (field !== email || field.validity.valid)) ? 'false' : 'true'); });
+    note.classList.remove('is-ok', 'is-err');
     if (!valid) {
       note.textContent = language === 'en' ? 'Please enter your name, email and contact method.' : 'Укажите имя, email и способ связи.';
       return;
     }
-    note.classList.add('is-ok'); note.textContent = cta.success; form.reset();
+    var en = language === 'en', service = SERVICE_NAMES[key] || key, button = $('button[type="submit"]', form);
+    button.disabled = true;
+    note.textContent = en ? 'Sending…' : 'Отправляем…';
+    fetch(LEAD_ENDPOINT, {
+      method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+      body: JSON.stringify({
+        'Имя': name.value.trim(), 'Email': email.value.trim(), 'Телефон / мессенджер': contact.value.trim(),
+        'Откуда': 'Услуга «' + service + '» — консультация', 'Язык сайта': en ? 'English' : 'Русский', 'Страница': location.href,
+        _subject: 'Заявка с сайта VAK Marketing — ' + service, _replyto: email.value.trim(), _template:'table', _captcha:'false'
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }).then(function (res) {
+      if (!res || String(res.success) !== 'true') throw new Error(res && res.message);
+      note.classList.add('is-ok'); note.textContent = cta.success; form.reset();
+    }).catch(function () {
+      note.classList.add('is-err');
+      note.textContent = en ? 'Sending failed. Please reach us on WhatsApp, Telegram or at hello@vakmarketing.com.' : 'Не получилось отправить. Напишите нам в WhatsApp, Telegram или на hello@vakmarketing.com.';
+    }).then(function () { button.disabled = false; });
   });
 }
 function bindReveal() {

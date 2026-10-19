@@ -145,3 +145,15 @@
   .sp-linkedin-icp::before{transform:none;transition:none}
   .sp[data-service="linkedin"] .sp-hero__object,.sp[data-service="linkedin"] .sp-hero__visual:hover .sp-hero__object{transition:none;transform:translate3d(0,-50%,0)}
 }
+
+/* Телефон и планшет: воронка над списком собирается прокруткой — кольца
+   опускаются по очереди (положение и прозрачность ставит service-mobile.js),
+   при посадке кольцо коротко вспыхивает своим цветом. */
+.sp-linkedin-funnel__stack.m-build{perspective:700px}
+.sp-linkedin-funnel__stack.m-build .sp-linkedin-funnel__shape{transition:none;transform-origin:50% 20%;will-change:transform,opacity}
+.sp-linkedin-funnel__stack.m-build .sp-linkedin-funnel__shape::before{content:'';position:absolute;z-index:1;left:0;right:0;top:0;
+  height:calc(100cqw * 52 / 420);border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse 50% 50% at 50% 50%,currentColor,transparent 70%)}
+.sp-linkedin-funnel__stack.m-build .sp-linkedin-funnel__shape.is-landed::before{animation:m-funnel-land .9s var(--e-out)}
+@keyframes m-funnel-land{0%{opacity:0;transform:scale(.8)}25%{opacity:.55}100%{opacity:0;transform:scale(1.15)}}
+@media(prefers-reduced-motion:reduce){.sp-linkedin-funnel__stack.m-build .sp-linkedin-funnel__shape.is-landed::before{animation:none}}

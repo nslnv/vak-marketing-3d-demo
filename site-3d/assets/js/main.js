@@ -6,9 +6,10 @@
 (function () {
 'use strict';
 
-/* Сюда вписывается адрес, который принимает POST с JSON.
-   Пока строка пустая, форма работает в демо-режиме. */
-var FORM_ENDPOINT = '';
+/* Заявки уходят письмом на hello@vakmarketing.com через FormSubmit (сайт
+   статический, своего сервера нет). Письмо — таблицей, «Ответить» в почте
+   отвечает клиенту. Первую заявку сервис просит подтвердить кнопкой из письма. */
+var FORM_ENDPOINT = 'https://formsubmit.co/ajax/hello@vakmarketing.com';
 
 /* У пяти услуг уже есть подробные самостоятельные страницы. Курс оставляем
    внутри общей страницы, пока для него не появится согласованная программа,
@@ -749,36 +750,35 @@ if (form) form.addEventListener('submit', function (e) {
   }
 
   var payload = {
-    name: d.get('name'), email: d.get('email'), contact: d.get('contact'),
-    page: location.href, lang: window.__lang || 'ru'
+    'Имя': String(d.get('name')).trim(),
+    'Email': String(d.get('email')).trim(),
+    'Телефон / мессенджер': String(d.get('contact')).trim(),
+    'Откуда': 'Главная — «Получите бесплатную консультацию»',
+    'Язык сайта': window.__lang === 'en' ? 'English' : 'Русский',
+    'Страница': location.href,
+    _subject: 'Заявка с сайта VAK Marketing — ' + String(d.get('name')).trim(),
+    _replyto: String(d.get('email')).trim(),
+    _template: 'table',
+    _captcha: 'false'
   };
 
   var btn = form.querySelector('button[type=submit]');
   btn.disabled = true;
   say('', 'Отправляем…', 'Sending…');
 
-  if (!FORM_ENDPOINT) {
-    window.__lastLead = payload;
-    console.log('[VAK] демо-режим, заявка не отправлена:', payload);
-    setTimeout(function () {
-      btn.disabled = false;
-      form.reset();
-      say('is-ok', 'Заявка принята (демо-режим: адрес приёма ещё не подключён).',
-                   'Received (demo mode: the endpoint is not connected yet).');
-    }, 550);
-    return;
-  }
-
   fetch(FORM_ENDPOINT, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload)
   }).then(function (r) {
     if (!r.ok) throw new Error(r.status);
+    return r.json();
+  }).then(function (res) {
+    if (!res || String(res.success) !== 'true') throw new Error(res && res.message);
     form.reset();
     say('is-ok', 'Спасибо, заявка отправлена. Ответим в течение рабочего дня.',
                  'Thanks, your request is on its way. We reply within one business day.');
   }).catch(function () {
-    say('is-err', 'Не получилось отправить. Напишите нам в Telegram или на почту.',
-                  'Sending failed. Please reach us on Telegram or by email.');
+    say('is-err', 'Не получилось отправить. Напишите нам в Telegram, WhatsApp или на hello@vakmarketing.com.',
+                  'Sending failed. Please reach us on Telegram, WhatsApp or at hello@vakmarketing.com.');
   }).then(function () { btn.disabled = false; });
 });
 

@@ -5,7 +5,7 @@
    из её палитры (--sp-accent, --sp-title-*), поэтому одна механика выглядит
    по-своему на каждой услуге. На широком экране добавленное скрыто.
    ========================================================================== */
-.m-seg,.m-track,.m-calc,.m-others{display:none}
+.m-seg,.m-calc,.m-others{display:none}
 
 /* ---------- калькулятор перевода (телефон и компьютер) ----------
    Правки ч. 4: калькулятор есть и на компьютере — под тарифами в правой
@@ -71,22 +71,6 @@
      В узкой рамке телефона кадр сдвинут к объекту, чтобы он был виден
      целиком, а не обрезан по краю. */
   .sp .sp-hero__photo img{object-position:80% 50%}
-
-  /* ---------- лента под свайп ---------- */
-  .sp[data-service] .sp-main .m-rail{display:flex;flex-direction:row;gap:12px;margin-inline:calc(var(--gut) * -1);padding:4px var(--gut) 6px;
-    overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);
-    scrollbar-width:none;border:0;grid-template-columns:none}
-  .sp[data-service] .sp-main .m-rail::-webkit-scrollbar{display:none}
-  .sp[data-service] .sp-main .m-rail > *{flex:0 0 min(80%,340px);scroll-snap-align:start;min-height:190px;margin:0;padding:22px;
-    display:flex;flex-direction:column;justify-content:space-between;gap:16px;
-    border:1px solid rgba(255,255,255,.09);border-radius:24px;
-    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}
-  .sp[data-service] .sp-main .m-rail > *::before,.sp[data-service] .sp-main .m-rail > *::after{display:none}
-  .sp[data-service] .sp-main .m-rail h3{margin:0;font-size:20px;line-height:1.2;font-weight:500;letter-spacing:-.02em}
-  .sp[data-service] .sp-main .m-rail p{margin:0;max-width:none;font-size:14.5px;line-height:1.5;color:#BDB6CF}
-  .m-track{display:block;position:relative;height:2px;margin:16px 0 0;border-radius:2px;background:rgba(255,255,255,.09);overflow:hidden}
-  .m-track i{position:absolute;inset:0 auto 0 0;width:var(--w,30%);border-radius:2px;background:var(--m-grad);
-    transform:translateX(var(--x,0%));transition:width .3s var(--e)}
 
   /* ---------- раскрывающиеся списки ---------- */
   .sp[data-service] .sp-main .m-acc{display:block;border-bottom:1px solid var(--line);grid-template-columns:none}
@@ -210,4 +194,100 @@
 
 @media (prefers-reduced-motion:reduce){
   .sp[data-service] .sp-main .m-acc > .m-acc__i.is-open > *,.sp[data-service] .sp-main .m-tabs > .m-tab-on{animation:none}
+}
+
+/* ---------- объём на телефоне (выбор 20.10: «3D без номеров и плашек») -----
+   Раскладка прежняя. Пункты списков, этапы, «Как собираем результат» и
+   направления поднимаются из лёгкого наклона, когда подходят к экрану. */
+@media (max-width:900px){
+  /* Пункты «Почему …» (бывшая лента под свайп) — столбиком, как на компьютере:
+     линия с точкой сверху, заголовок, текст во всю ширину. */
+  .sp[data-service] .sp-main .sp-proof__item p{max-width:none}
+
+  .sp[data-service] .sp-main .m-pre{opacity:0;transform:perspective(700px) rotateX(16deg) translateY(18px);transform-origin:50% 100%}
+  .sp[data-service] .sp-main .m-pre.m-show{opacity:1;transform:none;
+    transition:opacity .6s var(--e-out) var(--m-d,0s),transform .75s var(--e-out) var(--m-d,0s)}
+}
+
+/* ---------- путь этапов на стратегии (телефон) -----------------------------
+   Тот же вид, что у понравившейся линии этапов PR: дорожка слева, градиентная
+   линия растёт прокруткой, точки пройденных пунктов заливаются акцентом,
+   следующие — пустые. Текущий пункт мягко светится, на конце линии — искра.
+   В «Что делаем на каждом этапе» и «Когда отдельной услуги…» линия доходит
+   до открытого пункта. Геометрию считает service-mobile.js (--m-y, --m-n). */
+@media (max-width:900px){
+  .sp[data-service] .sp-main .m-beam{position:relative;display:block;padding-left:34px;text-align:left;grid-template-columns:none}
+  .sp[data-service] .sp-main .m-beam::before,.sp[data-service] .sp-main .m-beam::after{content:'';position:absolute;left:7px;top:var(--m-top,14px);bottom:14px;
+    width:2px;height:auto;border-radius:2px;transform:none;opacity:1;pointer-events:none}
+  .sp[data-service] .sp-main .m-beam::before{background:rgba(255,255,255,.09)}
+  .sp[data-service] .sp-main .m-beam::after{top:0;bottom:0;
+    background:linear-gradient(180deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB));
+    clip-path:inset(var(--m-top,14px) -12px calc(100% - var(--m-y,0px)) -12px);
+    box-shadow:0 0 10px rgba(var(--sp-accent-rgb),.45)}
+  .sp[data-service] .sp-main .m-beam--open::after{transition:clip-path .7s var(--e-out)}
+  .m-beam__spark{position:absolute;z-index:2;left:2px;top:-6px;width:12px;height:12px;border-radius:50%;pointer-events:none;opacity:0;
+    background:radial-gradient(circle,#fff 0 25%,rgba(255,214,240,.9) 40%,rgba(var(--sp-accent-rgb),.35) 62%,transparent 72%);
+    box-shadow:0 0 16px 3px rgba(var(--sp-accent-rgb),.55);transition:opacity .3s}
+  .m-beam--open .m-beam__spark{transition:transform .7s var(--e-out),opacity .3s}
+
+  .sp[data-service] .sp-main .m-beam.m-beam > :not(.m-beam__spark){position:relative;text-align:left}
+  .sp[data-service] .sp-main .m-beam.m-beam > :not(.m-beam__spark)::before{content:'';display:block;position:absolute;z-index:1;
+    left:-32px;top:calc(var(--m-n,14px) - 6px);right:auto;bottom:auto;width:12px;height:12px;margin:0;border-radius:50%;
+    background:#06050C;border:2px solid rgba(255,255,255,.2);box-shadow:none;opacity:1;transform:none;
+    transition:background .4s,border-color .4s,box-shadow .4s}
+  .sp[data-service] .sp-main .m-beam.m-beam > .is-on::before{background:var(--sp-accent);border-color:var(--sp-accent)}
+  .sp[data-service] .sp-main .m-beam.m-beam > .is-cur::before{box-shadow:0 0 0 4px rgba(var(--sp-accent-rgb),.16),0 0 14px rgba(var(--sp-accent-rgb),.7)}
+  .sp[data-service] .sp-main .m-beam.m-beam > :not(.m-beam__spark)::after{display:none}
+  .sp[data-service] .sp-main .m-beam.m-beam > .is-cur::after{content:'';display:block;position:absolute;z-index:0;left:-32px;top:calc(var(--m-n,14px) - 6px);
+    right:auto;bottom:auto;width:12px;height:12px;margin:0;border-radius:50%;border:1px solid rgba(var(--sp-accent-rgb),.8);background:none;
+    animation:m-beam-pulse 2.6s var(--e-out) infinite}
+
+  /* Тексты: как у линии PR — следующие пункты приглушены, пройденные яркие. */
+  .sp[data-service] .sp-main .m-beam:not(.m-beam--open) > :not(.m-beam__spark) :is(h3,h4,dt){color:#8F88A6;transition:color .4s}
+  .sp[data-service] .sp-main .m-beam:not(.m-beam--open) > :not(.m-beam__spark) :is(p,dd){color:#8F88A6;transition:color .4s}
+  .sp[data-service] .sp-main .m-beam:not(.m-beam--open) > .is-on :is(h3,h4,dt){color:var(--ink)}
+  .sp[data-service] .sp-main .m-beam:not(.m-beam--open) > .is-on :is(p,dd){color:#BDB6CF}
+  .sp[data-service] .sp-main .m-beam > .is-cur :is(h3,h4,dt){color:var(--sp-accent)}
+
+  /* «Не набор услуг…» внутри дорожки. */
+  .sp[data-service="strategy"] .sp-main .m-beam .sp-decision-frame__item{padding:0 0 26px;border:0;min-height:0}
+  .sp[data-service="strategy"] .sp-main .m-beam .sp-decision-frame__item:last-child{padding-bottom:0}
+
+  /* Барабан («Как собираем результат», LinkedIn «Там, где нужен доступ…»):
+     середина экрана прямая и яркая, выше и ниже — отклонены в перспективе и
+     приглушены (--dz, --da из JS), заголовок в фокусе — градиентом. */
+  .sp[data-service] .sp-main .m-drum{position:relative;display:block;margin-top:18px;perspective:900px;grid-template-columns:none}
+  .sp[data-service] .sp-main .m-drum > *{position:relative;margin:0;padding:14px 0;min-height:0;border:0;background:none;box-shadow:none;text-align:center;
+    transform-origin:50% 50%;transform:rotateX(calc(var(--dz,0) * -32deg)) scale(calc(1 - var(--da,0) * .1));opacity:calc(1 - var(--da,0) * .62);will-change:transform}
+  .sp[data-service] .sp-main .m-drum > *::before,.sp[data-service] .sp-main .m-drum > *::after{display:none}
+  .sp[data-service] .sp-main .m-drum > *{transition:color .3s}
+  .sp[data-service] .sp-main .m-drum > .sp-index__item > span{display:block;font-size:19px;font-weight:400;line-height:1.3;letter-spacing:-.02em;color:var(--ink)}
+  .sp[data-service] .sp-main .m-drum :is(dt,h3){margin:0;font-size:20px;font-weight:400;line-height:1.25;letter-spacing:-.02em;color:var(--ink);transition:color .3s}
+  .sp[data-service] .sp-main .m-drum :is(dd,p){margin:6px auto 0;max-width:30ch;font-size:14.5px;line-height:1.5;color:#BDB6CF}
+  .sp[data-service] .sp-main .m-drum > .is-focus :is(dt,h3),.sp[data-service] .sp-main .m-drum > .is-focus.sp-index__item > span{background:linear-gradient(96deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+  /* «Выбираем глубину участия» — заливка заголовков: приглушённый заголовок
+     заливается градиентом слева направо по мере подъёма к середине экрана
+     (--fill из JS), текст под ним проявляется. */
+  .sp[data-service] .sp-main .m-fill{position:relative;display:block;margin:6px 0 0;border:0;grid-template-columns:none}
+  .sp[data-service] .sp-main .m-fill > li{min-height:0;padding:18px 0;border:0;text-align:center;opacity:1;transform:none}
+  .sp[data-service] .sp-main .m-fill h3{margin:0 auto;max-width:none;font-size:24px;font-weight:360;line-height:1.2;letter-spacing:-.025em;
+    background:linear-gradient(90deg,transparent calc(var(--fill,0) * 110% - 10%),#4A4560 calc(var(--fill,0) * 110%)),
+               linear-gradient(96deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .sp[data-service] .sp-main .m-fill p{margin:8px auto 0;max-width:32ch;font-size:15px;line-height:1.55;color:#BDB6CF;opacity:calc(.3 + var(--fill,0) * .7)}
+
+  /* Раскрывающиеся списки стратегии: открытый пункт — градиентный заголовок
+     и мягкое свечение без рамки. */
+  .sp[data-service="strategy"] .sp-main :is(.sp-strategy-step[open],.m-acc > .is-open){
+    background:radial-gradient(80% 70% at 0% 0%,rgba(var(--sp-accent-rgb),.13),transparent 72%)}
+  .sp[data-service="strategy"] .sp-main :is(.sp-strategy-step[open] summary h3,.m-acc > .is-open h3){
+    background:linear-gradient(96deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB));-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent}
+  .sp[data-service="strategy"] .sp-main .sp-strategy-step[open] .sp-strategy-step__detail{animation:m-open .45s var(--e-out) both}
+}
+@keyframes m-beam-pulse{0%{transform:scale(1);opacity:.9}70%,100%{transform:scale(2.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .sp[data-service] .sp-main .m-beam.m-beam > .is-cur::after{animation:none;opacity:0}
 }

@@ -104,3 +104,40 @@
   .sp-pr-chain li,.sp-pr-chain__result,.sp-pr-case,.sp-pr-steps li{opacity:1;transform:none;transition:none}
   .sp[data-service="pr"] .sp-hero__object,.sp[data-service="pr"] .sp-hero__visual:hover .sp-hero__object{transition:none;transform:translate3d(0,-50%,0)}
 }
+
+/* ---------- PR на компьютере: движение по прокрутке (просьба 20.10) ----------
+   Общие эффекты (свет по ряду, барабан, подсветка по шагам) — в polish.css,
+   здесь то, что есть только у PR. Значения ставит service-mobile.js. */
+@media (min-width:901px){
+  /* «Материал работает не сам по себе»: подсветка идёт по цепочке (общие правила
+     d-walk в polish.css), здесь только стрелки. */
+  .sp[data-service="pr"] .sp-pr-chain.d-walk .sp-pr-chain__arrow{opacity:.3;transition:opacity .45s,box-shadow .45s}
+  .sp[data-service="pr"] .sp-pr-chain.d-walk li.is-on:not(.is-cur) .sp-pr-chain__arrow{opacity:1;box-shadow:0 0 10px currentColor}
+
+  /* «От повода к опубликованному материалу»: горизонтальная линия этапов. */
+  .sp[data-service="pr"] .sp-pr-steps.d-hline{position:relative;gap:clamp(30px,3.4vw,48px) clamp(20px,2.2vw,32px)}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline > li{padding-top:34px;opacity:1;transform:none}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline > li > span{display:none}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline > li::before{left:0;right:auto;top:0;width:12px;height:12px;border-radius:50%;
+    background:#06050C;border:2px solid rgba(255,255,255,.2);box-sizing:border-box;z-index:1;transition:background .4s,border-color .4s,box-shadow .4s}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline > li.is-on::before{background:var(--sp-accent);border-color:var(--sp-accent);box-shadow:0 0 12px rgba(var(--sp-accent-rgb),.6)}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline h3{color:#8F88A6;transition:color .4s}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline p{color:#6F6886;transition:color .4s}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline > li.is-on h3{color:var(--ink)}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline > li.is-on p{color:var(--ink-2)}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline > li:last-child.is-on h3{color:var(--sp-accent)}
+
+  /* «Когда рынку важны…»: метки отрасли выезжают по очереди. */
+  .sp[data-service="pr"] .sp-sector.d-cascade .sp-sector__tags li{opacity:0;transform:translateX(16px);
+    transition:opacity .5s var(--e-out) var(--t-d,0s),transform .6s var(--e-out) var(--t-d,0s)}
+  .sp[data-service="pr"] .sp-sector.d-cascade.d-in .sp-sector__tags li{opacity:1;transform:none}
+}
+/* Широкий экран: все шесть этапов в один ряд, с дорожкой и растущей линией. */
+@media (min-width:1100px){
+  .sp[data-service="pr"] .sp-pr-steps.d-hline{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline::before,.sp[data-service="pr"] .sp-pr-steps.d-hline::after{content:'';position:absolute;left:0;right:0;top:5px;height:2px;border-radius:2px}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline::before{background:rgba(255,255,255,.09)}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline::after{transform-origin:left;transform:scaleX(var(--p,0));
+    background:linear-gradient(90deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB));box-shadow:0 0 10px rgba(var(--sp-accent-rgb),.45)}
+  .sp[data-service="pr"] .sp-pr-steps.d-hline p{font-size:14px;max-width:none}
+}

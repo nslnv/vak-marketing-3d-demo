@@ -87,19 +87,11 @@
 .fnd__role{color:var(--vio-2)}
 @media (hover:hover){.btn--ghost:hover{background:var(--vio-2);border-color:var(--vio-2);color:#fff}}
 
-/* ---------- 19. Стратегия: панель вокруг «Не набор услуг…» --------------- */
-.sp[data-service="strategy"] .sp-decision-frame__head{position:relative;isolation:isolate;
-  width:fit-content;max-width:min(100%,860px);padding:clamp(26px,2.6vw,38px) clamp(34px,4vw,64px)}
-.sp[data-service="strategy"] .sp-decision-frame__head::before{content:'';position:absolute;z-index:-1;inset:0;border-radius:44px;
-  border:1px solid rgba(var(--sp-accent-rgb),.16);
-  background:radial-gradient(70% 90% at 50% 0%,rgba(var(--sp-accent-rgb),.16),transparent 72%),
-             linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 -24px 48px -30px rgba(var(--sp-accent-rgb),.22)}
-
-@media (max-width:900px){
-  .sp[data-service="strategy"] .sp-decision-frame__head{padding:22px 20px}
-  .sp[data-service="strategy"] .sp-decision-frame__head::before{border-radius:28px}
-}
+/* ---------- 19. Стратегия: «Не набор услуг…» --------------------------------
+   Панель вокруг заголовка убрана (просьба 20.10): это обычный заголовок
+   раздела, просто текст, как во всех остальных блоках. Свечение за ним
+   обрезалось верхним краем блока и читалось полосой — тоже убрано. */
+.sp[data-service="strategy"] .sp-decision-frame::before{content:none}
 
 /* ---------- 20. Стратегия: две колонки «Рабочей карты» на одном уровне ----
    «Что делаем на каждом этапе» — настоящий h2 (правки ч. 4), того же
@@ -192,3 +184,87 @@
 @media (min-width:901px){
   .srv:not(.is-deck) .srv__short{display:none}
 }
+
+/* ---------- 23. «Форматы» (PR) и «Что можно передать в работу» (локализация)
+   на компьютере: объём без номеров и плашек (выбор 20.10). Пункты встают
+   из лёгкого наклона, а под курсором приподнимаются, точка разгорается. */
+@media (min-width:901px){
+  .sp .sp-index{perspective:900px}
+  .sp .sp-index__item{transform:rotateX(18deg) translateY(16px);transform-origin:50% 100%}
+  .sp .sp-index.is-in .sp-index__item{transform:none}
+  .sp .sp-index__item::before{transition:box-shadow .35s var(--e),transform .35s var(--e)}
+}
+@media (min-width:901px) and (hover:hover){
+  .sp .sp-index.is-in .sp-index__item:hover{transform:translateY(-3px);transition-delay:0s}
+  .sp .sp-index__item:hover::before{transform:scale(1.25);box-shadow:0 0 0 3px var(--bg),0 0 0 6px rgba(var(--sp-index-rgb),.16),0 0 20px rgba(var(--sp-index-rgb),.6)}
+}
+
+/* ---------- 24. Компьютер: движение по прокрутке на страницах услуг ------------
+   Просьба 20.10 «в меру»: по 2–4 блока на страницу, у каждого своё движение.
+   Значения --fill, --p, --dz/--da и классы is-on / is-cur / is-focus ставит
+   service-mobile.js; первые экраны, ленты «Доверие», формы не затронуты. */
+@media (min-width:901px){
+  /* Свет по ряду: линии над колонками прорисовываются, точки загораются,
+     заголовки по очереди заливаются градиентом страницы. */
+  .sp .sp-proof.d-sweep .sp-proof__item{border-top-color:rgba(255,255,255,.08)}
+  .sp .sp-proof.d-sweep .sp-proof__item::after{left:0;right:0;width:auto;top:-1px;height:1px;transform-origin:left;
+    transform:scaleX(var(--fill,0));background:linear-gradient(90deg,rgba(var(--sp-proof-rgb),.95),rgba(var(--sp-proof-rgb),.25))}
+  .sp .sp-proof.d-sweep .sp-proof__item::before{background:rgba(var(--sp-proof-rgb),var(--fill,0));
+    box-shadow:0 0 0 4px rgba(var(--sp-proof-rgb),calc(var(--fill,0) * .12)),0 0 calc(var(--fill,0) * 16px) rgba(var(--sp-proof-rgb),.7)}
+  .sp[data-service] .sp-main .sp-decision-frame__items.d-sweep > li::after{content:'';position:absolute;left:0;right:0;top:-1px;width:auto;height:1px;
+    transform-origin:left;transform:scaleX(var(--fill,0));background:linear-gradient(90deg,rgba(var(--sp-decision-rgb),.95),rgba(var(--sp-decision-rgb),.25))}
+  .sp .d-sweep > * h3{
+    background:linear-gradient(90deg,transparent calc(var(--fill,0) * 110% - 10%),#4A4560 calc(var(--fill,0) * 110%)),
+               linear-gradient(96deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .sp .d-sweep > * p{opacity:calc(.35 + var(--fill,0) * .65)}
+
+  /* Барабан: пункт в середине экрана прямой и яркий, выше и ниже — отклонены
+     и приглушены; заголовок в фокусе — градиентом. */
+  .sp[data-service] .sp-main .m-drum{position:relative;perspective:1000px}
+  .sp[data-service] .sp-main .m-drum.m-drum > *{opacity:calc(1 - var(--da,0) * .62);transform-origin:0 50%;
+    transform:rotateX(calc(var(--dz,0) * -30deg)) scale(calc(1 - var(--da,0) * .08));transition:color .3s;will-change:transform}
+  .sp[data-service] .sp-main .sp-index.m-drum{display:block}
+  .sp[data-service] .sp-main .sp-index.m-drum > .sp-index__item{padding:16px 0}
+  .sp[data-service] .sp-main .sp-index.m-drum > .sp-index__item::before,
+  .sp[data-service] .sp-main .sp-index.m-drum > .sp-index__item::after{display:none}
+  .sp[data-service] .sp-main .sp-index.m-drum > .sp-index__item > span{display:block;color:var(--ink);font-size:clamp(22px,1.9vw,28px);font-weight:360;line-height:1.25;letter-spacing:-.03em}
+  .sp[data-service] .sp-main .m-drum > .is-focus :is(dt,h3),.sp[data-service] .sp-main .m-drum > .is-focus.sp-index__item > span{
+    background:linear-gradient(96deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB));-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent}
+
+  /* Подсветка по шагам: текущий шаг приподнят, заголовок градиентом,
+     пройденные яркие, следующие приглушены. Номера шагов в этом режиме скрыты. */
+  .sp[data-service] .sp-main .d-walk.d-walk > li{opacity:.38;transform:none;transition:opacity .45s var(--e-out),transform .5s var(--e-out)}
+  .sp[data-service] .sp-main .d-walk.d-walk > li.is-on{opacity:1}
+  .sp[data-service] .sp-main .d-walk.d-walk > li.is-cur{transform:translateY(-8px)}
+  .sp[data-service] .sp-main .d-walk > li.is-cur h3{
+    background:linear-gradient(96deg,var(--sp-title-start,#C9BCFF),var(--sp-title-end,#FF8BCB));-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent}
+  .sp .d-walk .sp-linkedin-phase__number,.sp .sp-loc-steps.d-walk > li > span{display:none}
+  .sp .sp-seo-steps.d-walk > li.is-on .sp-seo-steps__ring{box-shadow:0 0 22px -4px rgba(var(--step-rgb),.9),inset 0 0 14px -8px rgba(var(--step-rgb),.9)}
+
+  /* Линия этапов (LinkedIn «От составления профиля…», локализация «Адаптация
+     контента…»): тусклая дорожка видна всегда, яркая линия растёт прокруткой,
+     точки загораются, когда линия до них доходит. */
+  .sp .sp-linkedin-icp.d-hline::after{content:'';position:absolute;z-index:0;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:rgba(255,255,255,.1)}
+  .sp .sp-linkedin-icp.d-hline::before{z-index:1;transform-origin:left;transform:scaleX(var(--p,0))!important}
+  .sp .sp-linkedin-icp.d-hline li::before{z-index:2;background:#06050C;border:2px solid rgba(255,255,255,.22);box-sizing:border-box;box-shadow:none;transition:background .4s,border-color .4s,box-shadow .4s}
+  .sp .sp-linkedin-icp.d-hline li.is-on::before{background:var(--sp-accent);border-color:var(--sp-accent);box-shadow:0 0 12px rgba(var(--sp-accent-rgb),.6)}
+  .sp .sp-linkedin-icp.d-hline li h3,.sp .sp-loc-relay.d-hline li h3{transition:color .4s}
+  .sp .sp-linkedin-icp.d-hline li:not(.is-on) h3,.sp .sp-loc-relay.d-hline li:not(.is-on) h3{color:#8F88A6}
+  .sp .sp-loc-relay.d-hline::after{content:'';position:absolute;left:5px;right:0;top:5px;height:1px;background:rgba(255,255,255,.12)}
+  .sp .sp-loc-relay.d-hline::before{z-index:1;transform:scaleX(var(--p,0))!important;transition:none}
+  .sp .sp-loc-relay.d-hline li>i{position:relative;z-index:2;transition:background .4s,box-shadow .4s}
+  .sp .sp-loc-relay.d-hline li:not(.is-on)>i{background:#06050C;box-shadow:0 0 0 4px var(--bg),inset 0 0 0 2px rgba(255,255,255,.25)}
+}
+@media (min-width:901px) and (prefers-reduced-motion:reduce){
+  .sp[data-service] .sp-main .d-walk.d-walk > li{transition:opacity .2s}
+}
+
+/* ---------- 25. Прямые контакты под текстом консультации (страницы услуг) ---- */
+.sp .sp-cta__direct{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:18px 0 0;color:var(--ink-2);font-size:15px}
+.sp .sp-cta__direct a{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(var(--sp-accent-rgb),.6);text-underline-offset:4px;transition:color .25s}
+.sp .sp-cta__direct span{color:var(--ink-3)}
+@media (hover:hover){.sp .sp-cta__direct a:hover{color:var(--sp-accent)}}
+@media (max-width:900px){.sp .sp-cta__direct{justify-content:center}}
