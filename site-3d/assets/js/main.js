@@ -774,6 +774,7 @@ if (form) form.addEventListener('submit', function (e) {
   }).then(function (res) {
     if (!res || String(res.success) !== 'true') throw new Error(res && res.message);
     form.reset();
+    if (window.vakLead) window.vakLead('home');
     say('is-ok', 'Спасибо, заявка отправлена. Ответим в течение рабочего дня.',
                  'Thanks, your request is on its way. We reply within one business day.');
   }).catch(function () {

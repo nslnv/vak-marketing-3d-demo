@@ -1011,6 +1011,7 @@ function bindForm(cta) {
     }).then(function (res) {
       if (!res || String(res.success) !== 'true') throw new Error(res && res.message);
       note.classList.add('is-ok'); note.textContent = cta.success; form.reset();
+      if (window.vakLead) window.vakLead(key);
     }).catch(function () {
       note.classList.add('is-err');
       note.textContent = en ? 'Sending failed. Please reach us on WhatsApp, Telegram or at hello@vakmarketing.com.' : 'Не получилось отправить. Напишите нам в WhatsApp, Telegram или на hello@vakmarketing.com.';

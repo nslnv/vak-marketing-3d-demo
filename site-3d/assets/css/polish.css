@@ -261,10 +261,3 @@
 @media (min-width:901px) and (prefers-reduced-motion:reduce){
   .sp[data-service] .sp-main .d-walk.d-walk > li{transition:opacity .2s}
 }
-
-/* ---------- 25. Прямые контакты под текстом консультации (страницы услуг) ---- */
-.sp .sp-cta__direct{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:18px 0 0;color:var(--ink-2);font-size:15px}
-.sp .sp-cta__direct a{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(var(--sp-accent-rgb),.6);text-underline-offset:4px;transition:color .25s}
-.sp .sp-cta__direct span{color:var(--ink-3)}
-@media (hover:hover){.sp .sp-cta__direct a:hover{color:var(--sp-accent)}}
-@media (max-width:900px){.sp .sp-cta__direct{justify-content:center}}
