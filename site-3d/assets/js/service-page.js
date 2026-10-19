@@ -998,8 +998,11 @@ function bindForm(cta) {
     var en = language === 'en', service = SERVICE_NAMES[key] || key, button = $('button[type="submit"]', form);
     button.disabled = true;
     note.textContent = en ? 'Sending…' : 'Отправляем…';
+    var slow = setTimeout(function () {
+      note.textContent = en ? 'Your request is being sent, this can take up to a minute. You can leave the page.' : 'Заявка отправляется, это может занять до минуты. Страницу можно не держать открытой.';
+    }, 10000);
     fetch(LEAD_ENDPOINT, {
-      method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+      method:'POST', keepalive:true, headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
       body: JSON.stringify({
         'Имя': name.value.trim(), 'Email': email.value.trim(), 'Телефон / мессенджер': contact.value.trim(),
         'Откуда': 'Услуга «' + service + '» — консультация', 'Язык сайта': en ? 'English' : 'Русский', 'Страница': location.href,
@@ -1015,7 +1018,7 @@ function bindForm(cta) {
     }).catch(function () {
       note.classList.add('is-err');
       note.textContent = en ? 'Sending failed. Please reach us on WhatsApp, Telegram or at hello@vakmarketing.com.' : 'Не получилось отправить. Напишите нам в WhatsApp, Telegram или на hello@vakmarketing.com.';
-    }).then(function () { button.disabled = false; });
+    }).then(function () { clearTimeout(slow); button.disabled = false; });
   });
 }
 function bindReveal() {

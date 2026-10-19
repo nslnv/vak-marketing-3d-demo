@@ -766,8 +766,14 @@ if (form) form.addEventListener('submit', function (e) {
   btn.disabled = true;
   say('', 'Отправляем…', 'Sending…');
 
+  // Сервис отвечает не мгновенно (бывает до минуты). keepalive доносит заявку,
+  // даже если человек закроет страницу; через 10 с объясняем, что ждать не нужно.
+  var slow = setTimeout(function () {
+    say('', 'Заявка отправляется, это может занять до минуты. Страницу можно не держать открытой.',
+            'Your request is being sent, this can take up to a minute. You can leave the page.');
+  }, 10000);
   fetch(FORM_ENDPOINT, {
-    method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload)
+    method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload)
   }).then(function (r) {
     if (!r.ok) throw new Error(r.status);
     return r.json();
@@ -780,7 +786,7 @@ if (form) form.addEventListener('submit', function (e) {
   }).catch(function () {
     say('is-err', 'Не получилось отправить. Напишите нам в Telegram, WhatsApp или на hello@vakmarketing.com.',
                   'Sending failed. Please reach us on Telegram, WhatsApp or at hello@vakmarketing.com.');
-  }).then(function () { btn.disabled = false; });
+  }).then(function () { clearTimeout(slow); btn.disabled = false; });
 });
 
 /* ── мелочи ─────────────────────────────────────────────────────────── */
