@@ -1,10 +1,11 @@
-/* Аналитика со старого сайта vakmarketing.com (Tilda): Яндекс Метрика 96495064
-   (с Вебвизором, как было) и Google Tag Manager GTM-WXXJ3QSM — статистика
-   продолжается в тех же счётчиках. Подключаются после загрузки страницы и
-   паузы, чтобы не мешать первому экрану, 3D и прокрутке. */
+/* Аналитика vakmarketing.com: Яндекс Метрика 113735253 (с Вебвизором) и Google Tag Manager
+   GTM-W54MJGKK, через который подключаются Google Analytics и остальные теги Google.
+   Счётчики стартуют сразу после разбора страницы в свободную паузу браузера: первый экран
+   и 3D не ждут их, а короткие визиты всё равно засчитываются. До 28.10.2026 стояли
+   счётчики старого сайта на Tilda: Метрика 96495064 и GTM-WXXJ3QSM. */
 (function () {
   'use strict';
-  var YM = 96495064, GTM = 'GTM-WXXJ3QSM';
+  var YM = 113735253, GTM = 'GTM-W54MJGKK';
   if (/^(localhost|127\.|192\.168\.)/.test(location.hostname)) return;   // локальная разработка не считается
   function metrika() {
     window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
@@ -23,10 +24,10 @@
   }
   function start() {
     var go = function () { metrika(); gtm(); };
-    if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 4000 }); else go();
+    if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 2000 }); else setTimeout(go, 300);
   }
-  if (document.readyState === 'complete') setTimeout(start, 1800);
-  else addEventListener('load', function () { setTimeout(start, 1800); }, { once: true });
+  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
   // Заявка ушла — цель в Метрике и событие в dataLayer.
   window.vakLead = function (where) {
     try { if (window.ym) window.ym(YM, 'reachGoal', 'lead', { where: where }); } catch (e) {}
