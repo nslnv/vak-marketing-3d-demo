@@ -39,6 +39,15 @@
   }
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', start, { once: true });
   else start();
+  // Клики по Telegram, WhatsApp, почте и телефону: событие contact в GA4 (в Метрике это её автоцели).
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || !window.gtag) return;
+    var h = a.getAttribute('href');
+    var m = /^https?:\/\/t\.me\//.test(h) ? 'telegram' : /wa\.me|whatsapp\.com/.test(h) ? 'whatsapp'
+      : /^mailto:/.test(h) ? 'email' : /^tel:/.test(h) ? 'phone' : '';
+    if (m) window.gtag('event', 'contact', { method: m });
+  }, true);
   // Заявка ушла — цель в Метрике, событие generate_lead в GA4 и событие в dataLayer.
   window.vakLead = function (where) {
     try { if (window.ym) window.ym(YM, 'reachGoal', 'lead', { where: where }); } catch (e) {}

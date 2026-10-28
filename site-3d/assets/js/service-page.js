@@ -977,9 +977,8 @@ function bindNav() {
   window.addEventListener('resize', currentNavResizeHandler, { passive:true });
   $$('.lang__b', nav).forEach(function (button) { button.addEventListener('click', function () { language = button.getAttribute('data-lang'); try { localStorage.setItem('vak-lang', language); } catch (e) {} render(copy()); }); });
 }
-// Заявки уходят письмом на hello@vakmarketing.com через FormSubmit, как с главной:
-// таблица с полями, в теме — услуга, «Ответить» в почте отвечает клиенту.
-var LEAD_ENDPOINT = 'https://formsubmit.co/ajax/hello@vakmarketing.com';
+// Заявки отправляет window.vakSend из leads.js, как с главной: в Telegram и письмом
+// на hello@vakmarketing.com (таблица с полями, в теме — услуга, «Ответить» отвечает клиенту).
 var SERVICE_NAMES = { strategy:'Стратегия и комплексное ведение', linkedin:'B2B-маркетинг и LinkedIn', pr:'PR, СМИ и SERP', seo:'AI SEO и автоматизация маркетинга', localization:'Перевод и локализация' };
 function bindForm(cta) {
   var form = $('#spForm'); if (!form) return;
@@ -1001,18 +1000,11 @@ function bindForm(cta) {
     var slow = setTimeout(function () {
       note.textContent = en ? 'Your request is being sent, this can take up to a minute. You can leave the page.' : 'Заявка отправляется, это может занять до минуты. Страницу можно не держать открытой.';
     }, 10000);
-    fetch(LEAD_ENDPOINT, {
-      method:'POST', keepalive:true, headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
-      body: JSON.stringify({
+    window.vakSend({
         'Имя': name.value.trim(), 'Email': email.value.trim(), 'Телефон / мессенджер': contact.value.trim(),
         'Откуда': 'Услуга «' + service + '» — консультация', 'Язык сайта': en ? 'English' : 'Русский', 'Страница': location.href,
         _subject: 'Заявка с сайта VAK Marketing — ' + service, _replyto: email.value.trim(), _template:'table', _captcha:'false'
-      })
-    }).then(function (r) {
-      if (!r.ok) throw new Error(r.status);
-      return r.json();
-    }).then(function (res) {
-      if (!res || String(res.success) !== 'true') throw new Error(res && res.message);
+    }).then(function () {
       note.classList.add('is-ok'); note.textContent = cta.success; form.reset();
       if (window.vakLead) window.vakLead(key);
     }).catch(function () {

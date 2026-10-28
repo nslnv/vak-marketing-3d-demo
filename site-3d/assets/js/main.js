@@ -6,10 +6,8 @@
 (function () {
 'use strict';
 
-/* Заявки уходят письмом на hello@vakmarketing.com через FormSubmit (сайт
-   статический, своего сервера нет). Письмо — таблицей, «Ответить» в почте
-   отвечает клиенту. Первую заявку сервис просит подтвердить кнопкой из письма. */
-var FORM_ENDPOINT = 'https://formsubmit.co/ajax/hello@vakmarketing.com';
+/* Заявки отправляет window.vakSend из leads.js: в Telegram и письмом на
+   hello@vakmarketing.com (таблицей, «Ответить» в почте отвечает клиенту). */
 
 /* У пяти услуг уже есть подробные самостоятельные страницы. Курс оставляем
    внутри общей страницы, пока для него не появится согласованная программа,
@@ -766,19 +764,14 @@ if (form) form.addEventListener('submit', function (e) {
   btn.disabled = true;
   say('', 'Отправляем…', 'Sending…');
 
-  // Сервис отвечает не мгновенно (бывает до минуты). keepalive доносит заявку,
-  // даже если человек закроет страницу; через 10 с объясняем, что ждать не нужно.
+  // Обычно заявка уходит за пару секунд. Если сработал запасной путь, он бывает
+  // до минуты: keepalive доносит заявку, даже если человек закроет страницу,
+  // а через 10 с объясняем, что ждать не нужно.
   var slow = setTimeout(function () {
     say('', 'Заявка отправляется, это может занять до минуты. Страницу можно не держать открытой.',
             'Your request is being sent, this can take up to a minute. You can leave the page.');
   }, 10000);
-  fetch(FORM_ENDPOINT, {
-    method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload)
-  }).then(function (r) {
-    if (!r.ok) throw new Error(r.status);
-    return r.json();
-  }).then(function (res) {
-    if (!res || String(res.success) !== 'true') throw new Error(res && res.message);
+  window.vakSend(payload).then(function () {
     form.reset();
     if (window.vakLead) window.vakLead('home');
     say('is-ok', 'Спасибо, заявка отправлена. Ответим в течение рабочего дня.',
