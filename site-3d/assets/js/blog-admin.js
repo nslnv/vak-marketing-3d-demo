@@ -145,7 +145,7 @@
     say(v, 'Загружаем статьи…');
     $('[data-list]', v).innerHTML = '';
     Promise.all([api('list'), commits(), loadCats()]).then(function (r) {
-      posts = r[0].posts; latest = {};
+      posts = r[0].posts.filter(function (p) { return p.slug; }); latest = {};
       timeline(r[1]).forEach(function (e) { latest[e.title] = e; });
       say(v, '');
       renderList();
@@ -695,7 +695,7 @@
     var v = view('overview');
     say(v, 'Собираем данные…');
     Promise.all([api('list'), commits(), loadCats()]).then(function (r) {
-      var list = r[0].posts, ev2 = events(r[1]), since = Date.now() - 30 * 864e5;
+      var list = r[0].posts.filter(function (p) { return p.slug; }), ev2 = events(r[1]), since = Date.now() - 30 * 864e5;
       var live = list.filter(function (p) { return stateOf(p) === 'published'; }).length;
       list = list.filter(function (p) { return p.status !== 'trash'; });
       var month = ev2.filter(function (e) { return e.kind === 'post' && e.what === 'публикация' && new Date(e.at) > since; }).length;
@@ -737,7 +737,7 @@
   function showCats() {
     var v = view('categories');
     say(v, 'Загружаем…');
-    Promise.all([loadCats(), api('list')]).then(function (r) { posts = r[1].posts; say(v, ''); renderCats(); })
+    Promise.all([loadCats(), api('list')]).then(function (r) { posts = r[1].posts.filter(function (p) { return p.slug; }); say(v, ''); renderCats(); })
       .catch(function (err) { say(v, err.message, 'err'); });
   }
   function renderCats() {

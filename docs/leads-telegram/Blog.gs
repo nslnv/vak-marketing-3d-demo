@@ -62,7 +62,7 @@ function blogApi_(data, params) {
 function listPosts_() {
   var dir = gh_('get', '/contents/' + BLOG_DIR + '?ref=' + GH_BRANCH);
   if (dir.code === 404) return [];
-  var files = (dir.json || []).filter(function (f) { return f.type === 'file' && /\.json$/.test(f.name); });
+  var files = (dir.json || []).filter(function (f) { return f.type === 'file' && /\.json$/.test(f.name) && f.name !== 'categories.json'; });
   var reqs = files.map(function (f) { return ghReq_('get', '/contents/' + BLOG_DIR + '/' + encodeURIComponent(f.name) + '?ref=' + GH_BRANCH, null, true); });
   var out = [];
   UrlFetchApp.fetchAll(reqs).forEach(function (r) {
