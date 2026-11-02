@@ -70,7 +70,8 @@ function listPosts_() {
     try {
       var p = JSON.parse(r.getContentText());
       out.push({ slug: p.slug, title: p.title, status: p.status, date: p.date, updated: p.updated, lang: p.lang, author: p.author,
-        editedBy: p.editedBy || '', source: p.source || 'admin', cover: p.cover || '', category: p.category || '', featured: !!p.featured });
+        editedBy: p.editedBy || '', source: p.source || 'admin', cover: p.cover || '', category: p.category || '', featured: !!p.featured,
+        review: !!p.review, note: p.note ? String(p.note).slice(0, 140) : '' });
     } catch (e) {}
   });
   return out.sort(function (a, b) { return String(b.updated || b.date).localeCompare(String(a.updated || a.date)); });
@@ -94,7 +95,8 @@ function savePost_(p, prevSlug, who) {
   var old = prevSlug && prevSlug !== slug ? readFile_(BLOG_DIR + '/' + prevSlug + '.json') : null;
   var oldPost = old ? JSON.parse(old.text) : null;
   var base = before || oldPost || {};
-  var status = p.status === 'published' ? 'published' : 'draft';
+  // trash — корзина: файл остаётся, на сайте статьи нет, из корзины её можно вернуть или удалить насовсем.
+  var status = p.status === 'published' ? 'published' : p.status === 'trash' ? 'trash' : 'draft';
   var today = Utilities.formatDate(new Date(), 'Europe/Nicosia', 'yyyy-MM-dd');
   var post = {
     slug: slug, title: title,
@@ -109,6 +111,8 @@ function savePost_(p, prevSlug, who) {
     category: p.category !== undefined ? (/^[a-z0-9-]{1,60}$/.test(p.category) ? p.category : '') : (base.category || ''),
     seoTitle: p.seoTitle !== undefined ? String(p.seoTitle).trim().slice(0, 90) : (base.seoTitle || ''),
     featured: p.featured !== undefined ? !!p.featured : !!base.featured,
+    review: status === 'draft' && (p.review !== undefined ? !!p.review : !!base.review),   // ждёт проверки
+    note: p.note !== undefined ? String(p.note).trim().slice(0, 1000) : (base.note || ''),  // заметка для редакции, на сайт не идёт
     html: sanitize_(p.html),
     author: base.author || who.name,
     editedBy: who.name,
@@ -117,7 +121,8 @@ function savePost_(p, prevSlug, who) {
   if (p.sourceFields) post.sourceFields = p.sourceFields;
   else if (base.sourceFields) post.sourceFields = base.sourceFields;
   var wasLive = (base.status === 'published');
-  var msg = 'Блог: «' + title + '» ' + (status === 'published' ? 'опубликована' : 'черновик') + ' (' + who.name + ')' +
+  var verb = status === 'published' ? 'опубликована' : status === 'trash' ? 'в корзине' : post.review ? 'на проверке' : 'черновик';
+  var msg = 'Блог: «' + title + '» ' + verb + ' (' + who.name + ')' +
     (status === 'published' || wasLive ? '' : ' [skip ci]');
   writeFile_(path, JSON.stringify(post, null, 2), msg, cur && cur.sha);
   if (old) deleteFile_(BLOG_DIR + '/' + prevSlug + '.json', old.sha, 'Блог: адрес «' + prevSlug + '» → «' + slug + '»' + (wasLive ? '' : ' [skip ci]'));
