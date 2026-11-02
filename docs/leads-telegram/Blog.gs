@@ -11,13 +11,17 @@
  *   BLOG_KEYS  — JSON {ключ: {name, role}}; role 'owner' может заводить редакторов в админке.
  *                Первый ключ владельца выдаёт setupBlog() в журнал.
  * nslnv.seo: «Другой сайт или CMS» → адрес <URL веб-приложения>?key=<ключ редактора>;
- * присланные статьи сохраняются черновиками. Сеошке отвечаем через HtmlService (см. doPost).
+ * присланные статьи сохраняются черновиками, картинки из них скачиваются в media/. Сеошке отвечаем
+ * через HtmlService (см. doPost). Рубрики лежат в content/blog/categories.json (действие categories).
  */
 var GH_REPO = 'nslnv/vak-marketing-3d-demo', GH_BRANCH = 'main', BLOG_DIR = 'content/blog';
 var SITE_BLOG = 'https://vakmarketing.com/blog/';
 var BLOG_TAGS = { p: 1, h2: 1, h3: 1, h4: 1, strong: 1, b: 1, em: 1, i: 1, u: 1, s: 1, a: 1, ul: 1, ol: 1, li: 1,
   blockquote: 1, img: 1, figure: 1, figcaption: 1, br: 1, hr: 1, code: 1, pre: 1, table: 1, thead: 1, tbody: 1,
-  tr: 1, th: 1, td: 1 };
+  tr: 1, th: 1, td: 1, mark: 1, aside: 1, span: 1, sup: 1, sub: 1 };
+// Классы оформления из палитры админки: лид, врезки, акцент, видео. Остальные классы срезаются.
+var BLOG_CLASSES = { p: ['lead'], aside: ['callout', 'callout--tip', 'callout--warn'], span: ['accent'], figure: ['video'] };
+var MEDIA_EXT = { 'image/webp': 'webp', 'image/jpeg': 'jpg', 'image/png': 'png', 'image/gif': 'gif' };
 
 /** Запускать вручную один раз: создаёт ключ владельца и пишет его в журнал. */
 function setupBlog() {
@@ -45,6 +49,7 @@ function blogApi_(data, params) {
       case 'delete': return deletePost_(data.slug, who);
       case 'upload': return upload_(data.file || {}, who);
       case 'editors': return editors_(data, who);
+      case 'categories': return categories_(data, who);
     }
     return { ok: false, error: 'Неизвестное действие' };
   } catch (err) {
@@ -64,7 +69,8 @@ function listPosts_() {
     if (r.getResponseCode() !== 200) return;
     try {
       var p = JSON.parse(r.getContentText());
-      out.push({ slug: p.slug, title: p.title, status: p.status, date: p.date, updated: p.updated, lang: p.lang, author: p.author, source: p.source || 'admin', cover: p.cover || '' });
+      out.push({ slug: p.slug, title: p.title, status: p.status, date: p.date, updated: p.updated, lang: p.lang, author: p.author,
+        editedBy: p.editedBy || '', source: p.source || 'admin', cover: p.cover || '', category: p.category || '', featured: !!p.featured });
     } catch (e) {}
   });
   return out.sort(function (a, b) { return String(b.updated || b.date).localeCompare(String(a.updated || a.date)); });
@@ -81,6 +87,7 @@ function savePost_(p, prevSlug, who) {
   if (!title) return { ok: false, error: 'Нужен заголовок' };
   var slug = slugify_(p.slug || title);
   if (!slug) return { ok: false, error: 'Нужен адрес статьи' };
+  if (/^(category|media|feed)$/.test(slug)) slug += '-1';   // эти адреса заняты страницами блога
   var path = BLOG_DIR + '/' + slug + '.json';
   var cur = readFile_(path), before = cur ? JSON.parse(cur.text) : null;
   if (before && prevSlug !== slug) return { ok: false, error: 'Статья с адресом «' + slug + '» уже есть, поменяйте адрес' };
@@ -98,11 +105,17 @@ function savePost_(p, prevSlug, who) {
     status: status,
     cover: /^media\/[\w.-]+$/.test(p.cover || '') ? p.cover : '',
     coverAlt: String(p.coverAlt || '').trim().slice(0, 200),
+    // Поля, которых нет в запросе (например, при повторной отправке из сеошки), берутся из прежней версии.
+    category: p.category !== undefined ? (/^[a-z0-9-]{1,60}$/.test(p.category) ? p.category : '') : (base.category || ''),
+    seoTitle: p.seoTitle !== undefined ? String(p.seoTitle).trim().slice(0, 90) : (base.seoTitle || ''),
+    featured: p.featured !== undefined ? !!p.featured : !!base.featured,
     html: sanitize_(p.html),
     author: base.author || who.name,
     editedBy: who.name,
     source: base.source || (p.source === 'nslnv' ? 'nslnv' : 'admin')
   };
+  if (p.sourceFields) post.sourceFields = p.sourceFields;
+  else if (base.sourceFields) post.sourceFields = base.sourceFields;
   var wasLive = (base.status === 'published');
   var msg = 'Блог: «' + title + '» ' + (status === 'published' ? 'опубликована' : 'черновик') + ' (' + who.name + ')' +
     (status === 'published' || wasLive ? '' : ' [skip ci]');
@@ -129,14 +142,14 @@ function upload_(file, who) {
 }
 
 // Статья из nslnv.seo: только черновиком, без заголовка-дубля и без заглушек [IMAGE: …].
+// Картинки по https-ссылкам скачиваются в media/, первая (или присланная обложка) становится обложкой.
 function fromNslnv_(d, who) {
   // «Test connection» в сеошке присылает статью с этим адресом: отвечаем, но не сохраняем.
   if (d.slug === 'nslnv-connection-check') return { ok: true, id: d.slug, url: SITE_BLOG };
-  var html = String(d.html || '');
+  var html = String(d.html || d.content || '');
   if (!html && d.markdown) html = String(d.markdown).split(/\n{2,}/).map(function (b) { return '<p>' + esc_(b) + '</p>'; }).join('');
   html = html.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>/i, '')
-    .replace(/<p>\s*\[IMAGE:[^\]]*\]\s*<\/p>/gi, '').replace(/\[IMAGE:[^\]]*\]/gi, '')
-    .replace(/<img[^>]+nslnv\.online[^>]*>/gi, '');
+    .replace(/<p>\s*\[IMAGE:[^\]]*\]\s*<\/p>/gi, '').replace(/\[IMAGE:[^\]]*\]/gi, '');
   // Повторная отправка из сеошки обновляет её же черновик; опубликованное и чужие черновики не трогаем.
   var base = slugify_(d.slug || d.title), slug = base, n = 2, cur, prev = {};
   while ((cur = readFile_(BLOG_DIR + '/' + slug + '.json'))) {
@@ -145,11 +158,76 @@ function fromNslnv_(d, who) {
     prev = {};
     slug = base + '-' + n++;
   }
-  var r = savePost_({ title: d.title, slug: slug, description: d.description || d.meta_description || prev.description || '', html: html,
-    lang: /[а-яё]/i.test(String(d.title || '')) ? 'ru' : 'en', status: 'draft', source: 'nslnv',
-    date: prev.date, cover: prev.cover, coverAlt: prev.coverAlt }, slug, who);
+  var imgs = importImages_(html), cover = prev.cover || '', coverAlt = prev.coverAlt || '';
+  html = imgs.html;
+  var sent = d.cover || d.image || d.featured_image || d.featuredImage || d.og_image || d.cover_url || '';
+  if (!cover && /^https:\/\//i.test(sent)) cover = importImage_(sent) || '';
+  if (!cover && imgs.first) {
+    cover = imgs.first.path; coverAlt = imgs.first.alt;
+    // Картинка в самом начале текста — это и есть обложка, второй раз её не показываем.
+    var at = html.indexOf('/blog/' + cover);
+    if (at >= 0 && at < 400) html = html.replace(/<(p|figure)>\s*<img[^>]*>\s*<\/\1>|<img[^>]*>/i, '');
+  }
+  var cats = readCategories_().list, want = String(d.category || d.rubric || '').trim().toLowerCase();
+  var cat = want ? cats.filter(function (c) { return c.slug === want || c.name.toLowerCase() === want || String(c.nameEn).toLowerCase() === want; })[0] : null;
+  var r = savePost_({ title: d.title, slug: slug, html: html, status: 'draft', source: 'nslnv', date: prev.date,
+    description: d.description || d.meta_description || d.metaDescription || d.excerpt || d.seo_description || prev.description || '',
+    seoTitle: d.seo_title || d.seoTitle || d.meta_title || undefined,
+    category: cat ? cat.slug : undefined,
+    lang: /[а-яё]/i.test(String(d.title || '')) ? 'ru' : 'en', cover: cover, coverAlt: coverAlt,
+    sourceFields: Object.keys(d).slice(0, 40) }, slug, who);
   if (r.ok) { r.id = r.slug; r.url = 'https://vakmarketing.com/admin/#edit/' + r.slug; }
   return r;
+}
+
+function importImages_(html) {
+  var first = null, n = 0;
+  html = html.replace(/<img\b[^>]*>/gi, function (tag) {
+    var src = attr_(tag, 'src');
+    if (/^\/blog\/media\//.test(src)) return tag;
+    if (!/^https:\/\//i.test(src) || n >= 12) return '';
+    var path = importImage_(src);
+    if (!path) return '';
+    n++;
+    var alt = attr_(tag, 'alt');
+    if (!first) first = { path: path, alt: alt };
+    return '<img src="/blog/' + path + '" alt="' + escAttr_(alt) + '">';
+  });
+  return { html: html, first: first };
+}
+function importImage_(url) {
+  try {
+    var r = UrlFetchApp.fetch(url, { muteHttpExceptions: true, followRedirects: true });
+    var blob = r.getBlob(), ext = MEDIA_EXT[String(blob.getContentType() || '').split(';')[0]], bytes = r.getContent();
+    if (r.getResponseCode() !== 200 || !ext || bytes.length > 6e6) return '';
+    var name = Utilities.formatDate(new Date(), 'Europe/Nicosia', 'yyyyMMdd') + '-' + newKey_().slice(0, 8) + '.' + ext;
+    ghWrite_(BLOG_DIR + '/media/' + name, Utilities.base64Encode(bytes), 'Блог: картинка из nslnv.seo [skip ci]');
+    return 'media/' + name;
+  } catch (e) {
+    console.error(e);
+    return '';
+  }
+}
+
+/* ---------- рубрики: content/blog/categories.json, заводят и правят все редакторы ---------- */
+function readCategories_() {
+  var f = readFile_(BLOG_DIR + '/categories.json'), list = [];
+  try { list = f ? JSON.parse(f.text) : []; } catch (e) { list = []; }
+  return { file: f, list: Array.isArray(list) ? list : [] };
+}
+function categories_(d, who) {
+  var cur = readCategories_();
+  if (!d.set) return { ok: true, categories: cur.list };
+  var seen = {}, out = [];
+  (Array.isArray(d.set) ? d.set : []).slice(0, 40).forEach(function (c) {
+    var name = String(c.name || '').trim().slice(0, 60);
+    var slug = slugify_(c.slug || name).slice(0, 60);
+    if (!name || !slug || seen[slug]) return;
+    seen[slug] = 1;
+    out.push({ slug: slug, name: name, nameEn: String(c.nameEn || '').trim().slice(0, 60), description: String(c.description || '').trim().slice(0, 300) });
+  });
+  writeFile_(BLOG_DIR + '/categories.json', JSON.stringify(out, null, 2), 'Блог: рубрики (' + who.name + ')', cur.file && cur.file.sha);
+  return { ok: true, categories: out };
 }
 
 /* ---------- редакторы ---------- */
@@ -200,6 +278,11 @@ function sanitize_(html) {
       if (/^\d+$/.test(cs)) out += ' colspan="' + cs + '"';
       if (/^\d+$/.test(rs)) out += ' rowspan="' + rs + '"';
     }
+    if (BLOG_CLASSES[tag]) {
+      var cls = attr_(attrs, 'class').split(/\s+/).filter(function (c) { return BLOG_CLASSES[tag].indexOf(c) >= 0; });
+      if (cls.length) out += ' class="' + cls.join(' ') + '"';
+    }
+    if (tag === 'figure' && /^[\w-]{11}$/.test(attr_(attrs, 'data-youtube'))) out += ' data-youtube="' + attr_(attrs, 'data-youtube') + '"';
     return '<' + tag + out + '>';
   });
 }
