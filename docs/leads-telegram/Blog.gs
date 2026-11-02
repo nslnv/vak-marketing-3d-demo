@@ -11,7 +11,7 @@
  *   BLOG_KEYS  — JSON {ключ: {name, role}}; role 'owner' может заводить редакторов в админке.
  *                Первый ключ владельца выдаёт setupBlog() в журнал.
  * nslnv.seo: «Другой сайт или CMS» → адрес <URL веб-приложения>?key=<ключ редактора>;
- * присланные статьи сохраняются черновиками.
+ * присланные статьи сохраняются черновиками. Сеошке отвечаем через HtmlService (см. doPost).
  */
 var GH_REPO = 'nslnv/vak-marketing-3d-demo', GH_BRANCH = 'main', BLOG_DIR = 'content/blog';
 var SITE_BLOG = 'https://vakmarketing.com/blog/';
@@ -130,16 +130,25 @@ function upload_(file, who) {
 
 // Статья из nslnv.seo: только черновиком, без заголовка-дубля и без заглушек [IMAGE: …].
 function fromNslnv_(d, who) {
+  // «Test connection» в сеошке присылает статью с этим адресом: отвечаем, но не сохраняем.
+  if (d.slug === 'nslnv-connection-check') return { ok: true, id: d.slug, url: SITE_BLOG };
   var html = String(d.html || '');
   if (!html && d.markdown) html = String(d.markdown).split(/\n{2,}/).map(function (b) { return '<p>' + esc_(b) + '</p>'; }).join('');
   html = html.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>/i, '')
     .replace(/<p>\s*\[IMAGE:[^\]]*\]\s*<\/p>/gi, '').replace(/\[IMAGE:[^\]]*\]/gi, '')
     .replace(/<img[^>]+nslnv\.online[^>]*>/gi, '');
-  var base = slugify_(d.slug || d.title), slug = base, n = 2;
-  while (readFile_(BLOG_DIR + '/' + slug + '.json')) slug = base + '-' + n++;
-  var r = savePost_({ title: d.title, slug: slug, description: d.description || d.meta_description || '', html: html,
-    lang: /[а-яё]/i.test(String(d.title || '')) ? 'ru' : 'en', status: 'draft', source: 'nslnv' }, slug, who);
-  if (r.ok) r.url = 'https://vakmarketing.com/admin/#edit/' + r.slug;
+  // Повторная отправка из сеошки обновляет её же черновик; опубликованное и чужие черновики не трогаем.
+  var base = slugify_(d.slug || d.title), slug = base, n = 2, cur, prev = {};
+  while ((cur = readFile_(BLOG_DIR + '/' + slug + '.json'))) {
+    prev = JSON.parse(cur.text);
+    if (prev.source === 'nslnv' && prev.status !== 'published') break;
+    prev = {};
+    slug = base + '-' + n++;
+  }
+  var r = savePost_({ title: d.title, slug: slug, description: d.description || d.meta_description || prev.description || '', html: html,
+    lang: /[а-яё]/i.test(String(d.title || '')) ? 'ru' : 'en', status: 'draft', source: 'nslnv',
+    date: prev.date, cover: prev.cover, coverAlt: prev.coverAlt }, slug, who);
+  if (r.ok) { r.id = r.slug; r.url = 'https://vakmarketing.com/admin/#edit/' + r.slug; }
   return r;
 }
 

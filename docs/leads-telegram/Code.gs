@@ -25,7 +25,11 @@ function doPost(e) {
     var params = (e && e.parameter) || {};
     // Запросы админки блога и nslnv.seo (Blog.gs) отличаются полем action или ключом в адресе.
     if (data.action || params.key) {
-      return ContentService.createTextOutput(JSON.stringify(blogApi_(data, params))).setMimeType(ContentService.MimeType.JSON);
+      var res = JSON.stringify(blogApi_(data, params));
+      // Ответ ContentService Apps Script отдаёт редиректом 302, сеошка по нему не идёт и пишет «The site rejected
+      // the request». HtmlService отвечает 200 сразу; админке нужен JSON, ей отвечаем как раньше.
+      if (!data.action) return HtmlService.createHtmlOutput(esc_(res));
+      return ContentService.createTextOutput(res).setMimeType(ContentService.MimeType.JSON);
     }
     if (data.website_url) return reply_(true);            // поле-ловушка заполнено: это бот
     var text = format_(data);
