@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#06050C">
+  <title>Блог · админка — VAK Marketing</title>
+  <link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
+  <link rel="preload" href="/assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/base.css?v=20261016-1">
+  <link rel="stylesheet" href="/assets/css/blog.css?v=20261102-1">
+  <link rel="stylesheet" href="/assets/css/blog-admin.css?v=20261102-1">
+</head>
+<body class="ad">
+  <header class="ad-bar">
+    <a class="ad-brand" href="/" target="_blank" rel="noopener"><img src="/assets/img/brand/vak-logo.png" width="289" height="132" alt="VAK Marketing"></a>
+    <span class="ad-bar__title">Блог · админка</span>
+    <nav class="ad-bar__nav" data-auth hidden>
+      <a href="#list">Статьи</a>
+      <a href="#editors" data-owner hidden>Редакторы</a>
+      <a href="/blog/" target="_blank" rel="noopener">Блог на сайте ↗</a>
+    </nav>
+    <span class="ad-bar__who" data-auth hidden><span data-name></span> · <button type="button" class="ad-link" data-logout>Выйти</button></span>
+  </header>
+
+  <main class="ad-main">
+    <!-- вход -->
+    <section class="ad-view" data-view="login" hidden>
+      <form class="ad-login" data-login>
+        <h1>Вход для редакторов</h1>
+        <p>Ключ выдаёт владелец сайта. Достаточно ввести его один раз на этом устройстве.</p>
+        <label class="ad-field"><span>Ключ редактора</span><input type="password" name="key" autocomplete="off" required></label>
+        <button class="btn btn--primary" type="submit">Войти</button>
+        <p class="ad-msg" data-msg></p>
+      </form>
+    </section>
+
+    <!-- список статей -->
+    <section class="ad-view" data-view="list" hidden>
+      <div class="ad-head">
+        <h1>Статьи</h1>
+        <a class="btn btn--primary" href="#new">Новая статья</a>
+      </div>
+      <p class="ad-msg" data-msg></p>
+      <div class="ad-list" data-list></div>
+    </section>
+
+    <!-- редактор -->
+    <section class="ad-view" data-view="edit" hidden>
+      <div class="ad-head">
+        <a class="ad-link" href="#list">← Все статьи</a>
+        <span class="ad-state" data-state></span>
+      </div>
+      <form class="ad-form" data-form autocomplete="off">
+        <textarea class="ad-title" name="title" rows="1" placeholder="Заголовок статьи" required></textarea>
+        <div class="ad-row">
+          <label class="ad-field ad-field--slug"><span>Адрес</span>
+            <span class="ad-slug"><i>vakmarketing.com/blog/</i><input name="slug" placeholder="sozdastsya-iz-zagolovka" pattern="[a-z0-9-]*"></span></label>
+          <label class="ad-field"><span>Язык статьи</span>
+            <select name="lang"><option value="ru">Русский</option><option value="en">English</option></select></label>
+          <label class="ad-field"><span>Дата</span><input type="date" name="date"></label>
+        </div>
+        <label class="ad-field"><span>Описание для поиска и соцсетей <i data-count></i></span>
+          <textarea name="description" rows="2" maxlength="300" placeholder="1–2 предложения о том, что в статье. Если оставить пустым, возьмём начало текста."></textarea></label>
+
+        <div class="ad-cover">
+          <div class="ad-cover__img" data-cover-img></div>
+          <div class="ad-cover__side">
+            <span class="ad-cover__label">Обложка</span>
+            <p>Горизонтальная картинка, лучше 1600×900. Видна в списке статей, в самой статье и в превью ссылки.</p>
+            <div class="ad-btns">
+              <label class="btn btn--ghost ad-btn">Загрузить<input type="file" accept="image/*" data-cover-file hidden></label>
+              <button type="button" class="btn btn--ghost ad-btn" data-cover-del hidden>Убрать</button>
+            </div>
+            <label class="ad-field"><span>Описание картинки для поисковиков</span><input name="coverAlt" maxlength="200"></label>
+          </div>
+        </div>
+
+        <div class="ad-tools" role="toolbar" aria-label="Форматирование">
+          <button type="button" data-cmd="formatBlock" data-arg="p" title="Обычный текст">Текст</button>
+          <button type="button" data-cmd="formatBlock" data-arg="h2" title="Подзаголовок">H2</button>
+          <button type="button" data-cmd="formatBlock" data-arg="h3" title="Подзаголовок поменьше">H3</button>
+          <i></i>
+          <button type="button" data-cmd="bold" title="Жирный (Cmd+B)"><b>Ж</b></button>
+          <button type="button" data-cmd="italic" title="Курсив (Cmd+I)"><em>К</em></button>
+          <button type="button" data-cmd="link" title="Ссылка">Ссылка</button>
+          <i></i>
+          <button type="button" data-cmd="insertUnorderedList" title="Список">• Список</button>
+          <button type="button" data-cmd="insertOrderedList" title="Нумерованный список">1. Список</button>
+          <button type="button" data-cmd="formatBlock" data-arg="blockquote" title="Цитата">Цитата</button>
+          <i></i>
+          <label class="ad-tools__img" title="Картинка в текст">Картинка<input type="file" accept="image/*" data-body-file hidden></label>
+          <button type="button" data-cmd="removeFormat" title="Убрать оформление">Очистить</button>
+        </div>
+        <div class="bl-prose ad-body" contenteditable="true" data-body spellcheck="true"></div>
+
+        <p class="ad-msg" data-msg></p>
+        <div class="ad-actions">
+          <button type="button" class="btn btn--primary" data-publish>Опубликовать</button>
+          <button type="button" class="btn btn--ghost" data-draft>Сохранить черновик</button>
+          <a class="btn btn--ghost" data-view-live target="_blank" rel="noopener" hidden>Открыть на сайте ↗</a>
+          <span class="ad-actions__gap"></span>
+          <button type="button" class="ad-link ad-link--danger" data-unpublish hidden>Снять с публикации</button>
+          <button type="button" class="ad-link ad-link--danger" data-delete hidden>Удалить</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- редакторы -->
+    <section class="ad-view" data-view="editors" hidden>
+      <div class="ad-head"><h1>Редакторы</h1></div>
+      <p>У каждого редактора свой ключ. Ключ показывается один раз: скопируйте и отправьте человеку вместе с адресом vakmarketing.com/admin/. Удалённый ключ сразу перестаёт работать.</p>
+      <form class="ad-row ad-add" data-add-editor>
+        <label class="ad-field"><span>Имя</span><input name="name" placeholder="Например, Даниил" required maxlength="60"></label>
+        <button class="btn btn--primary" type="submit">Выдать ключ</button>
+      </form>
+      <div class="ad-newkey" data-newkey hidden></div>
+      <p class="ad-msg" data-msg></p>
+      <div class="ad-list" data-editors></div>
+      <div class="ad-note">
+        <h2>Статьи из nslnv.seo</h2>
+        <p>Выдайте ключ редактору с именем «nslnv.seo», затем в настройках проекта сеошки в блоке «Другой сайт или CMS» вставьте адрес:</p>
+        <code data-nslnv-url>…</code>
+        <p>Статьи из сеошки приходят сюда черновиками: проверьте факты и нажмите «Опубликовать».</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="/assets/js/blog-admin.js?v=20261102-1" defer></script>
+</body>
+</html>

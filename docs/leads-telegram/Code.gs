@@ -22,6 +22,11 @@ var FIELDS_MAX = 20, VALUE_MAX = 1500, MAIL_TO = 'hello@vakmarketing.com';
 function doPost(e) {
   try {
     var data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    var params = (e && e.parameter) || {};
+    // Запросы админки блога и nslnv.seo (Blog.gs) отличаются полем action или ключом в адресе.
+    if (data.action || params.key) {
+      return ContentService.createTextOutput(JSON.stringify(blogApi_(data, params))).setMimeType(ContentService.MimeType.JSON);
+    }
     if (data.website_url) return reply_(true);            // поле-ловушка заполнено: это бот
     var text = format_(data);
     if (!text) return reply_(false);

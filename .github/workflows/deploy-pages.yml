@@ -32,6 +32,8 @@ jobs:
           mkdir _site
           cp -a site-3d _site/site-3d
           test -f _site/site-3d/index.html
+      - name: Build blog
+        run: node tools/build-blog.mjs _site/site-3d
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site/site-3d

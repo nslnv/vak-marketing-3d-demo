@@ -1,0 +1,243 @@
+/**
+ * Блог vakmarketing.com: API для админки vakmarketing.com/admin/ и для nslnv.seo.
+ *
+ * Статьи лежат в репозитории сайта (GH_REPO) файлами content/blog/<slug>.json, картинки в
+ * content/blog/media/. При публикации коммит запускает сборку сайта (tools/build-blog.mjs),
+ * и через 1–2 минуты статья на сайте. Черновики коммитятся с [skip ci] и сайт не трогают.
+ *
+ * Свойства скрипта:
+ *   GH_TOKEN   — fine-grained токен GitHub с правом Contents: Read and write на GH_REPO
+ *                (создаёт и вставляет владелец, в код не попадает);
+ *   BLOG_KEYS  — JSON {ключ: {name, role}}; role 'owner' может заводить редакторов в админке.
+ *                Первый ключ владельца выдаёт setupBlog() в журнал.
+ * nslnv.seo: «Другой сайт или CMS» → адрес <URL веб-приложения>?key=<ключ редактора>;
+ * присланные статьи сохраняются черновиками.
+ */
+var GH_REPO = 'nslnv/vak-marketing-3d-demo', GH_BRANCH = 'main', BLOG_DIR = 'content/blog';
+var SITE_BLOG = 'https://vakmarketing.com/blog/';
+var BLOG_TAGS = { p: 1, h2: 1, h3: 1, h4: 1, strong: 1, b: 1, em: 1, i: 1, u: 1, s: 1, a: 1, ul: 1, ol: 1, li: 1,
+  blockquote: 1, img: 1, figure: 1, figcaption: 1, br: 1, hr: 1, code: 1, pre: 1, table: 1, thead: 1, tbody: 1,
+  tr: 1, th: 1, td: 1 };
+
+/** Запускать вручную один раз: создаёт ключ владельца и пишет его в журнал. */
+function setupBlog() {
+  var keys = blogKeys_(), owner = Object.keys(keys).filter(function (k) { return keys[k].role === 'owner'; })[0];
+  if (!owner) {
+    owner = newKey_();
+    keys[owner] = { name: 'Никита', role: 'owner' };
+    PropertiesService.getScriptProperties().setProperty('BLOG_KEYS', JSON.stringify(keys));
+  }
+  console.log('Ключ владельца для vakmarketing.com/admin/: ' + owner);
+  console.log('GH_TOKEN ' + (PropertiesService.getScriptProperties().getProperty('GH_TOKEN') ? 'есть' : 'НЕ ЗАДАН'));
+}
+
+/** Точка входа из doPost: data — тело запроса, params — параметры адреса (?key=). */
+function blogApi_(data, params) {
+  var keys = blogKeys_(), key = String(data.key || params.key || ''), who = keys[key];
+  if (!who) return { ok: false, error: 'Неверный ключ редактора' };
+  try {
+    if (!data.action && (data.title || data.html || data.markdown)) return fromNslnv_(data, who);
+    switch (data.action) {
+      case 'me': return { ok: true, name: who.name, role: who.role };
+      case 'list': return { ok: true, posts: listPosts_() };
+      case 'get': return getPost_(data.slug);
+      case 'save': return savePost_(data.post || {}, data.prevSlug, who);
+      case 'delete': return deletePost_(data.slug, who);
+      case 'upload': return upload_(data.file || {}, who);
+      case 'editors': return editors_(data, who);
+    }
+    return { ok: false, error: 'Неизвестное действие' };
+  } catch (err) {
+    console.error(err);
+    return { ok: false, error: String(err.message || err) };
+  }
+}
+
+/* ---------- статьи ---------- */
+function listPosts_() {
+  var dir = gh_('get', '/contents/' + BLOG_DIR + '?ref=' + GH_BRANCH);
+  if (dir.code === 404) return [];
+  var files = (dir.json || []).filter(function (f) { return f.type === 'file' && /\.json$/.test(f.name); });
+  var reqs = files.map(function (f) { return ghReq_('get', '/contents/' + BLOG_DIR + '/' + encodeURIComponent(f.name) + '?ref=' + GH_BRANCH, null, true); });
+  var out = [];
+  UrlFetchApp.fetchAll(reqs).forEach(function (r) {
+    if (r.getResponseCode() !== 200) return;
+    try {
+      var p = JSON.parse(r.getContentText());
+      out.push({ slug: p.slug, title: p.title, status: p.status, date: p.date, updated: p.updated, lang: p.lang, author: p.author, source: p.source || 'admin', cover: p.cover || '' });
+    } catch (e) {}
+  });
+  return out.sort(function (a, b) { return String(b.updated || b.date).localeCompare(String(a.updated || a.date)); });
+}
+
+function getPost_(slug) {
+  if (!/^[a-z0-9-]+$/.test(slug || '')) return { ok: false, error: 'Нет такой статьи' };
+  var f = readFile_(BLOG_DIR + '/' + slug + '.json');
+  return f ? { ok: true, post: JSON.parse(f.text) } : { ok: false, error: 'Нет такой статьи' };
+}
+
+function savePost_(p, prevSlug, who) {
+  var title = String(p.title || '').trim().slice(0, 200);
+  if (!title) return { ok: false, error: 'Нужен заголовок' };
+  var slug = slugify_(p.slug || title);
+  if (!slug) return { ok: false, error: 'Нужен адрес статьи' };
+  var path = BLOG_DIR + '/' + slug + '.json';
+  var cur = readFile_(path), before = cur ? JSON.parse(cur.text) : null;
+  if (before && prevSlug !== slug) return { ok: false, error: 'Статья с адресом «' + slug + '» уже есть, поменяйте адрес' };
+  var old = prevSlug && prevSlug !== slug ? readFile_(BLOG_DIR + '/' + prevSlug + '.json') : null;
+  var oldPost = old ? JSON.parse(old.text) : null;
+  var base = before || oldPost || {};
+  var status = p.status === 'published' ? 'published' : 'draft';
+  var today = Utilities.formatDate(new Date(), 'Europe/Nicosia', 'yyyy-MM-dd');
+  var post = {
+    slug: slug, title: title,
+    description: String(p.description || '').trim().slice(0, 300),
+    lang: p.lang === 'en' ? 'en' : 'ru',
+    date: /^\d{4}-\d{2}-\d{2}$/.test(p.date || '') ? p.date : (base.date || today),
+    updated: Utilities.formatDate(new Date(), 'Europe/Nicosia', "yyyy-MM-dd'T'HH:mm"),
+    status: status,
+    cover: /^media\/[\w.-]+$/.test(p.cover || '') ? p.cover : '',
+    coverAlt: String(p.coverAlt || '').trim().slice(0, 200),
+    html: sanitize_(p.html),
+    author: base.author || who.name,
+    editedBy: who.name,
+    source: base.source || (p.source === 'nslnv' ? 'nslnv' : 'admin')
+  };
+  var wasLive = (base.status === 'published');
+  var msg = 'Блог: «' + title + '» ' + (status === 'published' ? 'опубликована' : 'черновик') + ' (' + who.name + ')' +
+    (status === 'published' || wasLive ? '' : ' [skip ci]');
+  writeFile_(path, JSON.stringify(post, null, 2), msg, cur && cur.sha);
+  if (old) deleteFile_(BLOG_DIR + '/' + prevSlug + '.json', old.sha, 'Блог: адрес «' + prevSlug + '» → «' + slug + '»' + (wasLive ? '' : ' [skip ci]'));
+  return { ok: true, slug: slug, status: status, url: SITE_BLOG + slug + '/' };
+}
+
+function deletePost_(slug, who) {
+  var f = /^[a-z0-9-]+$/.test(slug || '') ? readFile_(BLOG_DIR + '/' + slug + '.json') : null;
+  if (!f) return { ok: false, error: 'Нет такой статьи' };
+  var live = JSON.parse(f.text).status === 'published';
+  deleteFile_(BLOG_DIR + '/' + slug + '.json', f.sha, 'Блог: удалена «' + slug + '» (' + who.name + ')' + (live ? '' : ' [skip ci]'));
+  return { ok: true };
+}
+
+function upload_(file, who) {
+  var ext = { 'image/webp': 'webp', 'image/jpeg': 'jpg', 'image/png': 'png', 'image/gif': 'gif' }[file.type];
+  if (!ext || !file.data) return { ok: false, error: 'Нужна картинка JPG, PNG, WEBP или GIF' };
+  if (file.data.length > 8e6) return { ok: false, error: 'Картинка больше 6 МБ, уменьшите её' };
+  var name = Utilities.formatDate(new Date(), 'Europe/Nicosia', 'yyyyMMdd') + '-' + newKey_().slice(0, 8) + '.' + ext;
+  ghWrite_(BLOG_DIR + '/media/' + name, file.data, 'Блог: картинка (' + who.name + ') [skip ci]');
+  return { ok: true, path: 'media/' + name };
+}
+
+// Статья из nslnv.seo: только черновиком, без заголовка-дубля и без заглушек [IMAGE: …].
+function fromNslnv_(d, who) {
+  var html = String(d.html || '');
+  if (!html && d.markdown) html = String(d.markdown).split(/\n{2,}/).map(function (b) { return '<p>' + esc_(b) + '</p>'; }).join('');
+  html = html.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>/i, '')
+    .replace(/<p>\s*\[IMAGE:[^\]]*\]\s*<\/p>/gi, '').replace(/\[IMAGE:[^\]]*\]/gi, '')
+    .replace(/<img[^>]+nslnv\.online[^>]*>/gi, '');
+  var base = slugify_(d.slug || d.title), slug = base, n = 2;
+  while (readFile_(BLOG_DIR + '/' + slug + '.json')) slug = base + '-' + n++;
+  var r = savePost_({ title: d.title, slug: slug, description: d.description || d.meta_description || '', html: html,
+    lang: /[а-яё]/i.test(String(d.title || '')) ? 'ru' : 'en', status: 'draft', source: 'nslnv' }, slug, who);
+  if (r.ok) r.url = 'https://vakmarketing.com/admin/#edit/' + r.slug;
+  return r;
+}
+
+/* ---------- редакторы ---------- */
+function editors_(d, who) {
+  if (who.role !== 'owner') return { ok: false, error: 'Редакторов заводит только владелец' };
+  var keys = blogKeys_(), props = PropertiesService.getScriptProperties();
+  if (d.add) {
+    var k = newKey_();
+    keys[k] = { name: String(d.add).trim().slice(0, 60) || 'Редактор', role: 'editor' };
+    props.setProperty('BLOG_KEYS', JSON.stringify(keys));
+    return { ok: true, key: k, name: keys[k].name };
+  }
+  if (d.remove) {
+    var target = Object.keys(keys).filter(function (k) { return k.slice(0, 6) === d.remove && keys[k].role !== 'owner'; })[0];
+    if (target) { delete keys[target]; props.setProperty('BLOG_KEYS', JSON.stringify(keys)); }
+    return { ok: true };
+  }
+  return { ok: true, editors: Object.keys(keys).map(function (k) { return { id: k.slice(0, 6), name: keys[k].name, role: keys[k].role }; }) };
+}
+
+function blogKeys_() {
+  try { return JSON.parse(PropertiesService.getScriptProperties().getProperty('BLOG_KEYS') || '{}'); } catch (e) { return {}; }
+}
+function newKey_() { return Utilities.getUuid().replace(/-/g, ''); }
+
+/* ---------- чистка HTML: только разрешённые теги и атрибуты ---------- */
+function sanitize_(html) {
+  html = String(html || '')
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<(script|style|iframe|object|embed|form|svg|math|template|noscript|head|title)\b[\s\S]*?<\/\1\s*>/gi, '')
+    .replace(/<h1\b[^>]*>/gi, '<h2>').replace(/<\/h1>/gi, '</h2>');
+  return html.replace(/<(\/?)([a-zA-Z][a-zA-Z0-9]*)([^>]*)>/g, function (m, close, tag, attrs) {
+    tag = tag.toLowerCase();
+    if (!BLOG_TAGS[tag]) return '';
+    if (close) return /^(img|br|hr)$/.test(tag) ? '' : '</' + tag + '>';
+    var out = '';
+    if (tag === 'a') {
+      var h = attr_(attrs, 'href');
+      if (h && /^(https?:|mailto:|\/|#)/i.test(h)) {
+        out = ' href="' + escAttr_(h) + '"' + (/^https?:/i.test(h) && !/^https?:\/\/(www\.)?vakmarketing\.com/i.test(h) ? ' target="_blank" rel="noopener"' : '');
+      }
+    } else if (tag === 'img') {
+      var s = attr_(attrs, 'src');
+      if (!s || !/^(https:\/\/|\/blog\/media\/)/i.test(s)) return '';
+      out = ' src="' + escAttr_(s) + '" alt="' + escAttr_(attr_(attrs, 'alt')) + '" loading="lazy" decoding="async"';
+    } else if (tag === 'th' || tag === 'td') {
+      var cs = attr_(attrs, 'colspan'), rs = attr_(attrs, 'rowspan');
+      if (/^\d+$/.test(cs)) out += ' colspan="' + cs + '"';
+      if (/^\d+$/.test(rs)) out += ' rowspan="' + rs + '"';
+    }
+    return '<' + tag + out + '>';
+  });
+}
+function attr_(attrs, name) {
+  var m = new RegExp('\\s' + name + '\\s*=\\s*("([^"]*)"|\'([^\']*)\'|([^\\s>]+))', 'i').exec(attrs || '');
+  return m ? (m[2] || m[3] || m[4] || '').replace(/&amp;/g, '&') : '';
+}
+function escAttr_(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function slugify_(s) {
+  var map = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm',
+    н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '',
+    ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya' };
+  return String(s || '').toLowerCase().split('').map(function (c) { return map[c] !== undefined ? map[c] : c; }).join('')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80).replace(/-+$/, '');
+}
+
+/* ---------- GitHub ---------- */
+function ghReq_(method, path, body, raw) {
+  var token = PropertiesService.getScriptProperties().getProperty('GH_TOKEN');
+  if (!token) throw new Error('Не задан GH_TOKEN в свойствах скрипта');
+  var req = { url: 'https://api.github.com/repos/' + GH_REPO + path, method: method, muteHttpExceptions: true,
+    headers: { Authorization: 'Bearer ' + token, Accept: raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' } };
+  if (body) { req.contentType = 'application/json'; req.payload = JSON.stringify(body); }
+  return req;
+}
+function gh_(method, path, body) {
+  var r = UrlFetchApp.fetchAll([ghReq_(method, path, body)])[0];
+  var t = r.getContentText();
+  return { code: r.getResponseCode(), json: t ? JSON.parse(t) : null };
+}
+function readFile_(path) {
+  var r = gh_('get', '/contents/' + path + '?ref=' + GH_BRANCH);
+  if (r.code !== 200 || !r.json || !r.json.content) return null;
+  var bytes = Utilities.base64Decode(r.json.content.replace(/\n/g, ''));
+  return { sha: r.json.sha, text: Utilities.newBlob(bytes).getDataAsString('UTF-8') };
+}
+function writeFile_(path, text, message, sha) {
+  ghWrite_(path, Utilities.base64Encode(text, Utilities.Charset.UTF_8), message, sha);
+}
+function ghWrite_(path, base64, message, sha) {
+  var body = { message: message, content: base64, branch: GH_BRANCH };
+  if (sha) body.sha = sha;
+  var r = gh_('put', '/contents/' + path, body);
+  if (r.code !== 200 && r.code !== 201) throw new Error('GitHub ' + r.code + ': ' + (r.json && r.json.message));
+}
+function deleteFile_(path, sha, message) {
+  var r = gh_('delete', '/contents/' + path, { message: message, sha: sha, branch: GH_BRANCH });
+  if (r.code !== 200) throw new Error('GitHub ' + r.code + ': ' + (r.json && r.json.message));
+}

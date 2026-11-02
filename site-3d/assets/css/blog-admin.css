@@ -1,0 +1,94 @@
+/* Админка блога: тёмная тема сайта, без атмосферы и анимаций — рабочий инструмент. */
+.ad{min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--f)}
+.ad [hidden]{display:none!important}
+.ad-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:18px 26px;flex-wrap:wrap;
+  padding:14px var(--gut);border-bottom:1px solid var(--line);background:rgba(6,5,12,.92);backdrop-filter:blur(12px)}
+.ad-brand img{display:block;width:auto;height:34px}
+.ad-bar__title{color:var(--ink-3);font-size:14px}
+.ad-bar__nav{display:flex;gap:20px;margin-left:auto;font-size:14.5px}
+.ad-bar__nav a{color:var(--ink-2)}
+.ad-bar__nav a:hover,.ad-bar__nav a.is-on{color:#fff}
+.ad-bar__who{color:var(--ink-3);font-size:14px}
+.ad-link{padding:0;border:0;background:none;color:var(--vio-2);font:inherit;cursor:pointer}
+.ad-link:hover{color:#fff}
+.ad-link--danger{color:#ff8fb8}
+
+.ad-main{max-width:calc(900px + 2 * var(--gut));margin:0 auto;padding:clamp(28px,4vw,52px) var(--gut) 120px}
+.ad-main h1{margin:0;font-size:clamp(28px,3vw,40px);font-weight:340;letter-spacing:-.035em}
+.ad-main h2{margin:0 0 8px;font-size:20px;font-weight:420}
+.ad-main p{color:var(--ink-2);font-size:15px;line-height:1.6}
+.ad-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+.ad-msg{min-height:1.4em;margin:12px 0}
+.ad-msg.is-err{color:#ff8fb8}
+.ad-msg.is-ok{color:#8ef0c0}
+
+.ad-field{display:grid;gap:7px;min-width:0}
+.ad-field > span{color:var(--ink-3);font-size:13px}
+.ad-field > span i{font-style:normal;color:var(--ink-3)}
+.ad input,.ad select,.ad textarea{width:100%;padding:12px 14px;border:1px solid var(--line-2);border-radius:12px;
+  background:rgba(255,255,255,.03);color:var(--ink);font:inherit;font-size:15px}
+.ad input:focus,.ad select:focus,.ad textarea:focus{outline:none;border-color:var(--vio-2)}
+.ad select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#B3AEC7 50%),linear-gradient(135deg,#B3AEC7 50%,transparent 50%);
+  background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.ad textarea{resize:vertical;line-height:1.5}
+
+.ad-login{display:grid;gap:16px;max-width:420px;margin:8vh auto 0}
+.ad-login .btn{justify-self:start}
+
+.ad-list{display:grid;border-top:1px solid var(--line)}
+.ad-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 18px;align-items:center;padding:16px 4px;
+  border-bottom:1px solid var(--line);color:var(--ink)}
+.ad-item:hover{background:rgba(255,255,255,.02)}
+.ad-item__title{font-size:16.5px;font-weight:420;line-height:1.35}
+.ad-item__meta{grid-column:1;color:var(--ink-3);font-size:13px}
+.ad-item__side{grid-row:1 / span 2;grid-column:2;display:flex;align-items:center;gap:14px;font-size:13.5px}
+.ad-chip{padding:4px 10px;border-radius:100px;border:1px solid var(--line-2);color:var(--ink-2);font-size:12.5px;white-space:nowrap}
+.ad-chip--live{border-color:rgba(142,240,192,.4);color:#8ef0c0}
+
+.ad-form{display:grid;gap:18px}
+.ad-title{padding:4px 0!important;border:0!important;background:none!important;font-size:clamp(28px,3.4vw,44px)!important;
+  font-weight:340;line-height:1.1;letter-spacing:-.035em;resize:none;overflow:hidden}
+.ad-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:end}
+.ad-slug{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:12px;background:rgba(255,255,255,.03)}
+.ad-slug i{padding-left:14px;color:var(--ink-3);font-style:normal;font-size:14px;white-space:nowrap}
+.ad-slug input{border:0!important;background:none!important;padding-left:2px!important}
+
+.ad-cover{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start;
+  padding:16px;border:1px solid var(--line);border-radius:18px}
+.ad-cover__img{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#110d1e;display:grid;place-items:center;color:var(--ink-3);font-size:13px}
+.ad-cover__img img{width:100%;height:100%;object-fit:cover}
+.ad-cover__side{display:grid;gap:10px}
+.ad-cover__side p{margin:0;font-size:13.5px}
+.ad-cover__label{font-size:15px;font-weight:500}
+.ad-btns{display:flex;gap:10px;flex-wrap:wrap}
+.ad-btn{height:40px;padding:0 18px;font-size:14px;cursor:pointer}
+
+.ad-tools{position:sticky;top:63px;z-index:4;display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:8px;
+  border:1px solid var(--line-2);border-radius:14px;background:#0d0a18}
+.ad-tools button,.ad-tools label{height:34px;padding:0 11px;border:0;border-radius:9px;background:none;color:var(--ink-2);
+  font:inherit;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center}
+.ad-tools button:hover,.ad-tools label:hover{background:rgba(255,255,255,.07);color:#fff}
+.ad-tools i{width:1px;height:20px;margin:0 4px;background:var(--line-2)}
+.ad-body{min-height:420px;max-width:none;margin-top:0;padding:22px 24px;border:1px solid var(--line);border-radius:16px;outline:none}
+.ad-body:focus{border-color:rgba(155,132,255,.45)}
+.ad-body:empty::before{content:'Текст статьи. Вставляйте из Google Docs или Word: оформление сохранится, лишнее уберётся.';color:var(--ink-3)}
+.ad-body img{cursor:default}
+.ad-body img.is-sel{outline:2px solid var(--vio-2)}
+
+.ad-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;position:sticky;bottom:0;padding:14px 0;
+  background:linear-gradient(transparent,var(--bg) 30%)}
+.ad-actions__gap{flex:1}
+.ad-state{color:var(--ink-3);font-size:13.5px}
+
+.ad-add{grid-template-columns:minmax(0,1fr) auto;margin-top:18px}
+.ad-newkey{margin:16px 0;padding:16px;border:1px solid rgba(142,240,192,.35);border-radius:14px}
+.ad-newkey code,.ad-note code{display:block;margin:8px 0;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.05);
+  color:#fff;font-size:13.5px;word-break:break-all;user-select:all}
+.ad-note{margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+
+@media (max-width:760px){
+  .ad-row,.ad-cover,.ad-add{grid-template-columns:1fr}
+  .ad-bar__nav{margin-left:0;width:100%}
+  .ad-tools{top:0}
+  .ad-body{padding:16px}
+}
