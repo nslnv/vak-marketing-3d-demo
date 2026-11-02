@@ -323,7 +323,6 @@
   /* ---------- редакторы ---------- */
   function showEditors() {
     var v = view('editors'), box = $('[data-editors]', v);
-    $('[data-nslnv-url]', v).textContent = API + '?key=КЛЮЧ_РЕДАКТОРА_nslnv.seo';
     say(v, 'Загружаем…');
     api('editors').then(function (res) {
       say(v, '');
@@ -341,7 +340,7 @@
       var box = $('[data-newkey]', v);
       box.hidden = false;
       box.innerHTML = '<p>Ключ для «' + esc(res.name) + '». Он показывается один раз, скопируйте сейчас:</p><code>' + esc(res.key) + '</code>' +
-        '<p>Вход: <b>vakmarketing.com/admin/</b>. Если это ключ для nslnv.seo, вставьте в сеошку адрес:</p><code>' + esc(API + '?key=' + res.key) + '</code>';
+        '<p>Отправьте его человеку вместе со ссылкой <b>https://vakmarketing.com/admin/</b>: он откроет её и войдёт с этим ключом.</p>';
       f.reset();
       showEditors();
     }).catch(function (err) { say(v, err.message, 'err'); });
