@@ -7,6 +7,8 @@
   'use strict';
   var API = 'https://script.google.com/macros/s/AKfycbyEsh4G_SMcSX0Jgc5TX5T5EzaVhynD4Sxz6F9iFTDGQ14gprT0J6Yu7j5BlHvC7WV-DA/exec';
   var RAW = 'https://raw.githubusercontent.com/nslnv/vak-marketing-3d-demo/main/content/blog/';
+  // Отдельное развёртывание того же скрипта для nslnv.seo: оно отвечает сеошке без редиректа (см. doPost).
+  var NSLNV = 'https://script.google.com/macros/s/AKfycbzBcYAfw0RdhqnqDpRad1fkEuf1xzJV6h1CNDUa4yBh7bu3BlE2UOCrxXoDIRVEsuFyvQ/exec';
   var STORE = 'vak-editor-key';
   var key = '';
   var me = null;
@@ -340,7 +342,10 @@
       var box = $('[data-newkey]', v);
       box.hidden = false;
       box.innerHTML = '<p>Ключ для «' + esc(res.name) + '». Он показывается один раз, скопируйте сейчас:</p><code>' + esc(res.key) + '</code>' +
-        '<p>Отправьте его человеку вместе со ссылкой <b>https://vakmarketing.com/admin/</b>: он откроет её и войдёт с этим ключом.</p>';
+        '<p>Отправьте его человеку вместе со ссылкой <b>https://vakmarketing.com/admin/</b>: он откроет её и войдёт с этим ключом.</p>' +
+        '<p>Если он будет отправлять статьи из nslnv.seo, дайте ему ещё этот адрес. В своём проекте сеошки он вставляет его ' +
+        'в блок «Other site or CMS (not WordPress)», поле Token оставляет пустым и жмёт Test connection, потом Save:</p><code>' +
+        esc(NSLNV + '?key=' + res.key) + '</code>';
       f.reset();
       showEditors();
     }).catch(function (err) { say(v, err.message, 'err'); });
