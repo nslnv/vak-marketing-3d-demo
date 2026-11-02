@@ -1,0 +1,15 @@
+{
+  "slug": "testovyy-chernovik-udalit",
+  "title": "Тестовый черновик, удалить",
+  "description": "Проверка API",
+  "lang": "ru",
+  "date": "2026-11-02",
+  "updated": "2026-11-02T19:29",
+  "status": "draft",
+  "cover": "",
+  "coverAlt": "",
+  "html": "<p>Проверка <b>жирного</b>.</p>",
+  "author": "Никита",
+  "editedBy": "Никита",
+  "source": "admin"
+}
