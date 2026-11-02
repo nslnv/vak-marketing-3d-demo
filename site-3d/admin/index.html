@@ -9,15 +9,17 @@
   <link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
   <link rel="preload" href="/assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/base.css?v=20261016-1">
-  <link rel="stylesheet" href="/assets/css/blog.css?v=20261102-1">
-  <link rel="stylesheet" href="/assets/css/blog-admin.css?v=20261103-1">
+  <link rel="stylesheet" href="/assets/css/blog.css?v=20261103-1">
+  <link rel="stylesheet" href="/assets/css/blog-admin.css?v=20261103-3">
 </head>
 <body class="ad">
   <header class="ad-bar">
     <a class="ad-brand" href="/" target="_blank" rel="noopener"><img src="/assets/img/brand/vak-logo.png" width="289" height="132" alt="VAK Marketing"></a>
     <span class="ad-bar__title">Блог · админка</span>
     <nav class="ad-bar__nav" data-auth hidden>
+      <a href="#overview" data-owner hidden>Обзор</a>
       <a href="#list">Статьи</a>
+      <a href="#categories">Рубрики</a>
       <a href="#editors" data-owner hidden>Редакторы</a>
       <a href="/blog/" target="_blank" rel="noopener">Блог на сайте ↗</a>
     </nav>
@@ -42,8 +44,39 @@
         <h1>Статьи</h1>
         <a class="btn btn--primary" href="#new">Новая статья</a>
       </div>
+      <div class="ad-filters">
+        <input type="search" data-f-q placeholder="Поиск по заголовку">
+        <select data-f-status><option value="">Все, кроме корзины</option><option value="published">Опубликованные</option><option value="scheduled">Запланированные</option><option value="review">На проверке</option><option value="draft">Черновики</option><option value="trash">Корзина</option></select>
+        <select data-f-cat><option value="">Все рубрики</option></select>
+      </div>
       <p class="ad-msg" data-msg></p>
       <div class="ad-list" data-list></div>
+    </section>
+
+    <!-- обзор для владельца -->
+    <section class="ad-view" data-view="overview" hidden>
+      <div class="ad-head"><h1>Обзор</h1><a class="btn btn--primary" href="#new">Новая статья</a></div>
+      <p class="ad-msg" data-msg></p>
+      <div class="ad-stats" data-stats></div>
+      <div class="ad-cols ad-queue" data-queue></div>
+      <div class="ad-cols">
+        <div><h2>Редакторы за 30 дней</h2><div class="ad-list" data-people></div></div>
+        <div><h2>Последние действия</h2><ol class="ad-feed" data-feed></ol></div>
+      </div>
+    </section>
+
+    <!-- рубрики -->
+    <section class="ad-view" data-view="categories" hidden>
+      <div class="ad-head"><h1>Рубрики</h1></div>
+      <p>Рубрики видны в блоге как разделы с отдельными страницами. Страница рубрики появляется на сайте, когда в ней есть хотя бы одна опубликованная статья. Порядок здесь такой же, как в блоге.</p>
+      <form class="ad-cat-add" data-add-cat>
+        <label class="ad-field"><span>Название</span><input name="name" placeholder="Например, Кейсы" required maxlength="60"></label>
+        <label class="ad-field"><span>Название на английском <i>(необязательно)</i></span><input name="nameEn" placeholder="Cases" maxlength="60"></label>
+        <label class="ad-field ad-cat-add__desc"><span>Описание для страницы рубрики и поисковиков <i>(необязательно)</i></span><input name="description" maxlength="300"></label>
+        <button class="btn btn--primary" type="submit">Добавить рубрику</button>
+      </form>
+      <p class="ad-msg" data-msg></p>
+      <div class="ad-list" data-cats></div>
     </section>
 
     <!-- редактор -->
@@ -52,6 +85,7 @@
         <a class="ad-link" href="#list">← Все статьи</a>
         <span class="ad-state" data-state></span>
       </div>
+      <p class="ad-restore" data-restore-box hidden></p>
       <form class="ad-form" data-form autocomplete="off">
         <textarea class="ad-title" name="title" rows="1" placeholder="Заголовок статьи" required></textarea>
         <div class="ad-row">
@@ -60,6 +94,14 @@
           <label class="ad-field"><span>Язык статьи</span>
             <select name="lang"><option value="ru">Русский</option><option value="en">English</option></select></label>
           <label class="ad-field"><span>Дата</span><input type="date" name="date"></label>
+        </div>
+        <div class="ad-row ad-row--meta">
+          <label class="ad-field"><span>Рубрика</span>
+            <span class="ad-pick"><select name="category"><option value="">Без рубрики</option></select>
+            <button type="button" class="ad-link" data-new-cat>+ Новая</button></span></label>
+          <label class="ad-field"><span>Заголовок для поисковиков <i data-seo-count></i></span>
+            <input name="seoTitle" maxlength="90" placeholder="Если пусто, берём заголовок статьи"></label>
+          <label class="ad-check"><input type="checkbox" name="featured"><span>Закрепить первой в блоге</span></label>
         </div>
         <label class="ad-field"><span>Описание для поиска и соцсетей <i data-count></i></span>
           <textarea name="description" rows="2" maxlength="300" placeholder="1–2 предложения о том, что в статье. Если оставить пустым, возьмём начало текста."></textarea></label>
@@ -77,36 +119,65 @@
           </div>
         </div>
 
-        <div class="ad-tools" role="toolbar" aria-label="Форматирование">
-          <button type="button" data-cmd="formatBlock" data-arg="p" title="Обычный текст">Текст</button>
-          <button type="button" data-cmd="formatBlock" data-arg="h2" title="Подзаголовок">H2</button>
-          <button type="button" data-cmd="formatBlock" data-arg="h3" title="Подзаголовок поменьше">H3</button>
-          <i></i>
-          <button type="button" data-cmd="bold" title="Жирный (Cmd+B)"><b>Ж</b></button>
-          <button type="button" data-cmd="italic" title="Курсив (Cmd+I)"><em>К</em></button>
-          <button type="button" data-cmd="link" title="Ссылка">Ссылка</button>
-          <i></i>
-          <button type="button" data-cmd="insertUnorderedList" title="Список">• Список</button>
-          <button type="button" data-cmd="insertOrderedList" title="Нумерованный список">1. Список</button>
-          <button type="button" data-cmd="formatBlock" data-arg="blockquote" title="Цитата">Цитата</button>
-          <i></i>
-          <label class="ad-tools__img" title="Картинка в текст">Картинка<input type="file" accept="image/*" data-body-file hidden></label>
-          <button type="button" data-cmd="removeFormat" title="Убрать оформление">Очистить</button>
+        <div class="ad-tools" role="toolbar" aria-label="Оформление">
+          <span class="ad-tools__g">
+            <button type="button" data-block="p" title="Обычный абзац">Текст</button>
+            <button type="button" data-block="h2" title="Подзаголовок, попадёт в оглавление">H2</button>
+            <button type="button" data-block="h3" title="Подзаголовок второго уровня">H3</button>
+            <button type="button" data-block="h4" title="Мелкий подзаголовок">H4</button>
+            <button type="button" data-block="lead" title="Лид: крупный вводный абзац">Лид</button>
+          </span>
+          <span class="ad-tools__g">
+            <button type="button" data-cmd="bold" title="Жирный (Cmd+B)"><b>Ж</b></button>
+            <button type="button" data-cmd="italic" title="Курсив (Cmd+I)"><em>К</em></button>
+            <button type="button" data-cmd="underline" title="Подчёркнутый (Cmd+U)"><u>Ч</u></button>
+            <button type="button" data-cmd="strikeThrough" title="Зачёркнутый"><s>З</s></button>
+            <button type="button" data-wrap="mark" title="Маркер: выделить фоном"><mark>Маркер</mark></button>
+            <button type="button" data-wrap="accent" title="Фирменный акцент: градиент VAK"><span class="ad-accent">Акцент</span></button>
+            <button type="button" data-cmd="link" title="Ссылка (Cmd+K)">Ссылка</button>
+          </span>
+          <span class="ad-tools__g">
+            <button type="button" data-cmd="insertUnorderedList" title="Маркированный список">• Список</button>
+            <button type="button" data-cmd="insertOrderedList" title="Нумерованный список">1. Список</button>
+            <button type="button" data-block="blockquote" title="Цитата">Цитата</button>
+            <button type="button" data-block="callout" title="Врезка «На заметку»">Заметка</button>
+            <button type="button" data-block="callout--tip" title="Врезка «Совет»">Совет</button>
+            <button type="button" data-block="callout--warn" title="Врезка «Важно»">Важно</button>
+          </span>
+          <span class="ad-tools__g">
+            <label title="Картинка с подписью">Картинка<input type="file" accept="image/*" data-body-file hidden></label>
+            <button type="button" data-insert="video" title="Видео с YouTube">Видео</button>
+            <button type="button" data-insert="table" title="Таблица">Таблица</button>
+            <button type="button" data-insert="hr" title="Разделитель">Линия</button>
+          </span>
+          <span class="ad-tools__g">
+            <button type="button" data-cmd="undo" title="Отменить (Cmd+Z)">↶</button>
+            <button type="button" data-cmd="redo" title="Повторить (Shift+Cmd+Z)">↷</button>
+            <button type="button" data-cmd="removeFormat" title="Убрать оформление у выделенного">Очистить</button>
+          </span>
         </div>
         <div class="bl-prose ad-body" contenteditable="true" data-body spellcheck="true"></div>
 
+        <label class="ad-field"><span>Заметка для редакции <i>(на сайт не попадает: что проверить, что доделать, кому передать)</i></span>
+          <textarea name="note" rows="2" maxlength="1000"></textarea></label>
+        <p class="ad-counter" data-counter></p>
+        <div class="ad-check-list" data-checks></div>
+        <div class="ad-previews" data-snippet></div>
         <p class="ad-msg" data-msg></p>
         <div class="ad-actions">
           <button type="button" class="btn btn--primary" data-publish>Опубликовать</button>
           <button type="button" class="btn btn--ghost" data-draft>Сохранить черновик</button>
+          <button type="button" class="btn btn--ghost" data-review>На проверку</button>
+          <button type="button" class="btn btn--ghost" data-preview>Предпросмотр</button>
           <a class="btn btn--ghost" data-view-live target="_blank" rel="noopener" hidden>Открыть на сайте ↗</a>
           <span class="ad-actions__gap"></span>
+          <button type="button" class="ad-link" data-copy hidden>Сделать копию</button>
           <button type="button" class="ad-link ad-link--danger" data-unpublish hidden>Снять с публикации</button>
           <button type="button" class="ad-link ad-link--danger" data-delete hidden>Удалить</button>
         </div>
       </form>
       <div class="ad-hist" data-hist hidden>
-        <h2>Кто что делал</h2>
+        <h2>Кто что делал и версии</h2>
         <ol data-hist-list></ol>
       </div>
     </section>
@@ -130,6 +201,6 @@
     </section>
   </main>
 
-  <script src="/assets/js/blog-admin.js?v=20261103-3" defer></script>
+  <script src="/assets/js/blog-admin.js?v=20261103-5" defer></script>
 </body>
 </html>

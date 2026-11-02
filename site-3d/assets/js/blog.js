@@ -1,5 +1,5 @@
-/* Блог: переключение языка (общее с сайтом, localStorage 'vak-lang'), мобильное меню
-   и шапка при прокрутке. То же, что privacy-page.js, но без оглавления и без смены
+/* Блог: переключение языка (общее с сайтом, localStorage 'vak-lang'), мобильное меню,
+   шапка при прокрутке и копирование ссылки на статью. То же, что privacy-page.js, но без оглавления и без смены
    заголовка вкладки: у каждой статьи он свой. */
 (function () {
   'use strict';
@@ -46,6 +46,13 @@
   });
   document.addEventListener('click', function (e) {
     if (services && services.open && !services.contains(e.target)) services.removeAttribute('open');
+  });
+  // «Скопировать ссылку» под статьёй.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (b) {
+    b.addEventListener('click', function () {
+      var done = function () { b.textContent = root.lang === 'en' ? 'Copied' : 'Ссылка скопирована'; };
+      if (navigator.clipboard) navigator.clipboard.writeText(b.getAttribute('data-copy')).then(done, function () {});
+    });
   });
   window.addEventListener('resize', function () {
     if (!window.matchMedia('(max-width:1080px)').matches) closeMenu();

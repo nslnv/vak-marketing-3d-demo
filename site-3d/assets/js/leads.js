@@ -5,7 +5,7 @@
    Promise, который выполняется, когда заявка ушла хотя бы одним путём. */
 (function () {
   'use strict';
-  var RELAY = 'https://script.google.com/macros/s/AKfycbyEsh4G_SMcSX0Jgc5TX5T5EzaVhynD4Sxz6F9iFTDGQ14gprT0J6Yu7j5BlHvC7WV-DA/exec';
+  var RELAY = 'https://script.google.com/macros/s/AKfycbzBcYAfw0RdhqnqDpRad1fkEuf1xzJV6h1CNDUa4yBh7bu3BlE2UOCrxXoDIRVEsuFyvQ/exec';
   var BACKUP = 'https://formsubmit.co/ajax/hello@vakmarketing.com';
 
   function post(url, body, type, ms) {

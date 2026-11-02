@@ -8,13 +8,28 @@
 .bl-head{max-width:760px;margin-bottom:clamp(36px,5vw,64px)}
 .bl-lead{margin:18px 0 0;max-width:56ch;color:var(--ink-2);font-size:clamp(16px,1.3vw,18px);line-height:1.6}
 .bl-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(26px,2.6vw,40px) clamp(18px,2.2vw,30px)}
+/* Рубрики: строка ссылок над списком, текущая подсвечена. */
+.bl-cats{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 clamp(30px,3.6vw,48px)}
+.bl-cats a{padding:8px 16px;border:1px solid var(--line-2);border-radius:100px;color:var(--ink-2);font-size:14px;
+  transition:color .25s var(--e),border-color .25s var(--e),background-color .25s var(--e)}
+.bl-cats a:hover{color:#fff;border-color:rgba(255,255,255,.34)}
+.bl-cats a[aria-current="page"]{color:#fff;border-color:rgba(155,132,255,.6);background:rgba(124,92,255,.14)}
+
 .bl-card{display:flex;flex-direction:column;min-width:0;padding-top:18px;border-top:1px solid var(--line-2);color:var(--ink)}
+.bl-card__body{display:flex;flex-direction:column;min-width:0}
+/* Закреплённая или самая свежая статья: крупно, картинка слева. */
+.bl-top{margin-bottom:clamp(44px,5vw,72px)}
+.bl-card--big{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(22px,3vw,48px);align-items:center}
+.bl-card--big .bl-card__img{margin-bottom:0;border-radius:22px}
+.bl-card--big .bl-card__title{font-size:clamp(26px,2.6vw,40px);font-weight:360;line-height:1.1;letter-spacing:-.035em}
+.bl-card--big .bl-card__desc{font-size:16.5px}
 .bl-card__img{display:block;aspect-ratio:16/9;margin-bottom:18px;border-radius:18px;overflow:hidden;background:#110d1e}
 .bl-card__img img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--e)}
 /* Статья без обложки: тот же размер, мягкий свет сцены вместо картинки. */
 .bl-card__img--none{background:radial-gradient(120% 90% at 20% 110%,rgba(124,92,255,.32),transparent 60%),
   radial-gradient(90% 80% at 95% 0%,rgba(255,82,184,.16),transparent 60%),#110d1e}
-.bl-card__meta{color:var(--ink-3);font-size:13px;letter-spacing:.01em}
+.bl-card__meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;color:var(--ink-3);font-size:13px;letter-spacing:.01em}
+.bl-card__cat{color:var(--vio-2);font-weight:500}
 .bl-card__title{margin-top:10px;font-size:clamp(19px,1.45vw,23px);font-weight:420;line-height:1.25;letter-spacing:-.022em;
   transition:color .3s var(--e)}
 .bl-card__desc{margin-top:10px;color:var(--ink-2);font-size:15px;line-height:1.55}
@@ -25,11 +40,22 @@
 
 /* ---------- статья ---------- */
 .bl-post{max-width:calc(820px + 2 * var(--gut))}
+.bl-crumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--ink-3);font-size:13.5px}
 .bl-crumbs a{color:var(--vio-2);font-size:13.5px;font-weight:500;letter-spacing:.01em}
 .bl-crumbs a:hover{color:var(--ink)}
 .bl-title{margin:14px 0 0;font-size:clamp(32px,4vw,56px);font-weight:340;line-height:1.06;letter-spacing:-.04em;
   overflow-wrap:break-word}
-.bl-meta{margin:18px 0 0;color:var(--ink-3);font-size:14.5px}
+.bl-meta{display:flex;flex-wrap:wrap;gap:4px 18px;margin:18px 0 0;color:var(--ink-3);font-size:14.5px}
+.bl-intro{max-width:62ch;margin:22px 0 0;color:var(--ink-2);font-size:clamp(17px,1.4vw,20px);line-height:1.55}
+
+/* Оглавление по подзаголовкам H2. */
+.bl-toc{max-width:68ch;margin-top:clamp(28px,3.5vw,40px);padding:20px 24px;border:1px solid var(--line-2);border-radius:18px;background:var(--fill)}
+.bl-toc p{margin:0 0 10px;color:var(--ink-3);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.bl-toc ol{margin:0;padding-left:1.2em;list-style:decimal;color:var(--ink-3)}
+.bl-toc li + li{margin-top:6px}
+.bl-toc a{color:var(--ink);font-size:15.5px}
+.bl-toc a:hover{color:var(--vio-2)}
+.bl-prose h2[id]{scroll-margin-top:calc(var(--nav-h) + 24px)}
 .bl-cover{margin:clamp(28px,3.5vw,44px) 0 0;border-radius:22px;overflow:hidden;background:#110d1e}
 .bl-cover img{display:block;width:100%;height:auto}
 
@@ -54,10 +80,34 @@
 .bl-prose hr{border:0;border-top:1px solid var(--line-2);margin:2em 0}
 .bl-prose code{padding:.1em .35em;border-radius:6px;background:rgba(255,255,255,.06);font-size:.92em}
 .bl-prose pre{overflow-x:auto;padding:16px 18px;border-radius:14px;background:rgba(255,255,255,.04);font-size:14px}
+/* Палитра оформления из админки. */
+.bl-prose p.lead{color:var(--ink);font-size:1.16em;line-height:1.6}
+.bl-prose mark{padding:.05em .25em;border-radius:5px;background:rgba(155,132,255,.28);color:var(--ink)}
+.bl-prose .accent{background:linear-gradient(90deg,var(--vio-2),var(--mag));-webkit-background-clip:text;background-clip:text;
+  color:transparent;font-weight:600}
+.bl-prose aside.callout{padding:18px 22px;border:1px solid rgba(155,132,255,.35);border-left-width:3px;border-radius:14px;
+  background:rgba(124,92,255,.08);color:var(--ink)}
+.bl-prose aside.callout--tip{border-color:rgba(98,228,255,.4);background:rgba(98,228,255,.06)}
+.bl-prose aside.callout--warn{border-color:rgba(255,82,184,.45);background:rgba(255,82,184,.07)}
+.bl-prose aside.callout::before{display:block;margin-bottom:6px;color:var(--vio-2);font-size:12.5px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;content:'На заметку'}
+.bl-prose aside.callout--tip::before{color:var(--cy);content:'Совет'}
+.bl-prose aside.callout--warn::before{color:var(--mag);content:'Важно'}
+html[lang="en"] .bl-prose aside.callout::before{content:'Note'}
+html[lang="en"] .bl-prose aside.callout--tip::before{content:'Tip'}
+html[lang="en"] .bl-prose aside.callout--warn::before{content:'Important'}
+.bl-prose blockquote{font-size:1.08em;font-style:italic}
+.bl-prose figure.video{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#110d1e}
+.bl-prose figure.video iframe,.bl-prose figure.video img{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
 .bl-prose table{display:block;width:100%;overflow-x:auto;border-collapse:collapse;font-size:15px}
 .bl-prose th,.bl-prose td{padding:10px 12px 10px 0;border-bottom:1px solid var(--line-2);text-align:left;vertical-align:top}
 .bl-prose th{color:var(--ink);font-weight:500}
 
+.bl-share{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;max-width:68ch;margin-top:clamp(40px,4.4vw,56px)}
+.bl-share > span{margin-right:6px;color:var(--ink-3);font-size:14px}
+.bl-share a,.bl-share button{padding:7px 14px;border:1px solid var(--line-2);border-radius:100px;background:none;color:var(--ink-2);
+  font:inherit;font-size:13.5px;cursor:pointer;transition:color .25s var(--e),border-color .25s var(--e)}
+.bl-share a:hover,.bl-share button:hover{color:#fff;border-color:rgba(255,255,255,.34)}
 .bl-cta{display:flex;align-items:center;justify-content:space-between;gap:20px 32px;flex-wrap:wrap;
   max-width:68ch;margin-top:clamp(44px,5vw,68px);padding-top:28px;border-top:1px solid var(--line)}
 .bl-cta p{margin:0;max-width:40ch;color:var(--ink);font-size:16.5px;line-height:1.5}
@@ -65,7 +115,11 @@
 .bl-more{margin-top:clamp(64px,8vw,110px)}
 .bl-more h2{margin:0 0 clamp(22px,2.6vw,34px);font-size:clamp(23px,2vw,30px);font-weight:420;letter-spacing:-.03em}
 
-@media (max-width:1000px){.bl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:1000px){
+  .bl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bl-card--big{grid-template-columns:1fr}
+  .bl-card--big .bl-card__img{margin-bottom:6px}
+}
 @media (max-width:640px){
   .bl-grid{grid-template-columns:1fr}
   .bl-main{padding-top:calc(var(--nav-h) + 40px)}

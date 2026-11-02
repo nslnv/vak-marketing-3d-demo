@@ -43,7 +43,28 @@
 .ad-item__meta{grid-column:1;color:var(--ink-3);font-size:13px}
 .ad-item__side{grid-row:1 / span 2;grid-column:2;display:flex;align-items:center;gap:14px;font-size:13.5px}
 .ad-chip{padding:4px 10px;border-radius:100px;border:1px solid var(--line-2);color:var(--ink-2);font-size:12.5px;white-space:nowrap}
-.ad-chip--live{border-color:rgba(142,240,192,.4);color:#8ef0c0}
+.ad-chip--live,.ad-chip--published{border-color:rgba(142,240,192,.4);color:#8ef0c0}
+.ad-chip--scheduled{border-color:rgba(98,228,255,.4);color:var(--cy)}
+.ad-chip--review{border-color:rgba(255,209,102,.45);color:#ffd166}
+.ad-chip--trash{border-color:rgba(255,143,184,.35);color:#ff8fb8}
+.ad-note-line{color:#ffd166}
+.ad-restore{margin:0 0 16px;padding:12px 16px;border:1px solid rgba(255,209,102,.4);border-radius:12px;color:var(--ink);font-size:14.5px}
+.ad-restore .ad-link{margin-left:10px}
+.ad-queue{margin-bottom:34px}
+
+/* Как статья будет выглядеть в поиске и в соцсетях */
+.ad-previews{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
+.ad-serp,.ad-og{padding:16px 18px;border:1px solid var(--line);border-radius:16px}
+.ad .ad-previews .ad-serp__h{margin:0 0 10px;color:var(--ink-3);font-size:12.5px}
+.ad-serp__url{display:block;color:#bdc1c6;font-size:13px}
+.ad-serp__t{display:block;margin-top:4px;color:#8ab4f8;font-size:19px;line-height:1.3}
+.ad-serp__d{display:block;margin-top:4px;color:#bdc1c6;font-size:14px;line-height:1.5}
+.ad-og{display:grid;grid-template-columns:1fr;align-content:start}
+.ad-og__img{display:grid;place-items:center;aspect-ratio:1.91/1;border-radius:10px 10px 0 0;overflow:hidden;background:#110d1e;color:var(--ink-3);font-size:13px}
+.ad-og__img img{width:100%;height:100%;object-fit:cover}
+.ad-og__body{display:grid;gap:4px;padding:10px 12px;border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;font-size:13.5px;color:var(--ink-2)}
+.ad-og__body b{color:var(--ink);font-weight:600}
+.ad-og__body em{color:var(--ink-3);font-style:normal;font-size:12.5px}
 
 .ad-form{display:grid;gap:18px}
 .ad-title{padding:4px 0!important;border:0!important;background:none!important;font-size:clamp(28px,3.4vw,44px)!important;
@@ -65,6 +86,10 @@
 
 .ad-tools{position:sticky;top:63px;z-index:4;display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:8px;
   border:1px solid var(--line-2);border-radius:14px;background:#0d0a18}
+.ad-tools__g{display:inline-flex;flex-wrap:wrap;gap:2px;padding-right:6px;margin-right:4px;border-right:1px solid var(--line-2)}
+.ad-tools__g:last-child{border-right:0}
+.ad-tools mark{padding:0 .25em;border-radius:4px;background:rgba(155,132,255,.35);color:inherit}
+.ad-accent{background:linear-gradient(90deg,var(--vio-2),var(--mag));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
 .ad-tools button,.ad-tools label{height:34px;padding:0 11px;border:0;border-radius:9px;background:none;color:var(--ink-2);
   font:inherit;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center}
 .ad-tools button:hover,.ad-tools label:hover{background:rgba(255,255,255,.07);color:#fff}
@@ -86,6 +111,49 @@
 .ad-hist li{color:var(--ink-3);font-size:14px;line-height:1.5}
 .ad-hist b{color:var(--ink);font-weight:500}
 
+/* Список: фильтры, закреплённые */
+.ad-filters{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:18px}
+.ad-pin{color:#ffd166}
+.ad-dim{color:var(--ink-3);font-style:normal;font-weight:400}
+.ad-item__side .ad-link{font-size:13.5px}
+
+/* Метаданные статьи: рубрика, SEO-заголовок, закрепление */
+.ad-row--meta{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto}
+.ad-pick{display:flex;align-items:center;gap:10px}
+.ad-pick select{flex:1}
+.ad-pick .ad-link{white-space:nowrap;font-size:14px}
+.ad-check{display:flex;align-items:center;gap:10px;height:48px;color:var(--ink-2);font-size:14.5px;cursor:pointer}
+.ad .ad-check input{width:18px;height:18px;padding:0;accent-color:#7C5CFF}
+
+/* Проверка перед публикацией */
+.ad-counter{margin:0;color:var(--ink-3);font-size:13.5px}
+.ad-check-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 22px;padding:16px 18px;border:1px solid var(--line);border-radius:16px}
+.ad-check-list p{position:relative;margin:0;padding-left:22px;font-size:13.5px;line-height:1.45}
+.ad-check-list p::before{position:absolute;left:0;top:0;font-weight:700}
+.ad-check-list .is-ok{color:var(--ink-3)}
+.ad-check-list .is-ok::before{color:#8ef0c0;content:'✓'}
+.ad-check-list .is-bad{color:#ffd1e8}
+.ad-check-list .is-bad::before{color:#ff8fb8;content:'!'}
+.ad .ad-check-list .ad-check-list__h{grid-column:1 / -1;padding:0;margin-bottom:4px;color:var(--ink);font-size:14px;font-weight:500}
+.ad-check-list__h::before{content:none!important}
+
+/* Обзор */
+.ad-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:34px}
+.ad-stat{padding:18px 20px;border:1px solid var(--line-2);border-radius:16px}
+.ad-stat b{display:block;font-size:34px;font-weight:340;letter-spacing:-.03em;line-height:1}
+.ad-stat span{display:block;margin-top:8px;color:var(--ink-3);font-size:13.5px}
+.ad-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:34px}
+.ad-feed{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.ad-feed li{color:var(--ink-2);font-size:14px;line-height:1.5}
+.ad-feed li span{display:block;color:var(--ink-3);font-size:12.5px}
+.ad-feed b{color:var(--ink);font-weight:500}
+.ad-feed a{color:var(--vio-2)}
+
+/* Рубрики */
+.ad-cat-add{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:end;margin:18px 0}
+.ad-cat-add__desc{grid-column:1 / -1}
+.ad-cat-add .btn{justify-self:start}
+
 .ad-add{grid-template-columns:minmax(0,1fr) auto;margin-top:18px}
 .ad-newkey{margin:16px 0;padding:16px;border:1px solid rgba(142,240,192,.35);border-radius:14px}
 .ad-newkey code,.ad-note code{display:block;margin:8px 0;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.05);
@@ -93,7 +161,8 @@
 .ad-note{margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
 
 @media (max-width:760px){
-  .ad-row,.ad-cover,.ad-add{grid-template-columns:1fr}
+  .ad-row,.ad-cover,.ad-add,.ad-filters,.ad-row--meta,.ad-check-list,.ad-cols,.ad-cat-add,.ad-previews{grid-template-columns:1fr}
+  .ad-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .ad-bar__nav{margin-left:0;width:100%}
   .ad-tools{top:0}
   .ad-body{padding:16px}
