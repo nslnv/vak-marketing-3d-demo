@@ -9,6 +9,8 @@
   var RAW = 'https://raw.githubusercontent.com/nslnv/vak-marketing-3d-demo/main/content/blog/';
   // Отдельное развёртывание того же скрипта для nslnv.seo: оно отвечает сеошке без редиректа (см. doPost).
   var NSLNV = 'https://script.google.com/macros/s/AKfycbzBcYAfw0RdhqnqDpRad1fkEuf1xzJV6h1CNDUa4yBh7bu3BlE2UOCrxXoDIRVEsuFyvQ/exec';
+  // История правок берётся из коммитов: Apps Script пишет в сообщение, что сделано и чьим ключом.
+  var COMMITS = 'https://api.github.com/repos/nslnv/vak-marketing-3d-demo/commits?per_page=100&path=content/blog';
   var STORE = 'vak-editor-key';
   var key = '';
   var me = null;
@@ -46,6 +48,31 @@
       .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80).replace(/-+$/, '');
   }
 
+  /* ---------- кто что делал ---------- */
+  function when(iso) {
+    var d = new Date(iso);
+    return d.getDate() + ' ' + MONTHS[d.getMonth()] + ', ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  function whoName(n) { return n === 'nslnv.seo' ? 'сеошка nslnv.seo' : n; }
+  // Коммиты от новых к старым → записи {title, live, who, at, what} от старых к новым.
+  function history(commits) {
+    var out = [], last = {};
+    commits.slice().reverse().forEach(function (c) {
+      var m = /^Блог: «([\s\S]*)» (опубликована|черновик) \(([^)]*)\)/.exec(c.commit.message);
+      if (!m) return;
+      var e = { title: m[1], live: m[2] === 'опубликована', who: m[3], at: c.commit.committer.date }, prev = last[e.title];
+      e.what = e.live ? (prev && prev.live ? 'правка на сайте' : 'публикация')
+        : !prev ? 'черновик создан' : prev.live ? 'снята с сайта' : 'правка черновика';
+      last[e.title] = e;
+      out.push(e);
+    });
+    return out;
+  }
+  function commits(path) {
+    return fetch(path ? COMMITS + '/' + encodeURIComponent(path) : COMMITS)
+      .then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
+  }
+
   /* ---------- вход ---------- */
   function signIn() {
     return api('me').then(function (res) {
@@ -79,14 +106,17 @@
     var v = view('list'), box = $('[data-list]', v);
     say(v, 'Загружаем статьи…');
     box.innerHTML = '';
-    api('list').then(function (res) {
+    Promise.all([api('list'), commits()]).then(function (r) {
+      var res = r[0], latest = {};
+      history(r[1]).forEach(function (e) { latest[e.title] = e; });
       say(v, '');
       if (!res.posts.length) { box.innerHTML = '<p>Статей пока нет. Нажмите «Новая статья».</p>'; return; }
       box.innerHTML = res.posts.map(function (p) {
-        var live = p.status === 'published';
+        var live = p.status === 'published', e = latest[p.title];
         return '<div class="ad-item"><a class="ad-item__title" href="#edit/' + esc(p.slug) + '">' + esc(p.title) + '</a>' +
-          '<span class="ad-item__meta">' + human(p.date) + ' · ' + (p.lang === 'en' ? 'EN' : 'RU') + (p.author ? ' · ' + esc(p.author) : '') +
-          (p.source === 'nslnv' ? ' · из nslnv.seo' : '') + '</span>' +
+          '<span class="ad-item__meta">' + human(p.date) + ' · ' + (p.lang === 'en' ? 'EN' : 'RU') +
+          (p.author ? ' · автор: ' + esc(whoName(p.author)) : '') +
+          (e ? '<br>последнее: ' + e.what + ', <b>' + esc(whoName(e.who)) + '</b>, ' + when(e.at) : '') + '</span>' +
           '<span class="ad-item__side"><span class="ad-chip' + (live ? ' ad-chip--live' : '') + '">' + (live ? 'Опубликована' : 'Черновик') + '</span>' +
           (live ? '<a class="ad-link" href="/blog/' + esc(p.slug) + '/" target="_blank" rel="noopener">На сайте ↗</a>' : '') + '</span></div>';
       }).join('');
@@ -120,8 +150,24 @@
   function autosize() { form.title.style.height = 'auto'; form.title.style.height = form.title.scrollHeight + 'px'; }
   function count() { $('[data-count]').textContent = form.description.value.length + ' / 160'; }
 
+  function showHistory() {
+    var box = $('[data-hist]');
+    box.hidden = true;
+    if (!ed.slug) return;
+    var slug = ed.slug;
+    commits(slug + '.json').then(function (list) {
+      var rows = history(list).reverse();
+      if (slug !== ed.slug || !rows.length) return;
+      $('[data-hist-list]').innerHTML = rows.map(function (e) {
+        return '<li>' + when(e.at) + ' · ' + e.what + ' · <b>' + esc(whoName(e.who)) + '</b></li>';
+      }).join('');
+      box.hidden = false;
+    });
+  }
+
   function showEditor(slug) {
     view('edit');
+    $('[data-hist]').hidden = true;
     say(ev, '');
     ed = { slug: '', status: '', cover: '', dirty: false, slugTouched: false, range: null };
     form.reset();
@@ -143,6 +189,7 @@
       coverPreview(); stateLine(); autosize(); count();
       say(ev, p.source === 'nslnv' && p.status !== 'published' ? 'Статья пришла из nslnv.seo. Проверьте факты, цифры и ссылки перед публикацией.' : '');
       ed.dirty = false;
+      showHistory();
     }).catch(function (err) { say(ev, err.message, 'err'); });
   }
 
@@ -176,6 +223,7 @@
       say(ev, res.status === 'published'
         ? 'Готово. Статья будет на сайте через 1–2 минуты: <a href="' + res.url + '" target="_blank" rel="noopener">' + res.url + '</a>'
         : 'Черновик сохранён. На сайте его не видно.', 'ok');
+      setTimeout(showHistory, 2000);
     }).catch(function (err) { say(ev, err.message, 'err'); })
       .then(function () { $$('.ad-actions button').forEach(function (b) { b.disabled = false; }); });
   }

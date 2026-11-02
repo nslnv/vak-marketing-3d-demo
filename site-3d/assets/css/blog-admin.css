@@ -80,6 +80,12 @@
 .ad-actions__gap{flex:1}
 .ad-state{color:var(--ink-3);font-size:13.5px}
 
+.ad-item__meta b{color:var(--ink-2);font-weight:500}
+.ad-hist{margin-top:36px;padding-top:22px;border-top:1px solid var(--line)}
+.ad-hist ol{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.ad-hist li{color:var(--ink-3);font-size:14px;line-height:1.5}
+.ad-hist b{color:var(--ink);font-weight:500}
+
 .ad-add{grid-template-columns:minmax(0,1fr) auto;margin-top:18px}
 .ad-newkey{margin:16px 0;padding:16px;border:1px solid rgba(142,240,192,.35);border-radius:14px}
 .ad-newkey code,.ad-note code{display:block;margin:8px 0;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.05);

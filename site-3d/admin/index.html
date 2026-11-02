@@ -10,7 +10,7 @@
   <link rel="preload" href="/assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/base.css?v=20261016-1">
   <link rel="stylesheet" href="/assets/css/blog.css?v=20261102-1">
-  <link rel="stylesheet" href="/assets/css/blog-admin.css?v=20261102-1">
+  <link rel="stylesheet" href="/assets/css/blog-admin.css?v=20261103-1">
 </head>
 <body class="ad">
   <header class="ad-bar">
@@ -105,6 +105,10 @@
           <button type="button" class="ad-link ad-link--danger" data-delete hidden>Удалить</button>
         </div>
       </form>
+      <div class="ad-hist" data-hist hidden>
+        <h2>Кто что делал</h2>
+        <ol data-hist-list></ol>
+      </div>
     </section>
 
     <!-- редакторы -->
@@ -126,6 +130,6 @@
     </section>
   </main>
 
-  <script src="/assets/js/blog-admin.js?v=20261103-2" defer></script>
+  <script src="/assets/js/blog-admin.js?v=20261103-3" defer></script>
 </body>
 </html>
