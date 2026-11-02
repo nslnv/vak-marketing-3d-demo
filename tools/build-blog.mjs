@@ -15,8 +15,9 @@ const SRC = 'content/blog';
 const SITE = 'https://vakmarketing.com';
 const DEFAULT_OG = SITE + '/assets/img/og-v6.jpg';
 const CSS_V = '20261103-1', JS_V = '20261103-1';
-// Статья с датой в будущем запланирована: до этого дня (по Кипру) её на сайте нет.
-const TODAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Nicosia' }).format(new Date());
+// Статья запланирована, пока её дата не наступила нигде в мире (UTC+14): так редактор в любом
+// часовом поясе публикует «сегодня» сразу, а запланированная выходит со сборкой в 00:10 по Кипру.
+const TODAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Pacific/Kiritimati' }).format(new Date());
 
 const read = (p) => fs.readFileSync(p, 'utf8');
 const write = (p, s) => { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, s); };

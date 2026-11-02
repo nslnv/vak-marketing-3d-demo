@@ -42,6 +42,10 @@
   var MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
   function human(d) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d || ''); return m ? Number(m[3]) + ' ' + MONTHS[Number(m[2]) - 1] + ' ' + m[1] : ''; }
   function today() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  // Последний наступивший «сегодня» на Земле (UTC+14): позже этой даты статья считается запланированной, как и при сборке сайта.
+  function latestDay() {
+    try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Pacific/Kiritimati' }).format(new Date()); } catch (e) { return today(); }
+  }
   var TR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o',
     п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya' };
   function slugify(s) {
@@ -150,7 +154,7 @@
   // Состояние для людей: опубликована, запланирована (дата в будущем), на проверке, черновик, в корзине.
   function stateOf(p) {
     if (p.status === 'trash') return 'trash';
-    if (p.status === 'published') return p.date > today() ? 'scheduled' : 'published';
+    if (p.status === 'published') return p.date > latestDay() ? 'scheduled' : 'published';
     return p.review ? 'review' : 'draft';
   }
   var STATE = { published: 'Опубликована', scheduled: 'Запланирована', review: 'На проверке', draft: 'Черновик', trash: 'В корзине' };
@@ -220,7 +224,7 @@
   function stateLine() {
     var live = ed.status === 'published', s0 = ed.slug ? stateOf({ status: ed.status, date: form.date.value, review: ed.review }) : '';
     $('[data-state]').textContent = !ed.slug ? 'Новая статья' : STATE[s0] + (s0 === 'scheduled' ? ' на ' + human(form.date.value) : '');
-    $('[data-publish]').textContent = live ? 'Обновить на сайте' : form.date.value > today() ? 'Запланировать' : 'Опубликовать';
+    $('[data-publish]').textContent = live ? 'Обновить на сайте' : form.date.value > latestDay() ? 'Запланировать' : 'Опубликовать';
     $('[data-unpublish]').hidden = !live;
     $('[data-delete]').hidden = !ed.slug;
     $('[data-copy]').hidden = !ed.slug;
@@ -348,7 +352,7 @@
       window.history.replaceState(null, '', '#edit/' + res.slug);
       stateLine();
       say(ev, res.status === 'published'
-        ? (post.date > today() ? 'Запланирована: статья сама появится на сайте ' + human(post.date) + '.'
+        ? (post.date > latestDay() ? 'Запланирована: статья сама появится на сайте ' + human(post.date) + '.'
           : 'Готово. Статья будет на сайте через 1–2 минуты: <a href="' + res.url + '" target="_blank" rel="noopener">' + res.url + '</a>')
         : post.review ? 'Отправлена на проверку. На сайте её не видно, в обзоре она в списке «Ждут проверки».'
         : 'Черновик сохранён. На сайте его не видно.', 'ok');
