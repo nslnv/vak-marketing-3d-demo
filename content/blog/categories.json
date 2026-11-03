@@ -22,5 +22,11 @@
     "name": "Industry News",
     "nameEn": "",
     "description": ""
+  },
+  {
+    "slug": "events",
+    "name": "Events",
+    "nameEn": "",
+    "description": ""
   }
 ]
