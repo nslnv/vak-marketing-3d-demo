@@ -238,7 +238,7 @@ function categoryPage(sh, c, posts, cats, used) {
       <header class="bl-head">
         <nav class="bl-crumbs" aria-label="Навигация"><a href="/blog/">${L('Блог', 'Blog')}</a></nav>
         <h1 class="pv-title">${L(esc(c.name), esc(c.nameEn || c.name))}</h1>
-        ${c.description ? `<p class="bl-lead">${esc(c.description)}</p>` : ''}
+        ${c.description ? `<p class="bl-lead">${L(esc(c.description), esc(c.descriptionEn || c.description))}</p>` : ''}
       </header>
       ${catNav(used, c.slug)}
       <div class="bl-grid">

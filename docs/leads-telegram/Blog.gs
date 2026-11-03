@@ -135,6 +135,18 @@ function savePost_(p, prevSlug, who) {
 }
 
 /* ---------- перевод ---------- */
+// Рубрика на обоих языках: name русское, nameEn английское. Если редактор написал название только
+// по-английски, оно уходит в nameEn, а русское делает переводчик; так же с описанием.
+function catLangs_(c) {
+  var cyr = /[а-яё]/i;
+  var tr = function (s, from, to) { try { return plain_(LanguageApp.translate(s, from, to)); } catch (e) { return s; } };
+  if (!c.nameEn && !cyr.test(c.name)) { c.nameEn = c.name; c.name = tr(c.name, 'en', 'ru'); }
+  else if (!c.nameEn) c.nameEn = tr(c.name, 'ru', 'en');
+  if (c.description && !c.descriptionEn && !cyr.test(c.description)) { c.descriptionEn = c.description; c.description = tr(c.description, 'en', 'ru'); }
+  else if (c.description && !c.descriptionEn) c.descriptionEn = tr(c.description, 'ru', 'en');
+  return c;
+}
+
 // Перевод статьи на второй язык сайта. Пока исходный текст не менялся (подпись sig), прежний
 // перевод не трогаем. Если переводчик не ответил, статья выходит без перевода, сайт покажет оригинал.
 function translated_(post, prev) {
@@ -292,7 +304,8 @@ function categories_(d, who) {
     var slug = slugify_(c.slug || name).slice(0, 60);
     if (!name || !slug || seen[slug]) return;
     seen[slug] = 1;
-    out.push({ slug: slug, name: name, nameEn: String(c.nameEn || '').trim().slice(0, 60), description: String(c.description || '').trim().slice(0, 300) });
+    out.push(catLangs_({ slug: slug, name: name, nameEn: String(c.nameEn || '').trim().slice(0, 60),
+      description: String(c.description || '').trim().slice(0, 300), descriptionEn: String(c.descriptionEn || '').trim().slice(0, 300) }));
   });
   writeFile_(BLOG_DIR + '/categories.json', JSON.stringify(out, null, 2), 'Блог: рубрики (' + who.name + ')', cur.file && cur.file.sha);
   return { ok: true, categories: out };

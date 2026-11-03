@@ -777,9 +777,10 @@
     else if ((i = t.getAttribute('data-cat-edit')) !== null) {
       var c = list[+i], name = prompt('Название рубрики', c.name);
       if (name === null || !name.trim()) return;
-      var en = prompt('Название на английском (можно пусто)', c.nameEn || '');
+      var en = prompt('Название на английском (можно пусто: переведётся само)', c.nameEn || '');
       var d = prompt('Описание для страницы рубрики (можно пусто)', c.description || '');
-      list[+i] = { slug: c.slug, name: name.trim(), nameEn: (en || '').trim(), description: (d || '').trim() };
+      list[+i] = { slug: c.slug, name: name.trim(), nameEn: (en || '').trim(), description: (d || '').trim(),
+        descriptionEn: (d || '').trim() === (c.description || '') ? c.descriptionEn || '' : '' };
       catsChanged(list);
     } else if ((i = t.getAttribute('data-cat-del')) !== null) {
       var cc = list[+i], n = posts.filter(function (p) { return p.category === cc.slug; }).length;

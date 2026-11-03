@@ -2,31 +2,31 @@
   {
     "slug": "seo",
     "name": "SEO",
-    "nameEn": "",
+    "nameEn": "SEO",
     "description": ""
   },
   {
     "slug": "marketing",
-    "name": "Marketing",
-    "nameEn": "",
+    "name": "Маркетинг",
+    "nameEn": "Marketing",
     "description": ""
   },
   {
     "slug": "people-projects",
-    "name": "People & Projects",
-    "nameEn": "",
+    "name": "Люди и проекты",
+    "nameEn": "People & Projects",
     "description": ""
   },
   {
     "slug": "industry-news",
-    "name": "Industry News",
-    "nameEn": "",
+    "name": "Новости индустрии",
+    "nameEn": "Industry News",
     "description": ""
   },
   {
     "slug": "events",
-    "name": "Events",
-    "nameEn": "",
+    "name": "События",
+    "nameEn": "Events",
     "description": ""
   }
 ]
