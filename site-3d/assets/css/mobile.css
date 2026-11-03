@@ -241,7 +241,7 @@
   .fnd .fnd__links .btn{flex:1 1 0;height:50px;border-radius:25px}
 
   /* ---------- команда: все лица сразу, 2 колонки ---------- */
-  .team .team__grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 12px}
+  .team .team__grid{--n:2;--gx:12px;gap:22px var(--gx)}
   .team .team__portrait{aspect-ratio:4/5;border:0;border-radius:22px}
   .team .team__portrait::after{display:none}
   .team .team__copy{display:flex;flex-direction:column-reverse;padding:10px 2px 0}
@@ -368,7 +368,7 @@
   .fnd .fnd__body{margin-top:0}
   .fnd .fnd__name{font-size:40px}
 
-  .team .team__grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 16px}
+  .team .team__grid{--n:3;--gx:16px;gap:28px var(--gx)}
   .ptn .logos{grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
   .cta .h2{font-size:50px}
 }
