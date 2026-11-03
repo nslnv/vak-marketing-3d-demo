@@ -14,7 +14,7 @@ const OUT = process.argv[2] || '_site/site-3d';
 const SRC = 'content/blog';
 const SITE = 'https://vakmarketing.com';
 const DEFAULT_OG = SITE + '/assets/img/og-v6.jpg';
-const CSS_V = '20261103-1', JS_V = '20261103-1';
+const CSS_V = '20261103-1', JS_V = '20261104-1';
 // Статья запланирована, пока её дата не наступила нигде в мире (UTC+14): так редактор в любом
 // часовом поясе публикует «сегодня» сразу, а запланированная выходит со сборкой в 00:10 по Кипру.
 const TODAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Pacific/Kiritimati' }).format(new Date());
@@ -57,11 +57,11 @@ const TR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 
 const slugify = (t) => String(t).toLowerCase().split('').map((c) => (TR[c] !== undefined ? TR[c] : c)).join('')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'part';
 const text = (html) => String(html || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
-// Якоря у подзаголовков H2 и оглавление, если их три и больше.
-function toc(html) {
+// Якоря у подзаголовков H2 и оглавление, если их три и больше. pre разводит якоря двух языковых версий.
+function toc(html, pre = '') {
   const used = {}, items = [];
   const out = html.replace(/<h2>([\s\S]*?)<\/h2>/g, (m, inner) => {
-    let id = slugify(text(inner)); while (used[id]) id += '-2'; used[id] = 1;
+    let id = pre + slugify(text(inner)); while (used[id]) id += '-2'; used[id] = 1;
     items.push({ id, title: text(inner) });
     return `<h2 id="${id}">${inner}</h2>`;
   });
@@ -70,6 +70,23 @@ function toc(html) {
 const words = (html) => text(html).split(' ').filter(Boolean).length;
 const readMin = (html) => Math.max(1, Math.round(words(html) / 190));
 const L = (ru, en) => `<span data-l="ru">${ru}</span><span data-l="en">${en == null ? ru : en}</span>`;
+
+// Языковые версии статьи: оригинал и перевод из поля tr (его делает Blog.gs при публикации).
+// Пустое поле перевода берётся из оригинала. Без перевода other = null и обе версии сайта
+// показывают оригинал.
+function versions(p) {
+  const lang = p.lang === 'en' ? 'en' : 'ru';
+  const orig = { lang, title: p.title, description: p.description || '', seoTitle: p.seoTitle || '', html: p.html || '' };
+  const t = p.tr && p.tr.lang === (lang === 'en' ? 'ru' : 'en') && p.tr.html ? p.tr : null;
+  const other = t && { lang: t.lang, title: t.title || orig.title, description: t.description || orig.description,
+    seoTitle: t.seoTitle || '', html: t.html };
+  return { orig, other, ru: lang === 'ru' ? orig : other, en: lang === 'en' ? orig : other };
+}
+// Кусок разметки в обеих версиях; без перевода один, с языком оригинала.
+function LV(v, f, tag = 'span') {
+  if (!v.other) return f(v.orig);
+  return `<${tag} data-l="ru" lang="ru">${f(v.ru)}</${tag}><${tag} data-l="en" lang="en">${f(v.en)}</${tag}>`;
+}
 
 const MONTHS = {
   ru: ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'],
@@ -102,10 +119,12 @@ function shell() {
   };
 }
 
-function page(sh, { title, description, canonical, ogType, ogImage, ogLocale, jsonld, body, current }) {
+function page(sh, { title, titles, description, canonical, ogType, ogImage, ogLocale, jsonld, body, current }) {
   const header = sh.header.replace(/<a href="\/blog\/" data-bl>/g, current ? '<a href="/blog/" aria-current="page">' : '<a href="/blog/">');
+  // Заголовок вкладки меняется вместе с языком (blog.js), если для страницы есть оба.
+  const tt = titles ? ` data-title-ru="${esc(titles.ru)}" data-title-en="${esc(titles.en)}"` : '';
   return `<!doctype html>
-<html lang="ru">
+<html lang="ru"${tt}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -154,13 +173,15 @@ ${body}
 }
 
 function card(p, cats, big) {
-  const img = coverSrc(p), c = cats[p.category];
-  return `<a class="bl-card${big ? ' bl-card--big' : ''}" href="/blog/${p.slug}/" lang="${p.lang === 'en' ? 'en' : 'ru'}">
+  const img = coverSrc(p), c = cats[p.category], v = versions(p);
+  const date = v.other ? L(humanDate(p.date, 'ru'), humanDate(p.date, 'en')) : humanDate(p.date, p.lang);
+  const min = L(readMin(v.ru ? v.ru.html : p.html) + ' мин', readMin(v.en ? v.en.html : p.html) + ' min');
+  return `<a class="bl-card${big ? ' bl-card--big' : ''}" href="/blog/${p.slug}/"${v.other ? '' : ` lang="${v.orig.lang}"`}>
           ${img ? `<span class="bl-card__img"><img src="${esc(img)}" alt="${esc(p.coverAlt || '')}" width="1600" height="900" ${big ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></span>` : '<span class="bl-card__img bl-card__img--none" aria-hidden="true"></span>'}
           <span class="bl-card__body">
-            <span class="bl-card__meta">${c ? `<span class="bl-card__cat">${L(esc(c.name), esc(c.nameEn || c.name))}</span>` : ''}<time datetime="${esc(p.date)}">${humanDate(p.date, p.lang)}</time><span>${L(readMin(p.html) + ' мин', readMin(p.html) + ' min')}</span>${p.lang === 'en' ? '<span>EN</span>' : ''}</span>
-            <span class="bl-card__title">${esc(p.title)}</span>
-            ${p.description ? `<span class="bl-card__desc">${esc(p.description)}</span>` : ''}
+            <span class="bl-card__meta">${c ? `<span class="bl-card__cat">${L(esc(c.name), esc(c.nameEn || c.name))}</span>` : ''}<time datetime="${esc(p.date)}">${date}</time><span>${min}</span>${p.lang === 'en' && !v.other ? '<span>EN</span>' : ''}</span>
+            <span class="bl-card__title">${LV(v, (x) => esc(x.title))}</span>
+            ${p.description ? `<span class="bl-card__desc">${LV(v, (x) => esc(x.description))}</span>` : ''}
           </span>
         </a>`;
 }
@@ -197,7 +218,7 @@ function listPage(sh, posts, cats, used) {
     </div>
   </main>`;
   return page(sh, {
-    title: 'Блог — VAK Marketing',
+    title: 'Блог — VAK Marketing', titles: { ru: 'Блог — VAK Marketing', en: 'Blog — VAK Marketing' },
     description: 'Блог VAK Marketing: разборы, кейсы и заметки о маркетинге, PR и продвижении в iGaming, FinTech, Crypto и Web3.',
     canonical: SITE + '/blog/', ogType: 'website', ogImage: DEFAULT_OG, ogLocale: 'ru_RU', current: true, body,
     jsonld: { '@context': 'https://schema.org', '@graph': [
@@ -226,7 +247,8 @@ function categoryPage(sh, c, posts, cats, used) {
     </div>
   </main>`;
   return page(sh, {
-    title: `${c.name} — блог VAK Marketing`, description: desc, canonical: url, ogType: 'website', ogImage: DEFAULT_OG,
+    title: `${c.name} — блог VAK Marketing`, titles: { ru: `${c.name} — блог VAK Marketing`, en: `${c.nameEn || c.name} — VAK Marketing blog` },
+    description: desc, canonical: url, ogType: 'website', ogImage: DEFAULT_OG,
     ogLocale: 'ru_RU', current: true, body,
     jsonld: { '@context': 'https://schema.org', '@graph': [
       { '@type': 'CollectionPage', '@id': url, name: c.name, description: desc, url, isPartOf: { '@id': SITE + '/blog/#blog' },
@@ -239,29 +261,35 @@ function categoryPage(sh, c, posts, cats, used) {
 }
 
 function postPage(sh, p, posts, cats) {
-  const lang = p.lang === 'en' ? 'en' : 'ru';
+  const v = versions(p), lang = v.orig.lang;
   const url = `${SITE}/blog/${p.slug}/`;
   const img = coverSrc(p), c = cats[p.category];
-  const t = toc(videos(clean(p.html)));
   const min = readMin(p.html);
+  // Начало и текст статьи для одной языковой версии; обложка между ними общая.
+  const head = (x) => `<h1 class="bl-title">${esc(x.title)}</h1>
+        <p class="bl-meta"><time datetime="${esc(p.date)}">${humanDate(p.date, x.lang)}</time><span>${x.lang === 'en' ? readMin(x.html) + ' min read' : readMin(x.html) + ' мин чтения'}</span></p>
+        ${x.description ? `<p class="bl-intro">${esc(x.description)}</p>` : ''}`;
+  const main = (x) => {
+    const t = toc(videos(clean(x.html)), v.other && x.lang === 'en' ? 'en-' : '');
+    return `${t.items.length ? `<nav class="bl-toc" aria-label="${x.lang === 'en' ? 'Contents' : 'Содержание'}">
+          <p>${x.lang === 'en' ? 'Contents' : 'Содержание'}</p>
+          <ol>${t.items.map((i) => `<li><a href="#${i.id}">${esc(i.title)}</a></li>`).join('')}</ol>
+        </nav>` : ''}
+        <div class="bl-prose">
+${t.html}
+        </div>`;
+  };
+  const block = (f) => (v.other ? `<div data-l="ru" lang="ru">${f(v.ru)}</div><div data-l="en" lang="en">${f(v.en)}</div>` : f(v.orig));
   const same = posts.filter((x) => x.slug !== p.slug && p.category && x.category === p.category);
   const more = same.concat(posts.filter((x) => x.slug !== p.slug && !same.includes(x))).slice(0, 3);
   const share = encodeURIComponent(url), title = encodeURIComponent(p.title);
   const body = `  <main class="bl-main" id="main">
     <article class="wrap bl-post">
       <nav class="bl-crumbs" aria-label="Навигация"><a href="/blog/">${L('Блог', 'Blog')}</a>${c ? `<span aria-hidden="true">/</span><a href="/blog/category/${c.slug}/">${L(esc(c.name), esc(c.nameEn || c.name))}</a>` : ''}</nav>
-      <div lang="${lang}">
-        <h1 class="bl-title">${esc(p.title)}</h1>
-        <p class="bl-meta"><time datetime="${esc(p.date)}">${humanDate(p.date, lang)}</time><span>${lang === 'en' ? min + ' min read' : min + ' мин чтения'}</span></p>
-        ${p.description ? `<p class="bl-intro">${esc(p.description)}</p>` : ''}
+      <div${v.other ? '' : ` lang="${lang}"`}>
+        ${block(head)}
         ${img ? `<figure class="bl-cover"><img src="${esc(img)}" alt="${esc(p.coverAlt || '')}" width="1600" height="900" fetchpriority="high" decoding="async"></figure>` : ''}
-        ${t.items.length ? `<nav class="bl-toc" aria-label="${lang === 'en' ? 'Contents' : 'Содержание'}">
-          <p>${lang === 'en' ? 'Contents' : 'Содержание'}</p>
-          <ol>${t.items.map((i) => `<li><a href="#${i.id}">${esc(i.title)}</a></li>`).join('')}</ol>
-        </nav>` : ''}
-        <div class="bl-prose">
-${t.html}
-        </div>
+        ${block(main)}
       </div>
       <div class="bl-share">
         <span>${L('Поделиться', 'Share')}</span>
@@ -289,6 +317,7 @@ ${t.html}
   crumbs.push({ '@type': 'ListItem', position: crumbs.length + 1, name: p.title, item: url });
   return page(sh, {
     title: `${p.seoTitle || p.title} — VAK Marketing`, description, canonical: url, ogType: 'article',
+    titles: v.other && { ru: `${v.ru.seoTitle || v.ru.title} — VAK Marketing`, en: `${v.en.seoTitle || v.en.title} — VAK Marketing` },
     ogImage: p.cover ? absUrl(p.cover) : DEFAULT_OG, ogLocale: lang === 'en' ? 'en_US' : 'ru_RU', body,
     jsonld: { '@context': 'https://schema.org', '@graph': [
       { '@type': 'BlogPosting', '@id': url + '#post', headline: p.seoTitle || p.title, description, url, mainEntityOfPage: url,

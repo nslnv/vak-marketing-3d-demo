@@ -13,6 +13,8 @@
  * nslnv.seo: «Другой сайт или CMS» → адрес <URL веб-приложения>?key=<ключ редактора>;
  * присланные статьи сохраняются черновиками, картинки из них скачиваются в media/. Сеошке отвечаем
  * через HtmlService (см. doPost). Рубрики лежат в content/blog/categories.json (действие categories).
+ * Вторая языковая версия статьи (поле tr) делается при публикации переводчиком Google (LanguageApp);
+ * сайт показывает её, когда посетитель переключил язык. Уже опубликованные переводит действие translate.
  */
 var GH_REPO = 'nslnv/vak-marketing-3d-demo', GH_BRANCH = 'main', BLOG_DIR = 'content/blog';
 var SITE_BLOG = 'https://vakmarketing.com/blog/';
@@ -50,6 +52,7 @@ function blogApi_(data, params) {
       case 'upload': return upload_(data.file || {}, who);
       case 'editors': return editors_(data, who);
       case 'categories': return categories_(data, who);
+      case 'translate': return translateAll_(data.slug, who);
     }
     return { ok: false, error: 'Неизвестное действие' };
   } catch (err) {
@@ -71,7 +74,7 @@ function listPosts_() {
       var p = JSON.parse(r.getContentText());
       out.push({ slug: p.slug, title: p.title, status: p.status, date: p.date, updated: p.updated, lang: p.lang, author: p.author,
         editedBy: p.editedBy || '', source: p.source || 'admin', cover: p.cover || '', category: p.category || '', featured: !!p.featured,
-        review: !!p.review, note: p.note ? String(p.note).slice(0, 140) : '' });
+        review: !!p.review, note: p.note ? String(p.note).slice(0, 140) : '', tr: p.tr ? p.tr.lang : '' });
     } catch (e) {}
   });
   return out.sort(function (a, b) { return String(b.updated || b.date).localeCompare(String(a.updated || a.date)); });
@@ -120,6 +123,8 @@ function savePost_(p, prevSlug, who) {
   };
   if (p.sourceFields) post.sourceFields = p.sourceFields;
   else if (base.sourceFields) post.sourceFields = base.sourceFields;
+  var tr = status === 'published' ? translated_(post, base.tr) : base.tr;
+  if (tr) post.tr = tr;
   var wasLive = (base.status === 'published');
   var verb = status === 'published' ? 'опубликована' : status === 'trash' ? 'в корзине' : post.review ? 'на проверке' : 'черновик';
   var msg = 'Блог: «' + title + '» ' + verb + ' (' + who.name + ')' +
@@ -127,6 +132,64 @@ function savePost_(p, prevSlug, who) {
   writeFile_(path, JSON.stringify(post, null, 2), msg, cur && cur.sha);
   if (old) deleteFile_(BLOG_DIR + '/' + prevSlug + '.json', old.sha, 'Блог: адрес «' + prevSlug + '» → «' + slug + '»' + (wasLive ? '' : ' [skip ci]'));
   return { ok: true, slug: slug, status: status, url: SITE_BLOG + slug + '/' };
+}
+
+/* ---------- перевод ---------- */
+// Перевод статьи на второй язык сайта. Пока исходный текст не менялся (подпись sig), прежний
+// перевод не трогаем. Если переводчик не ответил, статья выходит без перевода, сайт покажет оригинал.
+function translated_(post, prev) {
+  var from = post.lang === 'en' ? 'en' : 'ru', to = from === 'en' ? 'ru' : 'en';
+  var sig = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5,
+    [post.title, post.description, post.seoTitle, post.coverAlt, post.html].join('\u0001'), Utilities.Charset.UTF_8));
+  if (prev && prev.lang === to && prev.sig === sig) return prev;
+  try {
+    var line = function (s) { return s ? plain_(LanguageApp.translate(s, from, to)) : ''; };
+    return { lang: to, sig: sig, title: line(post.title), description: line(post.description), seoTitle: line(post.seoTitle),
+      coverAlt: line(post.coverAlt), html: sanitize_(translateHtml_(post.html, from, to)) };
+  } catch (err) {
+    console.error(err);
+    return prev || null;
+  }
+}
+
+// HTML уходит переводчику кусками по целым блокам верхнего уровня: длина одного запроса ограничена.
+function translateHtml_(html, from, to) {
+  var blocks = [], depth = 0, start = 0, re = /<(\/?)([a-z][a-z0-9]*)\b[^>]*>/gi, m;
+  html = String(html || '');
+  while ((m = re.exec(html))) {
+    if (/^(br|hr|img|wbr)$/i.test(m[2])) continue;
+    depth = Math.max(0, depth + (m[1] ? -1 : 1));
+    if (!depth) { blocks.push(html.slice(start, re.lastIndex)); start = re.lastIndex; }
+  }
+  if (start < html.length) blocks.push(html.slice(start));
+  var out = '', chunk = '';
+  var flush = function () { if (chunk.trim()) out += LanguageApp.translate(chunk, from, to, { contentType: 'html' }); chunk = ''; };
+  blocks.forEach(function (b) { if (chunk.length + b.length > 4000) flush(); chunk += b; });
+  flush();
+  return out;
+}
+
+function plain_(s) {
+  return String(s).replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+}
+
+// Перевести уже опубликованные статьи (или одну, slug), у которых перевода нет или он устарел.
+// Сайт пересобирается один раз, последним коммитом.
+function translateAll_(slug, who) {
+  var dir = gh_('get', '/contents/' + BLOG_DIR + '?ref=' + GH_BRANCH), todo = [];
+  (dir.json || []).forEach(function (f) {
+    if (f.type !== 'file' || !/\.json$/.test(f.name) || f.name === 'categories.json') return;
+    if (slug && f.name !== slug + '.json') return;
+    var cur = readFile_(BLOG_DIR + '/' + f.name), post = cur && JSON.parse(cur.text);
+    if (!post || post.status !== 'published') return;
+    var tr = translated_(post, post.tr);
+    if (tr && tr !== post.tr) { post.tr = tr; todo.push({ name: f.name, post: post, sha: cur.sha }); }
+  });
+  todo.forEach(function (t, i) {
+    writeFile_(BLOG_DIR + '/' + t.name, JSON.stringify(t.post, null, 2),
+      'Блог: перевод «' + t.post.title + '» (' + who.name + ')' + (i < todo.length - 1 ? ' [skip ci]' : ''), t.sha);
+  });
+  return { ok: true, translated: todo.map(function (t) { return t.post.slug; }) };
 }
 
 function deletePost_(slug, who) {

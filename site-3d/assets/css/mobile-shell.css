@@ -44,7 +44,8 @@
   .menu__svc-row small{margin-top:-5px;font-size:11px;color:#8F88A6}
   .menu__svc-soon img{opacity:.55}
   .nav .menu__links{margin-top:26px;border-bottom:1px solid var(--line)}
-  .nav .menu__links > a{display:flex;align-items:center;justify-content:space-between;min-height:58px;padding:0;
+  /* Пунктов семь (с «Блогом»): строки по 52 px, чтобы кнопка внизу меню влезала в экран высотой 812 px. */
+  .nav .menu__links > a{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0;
     border-top:1px solid var(--line);border-bottom:0;font-size:28px;font-weight:300;line-height:1.1;letter-spacing:-.04em;color:var(--ink)}
   .nav .menu__links > a::after{content:'';width:9px;height:9px;margin-right:4px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;
     transform:rotate(45deg);opacity:.55}

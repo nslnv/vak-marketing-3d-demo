@@ -1,12 +1,14 @@
 /* Блог: переключение языка (общее с сайтом, localStorage 'vak-lang'), мобильное меню,
-   шапка при прокрутке и копирование ссылки на статью. То же, что privacy-page.js, но без оглавления и без смены
-   заголовка вкладки: у каждой статьи он свой. */
+   шапка при прокрутке и копирование ссылки на статью. То же, что privacy-page.js, но без оглавления.
+   Заголовок вкладки у каждой страницы свой: сборка кладёт оба варианта в data-title-ru/en у <html>. */
 (function () {
   'use strict';
   var root = document.documentElement;
 
   function setLang(lang) {
     root.lang = lang === 'en' ? 'en' : 'ru';
+    var t = root.getAttribute('data-title-' + root.lang);
+    if (t) document.title = t;
     Array.prototype.forEach.call(document.querySelectorAll('.lang__b'), function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === root.lang));
     });

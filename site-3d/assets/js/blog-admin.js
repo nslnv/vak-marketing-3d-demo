@@ -258,6 +258,7 @@
   // Заполнить форму статьёй (своей, копией или версией из истории).
   function fill(p) {
     ed.cover = p.cover || '';
+    ed.tr = p.tr && p.tr.lang ? p.tr.lang : '';
     form.title.value = p.title || '';
     form.lang.value = p.lang === 'en' ? 'en' : 'ru';
     form.date.value = p.date || today();
@@ -659,6 +660,11 @@
       return '<p class="' + (c.ok ? 'is-ok' : 'is-bad') + '">' + esc(c.ok ? c.good : c.bad) + '</p>';
     }).join('');
     $('[data-counter]').textContent = n + ' слов · около ' + Math.max(1, Math.round(n / 190)) + ' мин чтения';
+    // Вторую языковую версию делает переводчик Google при публикации (Blog.gs), сайт показывает её по языку посетителя.
+    var other = form.lang.value === 'en' ? 'Русская' : 'Английская', trLine = $('[data-tr]');
+    if (trLine) trLine.textContent = ed.tr && ed.tr !== form.lang.value
+      ? other + ' версия для сайта готова. Если поменяете текст, при публикации она переведётся заново.'
+      : other + ' версия для сайта появится сама при публикации: статью переведёт переводчик Google.';
     var slug = form.slug.value || slugify(title) || 'adres-stati', desc = d || txt.slice(0, 160);
     var cut = function (x, k) { return x.length > k ? x.slice(0, k - 1) + '…' : x; };
     $('[data-snippet]').innerHTML =
