@@ -1,86 +1,8 @@
 [
   {
-    "slug": "keysy",
-    "name": "Кейсы",
-    "nameEn": "Cases",
-    "description": "Разборы проектов VAK: задача, что сделали и какие цифры получили."
-  },
-  {
-    "slug": "igaming",
-    "name": "iGaming",
-    "nameEn": "iGaming",
-    "description": "Маркетинг, PR и продвижение казино, беттинга и iGaming-продуктов."
-  },
-  {
-    "slug": "fintech",
-    "name": "FinTech",
-    "nameEn": "FinTech",
-    "description": "Продвижение финтех-продуктов, платёжных сервисов и брокеров."
-  },
-  {
-    "slug": "crypto-web3",
-    "name": "Crypto и Web3",
-    "nameEn": "Crypto & Web3",
-    "description": "Маркетинг и коммуникации для криптопроектов, бирж и Web3."
-  },
-  {
-    "slug": "strategiya",
-    "name": "Стратегия",
-    "nameEn": "Strategy",
-    "description": "Маркетинговая стратегия, позиционирование и выход на новые рынки."
-  },
-  {
     "slug": "seo",
     "name": "SEO",
-    "nameEn": "SEO",
-    "description": "Поисковое продвижение, контент и ссылки в конкурентных нишах."
-  },
-  {
-    "slug": "pr-i-media",
-    "name": "PR и медиа",
-    "nameEn": "PR & Media",
-    "description": "Публикации в СМИ, работа с журналистами и репутация бренда."
-  },
-  {
-    "slug": "linkedin-b2b",
-    "name": "LinkedIn и B2B",
-    "nameEn": "LinkedIn & B2B",
-    "description": "Личный бренд, B2B-продажи и продвижение в LinkedIn."
-  },
-  {
-    "slug": "lokalizatsiya",
-    "name": "Локализация",
-    "nameEn": "Localization",
-    "description": "Адаптация продукта, сайта и маркетинга под новые страны и языки."
-  },
-  {
-    "slug": "performance",
-    "name": "Performance и трафик",
-    "nameEn": "Performance & Traffic",
-    "description": "Платный трафик, партнёрские программы, воронки и юнит-экономика."
-  },
-  {
-    "slug": "analitika",
-    "name": "Аналитика и тренды",
-    "nameEn": "Insights & Trends",
-    "description": "Цифры рынка, исследования и тренды индустрии."
-  },
-  {
-    "slug": "regulirovanie",
-    "name": "Регулирование",
-    "nameEn": "Regulation",
-    "description": "Лицензии, правила рекламы и комплаенс в разных юрисдикциях."
-  },
-  {
-    "slug": "iventy",
-    "name": "Ивенты",
-    "nameEn": "Events",
-    "description": "Конференции и выставки индустрии: анонсы и отчёты."
-  },
-  {
-    "slug": "novosti-agentstva",
-    "name": "Новости агентства",
-    "nameEn": "Agency News",
-    "description": "Что происходит в VAK: команда, запуски, партнёрства."
+    "nameEn": "",
+    "description": ""
   }
 ]
