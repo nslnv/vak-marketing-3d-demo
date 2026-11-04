@@ -137,8 +137,9 @@ var EN = {
   'fnd.p2':'Today the agency focuses on helping iGaming, FinTech, Crypto, Web3 and B2B companies build systematic marketing and win better growth opportunities.',
   /* команда */
   'team.h2':'Our team',
-  'team.sub':'The team brings together strategy, content, localization, SEO and B2B marketing.',
+  'team.sub':'The team brings together strategy, AI, content, localization, SEO and B2B marketing.',
   'team.r1':'Strategy Lead','team.d1':'Positioning, marketing structure and launch priorities.',
+  'team.r2':'Chief AI Officer (CAIO)','team.d2':'AI tools for research, content and marketing operations.',
   'team.r3':'Head of Content and Communications','team.d3':'Editorial strategy, expert content and brand communications.',
   'team.r4':'VP of Localization','team.d4':'Adapting products and communications for local markets.',
   'team.r5':'Head of SEO','team.d5':'Search strategy, site architecture and organic traffic.',
