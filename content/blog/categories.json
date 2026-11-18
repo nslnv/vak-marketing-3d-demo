@@ -3,30 +3,42 @@
     "slug": "seo",
     "name": "SEO",
     "nameEn": "SEO",
-    "description": ""
+    "description": "",
+    "descriptionEn": ""
   },
   {
     "slug": "marketing",
     "name": "Маркетинг",
     "nameEn": "Marketing",
-    "description": ""
+    "description": "",
+    "descriptionEn": ""
   },
   {
     "slug": "people-projects",
     "name": "Люди и проекты",
     "nameEn": "People & Projects",
-    "description": ""
+    "description": "",
+    "descriptionEn": ""
   },
   {
     "slug": "industry-news",
     "name": "Новости индустрии",
     "nameEn": "Industry News",
-    "description": ""
+    "description": "",
+    "descriptionEn": ""
   },
   {
     "slug": "events",
     "name": "События",
     "nameEn": "Events",
-    "description": ""
+    "description": "",
+    "descriptionEn": ""
+  },
+  {
+    "slug": "vak-news",
+    "name": "Новости ВАК",
+    "nameEn": "VAK News",
+    "description": "",
+    "descriptionEn": ""
   }
 ]
